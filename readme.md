@@ -8,16 +8,15 @@ The application is ultimate productivity hub: Projects, Tasks, Boards, Roadmaps,
 ## Technologies
 
 ### Backend
-- Python 3;
-- Django REST framework;
+- Python 3.9;
+- Django 3.2;
+- Django REST Framework;
 - Postgres;
 - Gunicorn;
 - NGINX;
 - Docker;
 - GitHub Actions;
 - ...
-
-
 ### Frontend
 - React.js;
 - React Router 6;
