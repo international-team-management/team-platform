@@ -4,9 +4,11 @@ pip install --upgrade pip
 
 pip install poetry
 
-#### Чтобы установить все зависимости выполните:
-
+#### Чтобы установить все зависимости выполните и запустить виртуальное окружение:
+poetry env use python3.9
 poetry install
+poetry shell
+
 #### ЧТобы установить зависимости, кроме необходимых для тестирования: 
 
 poetry install --without test
