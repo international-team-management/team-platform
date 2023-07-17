@@ -1,0 +1,5 @@
+{
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-clean-order"],
+  "plugins": ["stylelint-order", "stylelint-scss"],
+  "ignoreFiles": ["node_modules/*"]
+}
