@@ -1,0 +1,16 @@
+%flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// UI
+$ui-width: 340px;
+$ui-height: 52px;
+$ui-border-radius: 12px;
+
+// MIXINS
+
+@mixin set-font-size($font, $line) {
+  font-size: $font;
+  line-height: $line;
+}
