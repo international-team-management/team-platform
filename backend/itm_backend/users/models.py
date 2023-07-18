@@ -1,9 +1,11 @@
 from django.contrib.auth.models import AbstractUser, UserManager as DefaultUserManager
+from django.conf import settings
 
 from django.db import models
 
 
 class TimeTable(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='timetables')
     work_start = models.TimeField(
         verbose_name='Время начала работы'
     )
@@ -14,6 +16,7 @@ class TimeTable(models.Model):
     class Meta:
         ordering = ['id']
         verbose_name = 'График работы'
+        verbose_name_plural = 'График работы'
     
     def __str__(self):
         return f'{self.work_start} - {self.work_finish}'
@@ -106,7 +109,6 @@ class User(AbstractUser):
         verbose_name='График работы',
         related_name='user_set',
         blank=True,
-        null=True
     )
     photo = models.ImageField(
         verbose_name='Аватар пользователя',
@@ -121,8 +123,14 @@ class User(AbstractUser):
     )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['password', 'first_name', 'last_name']
-    
+
     objects = CustomUserManager()
+    
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = self.email
+        super().save(*args, **kwargs)
+    
 
     class Meta:
         verbose_name = 'Пользователь'
