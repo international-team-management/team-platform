@@ -12,6 +12,7 @@ django = ">=3.2,<4.0"
 djangorestframework = "^3.14.0"
 python-dotenv = "^1.0.0"
 pillow = "^10.0.0"
+djoser = "^2.2.0"
 
 
 [tool.poetry.group.test.dependencies]
