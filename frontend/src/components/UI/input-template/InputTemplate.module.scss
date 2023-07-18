@@ -1,0 +1,83 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.input {
+  &__wrapper {
+    @extend %flex-column;
+
+    @include set-font-size(16px, 20px);
+
+    width: $ui-width;
+    font-weight: 400;
+
+    & + & {
+      margin-top: 12px;
+    }
+  }
+
+  &__content {
+    @extend %flex-column;
+
+    position: relative;
+  }
+
+  &__field {
+    height: $ui-height;
+    margin: 8px 0;
+    padding: 12px 20px;
+
+    border: 1px solid $input-border-color;
+    border-radius: $ui-border-radius;
+
+    transition: all 0.15s ease-in-out;
+
+    &:focus {
+      border-color: $main-black;
+
+      &::placeholder {
+        color: transparent;
+      }
+    }
+
+    &_valid {
+      border-color: $input-valid;
+
+      &:focus {
+        border-color: $input-valid;
+      }
+    }
+
+    &_invalid {
+      border-color: $input-invalid;
+
+      &:focus {
+        border-color: $input-invalid;
+      }
+    }
+  }
+
+  &__helperText {
+    @include set-font-size(14px, 16px);
+
+    &_valid {
+      color: $input-valid;
+    }
+
+    &_invalid {
+      color: $input-invalid;
+    }
+  }
+
+  &__errorText {
+    @include set-font-size(14px, 16px);
+    color: $input-invalid
+  }
+
+  &__tooglePassword {
+    position: absolute;
+    cursor: pointer;
+
+    top: 20px + 8px + 13px;
+    right: 15px;
+  }
+}
