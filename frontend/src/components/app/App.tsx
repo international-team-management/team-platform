@@ -1,12 +1,45 @@
 import React from 'react';
 
 import styles from './App.module.scss';
+import { Route, Routes } from 'react-router-dom';
+import { routes } from 'src/routes';
 
 export const App:React.FC = () => {
   return (
-    <>
-      <h1 className={styles.title_large}>Hello World!</h1>
-      <h3 className={styles.title_small}>This is the start page of the project</h3>
-    </>
+    <Routes>
+      <Route
+        path={routes.home.path}
+        element={
+          <div>
+            <h1 className={styles.title_large}>Hello World!</h1>
+            <h3 className={styles.title_small}>This is the start page of the project</h3>
+          </div>
+        }
+      />
+      <Route
+        path={routes['sign-in'].path}
+        element={
+          <div>
+            <h1>Login Page</h1>
+          </div>
+        }
+      />
+      <Route
+        path={routes['sing-up'].path}
+        element={
+          <div>
+            <h1>Register Page</h1>
+          </div>
+        }
+      />
+      <Route
+        path={routes.profile.path}
+        element={
+          <div>
+            <h1>Profile Page</h1>
+          </div>
+        }
+      />
+    </Routes>
   )
 }
