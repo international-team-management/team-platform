@@ -1,0 +1,26 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.button {
+  cursor: pointer;
+
+  width: $ui-width;
+  height: $ui-height;
+
+  color: white;
+
+  background-color: $main-black;
+  border: none;
+  border-radius: $ui-border-radius;
+
+  &:active {
+    color: $main-black;
+    background-color: white;
+    border: 1px solid $main-black;
+  }
+
+  &_disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}

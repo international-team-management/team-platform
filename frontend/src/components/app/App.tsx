@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './App.module.scss';
 import { Route, Routes } from 'react-router-dom';
 import { routes } from 'src/routes';
+import { LoginPage } from 'src/pages/LoginPage/LoginPage';
 
 export const App:React.FC = () => {
   return (
@@ -16,13 +17,7 @@ export const App:React.FC = () => {
           </div>
         }
       />
-      <Route
-        path={routes['sign-in'].path}
-        element={
-          <div>
-            <h1>Login Page</h1>
-          </div>
-        }
+      <Route path={routes['sign-in'].path} element={<LoginPage />}
       />
       <Route
         path={routes['sing-up'].path}
