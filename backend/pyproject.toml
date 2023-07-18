@@ -10,6 +10,8 @@ python = "^3.9"
 django = ">=3.2,<4.0"
 djangorestframework = "^3.14.0"
 python-dotenv = "^1.0.0"
+djoser = "^2.2.0"
+djangorestframework-simplejwt = "^5.2.2"
 
 
 [tool.poetry.group.test.dependencies]
