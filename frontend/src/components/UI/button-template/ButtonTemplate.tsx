@@ -12,7 +12,7 @@ export const ButtonTemplate:React.FC<ButtonProps> = (props) => {
   return (
     <button
       className={clsx(
-        styles.button, props.isDisabled && styles.button_disabled
+        styles.button
       )}
       disabled={props.isDisabled}
       onClick={props.onClick}
