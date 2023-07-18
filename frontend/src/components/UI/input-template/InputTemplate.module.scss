@@ -70,13 +70,13 @@
 
   &__errorText {
     @include set-font-size(14px, 16px);
+
     color: $input-invalid
   }
 
   &__tooglePassword {
-    position: absolute;
     cursor: pointer;
-
+    position: absolute;
     top: 20px + 8px + 13px;
     right: 15px;
   }
