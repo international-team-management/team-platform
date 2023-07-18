@@ -2,7 +2,6 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 import styles from './InputTemplate.module.scss';
 import clsx from 'clsx';
-import { input, isValid } from 'src/typings/constants';
 
 import {ReactComponent as Toogle} from 'assets/toogle.svg';
 
@@ -10,7 +9,8 @@ type InputProps = {
   type: string,
   name: string,
   label: string,
-  isValid?: Nullable<isValid>,
+  isValid?: boolean | undefined,
+  isPassword?: boolean,
   placeholder?: string,
   helperText?: string,
   errorText?: string,
@@ -38,8 +38,8 @@ export const Input:React.FC<InputProps> = (props) => {
           className={clsx(
             styles.input__field,
             {
-              [styles.input__field_valid]: props.isValid == isValid.VALID,
-              [styles.input__field_invalid]: props.isValid == isValid.INVALID
+              [styles.input__field_valid]: props.isValid === true,
+              [styles.input__field_invalid]: props.isValid === false
             }
           )}
           type={props.type}
@@ -52,7 +52,7 @@ export const Input:React.FC<InputProps> = (props) => {
           onClick={props.onClick}
         />
 
-        {props.name === input.PASSWORD &&
+        {props.isPassword &&
           <div
             className={clsx(
               styles.input__tooglePassword
@@ -67,14 +67,14 @@ export const Input:React.FC<InputProps> = (props) => {
         <div className={clsx(
           styles.input__helperText,
           {
-            [styles.input__helperText_valid]: props.isValid == isValid.VALID,
-            [styles.input__helperText_invalid]: props.isValid == isValid.INVALID
+            [styles.input__helperText_valid]: props.isValid === true,
+            [styles.input__helperText_invalid]: props.isValid === false
           }
         )}>
           {props.helperText}
         </div>
       }
-      {(props.errorText && props.isValid == isValid.INVALID) &&
+      {(props.errorText && props.isValid === false) &&
         <div className={styles.input__errorText}>
           {props.errorText}
         </div>

@@ -20,6 +20,7 @@
   }
 
   &_disabled {
-    background-color: $main-disabled;
+    pointer-events: none;
+    cursor: not-allowed;
   }
 }
