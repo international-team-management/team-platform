@@ -4,21 +4,19 @@ import style from './Projects.module.scss';
 import iconPath from 'assets/project__icon.svg'
 import { NavLink } from "react-router-dom";
 
-export function Projects(): React.ReactNode {
+type project = {
+  id: number,
+  name: string
+}
 
-  // данные о проектах передадим сюда из Redux, ниже демка данных
-  type project = {
-    id: number,
-    name: string
-  }
-  const projects: project[] = [
-    { id: 1, name: 'Название проекта 1' },
-    { id: 2, name: 'Название проекта длиною в жизнь' },
-    { id: 3, name: 'Название проекта 3' },
-  ]
+type ProjectsProps = {
+  projects: project[]
+}
+
+export function Projects(props: ProjectsProps): React.ReactNode {
 
   function renderProjects(): React.ReactNode[] {
-    return projects.map((project) => {
+    return props.projects.map((project) => {
       return (
         <li key={project.id}>
           <NavLink to={`/${project.id}`} className={

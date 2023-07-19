@@ -2,13 +2,14 @@ import React from "react";
 import style from './Account.module.scss';
 
 type AccountProps = {
-  imgSrc: string;
+  imgSrc?: string;
   name: string;
   surname: string;
   role?: string
 }
 
 export function Account(props: AccountProps): React.ReactNode {
+  // TODO: если нет imgSrc, тогда отобразить инициалы
   return (
     <figure className={style.account}>
       <img
