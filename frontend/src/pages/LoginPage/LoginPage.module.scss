@@ -14,7 +14,7 @@
   }
 
   &__button, &__button_redirect {
-    @include set-font-size(16px, 20px, 400);
+    @include set-font-size(16px, 20px);
 
     cursor: pointer;
 
