@@ -5,7 +5,7 @@ export const routes = {
   "sign-in": {
     path: "sign-in"
   },
-  "sing-up": {
+  "sign-up": {
     path: "sign-up"
   },
   profile: {
