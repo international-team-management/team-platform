@@ -13,7 +13,7 @@
     gap: 72px;
   }
 
-  &__button {
+  &__button, &__button_redirect {
     @include set-font-size(16px, 20px, 400);
 
     cursor: pointer;
@@ -27,8 +27,6 @@
     border: none;
 
     &_redirect {
-      @extend .login__button;
-
       width: 183px;
       margin-top: 20px;
     }
