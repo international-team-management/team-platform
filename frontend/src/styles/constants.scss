@@ -3,6 +3,18 @@
   flex-direction: column;
 }
 
+%flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+%text-overflow-hidden {
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 // UI
 $ui-width: 340px;
 $ui-height: 52px;
@@ -13,4 +25,9 @@ $ui-border-radius: 12px;
 @mixin set-font-size($font, $line) {
   font-size: $font;
   line-height: $line;
+}
+
+@mixin set-img-size($width, $height) {
+  width: $width;
+  height: $height;
 }
