@@ -1,10 +1,9 @@
 [tool.poetry]
-name = "international-team-management"
+name = "itm_backend"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-packages = [{include = "international_team_management"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -13,6 +12,7 @@ djangorestframework = "^3.14.0"
 python-dotenv = "^1.0.0"
 pillow = "^10.0.0"
 djoser = "^2.2.0"
+djangorestframework-simplejwt = "^5.2.2"
 
 
 [tool.poetry.group.test.dependencies]
