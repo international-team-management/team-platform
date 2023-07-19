@@ -10,7 +10,8 @@ $ui-border-radius: 12px;
 
 // MIXINS
 
-@mixin set-font-size($font, $line) {
+@mixin set-font-size($font, $line, $weight) {
   font-size: $font;
+  font-weight: $weight;
   line-height: $line;
 }

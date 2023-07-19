@@ -15,7 +15,7 @@ type InputProps = {
   helperText?: string,
   errorText?: string,
   value?: string,
-  ref?: unknown,
+  innerRef?: unknown,
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void,
   onClick?: (event: React.MouseEvent<HTMLInputElement>) => void,

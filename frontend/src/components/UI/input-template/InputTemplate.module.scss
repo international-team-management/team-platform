@@ -5,7 +5,7 @@
   &__wrapper {
     @extend %flex-column;
 
-    @include set-font-size(16px, 20px);
+    @include set-font-size(16px, 20px, 400);
 
     width: $ui-width;
     font-weight: 400;
@@ -15,6 +15,10 @@
     }
   }
 
+  &__label {
+    letter-spacing: -0.03rem;
+  }
+  
   &__content {
     @extend %flex-column;
 
@@ -23,7 +27,7 @@
 
   &__field {
     height: $ui-height;
-    margin: 8px 0;
+    margin: 8px 0 0;
     padding: 12px 20px;
 
     border: 1px solid $input-border-color;
@@ -57,7 +61,7 @@
   }
 
   &__helperText {
-    @include set-font-size(14px, 16px);
+    @include set-font-size(14px, 16px, 400);
 
     &_valid {
       color: $input-valid;
@@ -69,7 +73,7 @@
   }
 
   &__errorText {
-    @include set-font-size(14px, 16px);
+    @include set-font-size(14px, 16px, 400);
 
     color: $input-invalid
   }
