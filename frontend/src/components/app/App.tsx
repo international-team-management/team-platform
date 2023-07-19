@@ -32,6 +32,12 @@ export const App:React.FC = () => {
         path={routes.profile.path}
         element={ <ProfilePage /> }
       />
+      
+      // Для проверки NavLink в Sidebar и Projects
+      <Route
+        path={'*'}
+        element={ <ProfilePage /> }
+      />
     </Routes>
   )
 }

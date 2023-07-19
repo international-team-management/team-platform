@@ -8,7 +8,7 @@
   align-items: center;
 
   &__image {
-    @include set-img-size(44px, 44px);
+    @include set-block-size(44px, 44px);
 
     background-color: $grey-light;
     border-radius: 50%;

@@ -4,9 +4,12 @@
 .sidebar {
   @extend %flex-column;
 
+  row-gap: 74px;
+
   width: 268px;
-  height: 100vh;
+  height: 90vh;
   padding: 36px 24px 32px;
+
   border-right: 1px solid $grey-light;
 
 }

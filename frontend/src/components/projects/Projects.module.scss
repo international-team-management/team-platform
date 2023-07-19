@@ -1,0 +1,72 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+$svg-filter-path: '/src/assets/projects__filter.svg';
+
+// TODO: однообразный transition для кнопок и ссылок
+
+.projects {
+  @extend %flex-row;
+
+  flex-wrap: wrap;
+  row-gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+
+  &__header {
+    @include set-font-size(20px, 20px);
+  }
+
+  &__filter {
+    @include set-block-size(20px, 20px);
+
+    cursor: pointer;
+    background-color: $white;
+    background-image: url(#{$svg-filter-path});
+    border: none;
+  }
+
+  &__list {
+    @extend %flex-column;
+
+    row-gap: 8px;
+    min-width: 100%;
+  }
+
+  // &__item {
+
+  // };
+
+  &__icon {
+    @include set-block-size(20px, 20px);
+  }
+
+  &__nav {
+    @extend %flex-row;
+
+    @include set-font-size(14px, 16px);
+    @include set-block-size(100%, 44px);
+
+    column-gap: 12px;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: 0 0 0 16px;
+
+    color: $grey-dark;
+
+    &_active {
+      color: $white;
+      background-color: $main-black;
+      border-radius: 8px;
+    };
+  }
+
+  &__name {
+    @extend %text-overflow-hidden;
+  }
+
+  &__nav_active &__icon {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0) hue-rotate(0deg)
+  }
+}

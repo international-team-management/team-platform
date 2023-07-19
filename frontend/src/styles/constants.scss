@@ -27,7 +27,7 @@ $ui-border-radius: 12px;
   line-height: $line;
 }
 
-@mixin set-img-size($width, $height) {
+@mixin set-block-size($width, $height) {
   width: $width;
   height: $height;
 }
