@@ -27,7 +27,7 @@ export const LoginPage = () => {
         <TitleTemplate 
           text='Вход'
         />
-        <ul className={styles.login__inputs}>
+        <div className={styles.login__inputs}>
           <Input
             type={input.EMAIL}
             name='name'
@@ -49,14 +49,14 @@ export const LoginPage = () => {
             onToogle={showPasswordHandler}
           />
           <button className={styles.login__button}>Забыли пароль?</button>
-        </ul>
-        <ul className={styles.login__buttons}>
+        </div>
+        <div className={styles.login__buttons}>
           <ButtonTemplate
             text="Войти"
             isDisabled={false}
           />
           <button className={styles.login__button_redirect}>Не зарегистрированы? Создайте аккаунт</button>
-        </ul>
+        </div>
       </div>
     </main>
   )
