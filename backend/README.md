@@ -33,3 +33,23 @@ poetry install --without test
  5. На странице пул реквеста справа сверху в блоке **Reviewers** добавить двух ревьюверов (cross-review)
  6. В название пул реквеста скопировать название задачи (если задача выполнена частично, то вкратце перечислить, что сделано)
  7. На странице таска слинковать пулл реквест и таск.
+
+
+### Запуск в Dev-режиме для тестирования.
+
+Перейти в папку infra:
+```angular2html
+cd infra
+```
+Создать файл .env из файла .env.example
+```angular2html
+mv ../backend/.env.example ../backend/.env
+```
+Запустить проект:
+```angular2html
+sudo docker compose up -d
+```
+Проект доступен по адресу:
+```angular2html
+localhost:8000/auth/
+```
