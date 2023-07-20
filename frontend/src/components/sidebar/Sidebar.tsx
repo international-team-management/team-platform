@@ -3,16 +3,19 @@ import styles from './Sidebar.module.scss';
 import { ReactComponent as SignPlus } from 'assets/sidebar__plus.svg';
 import { Account } from '../account/Account';
 import { Projects } from '../projects/Projects';
+import { useSelector } from 'src/services/hooks';
+import { selectUserMe } from 'src/services/slices/userMeSlice';
 
 export function Sidebar(): React.ReactNode {
 
+  const userMe = useSelector(selectUserMe)
   // данные передадим сюда из Redux, ниже пока демка данных
-  const user = {
-    imgSrc: '',
-    firstName: 'Джон',
-    lastName: 'Доу',
-    role: 'Чокнутый проффесоррррррр'
-  }
+  // const user = {
+  //   imgSrc: '',
+  //   firstName: 'Джон',
+  //   lastName: 'Доу',
+  //   role: 'Чокнутый проффесоррррррр'
+  // }
 
   const projects = [
     { id: 1, name: 'Название проекта 1' },
@@ -22,7 +25,7 @@ export function Sidebar(): React.ReactNode {
 
   return (
     <aside className={styles.sidebar}>
-      <Account {...user} />
+      <Account {...userMe} />
       <Projects projects={projects} />
 
       <button className={styles.sidebar__createBtn}>
