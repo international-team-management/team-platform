@@ -1,0 +1,52 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.sidebar {
+  @extend %flex-column;
+
+  row-gap: 74px;
+
+  width: 268px;
+  height: 100vh;
+  padding: 36px 24px 32px;
+
+  border-right: 1px solid $grey-light;
+
+  &__createBtn {
+    @extend %flex-row;
+
+    @include set-block-size(220px, 52px);
+    @include set-font-size(16px, 20px);
+
+    cursor: pointer;
+
+    position: relative;
+
+    column-gap: 12px;
+    align-items: center;
+    justify-content: center;
+
+    margin: auto 0 0;
+
+    background-color: $white;
+    border: 1px solid $main-black;
+    border-radius: 12px;
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      top: -32px;
+      left: -24px;
+
+      width: 267px;
+
+      border-bottom: 1px solid $grey-light;
+    }
+  };
+
+  &__plus {
+    @include set-block-size(20px, 20px);
+  }
+
+}

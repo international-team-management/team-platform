@@ -4,6 +4,7 @@ import styles from './App.module.scss';
 import { Route, Routes } from 'react-router-dom';
 import { routes } from 'src/routes';
 import { LoginPage } from 'src/pages/LoginPage/LoginPage';
+import { ProfilePage } from 'src/pages/ProfilePage/ProfilePage';
 
 export const App:React.FC = () => {
   return (
@@ -20,7 +21,7 @@ export const App:React.FC = () => {
       <Route path={routes['sign-in'].path} element={<LoginPage />}
       />
       <Route
-        path={routes['sing-up'].path}
+        path={routes['sign-up'].path}
         element={
           <div>
             <h1>Register Page</h1>
@@ -29,11 +30,13 @@ export const App:React.FC = () => {
       />
       <Route
         path={routes.profile.path}
-        element={
-          <div>
-            <h1>Profile Page</h1>
-          </div>
-        }
+        element={ <ProfilePage /> }
+      />
+      
+      // Для проверки NavLink в Sidebar и Projects
+      <Route
+        path={'*'}
+        element={ <ProfilePage /> }
       />
     </Routes>
   )

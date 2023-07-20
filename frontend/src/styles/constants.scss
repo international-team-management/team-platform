@@ -3,6 +3,18 @@
   flex-direction: column;
 }
 
+%flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+%text-overflow-hidden {
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 // UI
 $ui-width: 340px;
 $ui-height: 52px;
@@ -14,4 +26,9 @@ $ui-border-radius: 12px;
   font-size: $font;
   font-weight: $weight;
   line-height: $line;
+}
+
+@mixin set-block-size($width, $height) {
+  min-width: $width;
+  min-height: $height;
 }
