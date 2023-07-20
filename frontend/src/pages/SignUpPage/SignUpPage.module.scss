@@ -1,0 +1,76 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.sign-up-page {
+  @extend %flex-column;
+
+  align-items: center;
+  justify-content: center;
+
+  &__wrapper {
+    margin: 86px 0;
+  }
+
+  &__inputs {
+    @extend %flex-column;
+
+    padding: 72px 0;
+  }
+
+  &__button, &__button_redirect {
+    @include set-font-size(16px, 20px);
+
+    cursor: pointer;
+
+    margin-top: 12px;
+
+    text-decoration: underline 1px;
+    letter-spacing: -0.01rem;
+
+    background-color: $main-white;
+    border: none;
+
+    &_redirect {
+      width: 183px;
+      margin-top: 20px;
+    }
+  }
+
+  &__buttons {
+    @extend %flex-column;
+
+    align-items: center;
+  }
+
+  &__checkbox {
+    display: flex;
+    padding: 20px 0 0;
+  }
+
+  &__input-checkbox-area {
+    padding: 0 8px 0 0;
+  }
+
+  &__input-checkbox {
+    cursor: pointer;
+
+    position: relative;
+
+    width: 16px;
+    height: 16px;
+    appearance: none;
+    background-color: transparent;
+    border: 1px solid $main-black;
+    border-radius: 4px;
+  }
+
+  &__input-checkbox:checked {
+    width: 16px;
+    height: 16px;
+
+    background-image: url('src/images/checkbox-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+

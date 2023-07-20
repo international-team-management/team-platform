@@ -27,7 +27,7 @@ export const LoginPage = () => {
         <TitleTemplate 
           text='Вход'
         />
-        <div className={styles.login__inputs}>
+        <div>
           <Input
             type={input.EMAIL}
             name='name'
