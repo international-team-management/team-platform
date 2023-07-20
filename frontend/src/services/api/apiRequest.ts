@@ -23,10 +23,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   response => response,
   error => {
-    if(axios.isAxiosError(error)) {
-      if(error.response) {
+    if(axios.isAxiosError(error) && error.response) {
         return Promise.reject(new ApiError(error.response.data.reason, error.response.status));
-      }
     }
 
     return Promise.reject(error);
