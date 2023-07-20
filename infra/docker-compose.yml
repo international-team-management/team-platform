@@ -1,7 +1,7 @@
 version: "3.8"
 services:
 
-  postgres:
+  db:
     image: postgres:13.0-alpine
     container_name: itm_postgres
     restart: always
@@ -23,7 +23,7 @@ services:
       - static_value:/backend/itm_backend/static/
       - media_value:/backend/itm_backend/media/
     depends_on:
-      - postgres
+      - db
 
     ports:
       - "8000:8000"
