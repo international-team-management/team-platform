@@ -28,6 +28,6 @@ $ui-border-radius: 12px;
 }
 
 @mixin set-block-size($width, $height) {
-  width: $width;
-  height: $height;
+  min-width: $width;
+  min-height: $height;
 }

@@ -3,8 +3,8 @@ import style from './Account.module.scss';
 
 type AccountProps = {
   imgSrc?: string;
-  name: string;
-  surname: string;
+  firstName: string;
+  lastName: string;
   role?: string
 }
 
@@ -15,11 +15,11 @@ export function Account(props: AccountProps): React.ReactNode {
       <img
         className={style.account__image}
         src={props.imgSrc}
-        alt={`${props.name} ${props.surname}`}
+        alt={`${props.firstName} ${props.lastName}`}
       />
       
       <figcaption className={style.account__caption}>
-        <p className={style.account__user}>{`${props.name} ${props.surname}`}</p>
+        <p className={style.account__user}>{`${props.firstName} ${props.lastName}`}</p>
         <p className={style.account__role}>{props.role}</p>
       </figcaption>
     </figure>

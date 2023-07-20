@@ -3,7 +3,7 @@
 
 $svg-filter-path: '/src/assets/projects__filter.svg';
 
-// TODO: однообразный transition для кнопок и ссылок
+// TODO: настроить однообразный transition для кнопок и ссылок во всем проекте
 
 .projects {
   @extend %flex-row;
@@ -13,7 +13,7 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
   align-items: center;
   justify-content: space-between;
 
-  &__header {
+  &__title {
     @include set-font-size(20px, 20px);
   }
 
@@ -32,10 +32,6 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
     row-gap: 8px;
     min-width: 100%;
   }
-
-  // &__item {
-
-  // };
 
   &__icon {
     @include set-block-size(20px, 20px);
@@ -66,7 +62,7 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
     @extend %text-overflow-hidden;
   }
 
-  &__nav_active &__icon {
-    filter: brightness(0) saturate(100%) invert(100%) sepia(0) hue-rotate(0deg)
+  &__nav_active &__icon * {
+    fill: $white;
   }
 }
