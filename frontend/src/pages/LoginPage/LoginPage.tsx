@@ -1,4 +1,5 @@
-import { ChangeEvent, useState, useRef } from "react"
+import { ChangeEvent, useState, useRef } from "react";
+import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
 import { Input } from "src/components/UI/input-template/InputTemplate"
 import { input } from "src/typings/constants";
@@ -23,7 +24,7 @@ export const LoginPage = () => {
 
   return (
     <main className={styles.login}>
-      <div className={styles.login__wrapper}>
+      <form className={styles.login__wrapper}>
         <TitleTemplate 
           text='Вход'
         />
@@ -55,9 +56,9 @@ export const LoginPage = () => {
             text="Войти"
             isDisabled={false}
           />
-          <button className={styles.login__button_redirect}>Не зарегистрированы? Создайте аккаунт</button>
+          <Link to='/sign-up' className={styles.login__button_redirect} >Не зарегистрированы? Создайте аккаунт</Link>
         </div>
-      </div>
+      </form>
     </main>
   )
 }
