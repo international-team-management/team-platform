@@ -41,6 +41,10 @@ poetry install --without test
 ```angular2html
 cd infra
 ```
+Создать файл .env из файла .env.example
+```angular2html
+mv ../backend/.env.example ../backend/.env
+```
 Запустить проект:
 ```angular2html
 sudo docker compose up -d
