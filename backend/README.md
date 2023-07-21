@@ -49,6 +49,17 @@ mv ../backend/.env.example ../backend/.env
 ```angular2html
 sudo docker compose up -d
 ```
+Войти в контейнер:
+```angular2html
+sudo docker exec -it itm_backend bash
+```
+Выполнить последовательно команды:
+```angular2html
+cd itm_backend/
+python3 manage.py migrate
+python3 manage.py createsuperuser
+exit
+```
 Проект доступен по адресу:
 ```angular2html
 localhost:8000/auth/

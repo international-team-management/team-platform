@@ -791,6 +791,7 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
+
 name = "psycopg2-binary"
 version = "2.9.6"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
@@ -1324,4 +1325,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "c71a610980caf53f52eb1f1ad48b8eadb6ddf7d320a1e4b2dc08a831f2b6f8d8"
+content-hash = "3bb2c9214f309b1ef8ce098623efd76bd91ca136c9a711c4c8c526bdb5a6cfc0"
