@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='timetable',
-            options={'ordering': ['id'], 'verbose_name': 'График работы', 'verbose_name_plural': 'График работы'},
+            name="timetable",
+            options={"ordering": ["id"], "verbose_name": "График работы", "verbose_name_plural": "График работы"},
         ),
     ]
