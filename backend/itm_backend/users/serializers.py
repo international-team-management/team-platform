@@ -1,5 +1,9 @@
 from rest_framework import serializers
-from .models import User, TimeTable
+from django.contrib.auth import get_user_model
+from .models import TimeTable
+
+
+User = get_user_model()
 
 
 class TimeTableSerializer(serializers.ModelSerializer):
@@ -21,7 +25,7 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name', 'role']
+        fields = ['email', 'password', 'first_name', 'last_name',]
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
