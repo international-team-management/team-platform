@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "rest_framework",
     "djoser",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -44,11 +45,19 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=365),
     "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "International Team Management Platfopm API",
+    "DESCRIPTION": "International Team Management Platfopm",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 TEMPLATES = [
@@ -118,9 +127,11 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
+
 STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "/media/"
+
 MEDIA_ROOT = BASE_DIR / "media"
 
 
