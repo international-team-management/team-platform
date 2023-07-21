@@ -7,7 +7,7 @@
 
     width: 1136px;
     margin: 0 auto;
-    padding: 32px 0 28px;
+    padding: 24px 0 28px;
     border-bottom: 1px solid $gray-medium;
   }
 
@@ -16,6 +16,8 @@
 
     &_photo {
       @extend %flex-row;
+
+      margin-top: 8px;
     }
 
     &_data {
