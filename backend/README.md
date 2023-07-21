@@ -11,7 +11,7 @@ poetry install
 
 poetry shell
 
-#### Чтобы установить зависимости, кроме необходимых для тестирования: 
+#### Чтобы установить зависимости, кроме необходимых для тестирования:
 
 poetry install --without test
 
@@ -48,6 +48,17 @@ mv ../backend/.env.example ../backend/.env
 Запустить проект:
 ```angular2html
 sudo docker compose up -d
+```
+Войти в контейнер:
+```angular2html
+sudo docker exec -it itm_backend bash
+```
+Выполнить последовательно команды:
+```angular2html
+cd itm_backend/
+python3 manage.py migrate
+python3 manage.py createsuperuser
+exit
 ```
 Проект доступен по адресу:
 ```angular2html
