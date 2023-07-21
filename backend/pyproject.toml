@@ -15,6 +15,7 @@ djoser = "^2.2.0"
 djangorestframework-simplejwt = "^5.2.2"
 psycopg2-binary = "2.9.6"
 gunicorn = "^21.1.0"
+drf-spectacular = "^0.26.3"
 
 
 
