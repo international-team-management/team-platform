@@ -1,0 +1,59 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.react-tel-input { 
+  width: $ui-width-l !important;
+  height: $ui-height !important;
+  margin-bottom: 12px;
+
+  font-family: Geologica, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500;
+  line-height:  20px !important;
+}
+
+.special-label {
+  display: none !important;
+}
+
+.form-control {
+  left: 80px;
+
+  width: $ui-width-m !important;
+  height: $ui-height !important;
+  padding-left: 20px !important;
+
+  color: $black-text !important;
+
+  border: 1px solid $gray-medium !important;
+  border-radius: $ui-border-radius-phone !important;
+
+  &:focus {
+    border: 2px solid $blue !important;
+  }
+}
+
+.flag {
+  margin-left: 8px;
+
+  &-dropdown {
+    width: $ui-width-xs;
+    background-color: $main-white !important;
+    border: 1px solid $gray-medium !important;
+    border-radius: $ui-border-radius-phone !important;
+
+    &.open {
+      border: 2px solid $blue !important;
+      border-radius: $ui-border-radius-phone !important;
+    }
+  }
+}
+
+.selected-flag { 
+  width: $ui-width-xs !important;
+  margin: 0 !important;
+  padding: 0 20px !important;
+
+  background: none !important;
+  border-radius: $ui-border-radius-phone !important;
+}

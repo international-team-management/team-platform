@@ -1,0 +1,84 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.profile {
+  &__section, &__section_header {
+    @extend %flex-row;
+
+    width: 1136px;
+    margin: 0 auto;
+    padding: 32px 0 28px;
+    border-bottom: 1px solid $gray-medium;
+  }
+
+  &__form {
+    padding-left: 32px;
+
+    &_photo {
+      @extend %flex-row;
+    }
+
+    &_data {
+      @extend %flex-column;
+    }
+  }
+
+  &__img {
+    width: 80px;
+    height: 80px;
+
+    background-color: $grey-light;
+    border: 3px dashed $dark-blue;
+    border-radius: 50%;
+  }
+
+  &__buttons {
+    @extend %flex-column;
+
+    justify-content: space-between;
+    width: 80px;
+    margin-left: 24px;
+  }
+
+  &__button {
+    &_blue {
+      @include set-font-size(14px, 16px, 600);
+
+      cursor: pointer;
+
+      width: 166px;
+      height: 36px;
+
+      color: $white;
+      letter-spacing: -0.01rem;
+
+      background-color: $bright-blue;
+      border: none;
+      border-radius: 12px;
+    }
+
+    &_red {
+      @include set-font-size(14px, 16px, 600);
+
+      cursor: pointer;
+
+      width: 154px;
+      height: 36px;
+
+      color: $bright-red;
+      letter-spacing: -0.01rem;
+
+      background-color: $white;
+      border: 1px solid $bright-red;
+      border-radius: 12px;
+    }
+  }
+
+  &__phone {
+    @include set-font-size(16px, 20px, 600);
+
+    margin: 16px 0 8px;
+    color: $black-text;
+    letter-spacing: -0.01rem;
+  }
+}

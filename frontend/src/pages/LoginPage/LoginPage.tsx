@@ -1,7 +1,7 @@
 import { ChangeEvent, useState, useRef } from "react";
 import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
-import { Input } from "src/components/UI/input-template/InputTemplate"
+import { Input } from "src/components/UI/input-template/InputTemplate";
 import { input } from "src/typings/constants";
 // import { helperTexts } from "src/utils/validation/helperTexts";
 import styles from './LoginPage.module.scss';

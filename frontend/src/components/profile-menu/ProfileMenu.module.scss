@@ -1,0 +1,48 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.profile {
+  &__menu {
+    @extend %flex-row;
+
+    justify-content: space-between;
+    padding: 30px 0;
+    border-bottom: 1px solid $gray-medium;
+  }
+
+  &__title {
+    @include set-font-size(24px, 28px, 700);
+
+    padding-left: 32px;
+    color: $black-text;
+    letter-spacing: -0.02rem;
+  }
+
+  &__buttons {
+    @extend %flex-row;
+
+    justify-content: space-between;
+    width: 124px;
+    padding-right: 32px;
+  }
+
+  &__button {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+
+  &__changes {
+    @include set-font-size(16px, 20px, 500);
+
+    color: $black-text;
+
+    &_true {
+      display: block;
+    }
+
+    &_false {
+      display: none;
+    }
+  }
+}
