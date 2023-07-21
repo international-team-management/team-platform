@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import TimeTable
+from django.contrib.auth.hashers import make_password
 
 
 User = get_user_model()
@@ -25,7 +26,14 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name',]
+        fields = ['email', 'password', 'first_name', 'last_name']
+
+    def create(self, validated_data):
+        """
+        Хэшируем пароль перед сохранением в базу данных.
+        """
+        validated_data['password'] = make_password(validated_data['password'])
+        return super().create(validated_data)
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
