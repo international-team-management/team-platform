@@ -1,5 +1,5 @@
 import React from "react";
-import MobilePhone from "../../components/UI/phone-input-template/InputPhoneTemplate";
+import { InputPhoneTemplate } from "../UI/phone-input-template/InputPhoneTemplate";
 import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
 import { ProfileSectionTitle } from "src/components/profile-section-title/ProfileSectionTitle";
 import { Input } from '../UI/input-template/InputTemplate';
@@ -62,7 +62,7 @@ export function ProfileForm(): React.ReactNode {
             isValid={undefined}
           />
           <h3 className={styles.profile__phone}>Телефон</h3>
-          <MobilePhone/>
+          <InputPhoneTemplate/>
         </form>
       </section>
       <section className={styles.profile__section}>

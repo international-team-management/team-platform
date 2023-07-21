@@ -3,12 +3,12 @@ export const routes = {
     path: '/'
   },
   "sign-in": {
-    path: "sign-in"
+    path: "/sign-in"
   },
   "sign-up": {
-    path: "sign-up"
+    path: "/sign-up"
   },
   profile: {
-    path: "profile"
+    path: "/profile"
   }
 }

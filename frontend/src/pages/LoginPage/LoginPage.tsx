@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
 import { Input } from "src/components/UI/input-template/InputTemplate";
 import { input } from "src/typings/constants";
+import { routes } from "src/routes";
 // import { helperTexts } from "src/utils/validation/helperTexts";
 import styles from './LoginPage.module.scss';
 import { TitleTemplate } from "src/components/UI/title-template/TitleTemplate";
@@ -56,7 +57,7 @@ export const LoginPage = () => {
             text="Войти"
             isDisabled={false}
           />
-          <Link to='/sign-up' className={styles.login__button_redirect} >Не зарегистрированы? Создайте аккаунт</Link>
+          <Link to={routes["sign-up"].path} className={styles.login__button_redirect} >Не зарегистрированы? Создайте аккаунт</Link>
         </div>
       </form>
     </main>
