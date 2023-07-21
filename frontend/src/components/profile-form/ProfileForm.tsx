@@ -1,7 +1,7 @@
 import React from "react";
 import MobilePhone from "../../components/UI/phone-input-template/InputPhoneTemplate";
 import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
-import { ProfileSection } from "src/components/profile-section/ProfileSection";
+import { ProfileSectionTitle } from "src/components/profile-section-title/ProfileSectionTitle";
 import { Input } from '../UI/input-template/InputTemplate';
 import { input } from "src/typings/constants";
 import styles from "./ProfileForm.module.scss";
@@ -10,8 +10,8 @@ export function ProfileForm(): React.ReactNode {
   return (
     <>
       <ProfileMenu isChange={false} />
-      <div className={styles.profile__section}>
-        <ProfileSection 
+      <section className={styles.profile__section}>
+        <ProfileSectionTitle 
           subtitle="Фото профиля"
           description="По&nbsp;реальной фотографии коллеги смогут легко узнать вас"
         />
@@ -22,9 +22,9 @@ export function ProfileForm(): React.ReactNode {
             <button className={styles.profile__button_red}>Удалить фотографию</button>
           </div>
         </form>
-      </div>
-      <div className={styles.profile__section}>
-        <ProfileSection 
+      </section>
+      <section className={styles.profile__section}>
+        <ProfileSectionTitle 
           subtitle="Личные данные"
           description="Эта информация будет доступна всем участникам проекта"
         />
@@ -64,16 +64,16 @@ export function ProfileForm(): React.ReactNode {
           <h3 className={styles.profile__phone}>Телефон</h3>
           <MobilePhone/>
         </form>
-      </div>
-      <div className={styles.profile__section}>
-        <ProfileSection 
+      </section>
+      <section className={styles.profile__section}>
+        <ProfileSectionTitle 
           subtitle="Доступность"
           description="Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды"
         />
         <form className={styles.profile__form_availability}>
           
         </form>
-      </div>
+      </section>
     </>
   )
 }

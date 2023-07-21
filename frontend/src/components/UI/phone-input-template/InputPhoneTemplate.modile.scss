@@ -1,35 +1,33 @@
 @import 'styles/colors';
 @import 'styles/constants';
 
-.react-tel-input { 
-  width: $ui-width-l !important;
-  height: $ui-height !important;
-  margin-bottom: 12px;
+.react-tel-input {
+  @include set-font-size(16px, 20px, 500 $i) ; 
 
-  font-family: Geologica, sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 500;
-  line-height:  20px !important;
+  width: $ui-width-l $i;
+  height: $ui-height $i;
+  margin-bottom: 12px;
+  font-family: 'Tilda Sans', sans-serif $i;
 }
 
 .special-label {
-  display: none !important;
+  display: none $i;
 }
 
 .form-control {
   left: 80px;
 
-  width: $ui-width-m !important;
-  height: $ui-height !important;
-  padding-left: 20px !important;
+  width: $ui-width-m $i;
+  height: $ui-height $i;
+  padding-left: 20px $i;
 
-  color: $black-text !important;
+  color: $black-text $i;
 
-  border: 1px solid $gray-medium !important;
-  border-radius: $ui-border-radius-phone !important;
+  border: 1px solid $gray-medium $i;
+  border-radius: $ui-border-radius-phone $i;
 
   &:focus {
-    border: 2px solid $blue !important;
+    border: 2px solid $blue $i;
   }
 }
 
@@ -38,22 +36,22 @@
 
   &-dropdown {
     width: $ui-width-xs;
-    background-color: $main-white !important;
-    border: 1px solid $gray-medium !important;
-    border-radius: $ui-border-radius-phone !important;
+    background-color: $main-white $i;
+    border: 1px solid $gray-medium $i;
+    border-radius: $ui-border-radius-phone $i;
 
     &.open {
-      border: 2px solid $blue !important;
-      border-radius: $ui-border-radius-phone !important;
+      border: 2px solid $blue $i;
+      border-radius: $ui-border-radius-phone $i;
     }
   }
 }
 
 .selected-flag { 
-  width: $ui-width-xs !important;
-  margin: 0 !important;
-  padding: 0 20px !important;
+  width: $ui-width-xs $i;
+  margin: 0 $i;
+  padding: 0 20px $i;
 
-  background: none !important;
-  border-radius: $ui-border-radius-phone !important;
+  background: none $i;
+  border-radius: $ui-border-radius-phone $i;
 }

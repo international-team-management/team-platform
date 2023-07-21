@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from './ProfileSection.module.scss';
+import styles from './ProfileSectionTitle.module.scss';
 
 type ProfileSectionProps = {
   subtitle: string,
   description: string,
 }
 
-export const ProfileSection:React.FC<ProfileSectionProps> = (props) => {
+export const ProfileSectionTitle:React.FC<ProfileSectionProps> = (props) => {
 
   return (
     <div className={styles.profilesection__wrapper}>
