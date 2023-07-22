@@ -1,0 +1,27 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.profilesection{
+  display: block;
+
+  &__wrapper {
+    width: 100%;
+    max-width: 220px;
+    margin-right: 148px;
+  }
+
+  &__subtitle {
+    @include set-font-size(20px, 24px, 700);
+
+    margin-bottom: 12px;
+    color: $black-text;
+    letter-spacing: -0.02rem;
+  }
+
+  &__description {
+    @include set-font-size(14px, 16px, 600);
+
+    color: $gray-text;
+    letter-spacing: -0.01rem;
+  }
+}
