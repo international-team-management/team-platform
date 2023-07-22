@@ -26,13 +26,11 @@ export type UserDTO = {
   email: string,
 };
 
-export type RegisterRequestData = {
+export type RegisterUserData = {
   first_name: string;
-  second_name: string;
-  login: string;
+  last_name: string;
   email: string;
   password: string;
-  phone: string;
 };
 
 export enum URLS {
@@ -42,3 +40,4 @@ export enum URLS {
   SIGN_UP = `${URLS.AUTH}/signup`,
   USER = `${URLS.AUTH}/user`,
 }
+   

@@ -8,7 +8,7 @@ type UserMeType = {
   role?: string;
   imgSrc?: string;
   isLoading: boolean;
-  isError: boolean;
+  hasError: boolean;
 };
 
 const initialState: UserMeType = {
@@ -16,7 +16,7 @@ const initialState: UserMeType = {
   lastName: 'Доу',
   role: 'Чокнутый проффесоррррррр',
   isLoading: false,
-  isError: false,
+  hasError: false,
 };
 
 const requestFuncExample = (): void => {
@@ -38,31 +38,31 @@ export const userMeSlice = createSlice({
       // getUserMe
       .addCase(get.pending, (state) => {
         state.isLoading = true;
-        state.isError = false;
+        state.hasError = false;
       })
       .addCase(get.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isError = false;
+        state.hasError = false;
         console.log(action.payload);
       })
       .addCase(get.rejected, (state) => {
         state.isLoading = false;
-        state.isError = true;
+        state.hasError = true;
       })
 
       // patchUserMe
       .addCase(patch.pending, (state) => {
         state.isLoading = true;
-        state.isError = false;
+        state.hasError = false;
       })
       .addCase(patch.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isError = false;
+        state.hasError = false;
         console.log(action.payload);
       })
       .addCase(patch.rejected, (state) => {
         state.isLoading = false;
-        state.isError = true;
+        state.hasError = true;
       })
   },
 });
