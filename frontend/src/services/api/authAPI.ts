@@ -1,5 +1,5 @@
 import { request } from "./apiRequest";
-import { LoginRequestData, RegisterUserData, URLS, UserDTO } from "./types";
+import { LoginRequestData, RegisterRequestData, URLS, UserDTO } from "./types";
 
 export const authAPI = {
   login: (data: LoginRequestData):Promise<"OK"> => {
@@ -14,7 +14,7 @@ export const authAPI = {
 
   logout: (): Promise<"OK"> => request.post<"OK", null>(URLS.LOGOUT),
 
-  register: (data: RegisterUserData): Promise<"OK"> => {
-    return request.post<"OK", RegisterUserData>(URLS.SIGN_UP, data);
+  register: (data: RegisterRequestData): Promise<"OK"> => {
+    return request.post<"OK", RegisterRequestData>(URLS.SIGN_UP, data);
   }
 }

@@ -1,46 +1,92 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authAPI } from 'services/api/authAPI';
 import type { RootState } from 'services/store';
-import type { RegisterUserData } from 'services/api/types';
+import type { RegisterRequestData, LoginRequestData } from 'services/api/types';
 
-
-type authType = {
-  newUser: RegisterUserData | null;
+// Types
+type RegisterType = {
+  user: RegisterRequestData | null;
   isLoading: boolean;
   hasError: boolean;
 }
 
-const initialState: authType = {
-  newUser: null,
-  isLoading: false,
-  hasError: false,
+type LoginType = {
+  credentials: LoginRequestData | null;
+  isLoading: boolean;
+  hasError: boolean;
+}
+
+type TokenType = {
+  access: string;
+  refresh: string;
+}
+
+type AuthStateType = {
+  register: RegisterType;
+  login: LoginType;
+  token: TokenType;
+
+}
+
+
+// State
+const initialState: AuthStateType = {
+  register: {
+    user: null,
+    isLoading: false,
+    hasError: false,
+  },
+  login: {
+    credentials: null,
+    isLoading: false,
+    hasError: false,
+  },
+  token: {
+    access: '',
+    refresh: '',
+  }
 };
 
-// async thunks
+
+// Async Thunks (action creators)
 // createAsyncThunk simplifies our Redux app by returning an action creator
 // that dispatches promise lifecycle actions for us so we don't have to dispatch them ourselves.
 
-export const signUp = createAsyncThunk(
-  'auth/signUp', 
-  async (newUser: RegisterUserData) => {
+export const register = createAsyncThunk(
+  'auth/register', 
+  async (user: RegisterRequestData) => {
     try {
-      const data = await authAPI.register(newUser);
-      return data  
-      // dispatch({type: 'auth/signUp/fulfilled', payload: payload}) <- запускается само под капотом createAsyncThunk
+      const responseData = await authAPI.register(user);
+      return responseData                                                  //  <- ? promise, 'OK', или объект типа RegisterRequestData
+      // dispatch({type: 'auth/register/fulfilled', payload: responseData}) <- createAsyncThunk сам отправляет результат в store
     } catch {
-      console.log('Error signUp')
+      console.log('Error register')
     }
 });
 
+export const login = createAsyncThunk(
+  'auth/login',
+  async (credentials: LoginRequestData) => {
+    try {
+      const token = await authAPI.login(credentials);
+      return token
+    } catch {
+      console.log('Error login')
+    }
+  });
 
-// Заглушки, заменить на рабочие thunks
-const requestFuncExample = (): void => {
-  return
-};
-export const signIn = createAsyncThunk('auth/signIn', requestFuncExample);
-export const logout = createAsyncThunk('auth/logout', requestFuncExample);
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async () => {
+    try {
+      await authAPI.logout()
+    } catch {
+      console.log('Error logout')
+    }
+  });
 
-// slice
+
+// Slice
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -50,53 +96,54 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // signUp
-      .addCase(signUp.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = false;
+      // register
+      .addCase(register.pending, (state) => {
+        state.register.isLoading = true;
+        state.register.hasError = false;
       })
-      .addCase(signUp.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.hasError = false;
-        // state.newUser = action.payload;  // <- ? Не понимаю как из payload достать объект типа RegisterUserData
+      .addCase(register.fulfilled, (state, action) => {
+        state.register.isLoading = false;
+        state.register.hasError = false;
+        // state.user = action.payload;  // <- ? Не понимаю как из payload достать объект типа RegisterRequestData
       })
-      .addCase(signUp.rejected, (state) => {
-        state.isLoading = false;
-        state.hasError = true;
+      .addCase(register.rejected, (state) => {
+        state.register.isLoading = false;
+        state.register.hasError = true;
       })
 
-      // signIn
-      .addCase(signIn.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = false;
+      // login
+      .addCase(login.pending, (state) => {
+        state.login.isLoading = true;
+        state.login.hasError = false;
       })
-      .addCase(signIn.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.hasError = false;
+      .addCase(login.fulfilled, (state, action) => {
+        state.login.isLoading = false;
+        state.login.hasError = false;
         console.log(action.payload);
       })
-      .addCase(signIn.rejected, (state) => {
-        state.isLoading = false;
-        state.hasError = true;
+      .addCase(login.rejected, (state) => {
+        state.login.isLoading = false;
+        state.login.hasError = true;
       })
 
       // logout
       .addCase(logout.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = false;
+        // state.isLoading = true;
+        // state.hasError = false;
       })
       .addCase(logout.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.hasError = false;
-        console.log(action.payload);
+        // state.isLoading = false;
+        // state.hasError = false;
+        // console.log(action.payload);
       })
       .addCase(logout.rejected, (state) => {
-        state.isLoading = false;
-        state.hasError = true;
+        // state.isLoading = false;
+        // state.hasError = true;
       });
   },
 });
 
-// selectors
-export const isRegister = (state: RootState) => state.userMe  // <- ? Из стейта нужно получать инфо, которая указывает на зарегался или нет
+
+// Selectors
+export const isRegister = (state: RootState) => state.auth.register.user // <- ? Из стейта нужно получать инфо, которая указывает на зарегался или нет
 export const selectAuthData = (state: RootState) => state.auth;

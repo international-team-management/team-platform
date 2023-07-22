@@ -1,5 +1,5 @@
 export type LoginRequestData = {
-  login: string,
+  email: string,
   password: string
 };
 
@@ -26,7 +26,7 @@ export type UserDTO = {
   email: string,
 };
 
-export type RegisterUserData = {
+export type RegisterRequestData = {
   first_name: string;
   last_name: string;
   email: string;
