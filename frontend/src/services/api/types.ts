@@ -1,3 +1,10 @@
+export type RegisterRequestData = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+};
+
 export type LoginRequestData = {
   email: string,
   password: string
@@ -26,12 +33,28 @@ export type UserDTO = {
   email: string,
 };
 
-export type RegisterRequestData = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-};
+// used in auth slice
+
+export type UserTest = {
+  id: number,
+  username: string,
+  email: string,
+  first_name: string,
+  last_name: string,
+  role: string,
+  created_at: string,
+  update_at: string,
+  is_active: boolean,
+  user_timezone: string,
+  // timetable: [],
+  photo: string,
+  telephone_number: number,
+}
+
+export type TokenType = {
+  access: string;
+  refresh: string;
+}
 
 export enum URLS {
   AUTH = 'auth',
