@@ -1,149 +1,134 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { authAPI } from 'services/api/authAPI';
 import type { RootState } from 'services/store';
-import type { RegisterRequestData, LoginRequestData, TokenType, UserTest } from 'services/api/types';
+import type { RegisterRequestData, LoginRequestData, UserType } from 'services/api/types';
 
-// Сценарии
-
-// 1. Регистрация, onSubmit form
-//  (?)сохранить форму в redux обычным action (или держать данные в useState на случай отказа сервера)
-//  dispatch(register(...)) - из компонента отправить post-запрос, результат сохранить в store
-//    принять ответ сервера
-//      если auth/register/fulfilled
-//        state.user = action.payload
-//        в компонентах смотрим useSelect, запускаем переадресацию на login или попап об успешной регистрации
-//      если auth/register/rejected
-//        state.user = null
-//        в компонентах смотрим useSelect, запускаем попап о неудачной регистрации, и возможно передаем те данные в форму
-//
-// 2. Вход, onSubmit form
-//  (?)сохранить форму в redux обычным action (или держать данные в useState на случай отказа сервера)
-//  dispatch(login(...)) - из компонента отправить post-запрос, результат сохранить в store
-//    принять ответ сервера
-//      если auth/login/fulfilled
-//        ...
-//        action.payload.token сохранить в LocalStorage
-//      если auth/register/rejected
-//        ...
-//
-// 3. Выход, onClick btn
-//  dispatch(logout(...)) - из компонента отправить post-запрос, результат сохранить в store
-//    принять ответ сервера
-//      если auth/logout/fulfilled
-//        state.user = null
-//        удалить токен из LocalStorage
-//      если auth/logout/rejected
-//        в компонентах смотрим useSelect, сообщаем об ошибке выхода
+// Use cases
+// 1. register, post new user data > if ok response > login, post credentials > receive tokens, keep in localStorage > get userMe
+// 2. login, post credentials > receive tokens, keep in localStorage > get userMe
+// 3. logout > if good response > remove tokens from localStorage
 
 
 // Types
 
 type AuthStateType = {
-  user: null | UserTest; // два типа должен переваривать (4 поля прирегистрации, вcе поля при userMe) - как правильно типизировать?
+  user: null | UserType;
   isLoading: boolean;
-  error: null | boolean | string;
+  error: null | unknown;
 }
 
 
 // State
 
+const test = {
+  id: 4,
+  username: 'tm',
+  email: 'dfdf@freezeDraftable.ew,',
+  first_name: 'Джонни',
+  last_name: "Доу",
+  role: 'Чокнутый проффесоррррррр',
+  created_at: '',
+  update_at: '',
+  is_active: true,
+  user_timezone: 'wew',
+  // timetable: [],
+  photo: 'sting',
+  telephone_number: 9154804054,
+}
+
+
 const initialState: AuthStateType = {
-  user: null,
+  user: test,
   isLoading: false,
   error: null,
 }
 
+
 // Thunks (async action creators)
-// createAsyncThunk simplifies our Redux app by returning an action creator
-// that dispatches promise lifecycle actions for us so we don't have to dispatch them ourselves.
 
-export const register = createAsyncThunk(
-  'auth/register', 
-  async (userData: RegisterRequestData) => {
-    try {
-      const responseData = await authAPI.register(userData);
-      return responseData                                               //  <- ? promise, 'OK', или объект типа RegisterRequestData
-      // dispatch({type: 'auth/register/fulfilled', payload: responseData}) <- createAsyncThunk сам отправляет результат в store
-    } catch(error) {
-      console.log('Error register')
-    }
-});
+export const authThunks = {
+  // Info: Error axios interceptor is configured in the project, try-catch is not needed.
 
-export const login = createAsyncThunk(
-  'auth/login',
-  async (credentials: LoginRequestData, thunkApi) => {
-    try {
-      const token = await authAPI.login(credentials);
-      // (?) здесь нужен thunkApi.dispatch(userMe()) - проверка токенов и загрузка данных юзера для лого и личного кабинета
-      return token  // в reducer сохраним token'ы localStorage
-    } catch {
-      console.log('Error login')
-    }
-  });
+  register: createAsyncThunk(
+    'auth/register', 
+    async (userData: RegisterRequestData, { dispatch }) => {
+      await authAPI.register(userData);
+      dispatch(authThunks.login({email: userData.email, password: userData.password}))
+  }),
 
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async () => {
-    try {
-      await authAPI.logout()
-    } catch {
-      console.log('Error logout')
-    }
-  });
+  login: createAsyncThunk(
+    'auth/login',
+    async (credentials: LoginRequestData, { dispatch }) => {
+      const { access, refresh } = await authAPI.login(credentials);
+      localStorage.setItem("tokenAccess", JSON.stringify(access));
+      localStorage.setItem("tokenRefresh", JSON.stringify(refresh));
+      dispatch(authThunks.userMe())
+    }),
+  
+  userMe: createAsyncThunk(
+    'auth/userMe',
+    async () => await authAPI.me()
+  ),
+
+  logout: createAsyncThunk(
+    'auth/logout',
+    async () => {
+      await authAPI.logout();
+      localStorage.removeItem("tokenAccess");
+      localStorage.removeItem("tokenRefresh");
+    }),
+}
 
 
 // Slice
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
 
       // register
-      .addCase(register.pending, (state) => {
+      .addCase(authThunks.register.pending, (state) => {
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(register.fulfilled, (state, action: PayloadAction<any>) => {  // PayloadAction<RegisterRequestData> не срабатывает
+      .addCase(authThunks.register.fulfilled, (state) => {
         state.isLoading = false;
         state.error = false;
-        state.user = action.payload;  // <- ? Не понимаю как из payload достать объект типа RegisterRequestData
       })
-      .addCase(register.rejected, (state, action: PayloadAction<any>) => {  // узнать тип данных ошибки (string?)
+      .addCase(authThunks.register.rejected, (state, action: PayloadAction<unknown>) => {
         state.isLoading = false;
         state.error = action.payload;
       })
 
       // login
-      .addCase(login.pending, (state) => {
+      .addCase(authThunks.login.pending, (state) => {
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(login.fulfilled, (state, action: PayloadAction<any>) => {  // PayloadAction<TokenType> не срабатывает
+      .addCase(authThunks.login.fulfilled, (state) => {
         state.isLoading = false;
         state.error = false;
-        localStorage.setItem("token", JSON.stringify(action.payload));
       })
-      .addCase(login.rejected, (state) => {
+      .addCase(authThunks.login.rejected, (state) => {
         state.isLoading = false;
         state.error = true;
       })
 
       // logout
-      .addCase(logout.pending, (state) => {
+      .addCase(authThunks.logout.pending, (state) => {
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(logout.fulfilled, (state) => {
+      .addCase(authThunks.logout.fulfilled, (state) => {
         state.isLoading = false;
         state.error = false;
-        localStorage.removeItem("token");
         state.user = null;
       })
-      .addCase(logout.rejected, (state, action: PayloadAction<any>) => {  // узнать тип данных ошибки (string?)
+      .addCase(authThunks.logout.rejected, (state, action: PayloadAction<unknown>) => {
         state.isLoading = false;
         state.error = action.payload;
       });
@@ -153,3 +138,4 @@ export const authSlice = createSlice({
 
 // Selectors
 export const selectAuthData = (state: RootState) => state.auth;
+export const selectUserMe = (state: RootState) => state.auth.user;

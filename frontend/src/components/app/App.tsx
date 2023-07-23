@@ -7,6 +7,9 @@ import { LoginPage } from 'src/pages/LoginPage/LoginPage';
 import { ProfilePage } from 'src/pages/ProfilePage/ProfilePage';
 
 export const App:React.FC = () => {
+
+  
+
   return (
     <Routes>
       <Route

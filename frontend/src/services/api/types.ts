@@ -10,32 +10,7 @@ export type LoginRequestData = {
   password: string
 };
 
-export type User = {
-  id: number;
-  login: string;
-  firstName: string;
-  secondName: string;
-  displayName: string;
-  avatar: string;
-  phone: string;
-  email: string;
-  fullName: string;
-};
-
-export type UserDTO = {
-  id: number,
-  login: string,
-  first_name: string,
-  second_name: string,
-  display_name?: string,
-  avatar?: string,
-  phone?: string,
-  email: string,
-};
-
-// used in auth slice
-
-export type UserTest = {
+export type UserType = {
   id: number,
   username: string,
   email: string,
@@ -45,11 +20,34 @@ export type UserTest = {
   created_at: string,
   update_at: string,
   is_active: boolean,
-  user_timezone: string,
+  user_timezone?: unknown,
   // timetable: [],
   photo: string,
   telephone_number: number,
 }
+
+// export type User = {
+//   id: number;
+//   login: string;
+//   firstName: string;
+//   secondName: string;
+//   displayName: string;
+//   avatar: string;
+//   phone: string;
+//   email: string;
+//   fullName: string;
+// };
+
+// export type UserDTO = {
+//   id: number,
+//   login: string,
+//   first_name: string,
+//   second_name: string,
+//   display_name?: string,
+//   avatar?: string,
+//   phone?: string,
+//   email: string,
+// };
 
 export type TokenType = {
   access: string;
