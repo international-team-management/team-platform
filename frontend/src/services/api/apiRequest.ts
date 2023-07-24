@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 // ApiError, чтобы была возможность фильтровать ошибки, если нужно
 export class ApiError extends Error {
@@ -13,16 +13,19 @@ export class ApiError extends Error {
   }
 }
 
+
+
 const axiosInstance = axios.create({
   // Это урл для валидации на серваке яндекса, который был на курсе
   // чтобы проверить работает ли код
   baseURL: import.meta.env.VITE_API_ENDPOINT,
   withCredentials: true,
+  headers: {"Authorization": `Bearer ${JSON.stringify(localStorage.getItem("tokenAccess"))}`}
 });
 
 axiosInstance.interceptors.response.use(
-  response => response,
-  error => {
+  (response: AxiosResponse) => response,
+  (error: AxiosError | Error) => {
     if(axios.isAxiosError(error) && error.response) {
         return Promise.reject(new ApiError(error.response.data.reason, error.response.status));
     }
