@@ -4,10 +4,9 @@
 .profile {
   display: block;
 
-  &section-wrapper {
+  &__info-container {
     width: 220px;
-    margin-right: 148px;
-    padding: 24px 0 40px;
+    padding: 0;
   }
 
   &__subtitle {

@@ -5,12 +5,12 @@ import {Input} from '../UI/input-template/InputTemplate';
 import {input} from 'src/typings/constants';
 import styles from './ProfileForm.module.scss';
 import userAvatar from 'src/assets/framed-avatar.svg';
+import {helperTexts} from "utils/validation/helperTexts";
 
 export function ProfileForm(): React.ReactNode {
   return (
     <>
       <section className={styles.profile__section}>
-
         <ProfileSectionTitle
           subtitle='Фото профиля'
           description='По&nbsp;реальной фотографии коллеги смогут легко узнать вас'
@@ -55,14 +55,16 @@ export function ProfileForm(): React.ReactNode {
           />
           <Input
             type={input.EMAIL}
-            name='emali'
+            name='email'
             label='Email'
             placeholder='Ваш Email'
             helperText={''}
             isValid={undefined}
           />
-          <h3 className={styles.profile__phone}>Телефон</h3>
-          <InputPhoneTemplate/>
+
+          <InputPhoneTemplate
+            label='Телефон'
+          />
         </form>
       </section>
       <section className={styles.profile__section}>
@@ -70,8 +72,48 @@ export function ProfileForm(): React.ReactNode {
           subtitle='Доступность'
           description='Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды'
         />
-        <form className={styles.profile__form_availability}>
+        <form className={styles.profile__form}>
+          <Input
+            type={input.TEXT}
+            name='location'
+            label='Локация'
+            placeholder='Санкт-Петербург (UTC+3)'
+            helperText={''}
+            isValid={undefined}
+          />
+          <Input
+            type={input.TEXT}
+            name='schedule'
+            label='График работы'
+            helperText={''}
+            isValid={undefined}
+          />
+        </form>
+      </section>
 
+      <section className={styles.profile__section}>
+        <ProfileSectionTitle
+          subtitle='Смена пароля'
+          description='На ваш email сразу придет ссылка для смены пароля'
+        />
+        <form className={styles.profile__form}>
+          <Input
+            type={input.PASSWORD}
+            name='password'
+            label='Текущий пароль'
+          />
+          <Input
+            type={input.PASSWORD}
+            name='password'
+            label='Новый пароль пароль'
+            helperText={helperTexts.PASSWORD}
+          />
+          <Input
+            type={input.PASSWORD}
+            name='repeat-password'
+            label='Повторите новый пароль'
+          />
+          <button className={styles['profile__button_light-blue']}>Сменить пароль</button>
         </form>
       </section>
     </>

@@ -1,57 +1,37 @@
 @import 'styles/colors';
 @import 'styles/constants';
 
-.react-tel-input {
-  @include set-font-size(16px, 20px, 500 $i) ; 
+.phone-info {
+  @extend %flex-column;
 
-  width: $ui-width-l $i;
-  height: $ui-height $i;
-  margin-bottom: 12px;
-  font-family: 'Tilda Sans', sans-serif $i;
-}
+  gap: 8px;
+  align-items: flex-start;
+  align-self: stretch;
+  margin: 16px 0 40px;
 
-.special-label {
-  display: none $i;
-}
+  &__special-label {
+    @include set-font-size(16px, 20px, 600) ;
 
-.form-control {
-  left: 80px;
-
-  width: $ui-width-m $i;
-  height: $ui-height $i;
-  padding-left: 20px $i;
-
-  color: $black $i;
-
-  border: 1px solid $gray-medium $i;
-  border-radius: $ui-border-radius-phone $i;
-
-  &:focus {
-    border: 2px solid $blue $i;
+    color: $main-black;
+    letter-spacing: -0.16px;
   }
-}
 
-.flag {
-  margin-left: 8px;
+  &__container {
+    width: 100%;
 
-  &-dropdown {
-    width: $ui-width-xs;
-    background-color: $white $i;
-    border: 1px solid $gray-medium $i;
-    border-radius: $ui-border-radius-phone $i;
+    .phone-info__input {
+      @include set-font-size(16px, 20px, 500);
 
-    &.open {
-      border: 2px solid $blue $i;
-      border-radius: $ui-border-radius-phone $i;
+      width: 100%;
+      height: $ui-height;
+      margin: 8px 0 0;
+
+      letter-spacing: -0.01rem;
+
+      border: 1px solid $input-border-color;
+      border-radius: $ui-border-radius $i;
+
+      transition: all 0.15s ease-in-out;
     }
   }
-}
-
-.selected-flag { 
-  width: $ui-width-xs $i;
-  margin: 0 $i;
-  padding: 0 20px $i;
-
-  background: none $i;
-  border-radius: $ui-border-radius-phone $i;
 }

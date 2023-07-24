@@ -5,27 +5,26 @@
   &__section, &__section_header {
     @extend %flex-row;
 
+    gap: 148px;
+
     width: 1136px;
-    margin: 0;
-    padding: 32px 32px 52px;
+    margin: 32px 0 0 32px;
+    padding-bottom: 28px;
+
     border-bottom: 1px solid $gray-medium;
   }
 
   &__form {
-    padding-left: 32px;
-
     &_photo {
       @extend %flex-row;
 
       gap: 24px;
       align-items: center;
-      margin: 0 0 0 148px;
+      margin: 0;
     }
 
     &_data {
       @extend %flex-column;
-
-      margin-left: 148px;
     }
   }
 
@@ -69,6 +68,23 @@
 
       background-color: $main-white;
       border: 1px solid $bright-red;
+      border-radius: 12px;
+    }
+
+    &_light-blue {
+      @include set-font-size(14px, 16px, 600);
+
+      @include set-block-size(100%, 52px);
+
+      cursor: pointer;
+
+      margin: 24px 0 0;
+
+      color: $main-white;
+      letter-spacing: -0.01rem;
+
+      background-color: $light-blue;
+      border: 1px solid $light-blue;
       border-radius: 12px;
     }
   }
