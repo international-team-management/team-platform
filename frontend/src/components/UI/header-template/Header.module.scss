@@ -2,40 +2,130 @@
 @import 'styles/colors';
 
 .header {
-  display: flex;
+  @extend %flex-row;
+
   align-items: center;
   justify-content: space-between;
 
   width: 100%;
   max-height: 64px;
-  padding: 32px;
+  padding: 18px 32px;
 
-  border-bottom: 1px solid rgb(225 223 235 / 100%);
+  border-bottom: 1px solid $gray-medium;
 
   &__title {
+    @include set-font-size(24px, 28px, 700);
+
     margin-block-start: 0;
     margin-block-end: 0;
 
-    font-size: 24px;
-    font-weight: 700;
     font-style: normal;
-    line-height: 28px;
     color: $main-black;
     letter-spacing: -0.48px;
   }
 
+  &__project-menu {
+    @extend %flex-row;
+
+    gap: 52px;
+  }
+
   &__icons {
-    display: flex;
+    @extend %flex-row;
+
     gap: 20px;
+    justify-self: flex-end;
   }
 
   &__changes-status {
-    font-size: 16px;
-    font-weight: 700;
+    @include set-font-size(16px, 20px, 700);
+
     font-style: normal;
-    line-height: 20px; /* 125% */
-    color: var(--design-neutral-neutral-900, #00001B);
+    color: $main-black;
     text-align: center;
     letter-spacing: -0.32px;
+  }
+
+  &__participants {
+    position: relative;
+  }
+
+  &__participants-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+    margin: -10px;
+
+    background-color: rgb(241 240 245 / 100%);
+    border-radius: 28px;
+    box-shadow: 0 0 0 1px $gray-medium;
+  }
+
+  &__participants-extra {
+    @include set-font-size(16px, 20px, 600);
+
+    position: absolute;
+    left: 0;
+
+    width: 100%;
+
+    font-style: normal;
+    color: $gray-text;
+    text-align: center;
+    letter-spacing: -0.16px;
+
+    background-color: transparent;
+  }
+
+  &__project-buttons {
+    @extend %flex-row;
+
+    align-items: center;
+  }
+
+  &__buttons {
+    @extend %flex-row;
+
+    flex-shrink: 0;
+    align-items: center;
+
+    height: 32px;
+    padding: 0 8px;
+
+    background-color: rgb(241 240 245 / 100%);
+    border-radius: 8px;
+  }
+
+  &__button-area {
+    @extend %flex-row;
+
+    gap: 4px;
+    align-items: center;
+  }
+
+  &__switch-button {
+    cursor: pointer;
+    color: $gray-text;
+    border: none;
+    transition: color 0.2s ease-in-out;
+  }
+
+  &__switch-button_active {
+    color: $main-black;
+  }
+
+  &__switch-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  &__button-divider {
+    width: 1px;
+    height: 100%;
+    margin: 0 12px;
+    background-color: $gray-medium;
   }
 }

@@ -4,13 +4,14 @@
 .sidebar {
   @extend %flex-column;
 
-  row-gap: 74px;
-
   width: 240px;
-  height: 100vh;
+  height: 100%;
   padding: 36px 24px 32px;
+  border-right: 1px solid $gray-medium;
 
-  border-right: 1px solid $grey-light;
+  &__border {
+    border-bottom: 1px solid $gray-medium;
+  }
 
   &__createBtn {
     @extend %flex-row;
@@ -28,8 +29,10 @@
 
     margin: auto 0 0;
 
+    color: $bright-blue;
+
     background-color: $white;
-    border: 1px solid $main-black;
+    border: 1px solid $bright-blue;
     border-radius: 12px;
 
     &::before {
@@ -43,7 +46,8 @@
 
       border-bottom: 1px solid $grey-light;
     }
-  };
+  }
+;
 
   &__plus {
     @include set-block-size(20px, 20px);

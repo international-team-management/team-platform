@@ -13,8 +13,13 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
   align-items: center;
   justify-content: space-between;
 
+  padding-top: 76px;
+
   &__title {
-    @include set-font-size(20px, 20px);
+    @include set-font-size(16px, 20px, 500);
+
+    color: $gray-text;
+    letter-spacing: -0.16px;
   }
 
   &__filter {
@@ -55,7 +60,8 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
       color: $white;
       background-color: $main-black;
       border-radius: 8px;
-    };
+    }
+  ;
   }
 
   &__name {

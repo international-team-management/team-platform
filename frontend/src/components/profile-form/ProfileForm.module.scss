@@ -6,8 +6,8 @@
     @extend %flex-row;
 
     width: 1136px;
-    margin: 0 auto;
-    padding: 24px 0 28px;
+    margin: 0;
+    padding: 32px 32px 52px;
     border-bottom: 1px solid $gray-medium;
   }
 
@@ -17,29 +17,29 @@
     &_photo {
       @extend %flex-row;
 
-      margin-top: 8px;
+      gap: 24px;
+      align-items: center;
+      margin: 0 0 0 148px;
     }
 
     &_data {
       @extend %flex-column;
+
+      margin-left: 148px;
     }
   }
 
   &__img {
     width: 80px;
     height: 80px;
-
-    background-color: $grey-light;
-    border: 3px dashed $dark-blue;
-    border-radius: 50%;
   }
 
   &__buttons {
     @extend %flex-column;
 
+    align-items: center;
     justify-content: space-between;
-    width: 80px;
-    margin-left: 24px;
+    min-width: 80px;
   }
 
   &__button {
@@ -79,8 +79,16 @@
   &__phone {
     @include set-font-size(16px, 20px, 600);
 
+    height: $ui-height;
     margin: 16px 0 8px;
-    color: $black-text;
+    padding: 12px 20px;
+
+    color: $main-black;
     letter-spacing: -0.01rem;
+
+    border: 1px solid $input-border-color;
+    border-radius: $ui-border-radius;
+
+    transition: all 0.15s ease-in-out;
   }
 }

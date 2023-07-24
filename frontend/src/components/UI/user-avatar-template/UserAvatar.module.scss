@@ -1,0 +1,15 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.avatar {
+  @extend %flex-row;
+
+  gap: -20px;
+  padding: 0 0 0 52px;
+
+  &__image {
+    width: 40px;
+    height: 40px;
+    margin: -10px;
+  }
+}

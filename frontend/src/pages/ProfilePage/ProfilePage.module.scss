@@ -1,14 +1,16 @@
 @import 'styles/colors';
 @import 'styles/constants';
 
-.container {
-    display: flex;
+.profile {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100vh;
 
-    &__wrapper {
-        @extend %flex-column;
+  &__wrapper {
+    @extend %flex-column;
 
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }

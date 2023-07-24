@@ -1,13 +1,13 @@
 @import 'styles/colors';
 @import 'styles/constants';
 
-.profilesection{
+.profile {
   display: block;
 
-  &__wrapper {
-    width: 100%;
-    max-width: 220px;
+  &section-wrapper {
+    width: 220px;
     margin-right: 148px;
+    padding: 24px 0 40px;
   }
 
   &__subtitle {

@@ -1,7 +1,7 @@
 import 'react-phone-input-2/lib/style.css';
 import PhoneInput from 'react-phone-input-2';
 import ru from 'react-phone-input-2/lang/ru.json';
-import './InputPhoneTemplate.modile.scss';
+import './InputPhoneTemplate.module.scss';
 
 export const InputPhoneTemplate = () => {
     return (
