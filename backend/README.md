@@ -62,5 +62,6 @@ exit
 ```
 Проект доступен по адресу:
 ```angular2html
-localhost:8000/auth/
+localhost:8000/api/v1/auth/
+localhost:8000/admin/
 ```
