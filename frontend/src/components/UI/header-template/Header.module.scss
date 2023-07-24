@@ -51,12 +51,12 @@
   }
 
   &__participants-count {
+    @include set-block-size(40px, 40px);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    width: 40px;
-    height: 40px;
     margin: -10px;
 
     background-color: rgb(241 240 245 / 100%);
@@ -73,7 +73,7 @@
     width: 100%;
 
     font-style: normal;
-    color: $gray-text;
+    color: $grey-text;
     text-align: center;
     letter-spacing: -0.16px;
 
@@ -108,7 +108,7 @@
 
   &__switch-button {
     cursor: pointer;
-    color: $gray-text;
+    color: $grey-text;
     border: none;
     transition: color 0.2s ease-in-out;
   }
@@ -118,8 +118,7 @@
   }
 
   &__switch-icon {
-    width: 18px;
-    height: 18px;
+    @include set-block-size(18px, 18px);
   }
 
   &__button-divider {

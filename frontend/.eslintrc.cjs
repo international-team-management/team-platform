@@ -7,9 +7,9 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
-    "prettier",
+    'prettier',
   ],
-  ignorePatterns: [".eslintrc.cjs", "vite.config.ts"],
+  ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',

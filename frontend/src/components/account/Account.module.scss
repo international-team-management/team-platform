@@ -18,10 +18,10 @@
   &__caption {
     @extend %flex-column;
 
+    gap: 4px;
     align-items: flex-start;
     max-width: 164px;
   }
-;
 
   &__user {
     @extend %text-overflow-hidden;

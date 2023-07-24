@@ -1,13 +1,13 @@
-<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_957_13470)">
-<rect x="1" y="1" width="40" height="40" rx="20" fill="#F1F0F5"/>
-<circle cx="21" cy="16" r="7" fill="#D1D0DB"/>
-<circle cx="21" cy="43" r="16" fill="#D1D0DB"/>
+<svg width='42' height='42' viewBox='0 0 42 42' fill='none' xmlns='http://www.w3.org/2000/svg'>
+<g clip-path='url(#clip0_957_13470)'>
+<rect x='1' y='1' width='40' height='40' rx='20' fill='#F1F0F5'/>
+<circle cx='21' cy='16' r='7' fill='#D1D0DB'/>
+<circle cx='21' cy='43' r='16' fill='#D1D0DB'/>
 </g>
-<rect x="1" y="1" width="40" height="40" rx="20" stroke="#E1DFEB" stroke-linecap="round"/>
+<rect x='1' y='1' width='40' height='40' rx='20' stroke='#E1DFEB' stroke-linecap='round'/>
 <defs>
-<clipPath id="clip0_957_13470">
-<rect x="1" y="1" width="40" height="40" rx="20" fill="white"/>
+<clipPath id='clip0_957_13470'>
+<rect x='1' y='1' width='40' height='40' rx='20' fill='white'/>
 </clipPath>
 </defs>
 </svg>

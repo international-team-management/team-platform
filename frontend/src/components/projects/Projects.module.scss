@@ -1,7 +1,7 @@
 @import 'styles/constants';
 @import 'styles/colors';
 
-$svg-filter-path: '/src/assets/projects__filter.svg';
+$svg-filter-path: '/src/assets/projects-filter.svg';
 
 // TODO: настроить однообразный transition для кнопок и ссылок во всем проекте
 
@@ -15,10 +15,11 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
 
   padding-top: 76px;
 
+
   &__title {
     @include set-font-size(16px, 20px, 500);
 
-    color: $gray-text;
+    color: $grey-text;
     letter-spacing: -0.16px;
   }
 
@@ -26,7 +27,7 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
     @include set-block-size(20px, 20px);
 
     cursor: pointer;
-    background-color: $white;
+    background-color: $main-white;
     background-image: url(#{$svg-filter-path});
     border: none;
   }
@@ -34,7 +35,7 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
   &__list {
     @extend %flex-column;
 
-    row-gap: 8px;
+    row-gap: 20px;
     min-width: 100%;
   }
 
@@ -46,29 +47,30 @@ $svg-filter-path: '/src/assets/projects__filter.svg';
     @extend %flex-row;
 
     @include set-font-size(14px, 16px);
-    @include set-block-size(100%, 44px);
+    @include set-block-size(100%, 100%);
 
-    column-gap: 12px;
+    gap: 8px;
     align-items: center;
     justify-content: flex-start;
-
-    padding: 0 0 0 16px;
-
-    color: $grey-dark;
+    padding: 0;
 
     &_active {
-      color: $white;
-      background-color: $main-black;
+      color: $main-black;
+      background-color: $main-white;
       border-radius: 8px;
     }
-  ;
   }
 
   &__name {
     @extend %text-overflow-hidden;
+
+    @include set-font-size(16px, 20px, 700);
+
+    color: $main-black;
+    letter-spacing: -0.32px;
   }
 
   &__nav_active &__icon * {
-    fill: $white;
+    fill: $main-white;
   }
 }

@@ -9,27 +9,30 @@ export function Sidebar(): React.ReactNode {
   // данные передадим сюда из Redux, ниже пока демка данных
   const user = {
     imgSrc: '',
-    firstName: 'Джон',
-    lastName: 'Доу',
-    role: 'Чокнутый проффесоррррррр'
+    firstName: 'Дмитрий',
+    lastName: 'Петров',
+    role: 'UX/UI дизайнер'
   }
 
   const projects = [
-    {id: 1, name: 'Название проекта 1'},
-    {id: 2, name: 'Название проекта длиною в жизнь'},
-    {id: 3, name: 'Название проекта 3'},
+    {id: 1, name: 'ABC.Документы'},
+    {id: 2, name: 'UV’s Таблицы'},
+    {id: 3, name: 'Intel Дизайн'},
+    {id: 4, name: 'Power—Точка'},
   ]
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.sidebar__border}>
+      <div className={styles.sidebar__content}>
         <Account {...user} />
         <Projects projects={projects}/>
       </div>
-      <button className={`${styles.sidebar__createBtn} ${styles.sidebar__border}`}>
-        <SignPlus className={styles.sidebar__plus}/>
-        <span>Создать проект</span>
-      </button>
+      <div className={styles['sidebar__createBtn-container']}>
+        <button className={`${styles.sidebar__createBtn}`}>
+          <SignPlus className={styles.sidebar__plus}/>
+          <span>Создать проект</span>
+        </button>
+      </div>
     </aside>
   )
 }

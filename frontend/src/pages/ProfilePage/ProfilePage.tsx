@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import styles from './ProfilePage.module.scss';
-import {Sidebar} from "src/components/sidebar/Sidebar";
-import {HeaderTemplate, HeaderState} from "components/UI/header-template/HeaderTemplate";
-import {ProfileForm} from "src/components/profile-form/ProfileForm";
+import {Sidebar} from 'src/components/sidebar/Sidebar';
+import {HeaderTemplate, HeaderState} from 'components/UI/header-template/HeaderTemplate';
+import {ProfileForm} from 'src/components/profile-form/ProfileForm';
 
 
 export function ProfilePage(): React.ReactNode {
@@ -11,7 +11,7 @@ export function ProfilePage(): React.ReactNode {
   return (
     <section className={styles.profile}>
       <Sidebar/>
-      <div>
+      <div className={styles['profile__main-content']}>
         <HeaderTemplate state={state}/>
         <ProfileForm/>
       </div>

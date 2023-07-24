@@ -21,7 +21,7 @@
   &__description {
     @include set-font-size(14px, 16px, 600);
 
-    color: $gray-text;
+    color: $grey-text;
     letter-spacing: -0.01rem;
   }
 }

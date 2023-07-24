@@ -6,11 +6,11 @@
   grid-template-columns: auto 1fr;
   height: 100vh;
 
-  &__wrapper {
+  &__main-content {
     @extend %flex-column;
 
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin-left: 240px;
   }
 }
