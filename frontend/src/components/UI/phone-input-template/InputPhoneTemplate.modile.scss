@@ -21,7 +21,7 @@
   height: $ui-height $i;
   padding-left: 20px $i;
 
-  color: $black-text $i;
+  color: $black $i;
 
   border: 1px solid $gray-medium $i;
   border-radius: $ui-border-radius-phone $i;
@@ -36,7 +36,7 @@
 
   &-dropdown {
     width: $ui-width-xs;
-    background-color: $main-white $i;
+    background-color: $white $i;
     border: 1px solid $gray-medium $i;
     border-radius: $ui-border-radius-phone $i;
 

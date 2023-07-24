@@ -2,44 +2,65 @@
 @import 'styles/constants';
 
 .sign-up-page {
-  @extend %flex-column;
 
-  align-items: center;
+  @extend %flex-row;
+
   justify-content: center;
+  height: 100vh;
 
   &__wrapper {
-    margin: 86px 0;
+    @extend %flex-column;
+
+    margin: 48px 120px 0;
   }
 
   &__inputs {
     @extend %flex-column;
 
-    padding: 72px 0;
+    padding: 40px 0;
   }
 
-  &__button, &__button_redirect {
-    @include set-font-size(16px, 20px);
-
-    cursor: pointer;
-
+  &__promo {
+    height: calc(100vh - 24px);
     margin-top: 12px;
-
-    text-decoration: underline 1px;
-    letter-spacing: -0.01rem;
-
-    background-color: $main-white;
-    border: none;
-
-    &_redirect {
-      width: 183px;
-      margin-top: 20px;
-    }
+    margin-left: 12px;
   }
 
   &__buttons {
     @extend %flex-column;
 
     align-items: center;
+  }
+
+  &__text {
+    @extend %flex-row;
+
+    margin-top: 24px;
+  }
+
+  &__question {
+    @include set-font-size(16px, 20px, 600);
+
+    margin-right: 4px;
+    color: $black;
+    letter-spacing: -0.01rem;
+  }
+
+  &__redirect {
+    @include set-font-size(16px, 20px, 600);
+
+    cursor: pointer;
+    color: $blue-62;
+    letter-spacing: -0.01rem;
+  }
+
+  &__agreement {
+    @include set-font-size(14px, 16px, 600);
+
+    margin-top: 152px;
+    color: $grey-118;
+    text-align: center;
+    letter-spacing: -0.01rem;
   }
 }
 
