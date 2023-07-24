@@ -1,0 +1,45 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.sign-up-page {
+  @extend %flex-column;
+
+  align-items: center;
+  justify-content: center;
+
+  &__wrapper {
+    margin: 86px 0;
+  }
+
+  &__inputs {
+    @extend %flex-column;
+
+    padding: 72px 0;
+  }
+
+  &__button, &__button_redirect {
+    @include set-font-size(16px, 20px);
+
+    cursor: pointer;
+
+    margin-top: 12px;
+
+    text-decoration: underline 1px;
+    letter-spacing: -0.01rem;
+
+    background-color: $main-white;
+    border: none;
+
+    &_redirect {
+      width: 183px;
+      margin-top: 20px;
+    }
+  }
+
+  &__buttons {
+    @extend %flex-column;
+
+    align-items: center;
+  }
+}
+

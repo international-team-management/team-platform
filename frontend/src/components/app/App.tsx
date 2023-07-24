@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import { routes } from 'src/routes';
 import { LoginPage } from 'src/pages/LoginPage/LoginPage';
 import { ProfilePage } from 'src/pages/ProfilePage/ProfilePage';
+import {SignUpPage} from "pages/SignUpPage/SignUpPage";
 
 export const App:React.FC = () => {
 
@@ -23,13 +24,7 @@ export const App:React.FC = () => {
       />
       <Route path={routes['sign-in'].path} element={<LoginPage />}
       />
-      <Route
-        path={routes['sign-up'].path}
-        element={
-          <div>
-            <h1>Register Page</h1>
-          </div>
-        }
+      <Route path={routes['sign-up'].path} element={<SignUpPage />}
       />
       <Route
         path={routes.profile.path}

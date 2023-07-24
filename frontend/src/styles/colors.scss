@@ -1,11 +1,41 @@
 
 // TODO: может описать палитру из макета?
 $main-black: rgb(37 37 37 / 100%);
+$black-text: rgba(0 0 27 / 100%);
 $main-white: rgba(255 255 255 / 100%);
 $main-disabled: rgb(217 217 217 / 100%);
 $input-border-color: rgb(230 230 230 / 100%);
 $input-valid: rgb(14 138 34 / 100%);
 $input-invalid: rgb(204 41 41 / 100%);
+$bright-red: rgba(224 33 16 / 100%);
 $grey-light: rgb(230 230 230 / 100%);
 $grey-dark: rgb(135 135 135 / 100%);
 $white: rgb(255 255 255 / 100%);
+$gray-medium: rgba(225 223 235 / 100%);
+$blue: rgba(95 121 250 / 100%);
+$bright-blue: rgba(56 17 247 / 100%);
+$dark-blue: rgba(62 80 214 / 100%);
+$gray-text: rgba(118 115 135 / 100%);
+
+
+// НОВЫЕ ЦВЕТА: 
+
+$black: rgba(0 0 27 / 100%);
+$gray-118: rgba(118 115 135 / 100%);
+$gray-191: rgba(191 188 209 / 100%);
+$gray-209: rgba(209 208 219 / 100%);
+$gray-225: rgba(225 223 235 / 100%);
+$gray-241: rgba(241 240 245 / 100%);
+$blue-9: rgba(9 8 110 / 100%);
+$blue-26: rgba(26 5 181 / 100%);
+$blue-56: rgba(56 17 247 / 100%);
+$blue-62: rgba(62 80 214 / 100%);
+$blue-95: rgba(95 121 250 / 100%);
+$blue-161: rgba(161 171 247 / 100%);
+$blue-208: rgba(208 214 247 / 100%);
+$red-145: rgba(145 26 10 / 100%);
+$red-181: rgba(181 14 5 / 100%);
+$red-224: rgba(224 33 16 / 100%);
+$red-237: rgba(237 65 38 / 100%);
+$green-3: rgba(3 135 51 / 100%);
+$green-4: rgba(4 209 96 / 100%);

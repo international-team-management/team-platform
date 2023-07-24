@@ -1,7 +1,9 @@
-import { ChangeEvent, useState, useRef } from "react"
+import { ChangeEvent, useState, useRef } from "react";
+import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
-import { Input } from "src/components/UI/input-template/InputTemplate"
+import { Input } from "src/components/UI/input-template/InputTemplate";
 import { input } from "src/typings/constants";
+import { routes } from "src/routes";
 // import { helperTexts } from "src/utils/validation/helperTexts";
 import styles from './LoginPage.module.scss';
 import { TitleTemplate } from "src/components/UI/title-template/TitleTemplate";
@@ -23,11 +25,11 @@ export const LoginPage = () => {
 
   return (
     <main className={styles.login}>
-      <div className={styles.login__wrapper}>
+      <form className={styles.login__wrapper}>
         <TitleTemplate 
           text='Вход'
         />
-        <div className={styles.login__inputs}>
+        <div>
           <Input
             type={input.EMAIL}
             name='name'
@@ -55,9 +57,9 @@ export const LoginPage = () => {
             text="Войти"
             isDisabled={false}
           />
-          <button className={styles.login__button_redirect}>Не зарегистрированы? Создайте аккаунт</button>
+          <Link to={routes["sign-up"].path} className={styles.login__button_redirect} >Не зарегистрированы? Создайте аккаунт</Link>
         </div>
-      </div>
+      </form>
     </main>
   )
 }

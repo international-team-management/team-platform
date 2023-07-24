@@ -1,8 +1,8 @@
 @import 'reset';
 @import 'colors';
-@import 'https://fonts.googleapis.com/css2?family=Geologica:wght@400;600&display=swap';
+@import 'src/fonts/fonts';
 
 html {
-  font-family: Geologica, sans-serif;
+  font-family: 'Tilda Sans', sans-serif;
   color: $main-black;
 }
