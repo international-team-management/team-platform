@@ -9,13 +9,14 @@ type InputProps = {
   name: string,
   label: string,
   isValid?: boolean | undefined,
+  isEmpty?: boolean,
   isPassword?: boolean,
   useTogglePassword?: boolean,
   placeholder?: string,
   helperText?: string,
   errorText?: string,
   value?: string,
-  innerRef?: MutableRefObject<HTMLInputElement | null | undefined>,
+  innerRef?: unknown,
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void,
   onClick?: (event: React.MouseEvent<HTMLInputElement>) => void,
@@ -38,7 +39,7 @@ export const Input = (props:InputProps, ref: React.LegacyRef<HTMLInputElement> |
             styles.input__field,
             {
               [styles.input__field_valid]: props.isValid === true,
-              [styles.input__field_invalid]: props.isValid === false
+              [styles.input__field_invalid]:  props.isValid === false
             }
           )}
           // {...rest}

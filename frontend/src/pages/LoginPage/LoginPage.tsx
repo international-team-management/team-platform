@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
 import { MyInput } from "src/components/UI/input-template/InputTemplate";
@@ -13,6 +13,9 @@ import { LoginRequestData } from "src/services/api/types";
 export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [togglePassword, setTogglePassword] = useState(false);
+
+  const [emptyLogin, setEmptyLogin] = useState(true);
+  const password = useRef();
 
   const {
     register,
@@ -31,9 +34,17 @@ export const LoginPage = () => {
   }
 
   const handlerFormSubmit = (data:LoginRequestData) => {
-    console.log(errors)
     console.log(data)
   }
+
+  const handlerInputLogin = (e: ChangeEvent<HTMLInputElement>) => {
+    const result = e.currentTarget.value.length;
+    result ? setEmptyLogin(false) : setEmptyLogin(true);
+
+    console.log(!errors.login?.message)
+  }
+
+
 
   return (
     <main className={styles.login}>
@@ -45,27 +56,41 @@ export const LoginPage = () => {
           <MyInput
             {...register(
               'login',
-              {required: true}
+              {
+                // onChange: (e) => handlerInputLogin(e),
+                required: 'Поле не должно быть пустым',
+                pattern: {
+                  value: /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: 'Not add'
+                }
+              }
             )}
             type={input.EMAIL}
             label='Email'
             placeholder='Введите email'
             helperText={''}
-            isValid={undefined}
+            isValid={!errors.login?.message}
+            isEmpty={emptyLogin}
+            errorText={errors.login?.message}
           />
           <MyInput
             {...register(
               'password',
-              {required: true}
+              {
+                onChange: (e) => handlerInputPassword(e),
+                required: "Поле не должно быть пустым"
+              }
             )}
             type={!showPassword ? input.PASSWORD : input.TEXT}
             label='Пароль'
             placeholder='Введите пароль'
             isPassword={true}
-            isValid={undefined}
+            isValid={!errors.password?.message}
             onToogle={showPasswordHandler}
-            onChange={(e) => handlerInputPassword(e)}
+            errorText={errors.password?.message}
+            // onChange={(e) => handlerInputPassword(e)}
             useTogglePassword={togglePassword}
+            innerRef={password}
           />
           <button className={styles.login__button} type="submit">Забыли пароль?</button>
         </div>
