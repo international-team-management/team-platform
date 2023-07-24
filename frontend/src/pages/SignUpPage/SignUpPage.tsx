@@ -15,20 +15,20 @@ export const SignUpPage = () => {
 
   return (
     <main className={styles['sign-up-page']}>
-      <div className={styles['sign-up-page__wrapper']}>
+      <form className={styles['sign-up-page__wrapper']}>
         <TitleTemplate
           text='Регистрация'
         />
         <div className={styles['sign-up-page__inputs']}>
           <Input
             type={input.TEXT}
-            name='name'
+            name='first_name'
             label='Имя'
             placeholder='Иван'
           />
           <Input
             type={input.TEXT}
-            name='surname'
+            name='second_name'
             label='Фамилия'
             placeholder='Иванов'
           />
@@ -76,7 +76,7 @@ export const SignUpPage = () => {
             Уже&nbsp;зарегистрированы? <br/> Войдите в&nbsp;аккаунт
           </button>
         </div>
-      </div>
+      </form>
     </main>
   )
 }
