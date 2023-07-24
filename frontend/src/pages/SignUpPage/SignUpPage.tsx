@@ -49,22 +49,10 @@ export const SignUpPage = () => {
             name='repeat-password'
             label='Повторите пароль'
           />
-          <div className={styles['sign-up-page__checkbox']}>
-            <div className={styles['sign-up-page__input-checkbox-area']}>
-              <input
-                className={styles['sign-up-page__input-checkbox']}
-                id='checkbox'
-                type='checkbox'
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor='checkbox'></label>
-            </div>
-            <div>
-              Я соглашаюсь с <a className={styles['sign-up-page__button_redirect']} href='#'>
-              Условиями использования</a> <br/> и <a className={styles['sign-up-page__button_redirect']} href='#'>Политикой
-              конфиденциальности</a>
-            </div>
+          <div>
+            Я соглашаюсь с <a className={styles['sign-up-page__button_redirect']} href='#'>
+            Условиями использования</a> <br/> и <a className={styles['sign-up-page__button_redirect']} href='#'>Политикой
+            конфиденциальности</a>
           </div>
         </div>
         <div className={styles['sign-up-page__buttons']}>

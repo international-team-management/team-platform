@@ -41,35 +41,5 @@
 
     align-items: center;
   }
-
-  &__checkbox {
-    display: flex;
-    padding: 20px 0 0;
-  }
-
-  &__input-checkbox-area {
-    padding: 0 8px 0 0;
-  }
-
-  &__input-checkbox {
-    cursor: pointer;
-
-    position: relative;
-
-    width: 16px;
-    height: 16px;
-
-    appearance: none;
-    background-color: transparent;
-    border: 1px solid $main-black;
-    border-radius: 4px;
-  }
-
-  &__input-checkbox:checked {
-    width: 16px;
-    height: 16px;
-
-
-  }
 }
 
