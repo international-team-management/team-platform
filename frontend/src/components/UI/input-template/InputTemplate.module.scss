@@ -66,6 +66,10 @@
   &__helperText {
     @include set-font-size(14px, 16px);
 
+    padding: 8px 0 0;
+    color: $grey-dark;
+    letter-spacing: -0.14px;
+
     &_valid {
       color: $input-valid;
     }
