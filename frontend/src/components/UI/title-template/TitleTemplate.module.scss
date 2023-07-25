@@ -1,10 +1,25 @@
 @import 'styles/constants';
 @import 'styles/colors';
 
-.title {
-  @include set-font-size(48px, 48px, 600);
+.wrapper {
+  @extend %flex-column;
 
-  color: $main-black;
+  align-items: flex-start;
+}
+
+.title {
+  @include set-font-size(44px, 44px, 700);
+
+  color: $black;
   text-align: center;
-  letter-spacing: -0.04rem;
+  letter-spacing: -0.1rem;
+}
+
+.description {
+  @include set-font-size(16px, 20px, 600);
+
+  margin-top: 12px;
+  color: $grey-118;
+  text-align: center;
+  letter-spacing: -0.01rem;
 }

@@ -9,6 +9,7 @@ type InputProps = {
   type: string,
   name: string,
   label: string,
+  labelPassword?: string,
   isValid?: boolean | undefined,
   isPassword?: boolean,
   placeholder?: string,
@@ -28,12 +29,19 @@ export const Input:React.FC<InputProps> = (props) => {
   return (
     <div className={styles.input__wrapper}>
       <div className={styles.input__content}>
-        <label
-          className={styles.input__label}
-          htmlFor={inputId}
-        >
-          {props.label}
-        </label>
+        <div className={styles.input__label_wrapper}>
+          <label
+            className={styles.input__label}
+            htmlFor={inputId}
+          >
+            {props.label}
+          </label>
+          <button
+            className={styles.input__label_password}
+          >
+            {props.labelPassword}
+          </button>
+        </div>
         <input
           className={clsx(
             styles.input__field,

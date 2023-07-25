@@ -7,6 +7,7 @@ import { routes } from "src/routes";
 // import { helperTexts } from "src/utils/validation/helperTexts";
 import styles from './LoginPage.module.scss';
 import { TitleTemplate } from "src/components/UI/title-template/TitleTemplate";
+import promo from '../../assets/Promo.png';
 
 export const LoginPage = () => {
   const [emailValue, setEmailValue] = useState('');
@@ -25,9 +26,11 @@ export const LoginPage = () => {
 
   return (
     <main className={styles.login}>
+      <img src={promo} className={styles.login__promo} alt="promo" />
       <form className={styles.login__wrapper}>
         <TitleTemplate 
-          text='Вход'
+          text='С возвращением'
+          descrption='Введите свои данные и войдите в аккаунт'
         />
         <div>
           <Input
@@ -35,7 +38,7 @@ export const LoginPage = () => {
             name='name'
             label='Email'
             value={emailValue}
-            placeholder='Введите email'
+            placeholder='example@site.mail'
             helperText={''}
             isValid={undefined}
             onChange={emailHandler}
@@ -44,20 +47,23 @@ export const LoginPage = () => {
             type={!showPassword ? input.PASSWORD : input.TEXT}
             name="password"
             label='Пароль'
-            placeholder='Введите пароль'
-            isPassword={true}
+            placeholder=''
+            isPassword={false}
             isValid={undefined}
             innerRef={password}
             onToogle={showPasswordHandler}
+            labelPassword='Забыли пароль?'
           />
-          <button className={styles.login__button}>Забыли пароль?</button>
         </div>
         <div className={styles.login__buttons}>
           <ButtonTemplate
-            text="Войти"
+            text="Войти в аккаунт"
             isDisabled={false}
           />
-          <Link to={routes["sign-up"].path} className={styles.login__button_redirect} >Не зарегистрированы? Создайте аккаунт</Link>
+          <div className={styles.login__text}>
+            <span className={styles.login__question}>Еще нет аккаунта?</span>
+            <Link to={routes["sign-up"].path} className={styles.login__redirect}>Зарегистрируйтесь</Link>
+          </div>
         </div>
       </form>
     </main>

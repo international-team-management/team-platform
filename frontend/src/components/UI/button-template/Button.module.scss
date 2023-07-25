@@ -4,23 +4,26 @@
 .button {
   cursor: pointer;
 
-  width: $ui-width;
+  width: $ui-width-l;
   height: $ui-height;
 
-  color: white;
+  color: $white;
 
-  background-color: $main-black;
+  background-color: $blue-56;
   border: none;
   border-radius: $ui-border-radius;
 
+  &:hover {
+    background-color: $blue-26;
+  }
+
   &:active {
-    color: $main-black;
-    background-color: white;
-    border: 1px solid $main-black;
+    background-color: $blue-9;
   }
 
   &_disabled {
     pointer-events: none;
     cursor: not-allowed;
+    background-color: $blue-161;
   }
 }
