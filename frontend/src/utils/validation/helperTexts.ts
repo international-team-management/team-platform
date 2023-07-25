@@ -1,10 +1,12 @@
 export const helperTexts = {
-  PASSWORD: 'Минимум: 8 символов, одна прописная и одна строчная буквы, одна цифра и один символ.'
+  PASSWORD: ['✕ 8-22 символа', `✕ Без знаков: "< > ( ) [ ] @ ' : \\ / " *`]
 }
 
 export const errorTexts = {
-  EMAIL: 'Error',
+  EMAIL: 'ⓘ Введите действительный email',
+  PASSWORD: '✕ 8-22 символа' + '\n' + `✕ Без знаков: "< > ( ) [ ] @ ' : \\ / " *`,
   FIRST_NAME: 'Error',
   LAST_NAME: 'Error',
   CONFIRM_PASSWORD: 'Error',
+  EMPTY_FIELD: 'ⓘ Поле обязательно для заполнения'
 }

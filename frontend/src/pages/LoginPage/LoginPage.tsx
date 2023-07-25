@@ -1,7 +1,7 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
-import { MyInput } from "src/components/UI/input-template/InputTemplate";
+import { Input } from "src/components/UI/input-template/InputTemplate";
 import { input } from "src/typings/constants";
 import { routes } from "src/routes";
 // import { helperTexts } from "src/utils/validation/helperTexts";
@@ -9,42 +9,59 @@ import styles from './LoginPage.module.scss';
 import { TitleTemplate } from "src/components/UI/title-template/TitleTemplate";
 import { useForm } from "react-hook-form";
 import { LoginRequestData } from "src/services/api/types";
+import { DevTool } from "@hookform/devtools";
+import { errorTexts, helperTexts } from "src/utils/validation/helperTexts";
+import { patterns } from "src/utils/validation/patterns";
 
 export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [togglePassword, setTogglePassword] = useState(false);
 
   const [emptyLogin, setEmptyLogin] = useState(true);
-  const password = useRef();
+  const [emptyPassword, setEmptyPassword] = useState(true);
+
+  const [isValidPassword, setIsValidPassword] = useState<boolean | undefined>(undefined);
+  const [isValidEmail, setIsValidEmail] = useState<boolean | undefined>(undefined);
 
   const {
     register,
+    reset,
+    control,
     handleSubmit,
+    getFieldState,
     formState: {errors}
-  } = useForm<LoginRequestData>();
+  } = useForm<LoginRequestData>(
+    {mode: 'onChange'}
+  );
 
   const showPasswordHandler = () => {
     setShowPassword(!showPassword);
   }
 
   const handlerInputPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const result = e.currentTarget.value;
+    // const result = e.currentTarget.value.length;
 
-    (result && result.length > 0) ? setTogglePassword(true) : setTogglePassword(false);
+    // if (result) {
+    //   setTogglePassword(true);
+    //   setEmptyPassword(true)
+    // } else {
+    //   setTogglePassword(false);
+    //   setEmptyPassword(false)
+    // }
+    setIsValidPassword(getFieldState('password').invalid)
   }
 
   const handlerFormSubmit = (data:LoginRequestData) => {
-    console.log(data)
+    console.log(data);
+    reset();
   }
 
   const handlerInputLogin = (e: ChangeEvent<HTMLInputElement>) => {
-    const result = e.currentTarget.value.length;
-    result ? setEmptyLogin(false) : setEmptyLogin(true);
-
-    console.log(!errors.login?.message)
+    // const result = e.currentTarget.value.length;
+    // result ? setEmptyLogin(false) : setEmptyLogin(true);
+    setIsValidEmail(!getFieldState('login').invalid);
+    console.log(getFieldState('login').invalid)
   }
-
-
 
   return (
     <main className={styles.login}>
@@ -53,44 +70,57 @@ export const LoginPage = () => {
           text='Вход'
         />
         <div className={styles.login__inputs}>
-          <MyInput
-            {...register(
-              'login',
-              {
-                // onChange: (e) => handlerInputLogin(e),
-                required: 'Поле не должно быть пустым',
-                pattern: {
-                  value: /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  message: 'Not add'
-                }
+          <Input
+            register={register}
+            errors={errors}
+            validOptions={             {
+              onChange: (e: ChangeEvent<HTMLInputElement>) => handlerInputLogin(e),
+              required: errorTexts.EMPTY_FIELD,
+              pattern: {
+                value: patterns.EMAIL,
+                message: errorTexts.EMAIL
               }
-            )}
+            }}
+            name="email"
             type={input.EMAIL}
             label='Email'
             placeholder='Введите email'
-            helperText={''}
-            isValid={!errors.login?.message}
-            isEmpty={emptyLogin}
-            errorText={errors.login?.message}
+            // isEmpty={emptyLogin}
+            isValid={isValidEmail}
           />
-          <MyInput
-            {...register(
-              'password',
-              {
-                onChange: (e) => handlerInputPassword(e),
-                required: "Поле не должно быть пустым"
-              }
-            )}
+          <Input
+            register={register}
+            errors={errors}
+            validOptions={              {
+              onChange: (e: ChangeEvent<HTMLInputElement>) => handlerInputPassword(e),
+              required: errorTexts.EMPTY_FIELD,
+              maxLength: {
+                value: 22,
+                message: errorTexts.PASSWORD
+              },
+              minLength: {
+                value: 8,
+                message: errorTexts.PASSWORD
+              },
+              pattern: {
+                value: patterns.PASSWORD,
+                message: errorTexts.LAST_NAME
+              },
+              // validate: {
+              //   always: (value: string) => patterns.PASSWORD.test(value) || errorTexts.LAST_NAME
+              // }
+            }}
+            name="password"
             type={!showPassword ? input.PASSWORD : input.TEXT}
             label='Пароль'
+            helperText={helperTexts.PASSWORD}
             placeholder='Введите пароль'
             isPassword={true}
-            isValid={!errors.password?.message}
             onToogle={showPasswordHandler}
-            errorText={errors.password?.message}
-            // onChange={(e) => handlerInputPassword(e)}
+            isToggle={!showPassword}
+            isEmpty={emptyPassword}
             useTogglePassword={togglePassword}
-            innerRef={password}
+            isValid={isValidPassword}
           />
           <button className={styles.login__button} type="submit">Забыли пароль?</button>
         </div>
@@ -102,6 +132,7 @@ export const LoginPage = () => {
           <Link to={routes["sign-up"].path} className={styles.login__button_redirect} >Не зарегистрированы? Создайте аккаунт</Link>
         </div>
       </form>
+      <DevTool control={control} />
     </main>
   )
 }
