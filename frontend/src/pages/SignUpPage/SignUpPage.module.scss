@@ -6,11 +6,12 @@
   @extend %flex-row;
 
   justify-content: center;
-  height: 100vh;
+  height: 1000px;
 
   &__wrapper {
     @extend %flex-column;
 
+    width: $ui-width-l;
     margin: 48px 120px 0;
   }
 
@@ -21,9 +22,8 @@
   }
 
   &__promo {
-    height: calc(100vh - 24px);
-    margin-top: 12px;
-    margin-left: 12px;
+    height: 1000px;;
+    margin: 12px 0 12px 12px;
   }
 
   &__buttons {
