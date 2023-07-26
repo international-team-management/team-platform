@@ -4,7 +4,6 @@ import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate
 import { Input } from "src/components/UI/input-template/InputTemplate";
 import { input } from "src/typings/constants";
 import { routes } from "src/routes";
-// import { helperTexts } from "src/utils/validation/helperTexts";
 import styles from './LoginPage.module.scss';
 import { TitleTemplate } from "src/components/UI/title-template/TitleTemplate";
 import { useForm } from "react-hook-form";
@@ -17,8 +16,7 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [togglePassword, setTogglePassword] = useState(false);
 
-  const [emptyLogin, setEmptyLogin] = useState(true);
-  const [emptyPassword, setEmptyPassword] = useState(true);
+  const [emptyPassword, setEmptyPassword] = useState(false);
 
   const [isValidPassword, setIsValidPassword] = useState<boolean | undefined>(undefined);
   const [isValidEmail, setIsValidEmail] = useState<boolean | undefined>(undefined);
@@ -31,7 +29,7 @@ export const LoginPage = () => {
     getFieldState,
     formState: {errors}
   } = useForm<LoginRequestData>(
-    {mode: 'onChange'}
+    {mode: 'onChange', criteriaMode: 'all'}
   );
 
   const showPasswordHandler = () => {
@@ -39,16 +37,18 @@ export const LoginPage = () => {
   }
 
   const handlerInputPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    // const result = e.currentTarget.value.length;
+    const result = e.currentTarget.value.length;
+    // result ? setTogglePassword(true) : setTogglePassword(false);
 
-    // if (result) {
-    //   setTogglePassword(true);
-    //   setEmptyPassword(true)
-    // } else {
-    //   setTogglePassword(false);
-    //   setEmptyPassword(false)
-    // }
-    setIsValidPassword(getFieldState('password').invalid)
+    if (result) {
+      setTogglePassword(true);
+      setEmptyPassword(true)
+    } else {
+      setTogglePassword(false);
+      setEmptyPassword(false)
+    }
+
+    setIsValidPassword(!getFieldState('password').invalid)
   }
 
   const handlerFormSubmit = (data:LoginRequestData) => {
@@ -56,11 +56,10 @@ export const LoginPage = () => {
     reset();
   }
 
-  const handlerInputLogin = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlerInputLogin = () => {
     // const result = e.currentTarget.value.length;
     // result ? setEmptyLogin(false) : setEmptyLogin(true);
     setIsValidEmail(!getFieldState('login').invalid);
-    console.log(getFieldState('login').invalid)
   }
 
   return (
@@ -74,14 +73,14 @@ export const LoginPage = () => {
             register={register}
             errors={errors}
             validOptions={             {
-              onChange: (e: ChangeEvent<HTMLInputElement>) => handlerInputLogin(e),
-              required: errorTexts.EMPTY_FIELD,
+              onChange: () => handlerInputLogin(),
+              required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.EMAIL,
-                message: errorTexts.EMAIL
+                message: errorTexts.EMAIL.PATTERN
               }
             }}
-            name="email"
+            name={input.EMAIL}
             type={input.EMAIL}
             label='Email'
             placeholder='Введите email'
@@ -93,24 +92,13 @@ export const LoginPage = () => {
             errors={errors}
             validOptions={              {
               onChange: (e: ChangeEvent<HTMLInputElement>) => handlerInputPassword(e),
-              required: errorTexts.EMPTY_FIELD,
-              maxLength: {
-                value: 22,
-                message: errorTexts.PASSWORD
-              },
-              minLength: {
-                value: 8,
-                message: errorTexts.PASSWORD
-              },
+              required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.PASSWORD,
-                message: errorTexts.LAST_NAME
-              },
-              // validate: {
-              //   always: (value: string) => patterns.PASSWORD.test(value) || errorTexts.LAST_NAME
-              // }
+                message: errorTexts.PASSWORD.PATTERN
+              }
             }}
-            name="password"
+            name={input.PASSWORD}
             type={!showPassword ? input.PASSWORD : input.TEXT}
             label='Пароль'
             helperText={helperTexts.PASSWORD}

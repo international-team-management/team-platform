@@ -15,7 +15,7 @@
   white-space: nowrap;
 }
 
-$i:    !important;
+$i:       !important;
 
 // UI
 $ui-width: 340px;
@@ -40,4 +40,24 @@ $ui-border-radius-phone: 16px;
   min-width: $width;
   min-height: $height;
   letter-spacing: -0.01rem;
+}
+
+
+@mixin set-check-validation-icon($icon-path) {
+  position: relative;
+  padding-left: 15px;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: 2px;
+    left: 0;
+
+    width: 12px;
+    height: 100%;
+
+    background-image: url($icon-path);
+    background-repeat: no-repeat;
+  }
 }

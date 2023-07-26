@@ -17,7 +17,7 @@
   &__label {
     letter-spacing: -0.01rem;
   }
-  
+
   &__content {
     @extend %flex-column;
 
@@ -60,11 +60,14 @@
       &:focus {
         border-color: $input-invalid;
       }
+
     }
   }
 
   &__helperText {
     @include set-font-size(14px, 16px);
+
+    color: $gray-text;
 
     &_valid {
       color: $input-valid;
@@ -73,12 +76,28 @@
     &_invalid {
       color: $input-invalid;
     }
+
+    &_password {
+      @include set-check-validation-icon("src/assets/password_neutral.svg");
+
+    &.input__helperText_valid {
+      &::before {
+        background-image: url("src/assets/password_valid.svg");
+      }
+    }
+
+
+    }
   }
 
   &__errorText {
     @include set-font-size(14px, 16px);
 
-    color: $input-invalid
+    color: $input-invalid;
+
+    &_password {
+      @include set-check-validation-icon("src/assets/password_invalid.svg");
+    }
   }
 
   &__tooglePassword {

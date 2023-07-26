@@ -1,9 +1,10 @@
-import React, { MutableRefObject } from 'react';
+import React from 'react';
 import styles from './InputTemplate.module.scss';
 import clsx from 'clsx';
 
 import {ReactComponent as Eye} from 'assets/eye.svg';
 import {ReactComponent as EyeOff} from 'assets/eye-off.svg';
+import { input } from 'src/typings/constants';
 
 type InputProps = {
   type: string,
@@ -15,7 +16,7 @@ type InputProps = {
   isToggle?: boolean,
   useTogglePassword?: boolean,
   placeholder?: string,
-  helperText?: string[],
+  helperText?: string,
   errorText?: string,
   register: any,
   errors: any,
@@ -92,6 +93,10 @@ type InputProps = {
 
 
 export const Input = (props:InputProps) => {
+  const checkValid =
+    props.isValid !== undefined &&
+    (props.isValid || (props.isEmpty && !props.errors[props.name]));
+
   return (
     <div className={styles.input__wrapper}>
       <div className={styles.input__content}>
@@ -102,7 +107,7 @@ export const Input = (props:InputProps) => {
           className={clsx(
             styles.input__field,
             {
-              [styles.input__field_valid]: props.isValid !== undefined && props.isValid, //!props.errors[props.name] && !props.isEmpty,
+              [styles.input__field_valid]: checkValid, //!props.errors[props.name] && !props.isEmpty,
               [styles.input__field_invalid]: !!props.errors[props.name]
             }
           )}
@@ -127,25 +132,40 @@ export const Input = (props:InputProps) => {
         }
       </div>
       {(props.helperText && props.isEmpty && !props.errors[props.name]) &&
-        props.helperText.map((item, index) => {
-          return (
-            <div
-              className={clsx(
-                styles.input__helperText,
-                {
-                  [styles.input__helperText_valid]: props.isValid !== undefined && props.isValid,
-                  [styles.input__helperText_invalid]: !!props.errors[props.name]
-                }
-              )}
-              key={index}
-            >
-              {item}
-            </div>
-          )
-        })
+        // props.helperText.map((item, index) => {
+        //   return (
+        //     <div
+        //       className={clsx(
+        //         styles.input__helperText,
+        //         {
+        //           [styles.input__helperText_valid]: props.isValid !== undefined && props.isValid,
+        //           [styles.input__helperText_invalid]: !!props.errors[props.name]
+        //         }
+        //       )}
+        //       key={index}
+        //     >
+        //       {item}
+        //     </div>
+        //   )
+        // })
+        <div
+          className={clsx(
+            styles.input__helperText,
+            props.name === input.PASSWORD &&  styles.input__helperText_password,
+            {
+              [styles.input__helperText_valid]: checkValid,
+              [styles.input__helperText_invalid]: !!props.errors[props.name]
+            }
+          )}
+        >
+          {props.helperText}
+        </div>
       }
       {props.errors[props.name] &&
-        <div className={styles.input__errorText}>
+        <div className={clsx(
+          styles.input__errorText,
+          props.name === input.PASSWORD && props.isEmpty && styles.input__errorText_password
+        )}>
           {props.errors[props.name].message}
         </div>
       }
