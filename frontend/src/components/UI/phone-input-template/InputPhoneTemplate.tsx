@@ -6,14 +6,9 @@ import styles from './InputPhoneTemplate.module.scss';
 
 export const InputPhoneTemplate = () => {
   const [phone, setPhone] = React.useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
 
   const handlePhoneChange = (value) => {
     setPhone(value);
-  };
-
-  const handleDropdownOpen = (isOpen) => {
-    setIsDropdownOpen(isOpen);
   };
 
   return (
