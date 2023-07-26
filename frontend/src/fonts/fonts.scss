@@ -8,10 +8,19 @@
 
 @font-face {
   font-family: 'Tilda Sans';
-  font-weight: 600;
+  font-weight: 700;
   font-style: normal;
   src: url('./Tilda-Sans/tilda-sans_bold.woff2') format('woff2'),
        url('./Tilda-Sans/tilda-sans_bold.woff') format('woff');
+}
+
+@font-face {
+	font-family: TildaSansWebSemibold;
+	font-weight: 600;
+	font-style: normal;
+	src:
+		url('./Tilda-Sans/tilda-sans_semibold.woff2') format('woff2'),
+		url('./Tilda-Sans/tilda-sans_semibold.woff') format('woff');
 }
 
 @font-face {
