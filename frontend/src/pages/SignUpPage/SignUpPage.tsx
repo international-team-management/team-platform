@@ -7,8 +7,20 @@ import {helperTexts} from 'utils/validation/helperTexts';
 import promo from '../../assets/Promo.png';
 import { Link } from 'react-router-dom';
 import { routes } from "src/routes";
+import { useForm } from 'react-hook-form';
+import { RegisterRequestData } from 'src/services/api/types';
 
 export const SignUpPage = () => {
+  const {
+    register,
+    reset,
+    control,
+    handleSubmit,
+    getFieldState,
+    formState: {errors}
+  } = useForm<RegisterRequestData>(
+    {mode: 'onChange', criteriaMode: 'all'}
+  );
 
   return (
     <main className={styles['sign-up-page']}>
@@ -21,32 +33,42 @@ export const SignUpPage = () => {
         <div className={styles['sign-up-page__inputs']}>
           <Input
             type={input.TEXT}
-            name='first_name'
+            name={input.FIRST_NAME}
             label='Имя'
             placeholder='Иван'
+            register={register}
+            errors={errors}
           />
           <Input
             type={input.TEXT}
-            name='second_name'
+            name={input.SECOND_NAME}
             label='Фамилия'
             placeholder='Иванов'
+            register={register}
+            errors={errors}
           />
           <Input
             type={input.EMAIL}
-            name='email'
+            name={input.EMAIL}
             label='Email'
             placeholder='example@site.mail'
+            register={register}
+            errors={errors}
           />
           <Input
             type={input.PASSWORD}
-            name='password'
+            name={input.PASSWORD}
             label='Пароль'
             helperText={helperTexts.PASSWORD}
+            register={register}
+            errors={errors}
           />
           <Input
             type={input.PASSWORD}
-            name='repeat-password'
+            name={input.CONFIRM_PASSWORD}
             label='Повторите пароль'
+            register={register}
+            errors={errors}
           />
         </div>
         <div className={styles['sign-up-page__buttons']}>
