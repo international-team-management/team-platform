@@ -59,14 +59,14 @@ export function ProfileForm(): React.ReactNode {
             register={register}
             errors={errors}
           />
-          <Input
+          {/* <Input
             type={input.TEXT}
             name='position'
             label='Должность'
             placeholder='Ваша должность'
             helperText={''}
             isValid={undefined}
-          />
+          /> */}
           <Input
             type={input.EMAIL}
             name={input.EMAIL}
@@ -86,7 +86,7 @@ export function ProfileForm(): React.ReactNode {
           description='Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды'
         />
         <form className={styles.profile__form}>
-          <Input
+          {/* <Input
             type={input.TEXT}
             name='location'
             label='Локация'
@@ -100,7 +100,7 @@ export function ProfileForm(): React.ReactNode {
             label='График работы'
             helperText={''}
             isValid={undefined}
-          />
+          /> */}
         </form>
       </section>
           
@@ -123,7 +123,7 @@ export function ProfileForm(): React.ReactNode {
             name='password'
             label='Текущий пароль'
           /> */}
-          <Input
+          {/* <Input
             type={input.PASSWORD}
             name='password'
             label='Новый пароль'
@@ -133,7 +133,7 @@ export function ProfileForm(): React.ReactNode {
             type={input.PASSWORD}
             name='repeat-password'
             label='Повторите новый пароль'
-          />
+          /> */}
           <button className={styles['profile__button_light-blue']}>Сменить пароль</button>
         </form>
       </section>
