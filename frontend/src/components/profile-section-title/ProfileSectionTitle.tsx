@@ -9,9 +9,9 @@ type ProfileSectionProps = {
 export const ProfileSectionTitle:React.FC<ProfileSectionProps> = (props) => {
 
   return (
-    <div className={styles.profilesection__wrapper}>
-      <h3 className={styles.profilesection__subtitle}>{props.subtitle}</h3>
-      <p className={styles.profilesection__description}>{props.description}</p>
+    <div className={styles['profile__info-container']}>
+      <h3 className={styles.profile__subtitle}>{props.subtitle}</h3>
+      <p className={styles.profile__description}>{props.description}</p>
     </div>
   )
 }

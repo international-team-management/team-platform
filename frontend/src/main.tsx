@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { store } from './services/store';
 import 'styles/index.scss';
 
-const root = ReactDOM.createRoot(document.getElementById("app") as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById('app') as HTMLElement);
 root.render(
   <React.StrictMode>
 

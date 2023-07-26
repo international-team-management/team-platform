@@ -4,13 +4,36 @@
 .sidebar {
   @extend %flex-column;
 
-  row-gap: 74px;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  overflow-y: auto;
 
   width: 240px;
   height: 100vh;
-  padding: 36px 24px 32px;
+  margin: 0;
 
-  border-right: 1px solid $grey-light;
+  border-right: 1px solid $grey-225;
+
+  &__content {
+    flex-grow: 1;
+    padding: 36px 24px 32px;
+  }
+
+  &__createBtn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 32px 0;
+
+    border-top: 1px solid $grey-225;
+
+    &__createBtn-container::before {
+      border-top: 1px solid $grey-225;
+    }
+  }
 
   &__createBtn {
     @extend %flex-row;
@@ -20,33 +43,19 @@
 
     cursor: pointer;
 
-    position: relative;
-
-    column-gap: 12px;
     align-items: center;
     justify-content: center;
 
-    margin: auto 0 0;
+    color: $bright-blue;
 
-    background-color: $white;
-    border: 1px solid $main-black;
+    background-color: $main-white;
+    border: 1px solid $bright-blue;
     border-radius: 12px;
-
-    &::before {
-      content: '';
-
-      position: absolute;
-      top: -32px;
-      left: -24px;
-
-      width: 267px;
-
-      border-bottom: 1px solid $grey-light;
-    }
-  };
+  }
 
   &__plus {
     @include set-block-size(20px, 20px);
-  }
 
+    margin-right: 12px;
+  }
 }
