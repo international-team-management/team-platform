@@ -2,15 +2,60 @@
 @import 'styles/constants';
 
 .tz {
-  &__label {
-    @include set-font-size(16px, 20px, 600);
+  @extend %flex-column;
 
-    width: $ui-width-l;
-    height: 100px;
-    margin: 0 auto;
-  }
+  @include set-font-size(16px, 20px, 600);
 
-  &__component {
-    @include set-font-size(16px, 20px, 400);
-  }
+  row-gap: 8px;
+  width: $ui-width-l;
 }
+
+// .tz-select {
+
+//   &__single-value {
+//     font-size: 16px;
+//     font-weight: 400;
+//     line-height: 20px;
+//     letter-spacing: -0.03em;
+//     text-align: left;
+//   }
+  
+//   &__control {
+//     padding: 16px 16px 16px 16px;
+//     height: 52px;
+//     border: 1px solid rgba(230, 230, 230, 1);
+//     border-radius: 12px;
+//   }
+  
+//   &__menu {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+//     row-gap: 10px;
+//     padding: 16px;
+//     background-color: rgba(255, 255, 255, 1);
+//     border-left: 1px solid rgba(230, 230, 230, 1);
+//     border-bottom: 1px solid rgba(230, 230, 230, 1);
+//     border-right: 1px solid rgba(230, 230, 230, 1);
+    
+//   }
+  
+//   &__option {
+//     font-size: 16px;
+//     font-weight: 400;
+//     line-height: 20px;
+//     letter-spacing: -0.03em;
+//     text-align: left;
+//     overflow: hidden;
+//     max-width: 100%;
+//     text-overflow: ellipsis;
+//     white-space: nowrap;
+//   }
+  
+//   &__option:hover {
+//     cursor: pointer;
+//     background-color: rgba(230, 230, 230, 1);
+//     border-radius: 2px;
+//   }
+
+// }

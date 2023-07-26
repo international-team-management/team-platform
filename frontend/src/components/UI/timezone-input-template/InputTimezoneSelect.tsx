@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { nanoid } from 'nanoid';
 import { useTimezoneSelect, allTimezones } from "react-timezone-select";
+import Select from 'react-select'
 import styles from "./InputTimezoneSelect.module.scss";
+import './SelectTzComponent.scss';  // <-- Управление стилями компонента Select, модульно пока не получилось (https://react-select.com/styles#inner-components)
 
 
 type InputTimezonePropsType = {
@@ -18,20 +19,21 @@ export default function InputTimezoneSelect(props: InputTimezonePropsType) {
   const { options, parseTimezone } = useTimezoneSelect({ labelStyle, timezones, displayValue })
 
   const [tz, setTz] = useState(
-    Intl.DateTimeFormat().resolvedOptions().timeZone  // returns the timezone of the device in the format 'Asia/Tbilisi'
+    parseTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
   );
 
   return (
 
-    <label className={styles.tz__label}>
+    <label className={styles.tz}>
 
       <span>{props.label}</span>
 
-      <select value={tz} onChange={e => setTz(e.currentTarget.value)}>
-        {options.map(option => (
-          <option key={nanoid()} value={option.value}>{option.label}</option>
-        ))}
-      </select>
+      <Select
+        unstyled={true}
+        classNamePrefix={'tz-select'}
+        options={options}
+        defaultValue={tz} 
+      />
 
     </label>
   );
