@@ -36,7 +36,7 @@
       border: none;
     }
   }
-  
+
   &__content {
     @extend %flex-column;
 
@@ -83,6 +83,7 @@
       &:focus {
         border-color: $red-237;
       }
+
     }
   }
 
@@ -93,6 +94,8 @@
     color: $grey-118;
     letter-spacing: -0.01rem;
 
+    color: $gray-text;
+
     &_valid {
       color: $green-3;
     }
@@ -100,10 +103,26 @@
     &_invalid {
       color: $green-3;
     }
+
+    &_password {
+      @include set-check-validation-icon("src/assets/password_neutral.svg");
+
+    &.input__helperText_valid {
+      &::before {
+        background-image: url("src/assets/password_valid.svg");
+      }
+    }
+
+
+    }
   }
 
   &__errorText {
     @include set-font-size(14px, 16px);
+
+    &_password {
+      @include set-check-validation-icon("src/assets/password_invalid.svg");
+    }
 
     color: $red-224;
     letter-spacing: -0.01rem;
