@@ -3,6 +3,7 @@ export type RegisterRequestData = {
   last_name: string;
   email: string;
   password: string;
+  confirm_password: string
 };
 
 export type LoginRequestData = {
@@ -61,4 +62,3 @@ export enum URLS {
   SIGN_UP = `${URLS.AUTH}/signup`,
   USER = `${URLS.AUTH}/user`,
 }
-   

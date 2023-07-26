@@ -5,13 +5,27 @@ import { ProfileSectionTitle } from "src/components/profile-section-title/Profil
 import { Input } from '../UI/input-template/InputTemplate';
 import { input } from "src/typings/constants";
 import styles from "./ProfileForm.module.scss";
+import { useForm } from "react-hook-form";
+import { RegisterRequestData } from "src/services/api/types";
+import { helperTexts } from "src/utils/validation/helperTexts";
 
 export function ProfileForm(): React.ReactNode {
+  const {
+    register,
+    reset,
+    control,
+    handleSubmit,
+    getFieldState,
+    formState: {errors}
+  } = useForm<RegisterRequestData>(
+    {mode: 'onChange', criteriaMode: 'all'}
+  );
+
   return (
     <>
       <ProfileMenu isChange={false} />
       <section className={styles.profile__section}>
-        <ProfileSectionTitle 
+        <ProfileSectionTitle
           subtitle="Фото профиля"
           description="По&nbsp;реальной фотографии коллеги смогут легко узнать вас"
         />
@@ -24,54 +38,54 @@ export function ProfileForm(): React.ReactNode {
         </form>
       </section>
       <section className={styles.profile__section}>
-        <ProfileSectionTitle 
+        <ProfileSectionTitle
           subtitle="Личные данные"
           description="Эта информация будет доступна всем участникам проекта"
         />
         <form className={styles.profile__form_data}>
-          <Input 
+          <Input
             type={input.TEXT}
-            name='first_name'
+            name={input.FIRST_NAME}
             label='Имя'
-            placeholder='Ваше имя'
-            helperText={''}
-            isValid={undefined}
+            placeholder='Иван'
+            register={register}
+            errors={errors}
           />
-          <Input 
+          <Input
             type={input.TEXT}
-            name='second_name'
+            name={input.SECOND_NAME}
             label='Фамилия'
-            placeholder='Ваша фамилия'
-            helperText={''}
-            isValid={undefined}
+            placeholder='Иванов'
+            register={register}
+            errors={errors}
           />
-          <Input 
-            type={input.TEXT}
-            name='position'
-            label='Фамилия'
-            placeholder='Ваша должность'
-            helperText={''}
-            isValid={undefined}
-          />
-          <Input 
+          <Input
             type={input.EMAIL}
-            name='emali'
+            name={input.EMAIL}
             label='Email'
-            placeholder='Ваш Email'
-            helperText={''}
-            isValid={undefined}
+            placeholder='example@site.mail'
+            register={register}
+            errors={errors}
+          />
+          <Input
+            type={input.PASSWORD}
+            name={input.PASSWORD}
+            label='Пароль'
+            helperText={helperTexts.PASSWORD}
+            register={register}
+            errors={errors}
           />
           <h3 className={styles.profile__phone}>Телефон</h3>
           <InputPhoneTemplate/>
         </form>
       </section>
       <section className={styles.profile__section}>
-        <ProfileSectionTitle 
+        <ProfileSectionTitle
           subtitle="Доступность"
           description="Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды"
         />
         <form className={styles.profile__form_availability}>
-          
+
         </form>
       </section>
     </>
