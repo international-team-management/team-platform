@@ -93,9 +93,7 @@ type InputProps = {
 
 
 export const Input = (props:InputProps) => {
-  const checkValid =
-    props.isValid !== undefined &&
-    (props.isValid || (props.isEmpty && !props.errors[props.name]));
+  const checkValid = props.isValid || (props.isEmpty && !props.errors[props.name]);
 
   return (
     <div className={styles.input__wrapper}>
