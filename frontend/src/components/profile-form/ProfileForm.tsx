@@ -1,19 +1,33 @@
 import React from 'react';
 import {InputPhoneTemplate} from '../UI/phone-input-template/InputPhoneTemplate';
 import {ProfileSectionTitle} from 'src/components/profile-section-title/ProfileSectionTitle';
-import {Input} from '../UI/input-template/InputTemplate';
-import {input} from 'src/typings/constants';
-import styles from './ProfileForm.module.scss';
+import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
+import { Input } from '../UI/input-template/InputTemplate';
+import { input } from "src/typings/constants";
+import styles from "./ProfileForm.module.scss";
 import userAvatar from 'src/assets/framed-avatar.svg';
 import {helperTexts} from 'utils/validation/helperTexts';
+import { useForm } from "react-hook-form";
+import { RegisterRequestData } from "src/services/api/types";
 
 export function ProfileForm(): React.ReactNode {
+  const {
+    register,
+    reset,
+    control,
+    handleSubmit,
+    getFieldState,
+    formState: {errors}
+  } = useForm<RegisterRequestData>(
+    {mode: 'onChange', criteriaMode: 'all'}
+  );
+
   return (
     <>
       <section className={styles.profile__section}>
         <ProfileSectionTitle
-          subtitle='Фото профиля'
-          description='По&nbsp;реальной фотографии коллеги смогут легко узнать вас'
+          subtitle="Фото профиля"
+          description="По&nbsp;реальной фотографии коллеги смогут легко узнать вас"
         />
         <form className={styles.profile__form_photo}>
           <img className={styles.profile__img} alt='Фото' src={userAvatar}/>
@@ -25,25 +39,25 @@ export function ProfileForm(): React.ReactNode {
 
       <section className={styles.profile__section}>
         <ProfileSectionTitle
-          subtitle='Личные данные'
-          description='Эта информация будет доступна всем участникам проекта'
+          subtitle="Личные данные"
+          description="Эта информация будет доступна всем участникам проекта"
         />
         <form className={styles.profile__form_data}>
           <Input
             type={input.TEXT}
-            name='first_name'
+            name={input.FIRST_NAME}
             label='Имя'
-            placeholder='Ваше имя'
-            helperText={''}
-            isValid={undefined}
+            placeholder='Иван'
+            register={register}
+            errors={errors}
           />
           <Input
             type={input.TEXT}
-            name='second_name'
+            name={input.SECOND_NAME}
             label='Фамилия'
-            placeholder='Ваша фамилия'
-            helperText={''}
-            isValid={undefined}
+            placeholder='Иванов'
+            register={register}
+            errors={errors}
           />
           <Input
             type={input.TEXT}
@@ -55,13 +69,12 @@ export function ProfileForm(): React.ReactNode {
           />
           <Input
             type={input.EMAIL}
-            name='email'
+            name={input.EMAIL}
             label='Email'
-            placeholder='Ваш Email'
-            helperText={''}
-            isValid={undefined}
+            placeholder='example@site.mail'
+            register={register}
+            errors={errors}
           />
-
           <InputPhoneTemplate
             label='Телефон'
           />
@@ -90,7 +103,7 @@ export function ProfileForm(): React.ReactNode {
           />
         </form>
       </section>
-
+          
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle='Смена пароля'
@@ -99,9 +112,17 @@ export function ProfileForm(): React.ReactNode {
         <form className={styles.profile__form}>
           <Input
             type={input.PASSWORD}
+            name={input.PASSWORD}
+            label='Пароль'
+            helperText={helperTexts.PASSWORD}
+            register={register}
+            errors={errors}
+          />
+          {/* <Input
+            type={input.PASSWORD}
             name='password'
             label='Текущий пароль'
-          />
+          /> */}
           <Input
             type={input.PASSWORD}
             name='password'
