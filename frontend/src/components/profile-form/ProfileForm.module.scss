@@ -11,7 +11,7 @@
     margin: 32px 0 0 32px;
     padding-bottom: 28px;
 
-    border-bottom: 1px solid $gray-medium;
+    border-bottom: 1px solid $grey-225;
   }
 
   &__form {
@@ -83,8 +83,8 @@
       color: $main-white;
       letter-spacing: -0.01rem;
 
-      background-color: $light-blue;
-      border: 1px solid $light-blue;
+      background-color: $bright-blue;
+      border: 1px solid $bright-blue;
       border-radius: 12px;
     }
   }

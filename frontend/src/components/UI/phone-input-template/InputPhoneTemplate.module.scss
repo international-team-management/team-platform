@@ -35,7 +35,7 @@
       color: $black;
       letter-spacing: -0.01rem;
 
-      border: 1px solid $gray-medium;
+      border: 1px solid $grey-225;
       border-radius: $ui-border-radius-phone;
 
       transition: all 0.15s ease-in-out;
@@ -98,12 +98,12 @@
 
         .country:hover {
           cursor: pointer;
-          background-color: $gray-241;
+          background-color: $grey-241;
         }
 
         .country:active {
           cursor: pointer;
-          background-color: $gray-118;
+          background-color: $grey-118;
         }
 
         .flag {
@@ -121,7 +121,7 @@
         .dial-code {
           @include set-font-size(16px, 20px, 400);
 
-          color: $gray-118;
+          color: $grey-118;
           letter-spacing: -0.16px;
         }
       }

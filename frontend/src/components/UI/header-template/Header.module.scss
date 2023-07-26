@@ -11,7 +11,7 @@
   max-height: 64px;
   padding: 18px 32px;
 
-  border-bottom: 1px solid $gray-medium;
+  border-bottom: 1px solid $grey-225;
 
   &__title {
     @include set-font-size(24px, 28px, 700);
@@ -59,9 +59,9 @@
 
     margin: -8px;
 
-    background-color: $gray-241;
+    background-color: $grey-241;
     border-radius: 28px;
-    box-shadow: 0 0 0 1px $gray-medium;
+    box-shadow: 0 0 0 1px $grey-225;
   }
 
   &__participants-extra {

@@ -14,7 +14,7 @@
   height: 100vh;
   margin: 0;
 
-  border-right: 1px solid $gray-medium;
+  border-right: 1px solid $grey-225;
 
   &__content {
     flex-grow: 1;
@@ -28,10 +28,10 @@
 
     padding: 32px 0;
 
-    border-top: 1px solid $gray-medium;
+    border-top: 1px solid $grey-225;
 
     &__createBtn-container::before {
-      border-top: 1px solid $gray-medium;
+      border-top: 1px solid $grey-225;
     }
   }
 

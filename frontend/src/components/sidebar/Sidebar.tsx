@@ -3,14 +3,15 @@ import styles from './Sidebar.module.scss';
 import {ReactComponent as SignPlus} from 'assets/sidebar-plus.svg';
 import {Account} from '../account/Account';
 import {Projects} from '../projects/Projects';
+import framedAvatar from 'assets/framed-avatar.svg';
 
 export function Sidebar(): React.ReactNode {
 
   // данные передадим сюда из Redux, ниже пока демка данных
   const user = {
-    imgSrc: '',
-    firstName: 'Дмитрий',
-    lastName: 'Петров',
+    photo: framedAvatar,
+    first_name: 'Дмитрий',
+    last_name: 'Петров',
     role: 'UX/UI дизайнер'
   }
 
