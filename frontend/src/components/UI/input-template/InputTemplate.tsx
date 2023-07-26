@@ -19,6 +19,7 @@ type InputProps = {
   placeholder?: string,
   helperText?: string,
   errorText?: string,
+  // TODO: добавить типизацию
   register: any,
   errors: any,
   validOptions?: any,
@@ -139,7 +140,7 @@ export const Input = (props:InputProps) => {
           </div>
         }
       </div>
-      {(props.helperText && props.isEmpty && !props.errors[props.name]) &&
+      {(props.helperText && !props.errors[props.name]) &&
         // props.helperText.map((item, index) => {
         //   return (
         //     <div

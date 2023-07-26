@@ -92,9 +92,8 @@
 
     padding: 8px 0 0;
     color: $grey-118;
-    letter-spacing: -0.01rem;
-
     color: $gray-text;
+    letter-spacing: -0.01rem;
 
     &_valid {
       color: $green-3;
@@ -107,25 +106,24 @@
     &_password {
       @include set-check-validation-icon("src/assets/password_neutral.svg");
 
-    &.input__helperText_valid {
-      &::before {
-        background-image: url("src/assets/password_valid.svg");
+      &.input__helperText_valid {
+        &::before {
+          background-image: url("src/assets/password_valid.svg");
+        }
       }
-    }
-
-
     }
   }
 
   &__errorText {
-    @include set-font-size(14px, 16px);
+    @include set-font-size(14px, 16px, 600);
+
+    padding: 8px 0 0;
+    color: $red-224;
+    letter-spacing: -0.01rem;
 
     &_password {
       @include set-check-validation-icon("src/assets/password_invalid.svg");
     }
-
-    color: $red-224;
-    letter-spacing: -0.01rem;
   }
 
   &__tooglePassword {
