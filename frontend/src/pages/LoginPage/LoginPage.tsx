@@ -11,6 +11,7 @@ import { LoginRequestData } from "src/services/api/types";
 import { DevTool } from "@hookform/devtools";
 import { errorTexts, helperTexts } from "src/utils/validation/helperTexts";
 import { patterns } from "src/utils/validation/patterns";
+import promo from '../../assets/Promo.png';
 
 export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -64,11 +65,13 @@ export const LoginPage = () => {
 
   return (
     <main className={styles.login}>
+      <img src={promo} className={styles.login__promo} alt="promo" />
       <form className={styles.login__wrapper} onSubmit={handleSubmit(handlerFormSubmit)}>
-        <TitleTemplate
-          text='Вход'
+        <TitleTemplate 
+          text='С возвращением'
+          descrption='Введите свои данные и войдите в аккаунт'
         />
-        <div className={styles.login__inputs}>
+        <div>
           <Input
             register={register}
             errors={errors}
@@ -83,8 +86,7 @@ export const LoginPage = () => {
             name={input.EMAIL}
             type={input.EMAIL}
             label='Email'
-            placeholder='Введите email'
-            // isEmpty={emptyLogin}
+            placeholder='example@site.mail'
             isValid={isValidEmail}
           />
           <Input
@@ -101,23 +103,26 @@ export const LoginPage = () => {
             name={input.PASSWORD}
             type={!showPassword ? input.PASSWORD : input.TEXT}
             label='Пароль'
+            placeholder=''
             helperText={helperTexts.PASSWORD}
-            placeholder='Введите пароль'
             isPassword={true}
             onToogle={showPasswordHandler}
             isToggle={!showPassword}
             isEmpty={emptyPassword}
             useTogglePassword={togglePassword}
             isValid={isValidPassword}
+            labelPassword='Забыли пароль?'
           />
-          <button className={styles.login__button} type="submit">Забыли пароль?</button>
         </div>
         <div className={styles.login__buttons}>
           <ButtonTemplate
-            text="Войти"
+            text="Войти в аккаунт"
             isDisabled={false}
           />
-          <Link to={routes["sign-up"].path} className={styles.login__button_redirect} >Не зарегистрированы? Создайте аккаунт</Link>
+          <div className={styles.login__text}>
+            <span className={styles.login__question}>Еще нет аккаунта?</span>
+            <Link to={routes["sign-up"].path} className={styles.login__redirect}>Зарегистрируйтесь</Link>
+          </div>
         </div>
       </form>
       <DevTool control={control} />

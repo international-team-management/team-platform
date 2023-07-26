@@ -2,41 +2,50 @@
 @import 'styles/constants';
 
 .login {
-  @extend %flex-column;
+  @extend %flex-row;
 
   align-items: center;
   justify-content: center;
   height: 100vh;
 
-  &__wrapper {
-    display: grid;
-    gap: 72px;
+  &__promo {
+    height: calc(100vh - 24px);
+    margin-left: 12px;
   }
 
-  &__button, &__button_redirect {
-    @include set-font-size(16px, 20px);
-
-    cursor: pointer;
-
-    margin-top: 12px;
-
-    text-align: center;
-    text-decoration: underline 1px;
-    letter-spacing: -0.01rem;
-
-    background-color: $main-white;
-    border: none;
-
-    &_redirect {
-      width: 183px;
-      margin-top: 20px;
-    }
+  &__wrapper {
+    display: grid;
+    gap: 40px;
+    justify-items: flex-start;
+    margin: 0 120px;
   }
 
   &__buttons {
     @extend %flex-column;
 
     align-items: center;
+  }
+
+  &__text {
+    @extend %flex-row;
+
+    margin-top: 24px;
+  }
+
+  &__question {
+    @include set-font-size(16px, 20px, 600);
+
+    margin-right: 4px;
+    color: $black;
+    letter-spacing: -0.01rem;
+  }
+
+  &__redirect {
+    @include set-font-size(16px, 20px, 600);
+
+    cursor: pointer;
+    color: $blue-62;
+    letter-spacing: -0.01rem;
   }
 }
 

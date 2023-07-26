@@ -1,25 +1,19 @@
 import React from "react";
 import style from './Account.module.scss';
+import type { UserType } from "src/services/api/types";
 
-type AccountProps = {
-  imgSrc?: string;
-  firstName: string;
-  lastName: string;
-  role?: string
-}
 
-export function Account(props: AccountProps): React.ReactNode {
-  // TODO: если нет imgSrc, тогда отобразить инициалы
+export function Account(props: UserType): React.ReactNode {
   return (
     <figure className={style.account}>
       <img
         className={style.account__image}
-        src={props.imgSrc}
-        alt={`${props.firstName} ${props.lastName}`}
+        src={props.photo}
+        alt={`${props.first_name} ${props.last_name}`}
       />
       
       <figcaption className={style.account__caption}>
-        <p className={style.account__user}>{`${props.firstName} ${props.lastName}`}</p>
+        <p className={style.account__user}>{`${props.first_name} ${props.last_name}`}</p>
         <p className={style.account__role}>{props.role}</p>
       </figcaption>
     </figure>

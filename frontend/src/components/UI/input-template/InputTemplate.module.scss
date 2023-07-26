@@ -10,12 +10,31 @@
     width: $ui-width-l;
 
     & + & {
-      margin-top: 16px;
+      margin-top: 12px;
     }
   }
 
   &__label {
     letter-spacing: -0.01rem;
+
+    &_wrapper {
+      @extend %flex-row;
+
+      justify-content: space-between;
+    }
+
+    &_password {
+      cursor: pointer;
+
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 20px;
+      color: rgb(62 80 214);
+      letter-spacing: -0.01rem;
+
+      background-color: rgb(255 255 255);
+      border: none;
+    }
   }
 
   &__content {
@@ -29,17 +48,21 @@
 
     height: $ui-height;
     margin: 8px 0 0;
-    padding: 12px 20px;
+    padding: 16px 20px;
 
     letter-spacing: -0.01rem;
 
-    border: 1px solid $input-border-color;
+    border: 1px solid $grey-225;
     border-radius: $ui-border-radius;
 
     transition: all 0.15s ease-in-out;
 
+    &:hover {
+      border-color: $grey-191;
+    }
+
     &:focus {
-      border-color: $main-black;
+      border: 2px solid $blue-95;
 
       &::placeholder {
         color: transparent;
@@ -47,34 +70,38 @@
     }
 
     &_valid {
-      border-color: $input-valid;
+      border-color: $green-4;
 
       &:focus {
-        border-color: $input-valid;
+        border-color: $green-4;
       }
     }
 
     &_invalid {
-      border-color: $input-invalid;
+      border-color: $red-237;
 
       &:focus {
-        border-color: $input-invalid;
+        border-color: $red-237;
       }
 
     }
   }
 
   &__helperText {
-    @include set-font-size(14px, 16px);
+    @include set-font-size(14px, 16px, 600);
+
+    padding: 8px 0 0;
+    color: $grey-118;
+    letter-spacing: -0.01rem;
 
     color: $gray-text;
 
     &_valid {
-      color: $input-valid;
+      color: $green-3;
     }
 
     &_invalid {
-      color: $input-invalid;
+      color: $green-3;
     }
 
     &_password {
@@ -93,11 +120,12 @@
   &__errorText {
     @include set-font-size(14px, 16px);
 
-    color: $input-invalid;
-
     &_password {
       @include set-check-validation-icon("src/assets/password_invalid.svg");
     }
+
+    color: $red-224;
+    letter-spacing: -0.01rem;
   }
 
   &__tooglePassword {
