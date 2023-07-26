@@ -18,6 +18,7 @@ export const LoginPage = () => {
   const [togglePassword, setTogglePassword] = useState(false);
 
   const [emptyPassword, setEmptyPassword] = useState(false);
+  const [emptyLogin, setEmptyLogin] = useState(false);
 
   const [isValidPassword, setIsValidPassword] = useState<boolean | undefined>(undefined);
   const [isValidEmail, setIsValidEmail] = useState<boolean | undefined>(undefined);
@@ -39,7 +40,6 @@ export const LoginPage = () => {
 
   const handlerInputPassword = (e: ChangeEvent<HTMLInputElement>) => {
     const result = e.currentTarget.value.length;
-    // result ? setTogglePassword(true) : setTogglePassword(false);
 
     if (result) {
       setTogglePassword(true);
@@ -49,7 +49,14 @@ export const LoginPage = () => {
       setEmptyPassword(false)
     }
 
-    setIsValidPassword(!getFieldState('password').invalid)
+    setIsValidPassword(!getFieldState(input.PASSWORD).invalid)
+  }
+
+  const handlerInputLogin = (e: ChangeEvent<HTMLInputElement>) => {
+    const result = e.currentTarget.value.length;
+    result ? setEmptyLogin(true) : setEmptyLogin(false);
+
+    setIsValidEmail(!getFieldState(input.EMAIL).invalid);
   }
 
   const handlerFormSubmit = (data:LoginRequestData) => {
@@ -57,17 +64,11 @@ export const LoginPage = () => {
     reset();
   }
 
-  const handlerInputLogin = () => {
-    // const result = e.currentTarget.value.length;
-    // result ? setEmptyLogin(false) : setEmptyLogin(true);
-    setIsValidEmail(!getFieldState('login').invalid);
-  }
-
   return (
     <main className={styles.login}>
       <img src={promo} className={styles.login__promo} alt="promo" />
       <form className={styles.login__wrapper} onSubmit={handleSubmit(handlerFormSubmit)}>
-        <TitleTemplate 
+        <TitleTemplate
           text='С возвращением'
           descrption='Введите свои данные и войдите в аккаунт'
         />
@@ -76,7 +77,7 @@ export const LoginPage = () => {
             register={register}
             errors={errors}
             validOptions={             {
-              onChange: () => handlerInputLogin(),
+              onChange: (e: ChangeEvent<HTMLInputElement>) => handlerInputLogin(e),
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.EMAIL,
@@ -88,6 +89,7 @@ export const LoginPage = () => {
             label='Email'
             placeholder='example@site.mail'
             isValid={isValidEmail}
+            isEmpty={emptyLogin}
           />
           <Input
             register={register}
