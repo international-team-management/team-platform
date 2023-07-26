@@ -5,7 +5,7 @@ import {Input} from '../UI/input-template/InputTemplate';
 import {input} from 'src/typings/constants';
 import styles from './ProfileForm.module.scss';
 import userAvatar from 'src/assets/framed-avatar.svg';
-import {helperTexts} from "utils/validation/helperTexts";
+import {helperTexts} from 'utils/validation/helperTexts';
 
 export function ProfileForm(): React.ReactNode {
   return (
@@ -105,7 +105,7 @@ export function ProfileForm(): React.ReactNode {
           <Input
             type={input.PASSWORD}
             name='password'
-            label='Новый пароль пароль'
+            label='Новый пароль'
             helperText={helperTexts.PASSWORD}
           />
           <Input

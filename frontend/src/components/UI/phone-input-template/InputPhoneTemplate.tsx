@@ -6,9 +6,14 @@ import styles from './InputPhoneTemplate.module.scss';
 
 export const InputPhoneTemplate = () => {
   const [phone, setPhone] = React.useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
 
   const handlePhoneChange = (value) => {
     setPhone(value);
+  };
+
+  const handleDropdownOpen = (isOpen) => {
+    setIsDropdownOpen(isOpen);
   };
 
   return (
@@ -22,8 +27,8 @@ export const InputPhoneTemplate = () => {
         value={phone}
         onChange={handlePhoneChange}
         required
-        dropdownClass={styles['phone-info__dropdown']}
-        // searchClass={styles['']}
+        dropdownClass={styles['phone-info__country-list']}
+        searchClass={styles['phone-info__search-field']}
         localization={ru}
         country={'ru'}
         placeholder={phone ? "" : "+7 XXX XXX–XX–XX"}

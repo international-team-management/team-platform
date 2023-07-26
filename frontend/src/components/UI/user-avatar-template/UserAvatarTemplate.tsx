@@ -17,7 +17,6 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({users}) => {
         <img className={styles.avatar__image} key={user.name} src={user.src} alt={user.name}/>
       ))}
     </div>
-
   );
 };
 

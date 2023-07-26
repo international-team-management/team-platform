@@ -8,8 +8,9 @@
   padding: 0 0 0 52px;
 
   &__image {
-    @include set-block-size(40px, 40px);
-
+    width: 36px;
+    height: 36px;
     margin: -10px;
+    object-fit: fill;
   }
 }

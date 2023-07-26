@@ -6,7 +6,7 @@ import {ProfileForm} from 'src/components/profile-form/ProfileForm';
 
 
 export function ProfilePage(): React.ReactNode {
-  const state = HeaderState.CHANGES_SAVED;
+  const state = HeaderState.KANBAN;
 
   return (
     <section className={styles.profile}>

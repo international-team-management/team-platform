@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import style from "./Projects.module.scss";
 import {NavLink} from "react-router-dom";
-import projectsIcon from "assets/project-icon.svg"
+import { ReactComponent as ProjectIcon } from "assets/project-icon.svg";
 
 type project = {
   id: number,
@@ -22,7 +22,7 @@ export function Projects(props: ProjectsProps): React.ReactNode {
           <NavLink to={`/${project.id}`} className={
             ({isActive}) => clsx(style.projects__nav, isActive && style.projects__nav_active)
           }>
-            <img className={style.projects__icon} src={projectsIcon} alt="Иконка проекта"/>
+            <ProjectIcon className={style.projects__icon}/>
             <span className={style.projects__name}>{project.name}</span>
           </NavLink>
         </li>

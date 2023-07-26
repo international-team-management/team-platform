@@ -57,9 +57,9 @@
     align-items: center;
     justify-content: center;
 
-    margin: -10px;
+    margin: -8px;
 
-    background-color: rgb(241 240 245 / 100%);
+    background-color: $gray-241;
     border-radius: 28px;
     box-shadow: 0 0 0 1px $gray-medium;
   }
@@ -95,7 +95,6 @@
     height: 32px;
     padding: 0 8px;
 
-    background-color: rgb(241 240 245 / 100%);
     border-radius: 8px;
   }
 
@@ -108,23 +107,20 @@
 
   &__switch-button {
     cursor: pointer;
+
     color: $grey-text;
+
+    background-color: $main-white;
     border: none;
+
     transition: color 0.2s ease-in-out;
   }
 
   &__switch-button_active {
-    color: $main-black;
+    color: $blue-26;
   }
 
   &__switch-icon {
     @include set-block-size(18px, 18px);
-  }
-
-  &__button-divider {
-    width: 1px;
-    height: 100%;
-    margin: 0 12px;
-    background-color: $gray-medium;
   }
 }
