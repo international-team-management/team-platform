@@ -1,15 +1,18 @@
 import React from "react";
 import { InputPhoneTemplate } from "../UI/phone-input-template/InputPhoneTemplate";
 import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
+import InputTimezoneSelect from "../UI/timezone-input-template/InputTimezoneSelect";
 import { ProfileSectionTitle } from "src/components/profile-section-title/ProfileSectionTitle";
 import { Input } from '../UI/input-template/InputTemplate';
 import { input } from "src/typings/constants";
 import styles from "./ProfileForm.module.scss";
 
+
 export function ProfileForm(): React.ReactNode {
   return (
     <>
       <ProfileMenu isChange={false} />
+      
       <section className={styles.profile__section}>
         <ProfileSectionTitle 
           subtitle="Фото профиля"
@@ -23,6 +26,7 @@ export function ProfileForm(): React.ReactNode {
           </div>
         </form>
       </section>
+      
       <section className={styles.profile__section}>
         <ProfileSectionTitle 
           subtitle="Личные данные"
@@ -48,7 +52,7 @@ export function ProfileForm(): React.ReactNode {
           <Input 
             type={input.TEXT}
             name='position'
-            label='Фамилия'
+            label='Должность'
             placeholder='Ваша должность'
             helperText={''}
             isValid={undefined}
@@ -65,15 +69,17 @@ export function ProfileForm(): React.ReactNode {
           <InputPhoneTemplate/>
         </form>
       </section>
+      
       <section className={styles.profile__section}>
         <ProfileSectionTitle 
           subtitle="Доступность"
           description="Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды"
         />
         <form className={styles.profile__form_availability}>
-          
+          <InputTimezoneSelect label='Часовой пояс'/>
         </form>
       </section>
+      
     </>
   )
 }

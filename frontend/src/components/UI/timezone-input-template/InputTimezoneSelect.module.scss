@@ -1,0 +1,16 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.tz {
+  &__label {
+    @include set-font-size(16px, 20px, 600);
+
+    width: $ui-width-l;
+    height: 100px;
+    margin: 0 auto;
+  }
+
+  &__component {
+    @include set-font-size(16px, 20px, 400);
+  }
+}
