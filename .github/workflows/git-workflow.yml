@@ -9,7 +9,7 @@ on:
     branches: [ backend-feat-git-workflow ]
 
 jobs:
-  installation and tests:
+  tests:
     runs-on: ubuntu-22.04
 
     steps:
