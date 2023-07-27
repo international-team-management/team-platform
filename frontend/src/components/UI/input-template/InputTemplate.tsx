@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import {ReactComponent as Eye} from 'assets/eye.svg';
 import {ReactComponent as EyeOff} from 'assets/eye-off.svg';
-import { input } from 'src/typings/constants';
+import { InputName, InputType} from 'src/typings/constants';
 
 type InputProps = {
   type: string,
@@ -160,7 +160,7 @@ export const Input = (props:InputProps) => {
         <div
           className={clsx(
             styles.input__helperText,
-            props.name === input.PASSWORD &&  styles.input__helperText_password,
+            props.name === InputName.PASSWORD &&  styles.input__helperText_password,
             {
               [styles.input__helperText_valid]: checkValid,
               [styles.input__helperText_invalid]: !!props.errors[props.name]
@@ -173,7 +173,7 @@ export const Input = (props:InputProps) => {
       {props.errors[props.name] &&
         <div className={clsx(
           styles.input__errorText,
-          props.name === input.PASSWORD && props.isEmpty && styles.input__errorText_password
+          props.name === InputName.PASSWORD && props.isEmpty && styles.input__errorText_password
         )}>
           {props.errors[props.name].message}
         </div>

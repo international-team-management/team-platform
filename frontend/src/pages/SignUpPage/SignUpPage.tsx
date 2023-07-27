@@ -1,6 +1,6 @@
 import {ButtonTemplate} from 'src/components/UI/button-template/ButtonTemplate';
 import {Input} from 'src/components/UI/input-template/InputTemplate';
-import {input} from 'src/typings/constants';
+import {InputType, InputName} from 'src/typings/constants';
 import styles from './SignUpPage.module.scss';
 import {TitleTemplate} from 'src/components/UI/title-template/TitleTemplate';
 import {helperTexts} from 'utils/validation/helperTexts';
@@ -32,40 +32,40 @@ export const SignUpPage = () => {
         />
         <div className={styles['sign-up-page__inputs']}>
           <Input
-            type={input.TEXT}
-            name={input.FIRST_NAME}
+            type={InputType.TEXT}
+            name={InputName.FIRST_NAME}
             label='Имя'
             placeholder='Иван'
             register={register}
             errors={errors}
           />
           <Input
-            type={input.TEXT}
-            name={input.SECOND_NAME}
+            type={InputType.TEXT}
+            name={InputName.SECOND_NAME}
             label='Фамилия'
             placeholder='Иванов'
             register={register}
             errors={errors}
           />
           <Input
-            type={input.EMAIL}
-            name={input.EMAIL}
+            type={InputType.EMAIL}
+            name={InputName.EMAIL}
             label='Email'
             placeholder='example@site.mail'
             register={register}
             errors={errors}
           />
           <Input
-            type={input.PASSWORD}
-            name={input.PASSWORD}
+            type={InputType.PASSWORD}
+            name={InputName.PASSWORD}
             label='Пароль'
             helperText={helperTexts.PASSWORD}
             register={register}
             errors={errors}
           />
           <Input
-            type={input.PASSWORD}
-            name={input.CONFIRM_PASSWORD}
+            type={InputType.PASSWORD}
+            name={InputName.CONFIRM_PASSWORD}
             label='Повторите пароль'
             register={register}
             errors={errors}
