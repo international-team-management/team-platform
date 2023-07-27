@@ -3,10 +3,10 @@ name: Develop workflow
 on:
   # Запуск при любом pull-request в ветку backend
   pull_request:
-    branches: [ backend-feat-git-workflow ]
+    branches: [ backend ]
   # Запуск при любом push-действии в ветку backend
   push:
-    branches: [ backend-feat-git-workflow ]
+    branches: [ backend ]
 
 jobs:
   tests:
