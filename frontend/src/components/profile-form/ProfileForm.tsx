@@ -13,10 +13,9 @@ import { RegisterRequestData } from "src/services/api/types";
 export function ProfileForm(): React.ReactNode {
   const {
     register,
-    reset,
     control,
     handleSubmit,
-    getFieldState,
+    getValues,
     formState: {errors}
   } = useForm<RegisterRequestData>(
     {mode: 'onChange', criteriaMode: 'all'}
@@ -49,15 +48,15 @@ export function ProfileForm(): React.ReactNode {
             label='Имя'
             placeholder='Иван'
             register={register}
-            errors={errors}
+            errors={errors[input.FIRST_NAME]}
           />
           <Input
             type={input.TEXT}
-            name={input.SECOND_NAME}
+            name={input.LAST_NAME}
             label='Фамилия'
             placeholder='Иванов'
             register={register}
-            errors={errors}
+            errors={errors[input.LAST_NAME]}
           />
           {/* <Input
             type={input.TEXT}
@@ -73,7 +72,7 @@ export function ProfileForm(): React.ReactNode {
             label='Email'
             placeholder='example@site.mail'
             register={register}
-            errors={errors}
+            errors={errors[input.EMAIL]}
           />
           <InputPhoneTemplate
             label='Телефон'
@@ -116,7 +115,7 @@ export function ProfileForm(): React.ReactNode {
             label='Пароль'
             helperText={helperTexts.PASSWORD}
             register={register}
-            errors={errors}
+            errors={errors[input.PASSWORD]}
           />
           {/* <Input
             type={input.PASSWORD}
