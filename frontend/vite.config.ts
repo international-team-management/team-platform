@@ -9,6 +9,10 @@ dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: true,
+    port: 5173,
+  },
   resolve: {
     alias: {
       'src': path.resolve(__dirname, 'src'),
