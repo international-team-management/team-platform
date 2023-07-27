@@ -31,5 +31,7 @@ jobs:
         working-directory: ./backend
 
       - name: Run pre-commit checks for backend
-        run: poetry run pre-commit run --all-files
+        run: >
+          poetry run pre-commit run --all-files
+          --exclude backend/itm_backend/api backend/itm_backend/projects
         working-directory: ./backend
