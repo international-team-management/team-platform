@@ -11,8 +11,6 @@ type InputProps = {
   name: string,
   label: string,
   labelPassword?: string,
-  isValid?: boolean | undefined,
-  isEmpty?: boolean,
   isPassword?: boolean,
   isToggle?: boolean,
   useTogglePassword?: boolean,
@@ -28,7 +26,6 @@ type InputProps = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void,
   onClick?: (event: React.MouseEvent<HTMLInputElement>) => void,
-  onToogle?: () => void
 }
 
 // export const Input = (props:InputProps, ref: React.LegacyRef<HTMLInputElement> | undefined) => {
@@ -95,7 +92,19 @@ type InputProps = {
 
 
 export const Input = (props:InputProps) => {
-  const checkValid = props.isValid || (props.isEmpty && !props.errors[props.name]);
+  const [valueHasChanged, setValueHasChanged] = React.useState(false);
+  const [value, setValue] = React.useState('');
+  const [isToggleEye, setToggleEye] = React.useState(false);
+ 
+ 
+  function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    setValueHasChanged(true);
+    setValue(e.target.value);
+
+    if (props.validOptions?.onChange) {
+      props.validOptions.onChange(e);
+    }
+  }
 
   return (
     <div className={styles.input__wrapper}>
@@ -116,31 +125,34 @@ export const Input = (props:InputProps) => {
           className={clsx(
             styles.input__field,
             {
-              [styles.input__field_valid]: checkValid, //!props.errors[props.name] && !props.isEmpty,
-              [styles.input__field_invalid]: !!props.errors[props.name]
+              [styles.input__field_valid]: !props.errors && valueHasChanged,
+              [styles.input__field_invalid]: props.errors
             }
           )}
           // {...rest}
-          type={props.type}
+          type={isToggleEye ? 'text' : props.type}
           placeholder={props.placeholder || ''}
           {...props.register(
             props.name,
-            props.validOptions
+            {
+              ...props.validOptions,
+              onChange: onChangeHandler,
+            }
           )}
         />
 
-        {(props.isPassword && props.useTogglePassword) &&
+        {(props.isPassword && props.useTogglePassword && value !== '') &&
           <div
             className={clsx(
               styles.input__tooglePassword
             )}
-            onClick={props.onToogle}
+            onClick={() => setToggleEye(!isToggleEye)}
           >
-            {props.isToggle ? <Eye /> : <EyeOff />}
+            {!isToggleEye ? <Eye /> : <EyeOff />}
           </div>
         }
       </div>
-      {(props.helperText && !props.errors[props.name]) &&
+      {(props.helperText && !props.errors) &&
         // props.helperText.map((item, index) => {
         //   return (
         //     <div
@@ -160,22 +172,24 @@ export const Input = (props:InputProps) => {
         <div
           className={clsx(
             styles.input__helperText,
-            props.name === input.PASSWORD &&  styles.input__helperText_password,
             {
-              [styles.input__helperText_valid]: checkValid,
-              [styles.input__helperText_invalid]: !!props.errors[props.name]
+              [styles.input__helperText_password]: props.name === input.PASSWORD,
+              [styles.input__helperText_valid]: !props.errors && valueHasChanged,
+              [styles.input__helperText_invalid]: props.errors
             }
           )}
         >
           {props.helperText}
         </div>
       }
-      {props.errors[props.name] &&
+      {props.errors &&
         <div className={clsx(
           styles.input__errorText,
-          props.name === input.PASSWORD && props.isEmpty && styles.input__errorText_password
+          {
+            [styles.input__errorText_password]: props.name === input.PASSWORD && valueHasChanged
+          }
         )}>
-          {props.errors[props.name].message}
+          {props.errors.message}
         </div>
       }
     </div>
