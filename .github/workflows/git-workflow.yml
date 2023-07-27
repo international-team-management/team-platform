@@ -17,21 +17,23 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Python 3.9
+        # Устанавливаем Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
       - name: Install Poetry
+        # Устанавливаем Poetry
         uses: snok/install-poetry@v1
 
       - name: Install dependencies with Poetry
+        # Устанавливаем зависимости Poetry
         run: |
           poetry env use 3.9
           poetry install
         working-directory: ./backend
 
       - name: Run pre-commit checks for backend
-        run: >
-          poetry run pre-commit run --all-files
-          --exclude backend/itm_backend/api backend/itm_backend/projects
+        # Запуск тестов
+        run: poetry run pre-commit run --all-files
         working-directory: ./backend
