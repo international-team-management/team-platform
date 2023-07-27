@@ -1,1 +1,38 @@
+name: Develop workflow
 
+on:
+  # Запуск при любом pull-request в ветку backend
+  pull_request:
+    branches: [ backend ]
+  # Запуск при любом push-действии в ветку backend
+  push:
+    branches: [ backend ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checking out a repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies with Poetry
+        run: |
+          cd backend
+          poetry env use python 3.9
+          poetry install
+        working-directory: ./main
+
+      - name: Run pre-commit checks for backend
+        run: |
+          cd backend
+          poetry run pre-commit run --all-files
+        working-directory: ./main
