@@ -26,12 +26,12 @@ jobs:
 
       - name: Install dependencies with Poetry
         run: |
-          cd backend
+          cd backend/
           poetry env use python 3.9
           poetry install
         working-directory: ../
 
       - name: Run pre-commit checks for backend
         run: |
-          cd backend
+          cd backend/
           poetry run pre-commit run --all-files
