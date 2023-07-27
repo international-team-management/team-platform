@@ -33,10 +33,15 @@ jobs:
           poetry install
         working-directory: ./backend
 
+      - name: Run pre-commit checks for backend
+        # Запуск тестов
+        run: poetry run pre-commit run --all-files
+        working-directory: ./backend
+
   send_message:
     runs-on: ubuntu-22.04
     needs: tests
     steps:
       - name: Print success message
         if: ${{ success() }}
-        run: echo "All checks passed! Great job! :rocket:"
+        run: echo "All checks passed! Great job!"
