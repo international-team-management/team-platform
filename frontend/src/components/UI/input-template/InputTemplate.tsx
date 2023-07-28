@@ -173,8 +173,8 @@ export const Input = (props:InputProps) => {
           className={clsx(
             styles.input__helperText,
             
-        {/* frontend-fix-profile
-            props.name === InputName.PASSWORD &&  styles.input__helperText_password, */}
+        // from frontend-fix-profile
+        // props.name === InputName.PASSWORD &&  styles.input__helperText_password,
 
             {
               [styles.input__helperText_password]: props.name === input.PASSWORD,
@@ -189,8 +189,9 @@ export const Input = (props:InputProps) => {
       {props.errors &&
         <div className={clsx(
           styles.input__errorText,
-      {/* frontend-fix-profile
-          props.name === InputName.PASSWORD && props.isEmpty && styles.input__errorText_password */}
+
+        // from frontend-fix-profile
+        // props.name === InputName.PASSWORD && props.isEmpty && styles.input__errorText_password
 
           {
             [styles.input__errorText_password]: props.name === input.PASSWORD && valueHasChanged
