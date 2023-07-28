@@ -15,4 +15,6 @@ export enum InputName {
   SECOND_NAME = 'second_name',
   JOB_TITLE = 'job_title',
   TIMEZONE = 'user_timezone'
+  // LAST_NAME = 'last_name',
+  // CONFIRM_PASSWORD = 'confirm_password'
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 import {InputPhoneTemplate} from '../UI/phone-input-template/InputPhoneTemplate';
 import {ProfileSectionTitle} from 'src/components/profile-section-title/ProfileSectionTitle';
-// import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
+import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
+import InputTimezoneSelect from "../UI/timezone-input-template/InputTimezoneSelect";
 import { Input } from '../UI/input-template/InputTemplate';
 import { InputType,  InputName} from "src/typings/constants";
 import styles from "./ProfileForm.module.scss";
@@ -10,13 +11,13 @@ import {helperTexts} from 'utils/validation/helperTexts';
 import { useForm } from "react-hook-form";
 import { RegisterRequestData } from "src/services/api/types";
 
+
 export function ProfileForm(): React.ReactNode {
   const {
     register,
-    reset,
     control,
     handleSubmit,
-    getFieldState,
+    getValues,
     formState: {errors}
   } = useForm<RegisterRequestData>(
     {mode: 'onChange', criteriaMode: 'all'}
@@ -36,7 +37,7 @@ export function ProfileForm(): React.ReactNode {
           </div>
         </form>
       </section>
-
+      
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle="Личные данные"
@@ -49,7 +50,7 @@ export function ProfileForm(): React.ReactNode {
             label='Имя'
             placeholder='Иван'
             register={register}
-            errors={errors}
+            errors={errors[input.FIRST_NAME]}
           />
           <Input
             type={InputType.TEXT}
@@ -57,7 +58,7 @@ export function ProfileForm(): React.ReactNode {
             label='Фамилия'
             placeholder='Иванов'
             register={register}
-            errors={errors}
+            errors={errors[input.LAST_NAME]}
           />
           <Input
             type={InputType.TEXT}
@@ -73,50 +74,37 @@ export function ProfileForm(): React.ReactNode {
             label='Email'
             placeholder='example@site.mail'
             register={register}
-            errors={errors}
+            errors={errors[input.EMAIL]}
           />
           <InputPhoneTemplate
             label='Телефон'
           />
         </form>
       </section>
+          
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle='Доступность'
           description='Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды'
         />
         <form className={styles.profile__form}>
-          <Input
-            type={InputType.TEXT}
-            name={InputName.TIMEZONE}
-            label='Локация'
-            placeholder='Санкт-Петербург (UTC+3)'
-            register={register}
-            errors={errors}
-          />
-          <Input
-            // TODO: InputType.SELECT
-            type={InputType.TEXT}
-            name='schedule'
-            label='График работы'
-            register={register}
-            errors={errors}
-          />
+          <InputTimezoneSelect label='Часовой пояс'/>
         </form>
       </section>
-
+      
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle='Смена пароля'
           description='На ваш email сразу придет ссылка для смены пароля'
         />
+
         <form className={styles.profile__form}>
           <Input
             type={InputType.PASSWORD}
             name={InputName.PASSWORD}
             label='Текущий пароль'
             register={register}
-            errors={errors}
+            errors={errors[input.PASSWORD]}
           />
           <Input
             type={InputType.PASSWORD}
@@ -136,6 +124,7 @@ export function ProfileForm(): React.ReactNode {
           <button className={styles['profile__button_light-blue']}>Сменить пароль</button>
         </form>
       </section>
+      
     </>
   )
 }

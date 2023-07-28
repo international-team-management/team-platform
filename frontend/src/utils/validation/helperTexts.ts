@@ -32,5 +32,5 @@ export const errorTexts:ValidationError = {
   },
   JOB_TITLE: {
     PATTERN: specialCharacters
-  }
+  }, 
 }

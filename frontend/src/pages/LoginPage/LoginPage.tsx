@@ -1,4 +1,3 @@
-import { ChangeEvent, useState } from "react";
 import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
 import { Input } from "src/components/UI/input-template/InputTemplate";
@@ -14,21 +13,11 @@ import { patterns } from "src/utils/validation/patterns";
 import promo from '../../assets/Promo.png';
 
 export const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [togglePassword, setTogglePassword] = useState(false);
-
-  const [emptyPassword, setEmptyPassword] = useState(false);
-  const [emptyLogin, setEmptyLogin] = useState(false);
-
-  const [isValidPassword, setIsValidPassword] = useState<boolean | undefined>(undefined);
-  const [isValidEmail, setIsValidEmail] = useState<boolean | undefined>(undefined);
-
   const {
     register,
     reset,
     control,
     handleSubmit,
-    getFieldState,
     formState: {errors}
   } = useForm<LoginRequestData>(
     {mode: 'onChange', criteriaMode: 'all'}
@@ -75,9 +64,8 @@ export const LoginPage = () => {
         <div>
           <Input
             register={register}
-            errors={errors}
-            validOptions={             {
-              onChange: (e: ChangeEvent<HTMLInputElement>) => handlerInputLogin(e),
+            errors={errors[input.EMAIL]}
+            validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.EMAIL,
@@ -88,14 +76,11 @@ export const LoginPage = () => {
             type={InputType.EMAIL}
             label='Email'
             placeholder='example@site.mail'
-            isValid={isValidEmail}
-            isEmpty={emptyLogin}
           />
           <Input
             register={register}
-            errors={errors}
-            validOptions={              {
-              onChange: (e: ChangeEvent<HTMLInputElement>) => handlerInputPassword(e),
+            errors={errors[input.PASSWORD]}
+            validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.PASSWORD,
@@ -108,11 +93,7 @@ export const LoginPage = () => {
             placeholder=''
             helperText={helperTexts.PASSWORD}
             isPassword={true}
-            onToogle={showPasswordHandler}
-            isToggle={!showPassword}
-            isEmpty={emptyPassword}
-            useTogglePassword={togglePassword}
-            isValid={isValidPassword}
+            useTogglePassword={true}
             labelPassword='Забыли пароль?'
           />
         </div>
