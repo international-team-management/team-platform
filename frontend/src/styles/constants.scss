@@ -15,6 +15,7 @@
   white-space: nowrap;
 }
 
+
 $i:      !important;
 
 // UI
@@ -35,7 +36,7 @@ $ui-border-radius-phone: 16px;
 }
 
 @mixin set-block-size($width, $height) {
-  @include set-font-size(14px, 16px, 600);
+  @include set-font-size(14px, 16px, 600);  // так лучше не делать, теперь этот миксин кроме размеров блока, почему-то меняет шрифт
 
   min-width: $width;
   min-height: $height;

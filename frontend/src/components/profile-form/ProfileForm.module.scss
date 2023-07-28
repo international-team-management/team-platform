@@ -26,6 +26,12 @@
     &_data {
       @extend %flex-column;
     }
+
+    &_availability {
+      @extend %flex-column;
+
+      width: 400px;
+    }
   }
 
   &__img {

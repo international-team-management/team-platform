@@ -2,6 +2,7 @@ import React from 'react';
 import {InputPhoneTemplate} from '../UI/phone-input-template/InputPhoneTemplate';
 import {ProfileSectionTitle} from 'src/components/profile-section-title/ProfileSectionTitle';
 import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
+import InputTimezoneSelect from "../UI/timezone-input-template/InputTimezoneSelect";
 import { Input } from '../UI/input-template/InputTemplate';
 import { input } from "src/typings/constants";
 import styles from "./ProfileForm.module.scss";
@@ -9,6 +10,7 @@ import userAvatar from 'src/assets/framed-avatar.svg';
 import {helperTexts} from 'utils/validation/helperTexts';
 import { useForm } from "react-hook-form";
 import { RegisterRequestData } from "src/services/api/types";
+
 
 export function ProfileForm(): React.ReactNode {
   const {
@@ -35,7 +37,7 @@ export function ProfileForm(): React.ReactNode {
           </div>
         </form>
       </section>
-
+      
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle="Личные данные"
@@ -85,29 +87,16 @@ export function ProfileForm(): React.ReactNode {
           description='Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды'
         />
         <form className={styles.profile__form}>
-          {/* <Input
-            type={input.TEXT}
-            name='location'
-            label='Локация'
-            placeholder='Санкт-Петербург (UTC+3)'
-            helperText={''}
-            isValid={undefined}
-          />
-          <Input
-            type={input.TEXT}
-            name='schedule'
-            label='График работы'
-            helperText={''}
-            isValid={undefined}
-          /> */}
+          <InputTimezoneSelect label='Часовой пояс'/>
         </form>
       </section>
-          
+      
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle='Смена пароля'
           description='На ваш email сразу придет ссылка для смены пароля'
         />
+
         <form className={styles.profile__form}>
           <Input
             type={input.PASSWORD}
@@ -136,6 +125,7 @@ export function ProfileForm(): React.ReactNode {
           <button className={styles['profile__button_light-blue']}>Сменить пароль</button>
         </form>
       </section>
+      
     </>
   )
 }
