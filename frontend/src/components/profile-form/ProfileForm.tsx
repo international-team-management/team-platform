@@ -9,7 +9,7 @@ import styles from "./ProfileForm.module.scss";
 import userAvatar from 'src/assets/framed-avatar.svg';
 import {helperTexts} from 'utils/validation/helperTexts';
 import { useForm } from "react-hook-form";
-import { RegisterRequestData } from "src/services/api/types";
+import { RegisterRequestData, ProfileRequestData } from "src/services/api/types";
 
 
 export function ProfileForm(): React.ReactNode {
@@ -19,7 +19,7 @@ export function ProfileForm(): React.ReactNode {
     handleSubmit,
     getValues,
     formState: {errors}
-  } = useForm<RegisterRequestData>(
+  } = useForm<ProfileRequestData>(
     {mode: 'onChange', criteriaMode: 'all'}
   );
 
@@ -50,15 +50,15 @@ export function ProfileForm(): React.ReactNode {
             label='Имя'
             placeholder='Иван'
             register={register}
-            errors={errors[input.FIRST_NAME]}
+            errors={errors[InputName.FIRST_NAME]}
           />
           <Input
             type={InputType.TEXT}
-            name={InputName.SECOND_NAME}
+            name={InputName.LAST_NAME}
             label='Фамилия'
             placeholder='Иванов'
             register={register}
-            errors={errors[input.LAST_NAME]}
+            errors={errors[InputName.LAST_NAME]}
           />
           <Input
             type={InputType.TEXT}
@@ -66,7 +66,7 @@ export function ProfileForm(): React.ReactNode {
             label='Должность'
             placeholder='Ваша должность'
             register={register}
-            errors={errors}
+            errors={errors[InputName.JOB_TITLE]}
           />
           <Input
             type={InputType.EMAIL}
@@ -74,11 +74,9 @@ export function ProfileForm(): React.ReactNode {
             label='Email'
             placeholder='example@site.mail'
             register={register}
-            errors={errors[input.EMAIL]}
+            errors={errors[InputName.EMAIL]}
           />
-          <InputPhoneTemplate
-            label='Телефон'
-          />
+          <InputPhoneTemplate />
         </form>
       </section>
           
@@ -104,7 +102,7 @@ export function ProfileForm(): React.ReactNode {
             name={InputName.PASSWORD}
             label='Текущий пароль'
             register={register}
-            errors={errors[input.PASSWORD]}
+            errors={errors[InputName.PASSWORD]}
           />
           <Input
             type={InputType.PASSWORD}
@@ -112,14 +110,14 @@ export function ProfileForm(): React.ReactNode {
             label='Новый пароль'
             helperText={helperTexts.PASSWORD}
             register={register}
-            errors={errors}
+            errors={errors[InputName.NEW_PASSWORD]}
           />
           <Input
             type={InputType.PASSWORD}
             name={InputName.CONFIRM_PASSWORD}
             label='Повторите новый пароль'
             register={register}
-            errors={errors}
+            errors={errors[InputName.CONFIRM_PASSWORD]}
           />
           <button className={styles['profile__button_light-blue']}>Сменить пароль</button>
         </form>

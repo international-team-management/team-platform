@@ -12,9 +12,8 @@ export enum InputName {
   NEW_PASSWORD = 'new_password',
   EMAIL = InputType.EMAIL,
   FIRST_NAME = 'first_name',
-  SECOND_NAME = 'second_name',
+  // SECOND_NAME = 'second_name',
+  LAST_NAME = 'last_name',
   JOB_TITLE = 'job_title',
-  TIMEZONE = 'user_timezone'
-  // LAST_NAME = 'last_name',
-  // CONFIRM_PASSWORD = 'confirm_password'
+  TIMEZONE = 'user_timezone',
 }

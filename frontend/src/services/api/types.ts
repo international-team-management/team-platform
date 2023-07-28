@@ -6,6 +6,11 @@ export type RegisterRequestData = {
   confirm_password: string
 };
 
+export type ProfileRequestData = RegisterRequestData & {
+  job_title: string;
+  new_password: string;
+}
+
 export type LoginRequestData = {
   email: string,
   password: string

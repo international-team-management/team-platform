@@ -24,8 +24,8 @@ export const SignUpPage = () => {
   );
 
   const handlerFormSubmit = () => {
-    getValues(input.FIRST_NAME).trim();
-    getValues(input.LAST_NAME).trim();
+    getValues(InputName.FIRST_NAME).trim();
+    getValues(InputName.LAST_NAME).trim();
   }
 
   return (
@@ -43,7 +43,7 @@ export const SignUpPage = () => {
             label='Имя'
             placeholder='Иван'
             register={register}
-            errors={errors[input.FIRST_NAME]}
+            errors={errors[InputName.FIRST_NAME]}
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
@@ -54,11 +54,11 @@ export const SignUpPage = () => {
           />
           <Input
             type={InputType.TEXT}
-            name={InputName.SECOND_NAME}
+            name={InputName.LAST_NAME}
             label='Фамилия'
             placeholder='Иванов'
             register={register}
-            errors={errors[input.LAST_NAME]}
+            errors={errors[InputName.LAST_NAME]}
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
@@ -73,7 +73,7 @@ export const SignUpPage = () => {
             label='Email'
             placeholder='example@site.mail'
             register={register}
-            errors={errors[input.EMAIL]}
+            errors={errors[InputName.EMAIL]}
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
@@ -89,7 +89,7 @@ export const SignUpPage = () => {
             isPassword={true}
             helperText={helperTexts.PASSWORD}
             register={register}
-            errors={errors[input.PASSWORD]}
+            errors={errors[InputName.PASSWORD]}
             useTogglePassword={true}
             validOptions={              {
               required: errorTexts.EMPTY_FIELD.PATTERN,
@@ -104,7 +104,7 @@ export const SignUpPage = () => {
             name={InputName.CONFIRM_PASSWORD}
             label='Повторите пароль'
             register={register}
-            errors={errors[input.CONFIRM_PASSWORD]}
+            errors={errors[InputName.CONFIRM_PASSWORD]}
             isPassword={true}
             useTogglePassword={true}
             validOptions={{

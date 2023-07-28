@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
 import { Input } from "src/components/UI/input-template/InputTemplate";
@@ -22,6 +23,8 @@ export const LoginPage = () => {
   } = useForm<LoginRequestData>(
     {mode: 'onChange', criteriaMode: 'all'}
   );
+
+  const [showPassword, setShowPassword] = React.useState(false)
 
   const showPasswordHandler = () => {
     setShowPassword(!showPassword);
@@ -64,7 +67,7 @@ export const LoginPage = () => {
         <div>
           <Input
             register={register}
-            errors={errors[input.EMAIL]}
+            errors={errors[InputName.EMAIL]}
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
@@ -79,7 +82,7 @@ export const LoginPage = () => {
           />
           <Input
             register={register}
-            errors={errors[input.PASSWORD]}
+            errors={errors[InputName.PASSWORD]}
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {

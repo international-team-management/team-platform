@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './InputTemplate.module.scss';
 import clsx from 'clsx';
 
-import {ReactComponent as Eye} from 'assets/eye.svg';
-import {ReactComponent as EyeOff} from 'assets/eye-off.svg';
-import { InputName, InputType} from 'src/typings/constants';
+import { ReactComponent as Eye } from 'assets/eye.svg';
+import { ReactComponent as EyeOff } from 'assets/eye-off.svg';
+import { InputName, InputType } from 'src/typings/constants';
 
 type InputProps = {
   type: string,
@@ -91,12 +91,12 @@ type InputProps = {
 // export const MyInput = React.forwardRef(Input);
 
 
-export const Input = (props:InputProps) => {
+export const Input = (props: InputProps) => {
   const [valueHasChanged, setValueHasChanged] = React.useState(false);
   const [value, setValue] = React.useState('');
   const [isToggleEye, setToggleEye] = React.useState(false);
- 
- 
+
+
   function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     setValueHasChanged(true);
     setValue(e.target.value);
@@ -172,12 +172,12 @@ export const Input = (props:InputProps) => {
         <div
           className={clsx(
             styles.input__helperText,
-            
-        // from frontend-fix-profile
-        // props.name === InputName.PASSWORD &&  styles.input__helperText_password,
+
+            // from frontend-fix-profile
+            // props.name === InputName.PASSWORD && styles.input__helperText_password,
 
             {
-              [styles.input__helperText_password]: props.name === input.PASSWORD,
+              [styles.input__helperText_password]: props.name === InputName.PASSWORD,
               [styles.input__helperText_valid]: !props.errors && valueHasChanged,
               [styles.input__helperText_invalid]: props.errors
             }
@@ -190,11 +190,11 @@ export const Input = (props:InputProps) => {
         <div className={clsx(
           styles.input__errorText,
 
-        // from frontend-fix-profile
-        // props.name === InputName.PASSWORD && props.isEmpty && styles.input__errorText_password
+          // from frontend-fix-profile
+          // props.name === InputName.PASSWORD && props.isEmpty && styles.input__errorText_password
 
           {
-            [styles.input__errorText_password]: props.name === input.PASSWORD && valueHasChanged
+            [styles.input__errorText_password]: props.name === InputName.PASSWORD && valueHasChanged
           }
         )}>
           {props.errors.message}
