@@ -3,17 +3,35 @@ import {Input} from 'src/components/UI/input-template/InputTemplate';
 import {input} from 'src/typings/constants';
 import styles from './SignUpPage.module.scss';
 import {TitleTemplate} from 'src/components/UI/title-template/TitleTemplate';
-import {helperTexts} from 'utils/validation/helperTexts';
 import promo from '../../assets/Promo.png';
 import { Link } from 'react-router-dom';
 import { routes } from "src/routes";
+import { useForm } from 'react-hook-form';
+import { RegisterRequestData } from 'src/services/api/types';
+import { DevTool } from "@hookform/devtools";
+import { errorTexts, helperTexts } from "src/utils/validation/helperTexts";
+import { patterns } from "src/utils/validation/patterns";
 
 export const SignUpPage = () => {
+  const {
+    register,
+    control,
+    handleSubmit,
+    getValues,
+    formState: {errors}
+  } = useForm<RegisterRequestData>(
+    {mode: 'onChange', criteriaMode: 'all'}
+  );
+
+  const handlerFormSubmit = () => {
+    getValues(input.FIRST_NAME).trim();
+    getValues(input.LAST_NAME).trim();
+  }
 
   return (
     <main className={styles['sign-up-page']}>
       <img src={promo} className={styles['sign-up-page__promo']} alt="promo" />
-      <form className={styles['sign-up-page__wrapper']}>
+      <form className={styles['sign-up-page__wrapper']} onSubmit={handleSubmit(handlerFormSubmit)}>
         <TitleTemplate
           text='Добро пожаловать'
           descrption='Создайте аккаунт и начните работу с командой'
@@ -21,32 +39,80 @@ export const SignUpPage = () => {
         <div className={styles['sign-up-page__inputs']}>
           <Input
             type={input.TEXT}
-            name='first_name'
+            name={input.FIRST_NAME}
             label='Имя'
             placeholder='Иван'
+            register={register}
+            errors={errors[input.FIRST_NAME]}
+            validOptions={{
+              required: errorTexts.EMPTY_FIELD.PATTERN,
+              pattern: {
+                value: patterns.NAME,
+                message: errorTexts.FIRST_NAME.PATTERN
+              }
+            }}
           />
           <Input
             type={input.TEXT}
-            name='second_name'
+            name={input.LAST_NAME}
             label='Фамилия'
             placeholder='Иванов'
+            register={register}
+            errors={errors[input.LAST_NAME]}
+            validOptions={{
+              required: errorTexts.EMPTY_FIELD.PATTERN,
+              pattern: {
+                value: patterns.NAME,
+                message: errorTexts.LAST_NAME.PATTERN
+              }
+            }}
           />
           <Input
             type={input.EMAIL}
-            name='email'
+            name={input.EMAIL}
             label='Email'
             placeholder='example@site.mail'
+            register={register}
+            errors={errors[input.EMAIL]}
+            validOptions={{
+              required: errorTexts.EMPTY_FIELD.PATTERN,
+              pattern: {
+                value: patterns.EMAIL,
+                message: errorTexts.EMAIL.PATTERN
+              }
+            }}
           />
           <Input
             type={input.PASSWORD}
-            name='password'
+            name={input.PASSWORD}
             label='Пароль'
+            isPassword={true}
             helperText={helperTexts.PASSWORD}
+            register={register}
+            errors={errors[input.PASSWORD]}
+            useTogglePassword={true}
+            validOptions={              {
+              required: errorTexts.EMPTY_FIELD.PATTERN,
+              pattern: {
+                value: patterns.PASSWORD,
+                message: errorTexts.PASSWORD.PATTERN
+              }
+            }}
           />
           <Input
             type={input.PASSWORD}
-            name='repeat-password'
+            name={input.CONFIRM_PASSWORD}
             label='Повторите пароль'
+            register={register}
+            errors={errors[input.CONFIRM_PASSWORD]}
+            isPassword={true}
+            useTogglePassword={true}
+            validOptions={{
+              required: errorTexts.EMPTY_FIELD.PATTERN,
+              validate: (value: string, formValues: RegisterRequestData) => (
+                value !== formValues.password ? errorTexts.PASSWORD.CONFIRM : true
+              ),
+            }}
           />
         </div>
         <div className={styles['sign-up-page__buttons']}>
@@ -60,10 +126,10 @@ export const SignUpPage = () => {
           </div>
         </div>
         <p className={styles['sign-up-page__agreement']}>
-          Создавая аккаунт, вы&nbsp;соглашаетесь 
-          с&nbsp;Условиями использования и&nbsp;Политикой конфиденциальности
+          Создавая аккаунт, вы соглашаетесь <br/>с Условиями использования и Политикой конфиденциальности
         </p>
       </form>
+      <DevTool control={control} />
     </main>
   )
 }

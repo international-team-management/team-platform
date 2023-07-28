@@ -5,19 +5,22 @@
   &__section, &__section_header {
     @extend %flex-row;
 
+    gap: 148px;
+
     width: 1136px;
-    margin: 0 auto;
-    padding: 24px 0 28px;
-    border-bottom: 1px solid $gray-medium;
+    margin: 32px 0 0 32px;
+    padding-bottom: 28px;
+
+    border-bottom: 1px solid $grey-225;
   }
 
   &__form {
-    padding-left: 32px;
-
     &_photo {
       @extend %flex-row;
 
-      margin-top: 8px;
+      gap: 24px;
+      align-items: center;
+      margin: 0;
     }
 
     &_data {
@@ -32,32 +35,26 @@
   }
 
   &__img {
-    width: 80px;
-    height: 80px;
-
-    background-color: $grey-light;
-    border: 3px dashed $dark-blue;
-    border-radius: 50%;
+    @include set-block-size(80px, 80px);
   }
 
   &__buttons {
     @extend %flex-column;
 
+    align-items: center;
     justify-content: space-between;
-    width: 80px;
-    margin-left: 24px;
+    min-width: 80px;
   }
 
   &__button {
     &_blue {
       @include set-font-size(14px, 16px, 600);
 
+      @include set-block-size(166px, 36px);
+
       cursor: pointer;
 
-      width: 166px;
-      height: 36px;
-
-      color: $white;
+      color: $main-white;
       letter-spacing: -0.01rem;
 
       background-color: $bright-blue;
@@ -68,16 +65,32 @@
     &_red {
       @include set-font-size(14px, 16px, 600);
 
-      cursor: pointer;
+      @include set-block-size(154px, 36px);
 
-      width: 154px;
-      height: 36px;
+      cursor: pointer;
 
       color: $bright-red;
       letter-spacing: -0.01rem;
 
-      background-color: $white;
+      background-color: $main-white;
       border: 1px solid $bright-red;
+      border-radius: 12px;
+    }
+
+    &_light-blue {
+      @include set-font-size(14px, 16px, 600);
+
+      @include set-block-size(100%, 52px);
+
+      cursor: pointer;
+
+      margin: 24px 0 0;
+
+      color: $main-white;
+      letter-spacing: -0.01rem;
+
+      background-color: $bright-blue;
+      border: 1px solid $bright-blue;
       border-radius: 12px;
     }
   }
@@ -85,8 +98,16 @@
   &__phone {
     @include set-font-size(16px, 20px, 600);
 
+    height: $ui-height;
     margin: 16px 0 8px;
-    color: $black-text;
+    padding: 12px 20px;
+
+    color: $main-black;
     letter-spacing: -0.01rem;
+
+    border: 1px solid $input-border-color;
+    border-radius: $ui-border-radius;
+
+    transition: all 0.15s ease-in-out;
   }
 }
