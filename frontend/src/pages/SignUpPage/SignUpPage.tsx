@@ -1,6 +1,6 @@
 import {ButtonTemplate} from 'src/components/UI/button-template/ButtonTemplate';
 import {Input} from 'src/components/UI/input-template/InputTemplate';
-import {input} from 'src/typings/constants';
+import {InputType, InputName} from 'src/typings/constants';
 import styles from './SignUpPage.module.scss';
 import {TitleTemplate} from 'src/components/UI/title-template/TitleTemplate';
 import promo from '../../assets/Promo.png';
@@ -38,8 +38,8 @@ export const SignUpPage = () => {
         />
         <div className={styles['sign-up-page__inputs']}>
           <Input
-            type={input.TEXT}
-            name={input.FIRST_NAME}
+            type={InputType.TEXT}
+            name={InputName.FIRST_NAME}
             label='Имя'
             placeholder='Иван'
             register={register}
@@ -53,8 +53,8 @@ export const SignUpPage = () => {
             }}
           />
           <Input
-            type={input.TEXT}
-            name={input.LAST_NAME}
+            type={InputType.TEXT}
+            name={InputName.SECOND_NAME}
             label='Фамилия'
             placeholder='Иванов'
             register={register}
@@ -68,8 +68,8 @@ export const SignUpPage = () => {
             }}
           />
           <Input
-            type={input.EMAIL}
-            name={input.EMAIL}
+            type={InputType.EMAIL}
+            name={InputName.EMAIL}
             label='Email'
             placeholder='example@site.mail'
             register={register}
@@ -83,8 +83,8 @@ export const SignUpPage = () => {
             }}
           />
           <Input
-            type={input.PASSWORD}
-            name={input.PASSWORD}
+            type={InputType.PASSWORD}
+            name={InputName.PASSWORD}
             label='Пароль'
             isPassword={true}
             helperText={helperTexts.PASSWORD}
@@ -100,8 +100,8 @@ export const SignUpPage = () => {
             }}
           />
           <Input
-            type={input.PASSWORD}
-            name={input.CONFIRM_PASSWORD}
+            type={InputType.PASSWORD}
+            name={InputName.CONFIRM_PASSWORD}
             label='Повторите пароль'
             register={register}
             errors={errors[input.CONFIRM_PASSWORD]}

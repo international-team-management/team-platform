@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ButtonTemplate } from "src/components/UI/button-template/ButtonTemplate";
 import { Input } from "src/components/UI/input-template/InputTemplate";
-import { input } from "src/typings/constants";
+import { InputType, InputName } from "src/typings/constants";
 import { routes } from "src/routes";
 import styles from './LoginPage.module.scss';
 import { TitleTemplate } from "src/components/UI/title-template/TitleTemplate";
@@ -22,6 +22,31 @@ export const LoginPage = () => {
   } = useForm<LoginRequestData>(
     {mode: 'onChange', criteriaMode: 'all'}
   );
+
+  const showPasswordHandler = () => {
+    setShowPassword(!showPassword);
+  }
+
+  const handlerInputPassword = (e: ChangeEvent<HTMLInputElement>) => {
+    const result = e.currentTarget.value.length;
+
+    if (result) {
+      setTogglePassword(true);
+      setEmptyPassword(true)
+    } else {
+      setTogglePassword(false);
+      setEmptyPassword(false)
+    }
+
+    setIsValidPassword(!getFieldState(InputName.PASSWORD).invalid)
+  }
+
+  const handlerInputLogin = (e: ChangeEvent<HTMLInputElement>) => {
+    const result = e.currentTarget.value.length;
+    result ? setEmptyLogin(true) : setEmptyLogin(false);
+
+    setIsValidEmail(!getFieldState(InputName.EMAIL).invalid);
+  }
 
   const handlerFormSubmit = (data:LoginRequestData) => {
     console.log(data);
@@ -47,8 +72,8 @@ export const LoginPage = () => {
                 message: errorTexts.EMAIL.PATTERN
               }
             }}
-            name={input.EMAIL}
-            type={input.EMAIL}
+            name={InputName.EMAIL}
+            type={InputType.EMAIL}
             label='Email'
             placeholder='example@site.mail'
           />
@@ -62,8 +87,8 @@ export const LoginPage = () => {
                 message: errorTexts.PASSWORD.PATTERN
               }
             }}
-            name={input.PASSWORD}
-            type={input.PASSWORD}
+            name={InputName.PASSWORD}
+            type={!showPassword ? InputType.PASSWORD : InputType.TEXT}
             label='Пароль'
             placeholder=''
             helperText={helperTexts.PASSWORD}
