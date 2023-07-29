@@ -13,12 +13,17 @@ export const InputPhoneTemplate = () => {
 
   return (
     <div className={styles['phone-info']}>
-      <label className={styles['phone-info__special-label']} htmlFor="phone-input">Телефон</label>
+      <label
+        className={styles['phone-info__special-label']}
+        htmlFor="phone-input"
+      >
+        Телефон
+      </label>
       <PhoneInput
         containerClass={styles['phone-info__container']}
         inputClass={styles['phone-info__input']}
         buttonClass={styles['phone-info__button']}
-        specialLabel='Телефон'
+        specialLabel="Телефон"
         value={phone}
         onChange={handlePhoneChange}
         required
@@ -26,7 +31,7 @@ export const InputPhoneTemplate = () => {
         searchClass={styles['phone-info__search-field']}
         localization={ru}
         country={'ru'}
-        placeholder={phone ? "" : "+7 XXX XXX–XX–XX"}
+        placeholder={phone ? '' : '+7 XXX XXX–XX–XX'}
       />
     </div>
   );

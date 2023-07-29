@@ -9,6 +9,7 @@
     "lint": "npm-run-all -p \"lint:**\" ",
     "lint:js": "eslint --color --ext \".js,.ts,.jsx,.tsx\" .",
     "lint:scss": "stylelint --fix --cache --cache-location \"node_modules/stylelint/.stylelintcache\" --ignore-path .gitignore \"{**/*,*}.{css,scss}\"",
+    "lint:prettier-write": "npx prettier --write .",
     "preview": "vite preview",
     "prepare": "cd .. && husky install frontend/.husky"
   },
