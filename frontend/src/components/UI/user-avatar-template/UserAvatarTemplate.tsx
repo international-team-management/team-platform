@@ -10,14 +10,17 @@ interface UserAvatarProps {
   users: User[];
 }
 
-export const UserAvatar: React.FC<UserAvatarProps> = ({users}) => {
+export const UserAvatar: React.FC<UserAvatarProps> = ({ users }) => {
   return (
     <div className={styles.avatar}>
       {users.map((user) => (
-        <img className={styles.avatar__image} key={user.name} src={user.src} alt={user.name}/>
+        <img
+          className={styles.avatar__image}
+          key={user.name}
+          src={user.src}
+          alt={user.name}
+        />
       ))}
     </div>
   );
 };
-
-

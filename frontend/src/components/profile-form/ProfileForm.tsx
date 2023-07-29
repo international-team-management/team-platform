@@ -1,16 +1,18 @@
 import React from 'react';
-import {InputPhoneTemplate} from '../UI/phone-input-template/InputPhoneTemplate';
-import {ProfileSectionTitle} from 'src/components/profile-section-title/ProfileSectionTitle';
+import { InputPhoneTemplate } from '../UI/phone-input-template/InputPhoneTemplate';
+import { ProfileSectionTitle } from 'src/components/profile-section-title/ProfileSectionTitle';
 import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
-import InputTimezoneSelect from "../UI/timezone-input-template/InputTimezoneSelect";
+import InputTimezoneSelect from '../UI/timezone-input-template/InputTimezoneSelect';
 import { Input } from '../UI/input-template/InputTemplate';
-import { InputType,  InputName} from "src/typings/constants";
-import styles from "./ProfileForm.module.scss";
+import { InputType, InputName } from 'src/typings/constants';
+import styles from './ProfileForm.module.scss';
 import userAvatar from 'src/assets/framed-avatar.svg';
-import {helperTexts} from 'utils/validation/helperTexts';
-import { useForm } from "react-hook-form";
-import { RegisterRequestData, ProfileRequestData } from "src/services/api/types";
-
+import { helperTexts } from 'utils/validation/helperTexts';
+import { useForm } from 'react-hook-form';
+import {
+  RegisterRequestData,
+  ProfileRequestData,
+} from 'src/services/api/types';
 
 export function ProfileForm(): React.ReactNode {
   const {
@@ -18,10 +20,8 @@ export function ProfileForm(): React.ReactNode {
     control,
     handleSubmit,
     getValues,
-    formState: {errors}
-  } = useForm<ProfileRequestData>(
-    {mode: 'onChange', criteriaMode: 'all'}
-  );
+    formState: { errors },
+  } = useForm<ProfileRequestData>({ mode: 'onChange', criteriaMode: 'all' });
 
   return (
     <>
@@ -31,13 +31,15 @@ export function ProfileForm(): React.ReactNode {
           description="По&nbsp;реальной фотографии коллеги смогут легко узнать вас"
         />
         <form className={styles.profile__form_photo}>
-          <img className={styles.profile__img} alt='Фото' src={userAvatar}/>
+          <img className={styles.profile__img} alt="Фото" src={userAvatar} />
           <div className={styles.profile__buttons}>
-            <button className={styles.profile__button_blue}>Загрузить фотографию</button>
+            <button className={styles.profile__button_blue}>
+              Загрузить фотографию
+            </button>
           </div>
         </form>
       </section>
-      
+
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle="Личные данные"
@@ -47,67 +49,67 @@ export function ProfileForm(): React.ReactNode {
           <Input
             type={InputType.TEXT}
             name={InputName.FIRST_NAME}
-            label='Имя'
-            placeholder='Иван'
+            label="Имя"
+            placeholder="Иван"
             register={register}
             errors={errors[InputName.FIRST_NAME]}
           />
           <Input
             type={InputType.TEXT}
             name={InputName.LAST_NAME}
-            label='Фамилия'
-            placeholder='Иванов'
+            label="Фамилия"
+            placeholder="Иванов"
             register={register}
             errors={errors[InputName.LAST_NAME]}
           />
           <Input
             type={InputType.TEXT}
             name={InputName.JOB_TITLE}
-            label='Должность'
-            placeholder='Ваша должность'
+            label="Должность"
+            placeholder="Ваша должность"
             register={register}
             errors={errors[InputName.JOB_TITLE]}
           />
           <Input
             type={InputType.EMAIL}
             name={InputName.EMAIL}
-            label='Email'
-            placeholder='example@site.mail'
+            label="Email"
+            placeholder="example@site.mail"
             register={register}
             errors={errors[InputName.EMAIL]}
           />
           <InputPhoneTemplate />
         </form>
       </section>
-          
+
       <section className={styles.profile__section}>
         <ProfileSectionTitle
-          subtitle='Доступность'
-          description='Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды'
+          subtitle="Доступность"
+          description="Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды"
         />
         <form className={styles.profile__form}>
-          <InputTimezoneSelect label='Часовой пояс'/>
+          <InputTimezoneSelect label="Часовой пояс" />
         </form>
       </section>
-      
+
       <section className={styles.profile__section}>
         <ProfileSectionTitle
-          subtitle='Смена пароля'
-          description='На ваш email сразу придет ссылка для смены пароля'
+          subtitle="Смена пароля"
+          description="На ваш email сразу придет ссылка для смены пароля"
         />
 
         <form className={styles.profile__form}>
           <Input
             type={InputType.PASSWORD}
             name={InputName.PASSWORD}
-            label='Текущий пароль'
+            label="Текущий пароль"
             register={register}
             errors={errors[InputName.PASSWORD]}
           />
           <Input
             type={InputType.PASSWORD}
             name={InputName.NEW_PASSWORD}
-            label='Новый пароль'
+            label="Новый пароль"
             helperText={helperTexts.PASSWORD}
             register={register}
             errors={errors[InputName.NEW_PASSWORD]}
@@ -115,14 +117,15 @@ export function ProfileForm(): React.ReactNode {
           <Input
             type={InputType.PASSWORD}
             name={InputName.CONFIRM_PASSWORD}
-            label='Повторите новый пароль'
+            label="Повторите новый пароль"
             register={register}
             errors={errors[InputName.CONFIRM_PASSWORD]}
           />
-          <button className={styles['profile__button_light-blue']}>Сменить пароль</button>
+          <button className={styles['profile__button_light-blue']}>
+            Сменить пароль
+          </button>
         </form>
       </section>
-      
     </>
-  )
+  );
 }

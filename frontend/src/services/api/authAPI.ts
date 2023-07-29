@@ -1,14 +1,22 @@
-import { request } from "./apiRequest";
-import { LoginRequestData, RegisterRequestData, TokenType, URLS, UserType } from "./types";
+import { request } from './apiRequest';
+import {
+  LoginRequestData,
+  RegisterRequestData,
+  TokenType,
+  URLS,
+  UserType,
+} from './types';
 
 export const authAPI = {
-  
   register: (data: RegisterRequestData): Promise<RegisterRequestData> => {
-    return request.post<RegisterRequestData, RegisterRequestData>(URLS.SIGN_UP, data);
+    return request.post<RegisterRequestData, RegisterRequestData>(
+      URLS.SIGN_UP,
+      data,
+    );
   },
 
   login: (data: LoginRequestData): Promise<TokenType> => {
-    return request.post<TokenType, LoginRequestData>(URLS.SIGN_IN, data)
+    return request.post<TokenType, LoginRequestData>(URLS.SIGN_IN, data);
   },
 
   me: async (): Promise<UserType> => {
@@ -17,6 +25,5 @@ export const authAPI = {
     return result;
   },
 
-  logout: (): Promise<"OK"> => request.post<"OK", null>(URLS.LOGOUT),
-
-}
+  logout: (): Promise<'OK'> => request.post<'OK', null>(URLS.LOGOUT),
+};
