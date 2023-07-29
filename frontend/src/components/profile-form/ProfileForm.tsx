@@ -44,14 +44,7 @@ export function ProfileForm(): React.ReactNode {
           description="Эта информация будет доступна всем участникам проекта"
         />
         <form className={styles.profile__form_data}>
-          <Input
-            type={InputType.TEXT}
-            name={InputName.FIRST_NAME}
-            label='Имя'
-            placeholder='Иван'
-            register={register}
-            errors={errors[InputName.FIRST_NAME]}
-          />
+          <Input type={InputType.TEXT} name={InputName.FIRST_NAME} label='Имя' placeholder='Иван' register={register} errors={errors[InputName.FIRST_NAME]} />
           <Input
             type={InputType.TEXT}
             name={InputName.LAST_NAME}
