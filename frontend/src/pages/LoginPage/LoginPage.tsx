@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ButtonTemplate } from 'src/components/UI/button-template/ButtonTemplate';
 import { Input } from 'src/components/UI/input-template/InputTemplate';
@@ -22,33 +21,6 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm<LoginRequestData>({ mode: 'onChange', criteriaMode: 'all' });
 
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const showPasswordHandler = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handlerInputPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const result = e.currentTarget.value.length;
-
-    if (result) {
-      setTogglePassword(true);
-      setEmptyPassword(true);
-    } else {
-      setTogglePassword(false);
-      setEmptyPassword(false);
-    }
-
-    setIsValidPassword(!getFieldState(InputName.PASSWORD).invalid);
-  };
-
-  const handlerInputLogin = (e: ChangeEvent<HTMLInputElement>) => {
-    const result = e.currentTarget.value.length;
-    result ? setEmptyLogin(true) : setEmptyLogin(false);
-
-    setIsValidEmail(!getFieldState(InputName.EMAIL).invalid);
-  };
-
   const handlerFormSubmit = (data: LoginRequestData) => {
     console.log(data);
     reset();
@@ -68,8 +40,16 @@ export const LoginPage = () => {
         <div>
           <Input
             register={register}
-            errors={errors[InputName.EMAIL]}
+            errorObject={errors[InputName.EMAIL]}
             validOptions={{
+              minLength: {
+                value: 5,
+                message: errorTexts.EMAIL.LENGTH,
+              },
+              maxLength: {
+                value: 80,
+                message: errorTexts.EMAIL.LENGTH,
+              },
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.EMAIL,
@@ -83,8 +63,16 @@ export const LoginPage = () => {
           />
           <Input
             register={register}
-            errors={errors[InputName.PASSWORD]}
+            errorObject={errors[InputName.PASSWORD]}
             validOptions={{
+              minLength: {
+                value: 8,
+                message: errorTexts.PASSWORD.LENGTH,
+              },
+              maxLength: {
+                value: 22,
+                message: errorTexts.PASSWORD.LENGTH,
+              },
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.PASSWORD,
@@ -92,10 +80,13 @@ export const LoginPage = () => {
               },
             }}
             name={InputName.PASSWORD}
-            type={!showPassword ? InputType.PASSWORD : InputType.TEXT}
+            type={InputType.PASSWORD}
             label="Пароль"
             placeholder=""
-            helperText={helperTexts.PASSWORD}
+            helperText={[
+              helperTexts.PASSWORD_LENGTH,
+              helperTexts.PASSWORD_SYMBOLS,
+            ]}
             isPassword={true}
             useTogglePassword={true}
             labelPassword="Забыли пароль?"

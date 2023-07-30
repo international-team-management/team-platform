@@ -6,8 +6,16 @@ export type RegisterRequestData = {
   confirm_password: string;
 };
 
-export type ProfileRequestData = RegisterRequestData & {
+export type ProfileRequestData = {
+  first_name: string;
+  last_name: string;
+  email: string;
   job_title: string;
+};
+
+export type UpdatePasswordData = {
+  password: string;
+  confirm_password: string;
   new_password: string;
 };
 
