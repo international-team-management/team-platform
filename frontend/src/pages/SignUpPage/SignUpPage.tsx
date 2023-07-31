@@ -18,12 +18,15 @@ export const SignUpPage = () => {
     control,
     handleSubmit,
     getValues,
+    reset,
     formState: { errors },
   } = useForm<RegisterRequestData>({ mode: 'onChange', criteriaMode: 'all' });
 
-  const handlerFormSubmit = () => {
+  const handlerFormSubmit = (data: RegisterRequestData) => {
     getValues(InputName.FIRST_NAME).trim();
     getValues(InputName.LAST_NAME).trim();
+    console.log(data);
+    reset();
   };
 
   return (
@@ -44,8 +47,16 @@ export const SignUpPage = () => {
             label="Имя"
             placeholder="Иван"
             register={register}
-            errors={errors[InputName.FIRST_NAME]}
+            errorObject={errors[InputName.FIRST_NAME]}
             validOptions={{
+              minLength: {
+                value: 1,
+                message: errorTexts.FIRST_NAME.LENGTH,
+              },
+              maxLength: {
+                value: 30,
+                message: errorTexts.FIRST_NAME.LENGTH,
+              },
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.NAME,
@@ -59,8 +70,16 @@ export const SignUpPage = () => {
             label="Фамилия"
             placeholder="Иванов"
             register={register}
-            errors={errors[InputName.LAST_NAME]}
+            errorObject={errors[InputName.LAST_NAME]}
             validOptions={{
+              minLength: {
+                value: 1,
+                message: errorTexts.LAST_NAME.LENGTH,
+              },
+              maxLength: {
+                value: 30,
+                message: errorTexts.LAST_NAME.LENGTH,
+              },
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.NAME,
@@ -74,8 +93,16 @@ export const SignUpPage = () => {
             label="Email"
             placeholder="example@site.mail"
             register={register}
-            errors={errors[InputName.EMAIL]}
+            errorObject={errors[InputName.EMAIL]}
             validOptions={{
+              minLength: {
+                value: 5,
+                message: errorTexts.EMAIL.LENGTH,
+              },
+              maxLength: {
+                value: 80,
+                message: errorTexts.EMAIL.LENGTH,
+              },
               required: errorTexts.EMPTY_FIELD.PATTERN,
               pattern: {
                 value: patterns.EMAIL,
@@ -88,12 +115,24 @@ export const SignUpPage = () => {
             name={InputName.PASSWORD}
             label="Пароль"
             isPassword={true}
-            helperText={helperTexts.PASSWORD}
+            placeholder=""
+            helperText={[
+              helperTexts.PASSWORD_LENGTH,
+              helperTexts.PASSWORD_SYMBOLS,
+            ]}
             register={register}
-            errors={errors[InputName.PASSWORD]}
+            errorObject={errors[InputName.PASSWORD]}
             useTogglePassword={true}
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
+              minLength: {
+                value: 8,
+                message: errorTexts.PASSWORD.LENGTH,
+              },
+              maxLength: {
+                value: 22,
+                message: errorTexts.PASSWORD.LENGTH,
+              },
               pattern: {
                 value: patterns.PASSWORD,
                 message: errorTexts.PASSWORD.PATTERN,
@@ -105,9 +144,11 @@ export const SignUpPage = () => {
             name={InputName.CONFIRM_PASSWORD}
             label="Повторите пароль"
             register={register}
-            errors={errors[InputName.CONFIRM_PASSWORD]}
+            errorObject={errors[InputName.CONFIRM_PASSWORD]}
             isPassword={true}
+            placeholder=""
             useTogglePassword={true}
+            getValues={getValues}
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
               validate: (value: string, formValues: RegisterRequestData) =>

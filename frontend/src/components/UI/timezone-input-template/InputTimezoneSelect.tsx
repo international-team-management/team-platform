@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { useTimezoneSelect, allTimezones } from 'react-timezone-select';
+import { useState } from 'react';
+import {
+  useTimezoneSelect,
+  allTimezones,
+  // ITimezoneOption,
+} from 'react-timezone-select';
 import Select from 'react-select';
 import styles from './InputTimezoneSelect.module.scss';
 import './SelectTzComponent.scss'; // <-- Управление стилями компонента Select, модульно пока не получилось (https://react-select.com/styles#inner-components)
@@ -8,7 +12,10 @@ type InputTimezonePropsType = {
   label: string;
 };
 
-export default function InputTimezoneSelect(props: InputTimezonePropsType) {
+export default function InputTimezoneSelect({
+  label,
+  ...props
+}: InputTimezonePropsType) {
   const labelStyle = 'altName';
   const timezones = {
     ...allTimezones,
@@ -27,13 +34,13 @@ export default function InputTimezoneSelect(props: InputTimezonePropsType) {
 
   return (
     <label className={styles.tz}>
-      <span>{props.label}</span>
-
+      <span>{label}</span>
       <Select
         unstyled={true}
         classNamePrefix={'tz-select'}
         options={options}
         defaultValue={tz}
+        {...props}
       />
     </label>
   );

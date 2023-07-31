@@ -4,10 +4,14 @@ import PhoneInput from 'react-phone-input-2';
 import ru from 'react-phone-input-2/lang/ru.json';
 import styles from './InputPhoneTemplate.module.scss';
 
-export const InputPhoneTemplate = () => {
+type InputPhoneTemplateType = {
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+};
+
+export const InputPhoneTemplate = (props: InputPhoneTemplateType) => {
   const [phone, setPhone] = React.useState('');
 
-  const handlePhoneChange = (value) => {
+  const handlePhoneChange = (value: string) => {
     setPhone(value);
   };
 
@@ -26,12 +30,12 @@ export const InputPhoneTemplate = () => {
         specialLabel="Телефон"
         value={phone}
         onChange={handlePhoneChange}
-        required
         dropdownClass={styles['phone-info__country-list']}
         searchClass={styles['phone-info__search-field']}
         localization={ru}
         country={'ru'}
         placeholder={phone ? '' : '+7 XXX XXX–XX–XX'}
+        {...props}
       />
     </div>
   );
