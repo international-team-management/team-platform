@@ -70,8 +70,7 @@ export type TokenType = {
 
 export enum URLS {
   AUTH = 'auth',
-  LOGOUT = `${URLS.AUTH}/logout`,
-  SIGN_IN = `${URLS.AUTH}/signin`,
-  SIGN_UP = `${URLS.AUTH}/signup`,
-  USER = `${URLS.AUTH}/user`,
+  SIGN_UP = `${URLS.AUTH}/auth/users/`,
+  SIGN_IN = `${URLS.AUTH}/auth/jwt/create/`,
+  USER_ME = `${URLS.AUTH}/auth/users/me/`,
 }

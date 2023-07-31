@@ -11,7 +11,7 @@ import type {
 // Use cases
 // 1. register, post new user data > if ok response > login, post credentials > receive tokens, keep in localStorage > get userMe
 // 2. login, post credentials > receive tokens, keep in localStorage > get userMe
-// 3. logout > if good response > remove tokens from localStorage
+// 3. logout > if good response > remove tokens from localStorage without any request to backend
 
 // Types
 
@@ -46,6 +46,8 @@ const initialState: AuthStateType = {
 };
 
 // Thunks (async action creators)
+// They make a request, then wait a response data, then under the hood make a dispatch(action_creator(data))
+//   action_creator(data) generates actions like this {type: 'auth/login/pending', payload: data}
 
 export const authThunks = {
   // Info: Error axios interceptor is configured in the project, try-catch is not needed.
@@ -74,23 +76,23 @@ export const authThunks = {
   ),
 
   userMe: createAsyncThunk('auth/userMe', async () => await authAPI.me()),
-
-  logout: createAsyncThunk('auth/logout', async () => {
-    await authAPI.logout();
-    localStorage.removeItem('tokenAccess');
-    localStorage.removeItem('tokenRefresh');
-  }),
 };
 
 // Slice
+// Note: any reducer should work only with the state
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  // triggered by sync action creators which implemented under the hood by createSlice via combining authSlice.name/reducers.method
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+    },
+  },
+  // triggered by async action creators usualy implemented by thunks
   extraReducers: (builder) => {
     builder
-
       // register
       .addCase(authThunks.register.pending, (state) => {
         state.isLoading = true;
@@ -107,7 +109,6 @@ export const authSlice = createSlice({
           state.error = action.payload;
         },
       )
-
       // login
       .addCase(authThunks.login.pending, (state) => {
         state.isLoading = true;
@@ -120,28 +121,13 @@ export const authSlice = createSlice({
       .addCase(authThunks.login.rejected, (state) => {
         state.isLoading = false;
         state.error = true;
-      })
-
-      // logout
-      .addCase(authThunks.logout.pending, (state) => {
-        state.isLoading = true;
-        state.error = false;
-      })
-      .addCase(authThunks.logout.fulfilled, (state) => {
-        state.isLoading = false;
-        state.error = false;
-        state.user = null;
-      })
-      .addCase(
-        authThunks.logout.rejected,
-        (state, action: PayloadAction<unknown>) => {
-          state.isLoading = false;
-          state.error = action.payload;
-        },
-      );
+      });
   },
 });
 
 // Selectors
 export const selectAuthData = (state: RootState) => state.auth;
 export const selectUserMe = (state: RootState) => state.auth.user;
+
+// Action creator
+export const { logout } = authSlice.actions;

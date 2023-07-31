@@ -20,10 +20,10 @@ export const authAPI = {
   },
 
   me: async (): Promise<UserType> => {
-    const result = await request.get<UserType>(URLS.USER);
+    const result = await request.get<UserType>(URLS.USER_ME);
 
     return result;
   },
 
-  logout: (): Promise<'OK'> => request.post<'OK', null>(URLS.LOGOUT),
+  // logout: (): Promise<'OK'> => request.post<'OK', null>(URLS.LOGOUT),
 };
