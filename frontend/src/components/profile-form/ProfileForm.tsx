@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FocusEvent } from 'react';
 import { InputPhoneTemplate } from '../UI/phone-input-template/InputPhoneTemplate';
 import { ProfileSectionTitle } from 'src/components/profile-section-title/ProfileSectionTitle';
 // import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
@@ -12,17 +12,18 @@ import { useForm } from 'react-hook-form';
 import { patterns } from 'src/utils/validation/patterns';
 import { DevTool } from '@hookform/devtools';
 import {
-  RegisterRequestData,
+  // RegisterRequestData,
   ProfileRequestData,
   UpdatePasswordData,
 } from 'src/services/api/types';
+import { SingleValue } from 'react-select';
+import { ITimezoneOption } from 'react-timezone-select';
 
-export function ProfileForm(): React.ReactNode {
+export const ProfileForm: React.FC = () => {
   const {
     register,
     control,
     getValues,
-    handleSubmit,
     formState: { errors },
   } = useForm<ProfileRequestData>({ mode: 'onChange', criteriaMode: 'all' });
 
@@ -31,18 +32,22 @@ export function ProfileForm(): React.ReactNode {
     criteriaMode: 'all',
   });
 
-  const handlerFormSubmit = (data: RegisterRequestData) => {
+  // const handlerFormSubmit = (data: RegisterRequestData) => {
+  //   console.log(data);
+  // };
+
+  const handlerFormPasswordSubmit = (data: UpdatePasswordData) => {
     console.log(data);
   };
 
-  const handlerInputSubmit = (e) => {
+  const handlerInputSubmit = (e: FocusEvent<HTMLInputElement>) => {
     if (!(e.target.name in errors)) {
       e.target.value = e.target.value.trim();
       console.log(e.target.value);
     }
   };
 
-  const handlerInputZoneSubmit = (data) => {
+  const handlerInputZoneSubmit = (data: SingleValue<ITimezoneOption>) => {
     console.log(data);
   };
 
@@ -175,7 +180,7 @@ export function ProfileForm(): React.ReactNode {
         />
         <form className={styles.profile__form}>
           <InputTimezoneSelect
-            onChange={handlerInputZoneSubmit}
+            handler={handlerInputZoneSubmit}
             label="Часовой пояс"
           />
         </form>
@@ -188,7 +193,7 @@ export function ProfileForm(): React.ReactNode {
         />
 
         <form
-          onSubmit={updatePasswordForm.handleSubmit(handlerFormSubmit)}
+          onSubmit={updatePasswordForm.handleSubmit(handlerFormPasswordSubmit)}
           className={styles.profile__form}
         >
           <Input
@@ -263,7 +268,7 @@ export function ProfileForm(): React.ReactNode {
             getValues={getValues}
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,
-              validate: (value: string, formValues: ProfileRequestData) =>
+              validate: (value: string, formValues: UpdatePasswordData) =>
                 value !== formValues.new_password
                   ? errorTexts.PASSWORD.CONFIRM
                   : true,
@@ -277,4 +282,4 @@ export function ProfileForm(): React.ReactNode {
       </section>
     </>
   );
-}
+};
