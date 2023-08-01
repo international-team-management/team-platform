@@ -2,7 +2,8 @@
 @import 'styles/constants';
 
 .profile {
-  &__section, &__section_header {
+  &__section,
+  &__section_header {
     @extend %flex-row;
 
     gap: 148px;
@@ -25,6 +26,12 @@
 
     &_data {
       @extend %flex-column;
+    }
+
+    &_availability {
+      @extend %flex-column;
+
+      width: 400px;
     }
   }
 

@@ -15,7 +15,7 @@
   white-space: nowrap;
 }
 
-$i:      !important;
+$i: !important;
 
 // UI
 $ui-width: 340px;
@@ -35,13 +35,16 @@ $ui-border-radius-phone: 16px;
 }
 
 @mixin set-block-size($width, $height) {
-  @include set-font-size(14px, 16px, 600);
+  @include set-font-size(
+    14px,
+    16px,
+    600
+  ); // так лучше не делать, теперь этот миксин кроме размеров блока, почему-то меняет шрифт
 
   min-width: $width;
   min-height: $height;
   letter-spacing: -0.01rem;
 }
-
 
 @mixin set-check-validation-icon($icon-path) {
   position: relative;

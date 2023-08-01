@@ -1,0 +1,64 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.tz-select {
+  // &__value-container {
+
+  // }
+
+  &__single-value {
+    @include set-font-size(16px, 20px, 400);
+
+    text-align: left;
+    letter-spacing: -0.03em;
+  }
+
+  &__control {
+    height: 52px;
+    padding: 0 20px;
+    border: 1px solid rgb(230 230 230 / 100%);
+    border-radius: 12px;
+  }
+
+  &__menu {
+    overflow: hidden;
+
+    width: 400px;
+    height: 248px;
+    margin-top: 12px;
+    padding: 20px;
+
+    background-color: rgb(255 255 255 / 100%);
+    border: 1px solid rgb(230 230 230 / 100%);
+    border-radius: 16px;
+    box-shadow: 0 5px 50px 5px $blue-0;
+  }
+
+  // &__menu-list {
+
+  // }
+
+  &__option {
+    @include set-font-size(16px, 36px, 400);
+
+    overflow: hidden;
+
+    max-width: 100%;
+    margin: 5px 0;
+
+    text-align: left;
+    text-overflow: ellipsis;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(230 230 230 / 100%);
+      border-radius: 2px;
+    }
+
+    &:first-child {
+      margin: 0 0 5px;
+    }
+  }
+}

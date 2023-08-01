@@ -4,7 +4,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 export class ApiError extends Error {
   constructor(
     public message: string,
-    public status: number
+    public status: number,
   ) {
     super(message);
 
@@ -13,26 +13,30 @@ export class ApiError extends Error {
   }
 }
 
-
-
 const axiosInstance = axios.create({
   // Это урл для валидации на серваке яндекса, который был на курсе
   // чтобы проверить работает ли код
   baseURL: import.meta.env.VITE_API_ENDPOINT,
   withCredentials: true,
-  headers: {"Authorization": `Bearer ${JSON.stringify(localStorage.getItem("tokenAccess"))}`}
+  headers: {
+    Authorization: `Bearer ${JSON.stringify(
+      localStorage.getItem('tokenAccess'),
+    )}`,
+  },
 });
 
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError | Error) => {
-    if(axios.isAxiosError(error) && error.response) {
-        return Promise.reject(new ApiError(error.response.data.reason, error.response.status));
+    if (axios.isAxiosError(error) && error.response) {
+      return Promise.reject(
+        new ApiError(error.response.data.reason, error.response.status),
+      );
     }
 
     return Promise.reject(error);
-  }
-)
+  },
+);
 
 export const request = {
   get: async <T>(url: string, config?: AxiosRequestConfig) => {
@@ -42,13 +46,21 @@ export const request = {
   },
 
   post: async <T, D>(url: string, data?: D, config?: AxiosRequestConfig<D>) => {
-    const result = await axiosInstance.post<T, AxiosResponse<T>, D>(url, data, config);
+    const result = await axiosInstance.post<T, AxiosResponse<T>, D>(
+      url,
+      data,
+      config,
+    );
 
     return result.data;
   },
 
   put: async <T, D>(url: string, data?: D, config?: AxiosRequestConfig<D>) => {
-    const result = await axiosInstance.put<T, AxiosResponse<T>, D>(url, data, config);
+    const result = await axiosInstance.put<T, AxiosResponse<T>, D>(
+      url,
+      data,
+      config,
+    );
 
     return result.data;
   },
@@ -57,5 +69,5 @@ export const request = {
     const result = await axiosInstance.delete<T, AxiosResponse<T>>(url, config);
 
     return result;
-  }
-}
+  },
+};
