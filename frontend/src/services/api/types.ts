@@ -40,29 +40,6 @@ export type UserType = {
   telephone_number: number;
 };
 
-// export type User = {
-//   id: number;
-//   login: string;
-//   firstName: string;
-//   secondName: string;
-//   displayName: string;
-//   avatar: string;
-//   phone: string;
-//   email: string;
-//   fullName: string;
-// };
-
-// export type UserDTO = {
-//   id: number,
-//   login: string,
-//   first_name: string,
-//   second_name: string,
-//   display_name?: string,
-//   avatar?: string,
-//   phone?: string,
-//   email: string,
-// };
-
 export type TokenType = {
   access: string;
   refresh: string;
@@ -70,7 +47,7 @@ export type TokenType = {
 
 export enum URLS {
   AUTH = 'auth',
-  SIGN_UP = `${URLS.AUTH}/auth/users/`,
-  SIGN_IN = `${URLS.AUTH}/auth/jwt/create/`,
-  USER_ME = `${URLS.AUTH}/auth/users/me/`,
+  SIGN_UP = `${URLS.AUTH}/users/`,
+  SIGN_IN = `${URLS.AUTH}/jwt/create/`,
+  USER_ME = `${URLS.AUTH}/users/me/`,
 }
