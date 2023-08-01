@@ -3,6 +3,7 @@ import {InputPhoneTemplate} from '../UI/phone-input-template/InputPhoneTemplate'
 import {ProfileSectionTitle} from 'src/components/profile-section-title/ProfileSectionTitle';
 import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
 import InputTimezoneSelect from "../UI/timezone-input-template/InputTimezoneSelect";
+import InputTimeSelect from "../UI/time-input-template/InputTimeSelect";
 import { Input } from '../UI/input-template/InputTemplate';
 import { InputType,  InputName} from "src/typings/constants";
 import styles from "./ProfileForm.module.scss";
@@ -87,6 +88,7 @@ export function ProfileForm(): React.ReactNode {
         />
         <form className={styles.profile__form}>
           <InputTimezoneSelect label='Часовой пояс'/>
+          <InputTimeSelect label='График работы'/>
         </form>
       </section>
       
