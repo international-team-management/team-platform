@@ -13,7 +13,7 @@ type ProjectsProps = {
   projects: project[];
 };
 
-export function Projects(props: ProjectsProps): React.ReactNode {
+export const Projects: React.FC<ProjectsProps> = (props) => {
   function renderProjects(): React.ReactNode[] {
     return props.projects.map((project) => {
       return (
@@ -39,4 +39,4 @@ export function Projects(props: ProjectsProps): React.ReactNode {
       <ul className={style.projects__list}>{renderProjects()}</ul>
     </section>
   );
-}
+};

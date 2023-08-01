@@ -5,7 +5,7 @@ import { Account } from '../account/Account';
 import { Projects } from '../projects/Projects';
 import framedAvatar from 'assets/framed-avatar.svg';
 
-export function Sidebar(): React.ReactNode {
+export const Sidebar: React.FC = () => {
   // данные передадим сюда из Redux, ниже пока демка данных
   const user = {
     photo: framedAvatar,
@@ -24,7 +24,16 @@ export function Sidebar(): React.ReactNode {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebar__content}>
-        <Account {...user} />
+        <Account
+          id={0}
+          username={''}
+          email={''}
+          created_at={''}
+          update_at={''}
+          is_active={false}
+          telephone_number={0}
+          {...user}
+        />
         <Projects projects={projects} />
       </div>
       <div className={styles['sidebar__createBtn-container']}>
@@ -35,4 +44,4 @@ export function Sidebar(): React.ReactNode {
       </div>
     </aside>
   );
-}
+};

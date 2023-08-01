@@ -7,7 +7,7 @@ import {
 } from 'components/UI/header-template/HeaderTemplate';
 import { ProfileForm } from 'src/components/profile-form/ProfileForm';
 
-export function ProfilePage(): React.ReactNode {
+export const ProfilePage: React.FC = () => {
   const state = HeaderState.CHANGES_SAVED;
 
   return (
@@ -19,4 +19,4 @@ export function ProfilePage(): React.ReactNode {
       </div>
     </section>
   );
-}
+};

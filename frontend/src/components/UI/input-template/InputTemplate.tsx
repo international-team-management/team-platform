@@ -31,7 +31,7 @@ export const Input = (props: InputProps) => {
   const [valueHasChanged, setValueHasChanged] = React.useState(false);
   const [value, setValue] = React.useState('');
   const [isToggleEye, setToggleEye] = React.useState(false);
-  const [errors, setErrors] = React.useState([]);
+  const [errors, setErrors] = React.useState<string[]>([]);
 
   React.useEffect(() => {
     const errorTypes = Object.keys(props.errorObject?.types || {});
