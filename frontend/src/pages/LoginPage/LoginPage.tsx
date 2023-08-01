@@ -11,6 +11,8 @@ import { DevTool } from '@hookform/devtools';
 import { errorTexts, helperTexts } from 'src/utils/validation/helperTexts';
 import { patterns } from 'src/utils/validation/patterns';
 import promo from '../../assets/Promo.png';
+import { useDispatch } from 'src/services/hooks';
+import { authThunks } from 'src/services/slices/authSlice';
 
 export const LoginPage = () => {
   const {
@@ -21,8 +23,11 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm<LoginRequestData>({ mode: 'onChange', criteriaMode: 'all' });
 
+  const dispatch = useDispatch();
+
   const handlerFormSubmit = (data: LoginRequestData) => {
     console.log(data);
+    dispatch(authThunks.login(data));
     reset();
   };
 

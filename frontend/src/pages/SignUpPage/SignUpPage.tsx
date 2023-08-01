@@ -11,6 +11,8 @@ import { RegisterRequestData } from 'src/services/api/types';
 import { DevTool } from '@hookform/devtools';
 import { errorTexts, helperTexts } from 'src/utils/validation/helperTexts';
 import { patterns } from 'src/utils/validation/patterns';
+import { useDispatch } from 'src/services/hooks';
+import { authThunks } from 'src/services/slices/authSlice';
 
 export const SignUpPage = () => {
   const {
@@ -22,10 +24,13 @@ export const SignUpPage = () => {
     formState: { errors },
   } = useForm<RegisterRequestData>({ mode: 'onChange', criteriaMode: 'all' });
 
+  const dispatch = useDispatch();
+
   const handlerFormSubmit = (data: RegisterRequestData) => {
     getValues(InputName.FIRST_NAME).trim();
     getValues(InputName.LAST_NAME).trim();
     console.log(data);
+    dispatch(authThunks.register(data));
     reset();
   };
 
