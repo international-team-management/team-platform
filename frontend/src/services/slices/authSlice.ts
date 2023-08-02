@@ -23,24 +23,24 @@ type AuthStateType = {
 
 // State
 
-const test = {
-  id: 4,
-  username: 'tm',
-  email: 'dfdf@freezeDraftable.ew,',
-  first_name: 'Джонни',
-  last_name: 'Доу',
-  role: 'Чокнутый проффесоррррррр',
-  created_at: '',
-  update_at: '',
-  is_active: true,
-  user_timezone: 'wew',
-  // timetable: [],
-  photo: 'sting',
-  telephone_number: 9154804054,
-};
+// const test = {
+//   id: 4,
+//   username: 'tm',
+//   email: 'dfdf@freezeDraftable.ew,',
+//   first_name: 'Джонни',
+//   last_name: 'Доу',
+//   role: 'Чокнутый проффесоррррррр',
+//   created_at: '',
+//   update_at: '',
+//   is_active: true,
+//   user_timezone: 'wew',
+//   // timetable: [],
+//   photo: 'sting',
+//   telephone_number: 9154804054,
+// };
 
 const initialState: AuthStateType = {
-  user: test,
+  user: null,
   isLoading: false,
   error: null,
 };
