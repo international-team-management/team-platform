@@ -1,0 +1,25 @@
+import React from 'react';
+import styles from './KanbanPage.module.scss';
+import { Sidebar } from 'src/components/sidebar/Sidebar';
+import {
+  HeaderTemplate,
+  HeaderState,
+} from 'components/UI/header-template/HeaderTemplate';
+import { ProfileForm } from 'src/components/profile-form/ProfileForm';
+import { KanbanColumn } from 'src/components/kanban-column/KanbanColumn';
+
+export const KanbanPage: React.FC = () => {
+  const state = HeaderState.KANBAN;
+
+  return (
+    <section className={styles.kanban}>
+      <Sidebar />
+      <div className={styles['kanban__main-content']}>
+        <HeaderTemplate state={state} title="Пример проекта" />
+        <div className={styles.kanban__wraapper}>
+          <KanbanColumn />
+        </div>
+      </div>
+    </section>
+  );
+};

@@ -16,6 +16,7 @@ export enum HeaderState {
 
 interface HeaderTemplateProps {
   state: HeaderState;
+  title: string;
 }
 
 const users = [
@@ -23,9 +24,12 @@ const users = [
   { name: 'User 2', src: addNewParticipant },
 ];
 
-export const HeaderTemplate: React.FC<HeaderTemplateProps> = ({ state }) => (
+export const HeaderTemplate: React.FC<HeaderTemplateProps> = ({
+  state,
+  title,
+}) => (
   <section className={styles.header}>
-    <h1 className={styles.header__title}>Личный кабинет</h1>
+    <h1 className={styles.header__title}>{title}</h1>
 
     {state === HeaderState.CHANGES_SAVED && (
       <p className={styles['header__changes-status']}>

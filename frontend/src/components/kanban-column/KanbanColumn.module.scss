@@ -1,0 +1,122 @@
+@import '../../styles/colors';
+@import '../../styles/constants';
+
+.column {
+  &__wrapper {
+    @extend %flex-column;
+
+    width: $ui-width-s;
+  }
+
+  &__info {
+    @extend %flex-row;
+
+    align-items: end;
+    justify-content: space-between;
+    margin: 2px 0 8px;
+  }
+
+  &__text {
+    @extend %flex-row;
+  }
+
+  &__title {
+    @include set-font-size(16px, 20px, 600);
+
+    margin-right: 8px;
+    color: $black;
+    letter-spacing: -0.01rem;
+  }
+
+  &__quantity {
+    @include set-font-size(14px, 16px, 700);
+
+    padding: 2px 8px;
+
+    color: $blue-62;
+    letter-spacing: -0.02rem;
+
+    background-color: $blue-230;
+    border-radius: $ui-border-radius-s;
+  }
+
+  &__button {
+    cursor: pointer;
+
+    width: 24px;
+    height: 24px;
+
+    background-image: url('../../assets/add-task.svg');
+    border: none;
+    border-radius: $ui-border-radius-s;
+  }
+
+  &__task,
+  &__task_drag {
+    display: grid;
+    grid-template-columns: 240px 28px;
+    gap: 16px 0;
+    align-items: end;
+
+    height: 136px;
+    margin: 8px 0;
+    padding: 16px;
+
+    background-color: $white;
+    border-radius: $ui-border-radius-m;
+
+    &_drag {
+      background-color: $grey-247;
+      background-image: url('../../assets/Task.png');
+    }
+
+    &_text {
+      @include set-font-size(18px, 20px, 600);
+
+      overflow: hidden;
+      display: -webkit-box;
+
+      width: 200px;
+      height: 60px;
+
+      color: $black;
+      letter-spacing: -0.02rem;
+
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+
+    &_button {
+      cursor: pointer;
+
+      align-self: flex-start;
+
+      width: 16px;
+      height: 16px;
+
+      background-color: $white;
+      background-image: url('../../assets/more-actions.svg');
+      border: none;
+    }
+
+    &_wrapper {
+      @extend %flex-row;
+    }
+
+    &_time {
+      @include set-font-size(16px, 20px, 600);
+
+      color: $grey-118;
+      letter-spacing: -0.01rem;
+    }
+
+    &_icon {
+      margin-right: 4px;
+    }
+
+    &_img {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
