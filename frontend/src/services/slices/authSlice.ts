@@ -118,10 +118,33 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.error = false;
       })
-      .addCase(authThunks.login.rejected, (state) => {
-        state.isLoading = false;
-        state.error = true;
-      });
+      .addCase(
+        authThunks.login.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      )
+      // user Me
+      .addCase(authThunks.userMe.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(
+        authThunks.userMe.fulfilled,
+        (state, action: PayloadAction<UserType>) => {
+          state.isLoading = false;
+          state.error = false;
+          state.user = action.payload;
+        },
+      )
+      .addCase(
+        authThunks.userMe.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      );
   },
 });
 
@@ -129,5 +152,5 @@ export const authSlice = createSlice({
 export const selectAuthData = (state: RootState) => state.auth;
 export const selectUserMe = (state: RootState) => state.auth.user;
 
-// Action creator
+// Action creator (not async)
 export const { logout } = authSlice.actions;

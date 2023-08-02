@@ -24,7 +24,10 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   // Catch all errors in request
-  (error: AxiosError | Error) => Promise.reject(error),
+  (error: AxiosError | Error) => {
+    console.log(error);
+    return Promise.reject(error);
+  },
 );
 
 // Response axios interceptor (similar to middleware concept)
@@ -38,6 +41,7 @@ axiosInstance.interceptors.response.use(
       );
     }
     // Catch other errors in response
+    console.log(error);
     return Promise.reject(error);
   },
 );
