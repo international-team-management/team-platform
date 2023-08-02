@@ -2,7 +2,6 @@
 @import 'styles/constants';
 
 .sign-up-page {
-
   @extend %flex-row;
 
   justify-content: center;
@@ -22,7 +21,7 @@
   }
 
   &__promo {
-    height: 1000px;;
+    height: 1000px;
     margin: 12px 0 12px 12px;
   }
 
@@ -63,4 +62,3 @@
     letter-spacing: -0.01rem;
   }
 }
-

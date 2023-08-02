@@ -2,7 +2,7 @@ export enum InputType {
   TEXT = 'text',
   PASSWORD = 'password',
   EMAIL = 'email',
-  SELECT = 'select'
+  SELECT = 'select',
 }
 
 export enum InputName {

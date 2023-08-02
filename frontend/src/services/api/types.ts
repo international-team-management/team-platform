@@ -3,34 +3,42 @@ export type RegisterRequestData = {
   last_name: string;
   email: string;
   password: string;
-  confirm_password: string
+  confirm_password: string;
 };
 
-export type ProfileRequestData = RegisterRequestData & {
+export type ProfileRequestData = {
+  first_name: string;
+  last_name: string;
+  email: string;
   job_title: string;
+};
+
+export type UpdatePasswordData = {
+  password: string;
+  confirm_password: string;
   new_password: string;
-}
+};
 
 export type LoginRequestData = {
-  email: string,
-  password: string
+  email: string;
+  password: string;
 };
 
 export type UserType = {
-  id: number,
-  username: string,
-  email: string,
-  first_name: string,
-  last_name: string,
-  role: string,
-  created_at: string,
-  update_at: string,
-  is_active: boolean,
-  user_timezone?: unknown,
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  role: string;
+  created_at: string;
+  update_at: string;
+  is_active: boolean;
+  user_timezone?: unknown;
   // timetable: [],
-  photo: string,
-  telephone_number: number,
-}
+  photo: string;
+  telephone_number: number;
+};
 
 // export type User = {
 //   id: number;
@@ -58,7 +66,7 @@ export type UserType = {
 export type TokenType = {
   access: string;
   refresh: string;
-}
+};
 
 export enum URLS {
   AUTH = 'auth',

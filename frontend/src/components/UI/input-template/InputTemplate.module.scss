@@ -83,7 +83,6 @@
       &:focus {
         border-color: $red-237;
       }
-
     }
   }
 
@@ -103,11 +102,11 @@
     }
 
     &_password {
-      @include set-check-validation-icon("src/assets/password_neutral.svg");
+      @include set-check-validation-icon('src/assets/password_neutral.svg');
 
       &.input__helperText_valid {
         &::before {
-          background-image: url("src/assets/password_valid.svg");
+          background-image: url('src/assets/password_valid.svg');
         }
       }
     }
@@ -121,7 +120,7 @@
     letter-spacing: -0.01rem;
 
     &_password {
-      @include set-check-validation-icon("src/assets/password_invalid.svg");
+      @include set-check-validation-icon('src/assets/password_invalid.svg');
     }
   }
 
