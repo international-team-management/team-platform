@@ -300,5 +300,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-
 frontend/package-lock.json
+
+# result build inside docker
+infra/frontend
