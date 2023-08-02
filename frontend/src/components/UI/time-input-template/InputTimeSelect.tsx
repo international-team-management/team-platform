@@ -8,7 +8,7 @@ type InputTimePropsType = {
   label: string
 }
 
-export default function InputTimezoneSelect(props: InputTimePropsType) {
+export const InputTimeSelect:React.FC<InputTimePropsType> = (props) => {
     const toHoursAndMinutes = (min: number): string => {
         const hours: number = Math.floor(min / 60);
         const minutes: number = min % 60;
@@ -17,9 +17,11 @@ export default function InputTimezoneSelect(props: InputTimePropsType) {
       
         return hours ? `${formatHours}:${minutes === 0 ? '00' : `${minutes}`}` : `00:${formatMinutes}`;
       };
+
+      type TGetOptions = { value: string, label: string }
       
-      function getOptions(): object {
-          const result: object[] = [];
+      const getOptions = (): TGetOptions[] => {
+          const result = [];
           
           for(let min = 0; min < 1440;) {
             const time: string = toHoursAndMinutes(min);

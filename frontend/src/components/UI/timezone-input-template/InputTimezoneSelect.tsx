@@ -9,7 +9,7 @@ type InputTimezonePropsType = {
   label: string
 }
 
-export default function InputTimezoneSelect(props: InputTimezonePropsType) {
+export const InputTimezoneSelect:React.FC<InputTimezonePropsType> = (props) => {
   const labelStyle = "altName"
   const timezones = {
     ...allTimezones,

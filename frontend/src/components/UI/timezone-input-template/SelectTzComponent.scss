@@ -28,7 +28,8 @@
     overflow: hidden;
 
     width: 400px;
-    height: 248px;
+    height: fit-content;
+    max-height: 276px;
     margin-top: 12px;
     padding: 20px;
 
@@ -39,7 +40,8 @@
   }
 
   &__menu-list {
-    height: 232px;
+    height: fit-content;
+    max-height: 260px;
 
     &::-webkit-scrollbar {
         width: 0;
