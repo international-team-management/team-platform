@@ -20,7 +20,8 @@ module.exports = {
   plugins: [
     '@typescript-eslint',
     'react-refresh',
-    'simple-import-sort'
+    'simple-import-sort',
+    'prettier',
   ],
   rules: {
     'react-refresh/only-export-components': [
@@ -29,4 +30,4 @@ module.exports = {
     ],
     '@typescript-eslint/no-non-null-assertion': 'off',
   },
-}
+};

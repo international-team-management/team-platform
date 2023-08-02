@@ -18,7 +18,7 @@
     border-radius: 12px;
 
     &--menu-is-open .t-select__indicator {
-        transform: rotate(180deg);
+      transform: rotate(180deg);
     }
   }
 
@@ -42,7 +42,7 @@
     max-height: 260px;
 
     &::-webkit-scrollbar {
-        width: 0;
+      width: 0;
     }
   }
 
@@ -63,7 +63,7 @@
       cursor: pointer;
       background-color: rgb(230 230 230 / 100%);
       border-radius: 2px;
-    };
+    }
 
     &:first-child {
       margin: 0 auto 5px;
@@ -73,5 +73,4 @@
   &__indicators {
     cursor: pointer;
   }
-
 }
