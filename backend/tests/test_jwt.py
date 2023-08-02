@@ -72,7 +72,7 @@ class TestJWT:
         url = self.url_create
         valid_data = {
             'email': user.email,
-            'password': "securepassword",  # если подключать user.password, то не работает. Видимо из-за хэширования
+            'password': "securepassword",
         }
         response = client.post(url, data=valid_data)
         assert response.status_code == HTTPStatus.OK, (
@@ -100,7 +100,7 @@ class TestJWT:
         url = self.url_refresh
         valid_data = {
             'email': user.email,
-            'password': "securepassword",  # если подключать user.password, то не работает. Видимо из-за хэширования
+            'password': "securepassword",
         }
         response = client.post(self.url_create, data=valid_data)
         print(response)
@@ -131,7 +131,7 @@ class TestJWT:
         url = self.url_verify
         valid_data = {
             'email': user.email,
-            'password': "securepassword",  # если подключать user.password, то не работает. Видимо из-за хэширования
+            'password': "securepassword",
         }
         response = client.post(self.url_create, data=valid_data)
         response_data = response.json()
