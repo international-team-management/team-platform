@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "api.apps.ApiConfig",
     "projects.apps.ProjectsConfig",
+    "task.apps.TaskConfig",
     "users.apps.UsersConfig",
     "rest_framework",
     "djoser",
