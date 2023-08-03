@@ -53,7 +53,7 @@ export const request = {
     return result.data;
   },
 
-  post: async <T, D>(url: string, data?: D, config?: AxiosRequestConfig<D>) => {
+  post: async <T, D>(url: string, data: D, config?: AxiosRequestConfig<D>) => {
     const result = await axiosInstance.post<T, AxiosResponse<T>, D>(
       url,
       data,
@@ -62,7 +62,16 @@ export const request = {
     return result.data;
   },
 
-  put: async <T, D>(url: string, data?: D, config?: AxiosRequestConfig<D>) => {
+  patch: async <T, D>(url: string, data: D, config?: AxiosRequestConfig<D>) => {
+    const result = await axiosInstance.patch<T, AxiosResponse<T>, D>(
+      url,
+      data,
+      config,
+    );
+    return result.data;
+  },
+
+  put: async <T, D>(url: string, data: D, config?: AxiosRequestConfig<D>) => {
     const result = await axiosInstance.put<T, AxiosResponse<T>, D>(
       url,
       data,

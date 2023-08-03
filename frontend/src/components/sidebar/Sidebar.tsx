@@ -3,16 +3,11 @@ import styles from './Sidebar.module.scss';
 import { ReactComponent as SignPlus } from 'assets/sidebar-plus.svg';
 import { Account } from '../account/Account';
 import { Projects } from '../projects/Projects';
-import framedAvatar from 'assets/framed-avatar.svg';
+import { useSelector } from 'src/services/hooks';
+import { selectUserMe } from 'src/services/slices/authSlice';
 
 export const Sidebar: React.FC = () => {
-  // данные передадим сюда из Redux, ниже пока демка данных
-  const user = {
-    photo: framedAvatar,
-    first_name: 'Дмитрий',
-    last_name: 'Петров',
-    role: 'UX/UI дизайнер',
-  };
+  const userMe = useSelector(selectUserMe);
 
   const projects = [
     { id: 1, name: 'ABC.Документы' },
@@ -24,16 +19,7 @@ export const Sidebar: React.FC = () => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebar__content}>
-        <Account
-          id={0}
-          username={''}
-          email={''}
-          created_at={''}
-          update_at={''}
-          is_active={false}
-          telephone_number={0}
-          {...user}
-        />
+        <Account {...userMe} />
         <Projects projects={projects} />
       </div>
       <div className={styles['sidebar__createBtn-container']}>

@@ -3,6 +3,7 @@ import 'react-phone-input-2/lib/style.css';
 import PhoneInput from 'react-phone-input-2';
 import ru from 'react-phone-input-2/lang/ru.json';
 import styles from './InputPhoneTemplate.module.scss';
+import { InputName } from 'src/typings/constants';
 
 type InputPhoneTemplateType = {
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -35,6 +36,7 @@ export const InputPhoneTemplate = (props: InputPhoneTemplateType) => {
         localization={ru}
         country={'ru'}
         placeholder={phone ? '' : '+7 XXX XXX–XX–XX'}
+        inputProps={{ name: InputName.TELEPHONE }}
         {...props}
       />
     </div>

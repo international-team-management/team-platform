@@ -9,7 +9,7 @@ export const helperTexts = {
   PASSWORD_SYMBOLS: `без знаков: "< > ( ) [ ] @ ' : \\ / *`,
   NAME: `1-30 символов`,
   EMAIL: `5-80 символов`,
-  JOB_TITLE: `1-30 символов`,
+  ROLE: `1-30 символов`,
 };
 
 export const errorTexts: ValidationError = {
@@ -38,8 +38,8 @@ export const errorTexts: ValidationError = {
   PHONE_NUMBER: {
     PATTERN: 'ⓘ Введите действительный номер телефона',
   },
-  JOB_TITLE: {
+  ROLE: {
     PATTERN: specialCharacters,
-    LENGTH: helperTexts.JOB_TITLE,
+    LENGTH: helperTexts.ROLE,
   },
 };

@@ -10,7 +10,7 @@ export type ProfileRequestData = {
   first_name: string;
   last_name: string;
   email: string;
-  job_title: string;
+  role: string;
 };
 
 export type UpdatePasswordData = {
@@ -25,19 +25,19 @@ export type LoginRequestData = {
 };
 
 export type UserType = {
-  id: number;
-  username: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  created_at: string;
-  update_at: string;
-  is_active: boolean;
+  id?: number;
+  username?: string;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  role?: string;
+  created_at?: string;
+  update_at?: string;
+  is_active?: boolean;
   user_timezone?: unknown;
-  // timetable: [],
-  photo: string;
-  telephone_number: number;
+  timetable?: unknown;
+  photo?: string;
+  telephone_number?: number;
 };
 
 export type TokenType = {

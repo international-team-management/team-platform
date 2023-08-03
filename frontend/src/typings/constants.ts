@@ -12,8 +12,8 @@ export enum InputName {
   NEW_PASSWORD = 'new_password',
   EMAIL = InputType.EMAIL,
   FIRST_NAME = 'first_name',
-  // SECOND_NAME = 'second_name',
   LAST_NAME = 'last_name',
-  JOB_TITLE = 'job_title',
+  ROLE = 'role',
   TIMEZONE = 'user_timezone',
+  TELEPHONE = 'telephone_number',
 }

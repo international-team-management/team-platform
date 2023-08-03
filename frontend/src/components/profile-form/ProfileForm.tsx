@@ -7,7 +7,7 @@ import InputTimezoneSelect from '../UI/timezone-input-template/InputTimezoneSele
 import { Input } from '../UI/input-template/InputTemplate';
 import { InputType, InputName } from 'src/typings/constants';
 import styles from './ProfileForm.module.scss';
-import userAvatar from 'src/assets/framed-avatar.svg';
+import { ReactComponent as FramedAvatar } from 'assets/framed-avatar.svg';
 import { useForm } from 'react-hook-form';
 import { patterns } from 'src/utils/validation/patterns';
 import { DevTool } from '@hookform/devtools';
@@ -18,14 +18,40 @@ import {
 } from 'src/services/api/types';
 import { SingleValue } from 'react-select';
 import { ITimezoneOption } from 'react-timezone-select';
+import { useDispatch, useSelector } from 'src/services/hooks';
+import { authThunks, selectUserMe } from 'src/services/slices/authSlice';
 
 export const ProfileForm: React.FC = () => {
+  const dispatch = useDispatch();
+  const userMe = useSelector(selectUserMe);
+
   const {
     register,
     control,
     getValues,
     formState: { errors },
   } = useForm<ProfileRequestData>({ mode: 'onChange', criteriaMode: 'all' });
+
+  const handlerInputSubmit = (e: FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (!(name in errors)) {
+      const value_trimmed = value.trim();
+      // TODO: pass if value hasnt changed
+
+      dispatch(authThunks.patchMe({ [name]: value_trimmed }));
+    }
+  };
+
+  const handleInputPhoneSubmit = (e: FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    // TODO:
+    // - pass if value hasnt changed
+    // - on backend change SmallIntegerField to CharField
+
+    dispatch(
+      authThunks.patchMe({ [name]: value.replace(/\D/g, '').toString() }),
+    );
+  };
 
   const updatePasswordForm = useForm<UpdatePasswordData>({
     mode: 'onChange',
@@ -40,13 +66,6 @@ export const ProfileForm: React.FC = () => {
     console.log(data);
   };
 
-  const handlerInputSubmit = (e: FocusEvent<HTMLInputElement>) => {
-    if (!(e.target.name in errors)) {
-      e.target.value = e.target.value.trim();
-      console.log(e.target.value);
-    }
-  };
-
   const handlerInputZoneSubmit = (data: SingleValue<ITimezoneOption>) => {
     console.log(data);
   };
@@ -59,7 +78,16 @@ export const ProfileForm: React.FC = () => {
           description="По&nbsp;реальной фотографии коллеги смогут легко узнать вас."
         />
         <form className={styles.profile__form_photo}>
-          <img className={styles.profile__img} alt="Фото" src={userAvatar} />
+          {userMe?.photo ? (
+            <img
+              className={styles.profile__img}
+              src={userMe.photo}
+              alt={`${userMe.first_name} ${userMe.last_name}`}
+            />
+          ) : (
+            <FramedAvatar className={styles.profile__img} />
+          )}
+
           <div className={styles.profile__buttons}>
             <button className={styles.profile__button_blue}>
               Загрузить фотографию
@@ -96,7 +124,7 @@ export const ProfileForm: React.FC = () => {
                 message: errorTexts.FIRST_NAME.PATTERN,
               },
             }}
-            onBlur={(e) => handlerInputSubmit(e)}
+            onBlur={handlerInputSubmit}
           />
           <Input
             type={InputType.TEXT}
@@ -120,56 +148,57 @@ export const ProfileForm: React.FC = () => {
                 message: errorTexts.LAST_NAME.PATTERN,
               },
             }}
-            onBlur={(e) => handlerInputSubmit(e)}
+            onBlur={handlerInputSubmit}
           />
           <Input
             type={InputType.TEXT}
-            name={InputName.JOB_TITLE}
+            name={InputName.ROLE}
             label="Должность"
             placeholder=""
             register={register}
-            errorObject={errors[InputName.JOB_TITLE]}
+            errorObject={errors[InputName.ROLE]}
             validOptions={{
               minLength: {
                 value: 1,
-                message: errorTexts.JOB_TITLE.LENGTH,
+                message: errorTexts.ROLE.LENGTH,
               },
               maxLength: {
                 value: 30,
-                message: errorTexts.JOB_TITLE.LENGTH,
+                message: errorTexts.ROLE.LENGTH,
               },
               pattern: {
-                value: patterns.JOB_TITLE,
-                message: errorTexts.JOB_TITLE.PATTERN,
+                value: patterns.ROLE,
+                message: errorTexts.ROLE.PATTERN,
               },
             }}
-            onBlur={(e) => handlerInputSubmit(e)}
+            onBlur={handlerInputSubmit}
           />
           <Input
             type={InputType.EMAIL}
             name={InputName.EMAIL}
             label="Email"
+            isDisabled={true}
             placeholder="example@site.mail"
             register={register}
             errorObject={errors[InputName.EMAIL]}
-            validOptions={{
-              minLength: {
-                value: 5,
-                message: errorTexts.EMAIL.LENGTH,
-              },
-              maxLength: {
-                value: 80,
-                message: errorTexts.EMAIL.LENGTH,
-              },
-              required: errorTexts.EMPTY_FIELD.PATTERN,
-              pattern: {
-                value: patterns.EMAIL,
-                message: errorTexts.EMAIL.PATTERN,
-              },
-            }}
-            onBlur={(e) => handlerInputSubmit(e)}
+            // validOptions={{
+            //   minLength: {
+            //     value: 5,
+            //     message: errorTexts.EMAIL.LENGTH,
+            //   },
+            //   maxLength: {
+            //     value: 80,
+            //     message: errorTexts.EMAIL.LENGTH,
+            //   },
+            //   required: errorTexts.EMPTY_FIELD.PATTERN,
+            //   pattern: {
+            //     value: patterns.EMAIL,
+            //     message: errorTexts.EMAIL.PATTERN,
+            //   },
+            // }}
+            onBlur={handlerInputSubmit}
           />
-          <InputPhoneTemplate onBlur={(e) => handlerInputSubmit(e)} />
+          <InputPhoneTemplate onBlur={handleInputPhoneSubmit} />
         </form>
       </section>
 
