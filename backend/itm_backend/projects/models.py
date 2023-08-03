@@ -38,12 +38,8 @@ class Task(models.Model):
         on_delete=models.SET_NULL,
         related_name="created_tasks",
     )
-    assigned_to = models.ManyToManyField(
-        User, verbose_name="Участники задачи", blank=True
-    )
-    tags = models.ManyToManyField(
-        Tag, related_name="related_tasks", verbose_name="Тэги"
-    )
+    assigned_to = models.ManyToManyField(User, verbose_name="Участники задачи", blank=True)
+    tags = models.ManyToManyField(Tag, related_name="related_tasks", verbose_name="Тэги")
     status = models.CharField(
         verbose_name="Статус проекта",
         choices=StatusChoice.choices,
@@ -51,12 +47,8 @@ class Task(models.Model):
         max_length=20,
     )
     description = models.TextField(verbose_name="Описание задачи")
-    created_at = models.DateTimeField(
-        verbose_name="Дата создания задачи", auto_now_add=True
-    )
-    update_at = models.DateTimeField(
-        verbose_name="Дата обновления обносления задачи", auto_now=True
-    )
+    created_at = models.DateTimeField(verbose_name="Дата создания задачи", auto_now_add=True)
+    update_at = models.DateTimeField(verbose_name="Дата обновления обносления задачи", auto_now=True)
     deadline = models.DateTimeField(verbose_name="Срок исполнения задачи")
     name = models.CharField(verbose_name="Название задачи", max_length=150, blank=True)
 
@@ -125,12 +117,8 @@ class Project(models.Model):
         related_name="projects",
         verbose_name="Автор Проекта",
     )
-    participants = models.ManyToManyField(
-        User, through="ProjectUser", verbose_name="Участники проекта", blank=True
-    )
-    tasks = models.ManyToManyField(
-        Task, related_name="projects", verbose_name="Задачи проекта", blank=True
-    )
+    participants = models.ManyToManyField(User, through="ProjectUser", verbose_name="Участники проекта", blank=True)
+    tasks = models.ManyToManyField(Task, related_name="projects", verbose_name="Задачи проекта", blank=True)
     deadline = models.DateField(verbose_name="Дата окончания проекта")
     status = models.CharField(
         verbose_name="Статус проекта",
@@ -138,18 +126,10 @@ class Project(models.Model):
         default=StatusChoice.onbording,
         max_length=20,
     )
-    priority = models.CharField(
-        verbose_name="Приоритет проекта", choices=PriorityChoice.choices, max_length=20
-    )
-    tags = models.ManyToManyField(
-        Tag, related_name="projects", verbose_name="Тэги", blank=True
-    )
-    created_at = models.DateTimeField(
-        verbose_name="Дата регистрации проекта", auto_now_add=True
-    )
-    updated_at = models.DateTimeField(
-        verbose_name="Дата обновления проекта", auto_now=True
-    )
+    priority = models.CharField(verbose_name="Приоритет проекта", choices=PriorityChoice.choices, max_length=20)
+    tags = models.ManyToManyField(Tag, related_name="projects", verbose_name="Тэги", blank=True)
+    created_at = models.DateTimeField(verbose_name="Дата регистрации проекта", auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name="Дата обновления проекта", auto_now=True)
 
     class Meta:
         verbose_name = "Проект"
