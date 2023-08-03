@@ -16,7 +16,9 @@ DEBUG = True
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 # https://pypi.org/project/django-cors-headers/
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(
+    ","
+)
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -30,7 +32,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "api.apps.ApiConfig",
     "projects.apps.ProjectsConfig",
-    "task.apps.TaskConfig",
     "users.apps.UsersConfig",
     "rest_framework",
     "djoser",
