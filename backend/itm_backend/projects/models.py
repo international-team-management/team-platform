@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
@@ -28,19 +29,17 @@ class Project(models.Model):
     Описание модели Project.
     """
 
-    STATUS_CHOICES = (
-        ("onbording", "Онбординг"),
-        ("in_progress", "В работе"),
-        ("production", "Проект взлетел"),
-        ("tests", "Тестирование"),
-    )
+    class StatusChoice(models.TextChoices):
+        onbording = "Onboarding", _("Онбординг")
+        in_progress = "In progress", _("В работе")
+        production = "Production", _("Проект взлетел")
+        tests = "Tsts", _("Тестирование")
 
-    PRIORITY_CHOICES = (
-        ("maximum", "Максимальный"),
-        ("average", "Средний"),
-        ("minimum", "Минимальный"),
-        ("urgent", "Срочно"),
-    )
+    class PriorityChoice(models.TextChoices):
+        maximum = "maximum", _("Максимальный")
+        average = "average", _("Средний")
+        minimum = "minimum", _("Минимальный")
+        urgent = "urgent", _("Срочно")
 
     name = models.CharField(max_length=254, verbose_name="Название Проекта")
     description = models.TextField(verbose_name="Описание Проекта")
@@ -48,8 +47,10 @@ class Project(models.Model):
     participants = models.ManyToManyField(User, through="ProjectUser", verbose_name="Участники проекта")
     tasks = models.ManyToManyField(Task, related_name="projects", verbose_name="Задачи проекта")
     deadline = models.TimeField(verbose_name="Время окончания проекта")
-    status = models.CharField(verbose_name="Статус проекта", choices=STATUS_CHOICES, max_length=20)
-    priority = models.CharField(verbose_name="Приоритет проекта", choices=PRIORITY_CHOICES, max_length=20)
+    status = models.CharField(
+        verbose_name="Статус проекта", choices=StatusChoice.choices, default=StatusChoice.onbording, max_length=20
+    )
+    priority = models.CharField(verbose_name="Приоритет проекта", choices=PriorityChoice.choices, max_length=20)
     tags = models.ManyToManyField(Tag, related_name="projects", verbose_name="Тэги")
     created_at = models.DateTimeField(verbose_name="Дата регистрации проекта", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="Дата обновления проекта", auto_now=True)
