@@ -115,20 +115,16 @@ export const KanbanColumn = () => {
     e.preventDefault();
   };
 
-  const dragLeaveHandler = (e: React.DragEvent<HTMLElement>) => {
+  const dragLeaveHandler = () => {
     setHover(null);
   };
 
-  const dragStartHandler = (
-    e: React.DragEvent<HTMLElement>,
-    task: BoardTask,
-    board: BoardItem,
-  ) => {
+  const dragStartHandler = (task: BoardTask, board: BoardItem) => {
     setCurrentTask(task);
     setCurrentBoard(board);
   };
 
-  const dragEndHandler = (e: React.DragEvent<HTMLElement>) => {
+  const dragEndHandler = () => {
     setHover(null);
     setCurrentTask(undefined);
   };
@@ -216,9 +212,9 @@ export const KanbanColumn = () => {
               key={task.id}
               draggable={true}
               onDragOver={(e) => dragOverHandlerTask(e, task)}
-              onDragLeave={(e) => dragLeaveHandler(e)}
-              onDragStart={(e) => dragStartHandler(e, task, board)}
-              onDragEnd={(e) => dragEndHandler(e)}
+              onDragLeave={() => dragLeaveHandler()}
+              onDragStart={() => dragStartHandler(task, board)}
+              onDragEnd={() => dragEndHandler()}
               onDrop={(e) => dropHandler(e, task, board)}
             >
               <div

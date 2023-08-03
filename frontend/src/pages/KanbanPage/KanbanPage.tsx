@@ -5,7 +5,6 @@ import {
   HeaderTemplate,
   HeaderState,
 } from 'components/UI/header-template/HeaderTemplate';
-import { ProfileForm } from 'src/components/profile-form/ProfileForm';
 import { KanbanColumn } from 'src/components/kanban-column/KanbanColumn';
 
 export const KanbanPage: React.FC = () => {
