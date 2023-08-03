@@ -2,9 +2,9 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from dotenv import load_dotenv
+#  from dotenv import load_dotenv
 
-load_dotenv()
+#  load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,10 +15,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
-# https://pypi.org/project/django-cors-headers/
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+#  https://pypi.org/project/django-cors-headers/
+#  CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
 
-CORS_ALLOW_CREDENTIALS = True
+#  CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -28,12 +28,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    "api.apps.ApiConfig",
-    "projects.apps.ProjectsConfig",
-    "users.apps.UsersConfig",
     "rest_framework",
     "djoser",
     "drf_spectacular",
+    "api.apps.ApiConfig",
+    "projects.apps.ProjectsConfig",
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
