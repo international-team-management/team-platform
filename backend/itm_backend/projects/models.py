@@ -33,7 +33,7 @@ class Project(models.Model):
         onbording = "Onboarding", _("Онбординг")
         in_progress = "In progress", _("В работе")
         production = "Production", _("Проект взлетел")
-        tests = "Tsts", _("Тестирование")
+        tests = "Tests", _("Тестирование")
 
     class PriorityChoice(models.TextChoices):
         maximum = "maximum", _("Максимальный")
