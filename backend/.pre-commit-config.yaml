@@ -30,7 +30,7 @@ repos:
 
 exclude: |
     (?x)^backend/itm_backend/(
-        projects/.*|
+
         api/.*|
         users/tests.py|
         users/views.py
