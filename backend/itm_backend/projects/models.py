@@ -46,7 +46,7 @@ class Project(models.Model):
     owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="projects", verbose_name="Автор Проекта")
     participants = models.ManyToManyField(User, through="ProjectUser", verbose_name="Участники проекта")
     tasks = models.ManyToManyField(Task, related_name="projects", verbose_name="Задачи проекта")
-    deadline = models.TimeField(verbose_name="Время окончания проекта")
+    deadline = models.DateField(verbose_name="Дата окончания проекта")
     status = models.CharField(
         verbose_name="Статус проекта", choices=StatusChoice.choices, default=StatusChoice.onbording, max_length=20
     )
