@@ -4,7 +4,7 @@
 .kanban {
   display: grid;
   grid-template-columns: auto 1fr;
-  height: 100vh;
+  min-height: 100vh;
   background-color: $grey-247;
 
   &__main-content {
@@ -22,5 +22,11 @@
 
     width: 1200px;
     padding: 24px 32px;
+
+    // Следующее свойство скрывает скролл
+
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
   }
 }

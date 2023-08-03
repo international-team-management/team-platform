@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './KanbanColumn.module.scss';
 import { ReactComponent as TimerKanban } from 'assets/timer.svg';
 import photo from '../../assets/user-avatar.svg';
+import clsx from 'clsx';
 
 type BoardTask = {
   id: number;
@@ -22,20 +23,20 @@ const mockBoardItems: BoardItem[] = [
     title: 'Backlog',
     tasks: [
       {
-        id: 1,
+        id: 11,
         subtitle: 'Поиск инвесторов на “Форум Развития 2023”',
         expiredDate: '23 июля',
         img: '',
       },
       {
-        id: 2,
+        id: 12,
         subtitle:
           'Создание новой таблицы лидеров по велогонке на стадионе во Франции',
         expiredDate: '28 июля',
         img: '',
       },
       {
-        id: 3,
+        id: 13,
         subtitle:
           'Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява',
         expiredDate: '4 августа',
@@ -48,7 +49,7 @@ const mockBoardItems: BoardItem[] = [
     title: 'To Do',
     tasks: [
       {
-        id: 1,
+        id: 14,
         subtitle:
           'Создание новой таблицы лидеров по велогонке на стадионе во Франции',
         expiredDate: '28 июля',
@@ -61,7 +62,7 @@ const mockBoardItems: BoardItem[] = [
     title: 'In Progress',
     tasks: [
       {
-        id: 1,
+        id: 15,
         subtitle:
           'Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява',
         expiredDate: '14 июня',
@@ -74,7 +75,7 @@ const mockBoardItems: BoardItem[] = [
     title: 'In Review',
     tasks: [
       {
-        id: 1,
+        id: 16,
         subtitle: 'Поиск инвесторов на “Форум Развития 2023”',
         expiredDate: '4 июня',
         img: photo,
@@ -86,7 +87,7 @@ const mockBoardItems: BoardItem[] = [
     title: 'Done',
     tasks: [
       {
-        id: 1,
+        id: 17,
         subtitle:
           'Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява',
         expiredDate: '3 июля',
@@ -98,34 +99,106 @@ const mockBoardItems: BoardItem[] = [
 
 export const KanbanColumn = () => {
   const [boards, setBoards] = React.useState(mockBoardItems);
-  const [active, setActive] = React.useState(false);
+  const [currentBoard, setCurrentBoard] = React.useState<BoardItem>();
+  const [currentTask, setCurrentTask] = React.useState<BoardTask>();
+  const [hover, setHover] = React.useState<number | null>(null);
 
-  // const dragOverHandler = (e, task, board) => {
-  //   e.preventDefault();
-  //   if (e.target.className === styles.column__task) {
+  const dragOverHandlerTask = (
+    e: React.DragEvent<HTMLElement>,
+    task: BoardTask,
+  ) => {
+    e.preventDefault();
+    setHover(task.id);
+  };
 
-  //   }
-  // }
+  const dragOverHandlerBoard = (e: React.DragEvent<HTMLElement>) => {
+    e.preventDefault();
+  };
 
-  // const dragLeaveHandler = (e) => {
+  const dragLeaveHandler = (e: React.DragEvent<HTMLElement>) => {
+    setHover(null);
+  };
 
-  // }
-  // const dragStartHandler = (e) => {
-  //   e.target.className =  styles.column__task_drag
+  const dragStartHandler = (
+    e: React.DragEvent<HTMLElement>,
+    task: BoardTask,
+    board: BoardItem,
+  ) => {
+    setCurrentTask(task);
+    setCurrentBoard(board);
+  };
 
-  // }
+  const dragEndHandler = (e: React.DragEvent<HTMLElement>) => {
+    setHover(null);
+    setCurrentTask(undefined);
+  };
 
-  // const dragEndHandler = (e) => {
-  //   e.target.className =  styles.column__task
-  // }
+  const componentRedraw = () => {
+    setHover(null);
+    setCurrentTask(undefined);
+  };
 
-  // const dropHandler = (e, task, board) => {
-  //   e.preventDefault();
-  // }
+  const dropCardHendler = (
+    _e: React.DragEvent<HTMLElement>,
+    board: BoardItem,
+  ) => {
+    if (currentTask && currentBoard) {
+      board.tasks.push(currentTask);
+      const currentIndex = currentBoard.tasks.indexOf(currentTask);
+      currentBoard.tasks.splice(currentIndex, 1);
+
+      setBoards(
+        boards.map((b) => {
+          if (b.id === board.id) {
+            return board;
+          }
+          if (b.id === currentBoard.id) {
+            return currentBoard;
+          }
+          return b;
+        }),
+      );
+      componentRedraw();
+    }
+  };
+
+  const dropHandler = (
+    e: React.DragEvent<HTMLElement>,
+    task: BoardTask,
+    board: BoardItem,
+  ) => {
+    if (currentTask && currentBoard) {
+      e.preventDefault();
+      e.stopPropagation();
+      const currentIndex = currentBoard.tasks.indexOf(currentTask);
+      const dropIndex = board.tasks.indexOf(task);
+
+      currentBoard.tasks.splice(currentIndex, 1);
+      board.tasks.splice(dropIndex + 1, 0, currentTask);
+      setBoards(
+        boards.map((b) => {
+          if (b.id === board.id) {
+            return board;
+          }
+          if (b.id === currentBoard.id) {
+            return currentBoard;
+          }
+          return b;
+        }),
+      );
+      componentRedraw();
+    }
+  };
+
   return (
     <>
       {boards.map((board) => (
-        <div className={styles.column__wrapper} key={board.id}>
+        <div
+          className={styles.column__wrapper}
+          key={board.id}
+          onDragOver={(e) => dragOverHandlerBoard(e)}
+          onDrop={(e) => dropCardHendler(e, board)}
+        >
           <div className={styles.column__info}>
             <div className={styles.column__text}>
               <h3 className={styles.column__title}>{board.title}</h3>
@@ -137,30 +210,38 @@ export const KanbanColumn = () => {
           </div>
           {board.tasks.map((task) => (
             <div
-              className={styles.column__task}
+              className={clsx(styles.column__task_line, {
+                [styles.column__task_line_active]: task.id === hover,
+              })}
               key={task.id}
               draggable={true}
-              // onDragOver={e => dragOverHandler(e, task, board)}
-              // onDragLeave={e => dragLeaveHandler(e)}
-              // onDragStart={e => dragStartHandler(e)}
-              // onDragEnd={e => dragEndHandler(e)}
-              // onDrop={e => dropHandler(e, task, board)}
+              onDragOver={(e) => dragOverHandlerTask(e, task)}
+              onDragLeave={(e) => dragLeaveHandler(e)}
+              onDragStart={(e) => dragStartHandler(e, task, board)}
+              onDragEnd={(e) => dragEndHandler(e)}
+              onDrop={(e) => dropHandler(e, task, board)}
             >
-              <p className={styles.column__task_text}>{task.subtitle}</p>
-              <button className={styles.column__task_button} />
-              <div className={styles.column__task_wrapper}>
-                <TimerKanban className={styles.column__task_icon} />
-                <p className={styles.column__task_time}>{task.expiredDate}</p>
+              <div
+                className={clsx(styles.column__task, {
+                  [styles.column__task_drag]: currentTask === task,
+                })}
+              >
+                <p className={styles.column__task_text}>{task.subtitle}</p>
+                <button className={styles.column__task_button} />
+                <div className={styles.column__task_wrapper}>
+                  <TimerKanban className={styles.column__task_icon} />
+                  <p className={styles.column__task_time}>{task.expiredDate}</p>
+                </div>
+                {task.img !== '' ? (
+                  <img
+                    className={styles.column__task_img}
+                    title="Изоображение"
+                    src={task.img}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
-              {task.img !== '' ? (
-                <img
-                  className={styles.column__task_img}
-                  title="Изоображение"
-                  src={task.img}
-                />
-              ) : (
-                <></>
-              )}
             </div>
           ))}
         </div>
