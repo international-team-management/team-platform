@@ -187,7 +187,11 @@ export const KanbanColumn = () => {
   };
 
   return (
-    <>
+    <div
+      className={clsx(styles.column__kanban, {
+        [styles.column__kanban_active]: currentTask,
+      })}
+    >
       {boards.map((board) => (
         <div
           className={styles.column__wrapper}
@@ -242,6 +246,6 @@ export const KanbanColumn = () => {
           ))}
         </div>
       ))}
-    </>
+    </div>
   );
 };

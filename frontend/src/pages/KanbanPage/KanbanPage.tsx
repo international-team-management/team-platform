@@ -15,9 +15,7 @@ export const KanbanPage: React.FC = () => {
       <Sidebar />
       <div className={styles['kanban__main-content']}>
         <HeaderTemplate state={state} title="Пример проекта" />
-        <div className={styles.kanban__wraapper}>
-          <KanbanColumn />
-        </div>
+        <KanbanColumn />
       </div>
     </section>
   );

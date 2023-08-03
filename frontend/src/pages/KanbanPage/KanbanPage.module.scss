@@ -13,20 +13,4 @@
     width: 1200px;
     margin-left: 240px;
   }
-
-  &__wraapper {
-    overflow-x: auto;
-    display: grid;
-    grid-template-columns: repeat(5, 300px);
-    gap: 0 24px;
-
-    width: 1200px;
-    padding: 24px 32px;
-
-    // Следующее свойство скрывает скролл
-
-    // &::-webkit-scrollbar {
-    //   display: none;
-    // }
-  }
 }
