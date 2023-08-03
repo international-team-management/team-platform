@@ -44,19 +44,14 @@ class Project(models.Model):
     name = models.CharField(max_length=254, verbose_name="Название Проекта")
     description = models.TextField(verbose_name="Описание Проекта")
     owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="projects", verbose_name="Автор Проекта")
-    participants = models.ManyToManyField(User, through="ProjectUser",
-                                          verbose_name="Участники проекта",
-                                          blank=True)
-    tasks = models.ManyToManyField(Task, related_name="projects",
-                                   verbose_name="Задачи проекта",
-                                   blank=True)
+    participants = models.ManyToManyField(User, through="ProjectUser", verbose_name="Участники проекта", blank=True)
+    tasks = models.ManyToManyField(Task, related_name="projects", verbose_name="Задачи проекта", blank=True)
     deadline = models.DateField(verbose_name="Дата окончания проекта")
     status = models.CharField(
         verbose_name="Статус проекта", choices=StatusChoice.choices, default=StatusChoice.onbording, max_length=20
     )
     priority = models.CharField(verbose_name="Приоритет проекта", choices=PriorityChoice.choices, max_length=20)
-    tags = models.ManyToManyField(Tag, related_name="projects",
-                                  verbose_name="Тэги", blank=True)
+    tags = models.ManyToManyField(Tag, related_name="projects", verbose_name="Тэги", blank=True)
     created_at = models.DateTimeField(verbose_name="Дата регистрации проекта", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="Дата обновления проекта", auto_now=True)
 
