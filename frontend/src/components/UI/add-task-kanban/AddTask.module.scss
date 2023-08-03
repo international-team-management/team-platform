@@ -1,0 +1,40 @@
+@import '../../../styles/colors';
+@import '../../../styles/constants';
+
+.task {
+  @extend %flex-column;
+
+  justify-content: center;
+
+  width: 300px;
+  height: 136px;
+
+  background-image: url('../../../assets/border.png');
+  background-size: cover;
+  border-radius: $ui-border-radius-m;
+
+  &__wrapper {
+    @extend %flex-row;
+
+    cursor: pointer;
+    justify-content: center;
+  }
+
+  &__button {
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+
+    background-color: $grey-247;
+    background-image: url('../../../assets/plus.svg');
+    background-size: cover;
+    border: none;
+  }
+
+  &__text {
+    @include set-font-size(18px, 20px, 600);
+
+    color: $blue-56;
+    letter-spacing: -0.02rem;
+  }
+}
