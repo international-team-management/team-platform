@@ -9,7 +9,7 @@
     gap: 0 24px;
 
     width: 1200px;
-    padding: 24px 32px;
+    padding: 22px 32px;
 
     // Следующее свойство скрывает скролл
 
@@ -55,7 +55,7 @@
     padding: 2px 8px;
 
     color: $blue-62;
-    letter-spacing: -0.02rem;
+    letter-spacing: -0.04rem;
 
     background-color: $blue-230;
     border-radius: $ui-border-radius-s;
@@ -63,12 +63,8 @@
 
   &__button {
     cursor: pointer;
-
     width: 24px;
     height: 24px;
-
-    background-image: url('../../assets/add-task.svg');
-    border: none;
     border-radius: $ui-border-radius-s;
   }
 
@@ -84,13 +80,18 @@
     padding: 16px;
 
     background-color: $white;
+    border: 1px solid $grey-241;
     border-radius: $ui-border-radius-m;
 
     &_drag {
       width: 300px;
       height: 136px;
+      margin: 4px 0;
+
       background-color: $grey-247;
       background-image: url('../../assets/Task.png');
+      background-repeat: no-repeat;
+      background-size: contain;
     }
 
     &_line {
@@ -101,7 +102,7 @@
 
       &_active {
         height: 146px;
-        margin: 0;
+        padding: 0 0 2px;
         border-bottom: 4px solid $blue-95;
       }
     }
@@ -111,8 +112,9 @@
 
       overflow: hidden;
       display: -webkit-box;
+      align-self: flex-start;
 
-      width: 200px;
+      width: 215px;
       height: 60px;
 
       color: $black;
@@ -126,17 +128,16 @@
       cursor: pointer;
 
       align-self: flex-start;
+      justify-self: end;
 
       width: 16px;
       height: 16px;
-
-      background-color: $white;
-      background-image: url('../../assets/more-actions.svg');
-      border: none;
     }
 
     &_wrapper {
       @extend %flex-row;
+
+      align-self: center;
     }
 
     &_time {

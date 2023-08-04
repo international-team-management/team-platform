@@ -18,17 +18,14 @@
 
     cursor: pointer;
     justify-content: center;
+    background-color: transparent;
+    border: none;
   }
 
   &__button {
     width: 20px;
     height: 20px;
     margin-right: 16px;
-
-    background-color: $grey-247;
-    background-image: url('../../../assets/plus.svg');
-    background-size: cover;
-    border: none;
   }
 
   &__text {

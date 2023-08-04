@@ -1,6 +1,8 @@
 import React from 'react';
-import styles from './KanbanColumn.module.scss';
+import styles from './Kanban.module.scss';
 import { ReactComponent as TimerKanban } from 'assets/timer.svg';
+import { ReactComponent as AddTaskButton } from 'assets/add-task.svg';
+import { ReactComponent as MoreActions } from 'assets/more-actions.svg';
 import photo from '../../assets/user-avatar.svg';
 import clsx from 'clsx';
 
@@ -187,29 +189,29 @@ export const KanbanColumn = () => {
   };
 
   return (
-    <div
+    <ul
       className={clsx(styles.column__kanban, {
         [styles.column__kanban_active]: currentTask,
       })}
     >
       {boards.map((board) => (
-        <div
+        <li
           className={styles.column__wrapper}
           key={board.id}
           onDragOver={(e) => dragOverHandlerBoard(e)}
           onDrop={(e) => dropCardHendler(e, board)}
         >
-          <div className={styles.column__info}>
+          <ul className={styles.column__info}>
             <div className={styles.column__text}>
               <h3 className={styles.column__title}>{board.title}</h3>
               <span className={styles.column__quantity}>
                 {board.tasks.length}
               </span>
             </div>
-            <button className={styles.column__button} />
-          </div>
+            <AddTaskButton className={styles.column__button} />
+          </ul>
           {board.tasks.map((task) => (
-            <div
+            <li
               className={clsx(styles.column__task_line, {
                 [styles.column__task_line_active]: task.id === hover,
               })}
@@ -227,7 +229,7 @@ export const KanbanColumn = () => {
                 })}
               >
                 <p className={styles.column__task_text}>{task.subtitle}</p>
-                <button className={styles.column__task_button} />
+                <MoreActions className={styles.column__task_button} />
                 <div className={styles.column__task_wrapper}>
                   <TimerKanban className={styles.column__task_icon} />
                   <p className={styles.column__task_time}>{task.expiredDate}</p>
@@ -242,10 +244,10 @@ export const KanbanColumn = () => {
                   <></>
                 )}
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };

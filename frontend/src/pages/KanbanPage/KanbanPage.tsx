@@ -5,7 +5,7 @@ import {
   HeaderTemplate,
   HeaderState,
 } from 'components/UI/header-template/HeaderTemplate';
-import { KanbanColumn } from 'src/components/kanban-column/KanbanColumn';
+import { KanbanColumn } from 'src/components/kanban-column/Kanban';
 
 export const KanbanPage: React.FC = () => {
   const state = HeaderState.KANBAN;

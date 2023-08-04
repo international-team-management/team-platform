@@ -19,6 +19,7 @@ export const Sidebar: React.FC = () => {
     { id: 2, name: 'UV’s Таблицы' },
     { id: 3, name: 'Intel Дизайн' },
     { id: 4, name: 'Power—Точка' },
+    { id: 5, name: 'Пример проекта' },
   ];
 
   return (
