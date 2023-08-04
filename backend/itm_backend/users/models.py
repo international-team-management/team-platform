@@ -63,10 +63,13 @@ class User(AbstractUser):
     created_at = models.DateTimeField(verbose_name="Дата регистрации пользователя", auto_now_add=True)
     update_at = models.DateTimeField(verbose_name="Дата обновления данных пользователя", auto_now=True)
     is_active = models.BooleanField(verbose_name="Активный пользователь", default=True, blank=True, null=True)
-    user_timezone = models.CharField(
-        verbose_name="Часовой пояс пользователя",
-        max_length=150,
+    timezone = models.ForeignKey(
+        "TimeZone",
+        on_delete=models.SET_NULL,
         blank=True,
+        null=True,
+        related_name="users",
+        verbose_name="Часовой пояс пользователя",
     )
     timetable = models.ManyToManyField(
         TimeTable,
@@ -92,3 +95,32 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class TimeZone(models.Model):
+    """Модель часового пояса"""
+
+    value = models.CharField(
+        max_length=150,
+        primary_key=True,
+    )
+    label = models.CharField(
+        max_length=250,
+        blank=True,
+    )
+    offset = models.SmallIntegerField()
+    abbrev = models.CharField(
+        max_length=50,
+        blank=True,
+    )
+    altName = models.CharField(
+        max_length=150,
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = "Часовой пояс"
+        verbose_name_plural = "Часовые пояса"
+
+    def __str__(self):
+        return f"{self.value}"

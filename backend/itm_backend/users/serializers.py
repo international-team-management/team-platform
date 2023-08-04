@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
-from .models import TimeTable
+from .models import TimeTable, TimeZone
 
 User = get_user_model()
 
@@ -16,6 +16,17 @@ class TimeTableSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimeTable
         fields = "__all__"
+
+
+class TimeZoneSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Сериализатор модели TimeZone.
+    Отображает информацию о часовом поясе в JSON-представлении.
+    """
+
+    class Meta:
+        model = TimeZone
+        fields = ["value", "label", "offset", "abbrev", "altName"]
 
 
 class CustomUserCreateSerializer(serializers.ModelSerializer):
@@ -49,6 +60,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     """
 
     timetable = TimeTableSerializer(many=True, read_only=True)
+    timezone = TimeZoneSerializer()
 
     class Meta:
         """
@@ -67,8 +79,16 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "created_at",
             "update_at",
             "is_active",
-            "user_timezone",
+            "timezone",
             "timetable",
             "photo",
             "telephone_number",
         ]
+
+    def update(self, user, validated_data):
+        if "timezone" in validated_data:
+            timezone = validated_data.pop("timezone")
+            current_timezone, status = TimeZone.objects.get_or_create(**timezone)
+            user.timezone = current_timezone
+
+        return super().update(user, validated_data)

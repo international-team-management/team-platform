@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TimeTable, User
+from .models import TimeTable, TimeZone, User
 
 
 class TimeTableInline(admin.TabularInline):
@@ -17,11 +17,16 @@ class UserAdmin(admin.ModelAdmin):
         "created_at",
         "update_at",
         "is_active",
-        "user_timezone",
+        "timezone",
         "photo",
         "telephone_number",
     )
     inlines = [TimeTableInline]
 
 
+class TimeZoneAdmin(admin.ModelAdmin):
+    list_display = ("value", "label", "offset", "abbrev", "altName")
+
+
 admin.site.register(User, UserAdmin)
+admin.site.register(TimeZone, TimeZoneAdmin)
