@@ -1,11 +1,7 @@
 @import 'styles/constants';
 @import 'styles/colors';
 
-.tz-select {
-  // &__value-container {
-
-  // }
-
+.t-select {
   &__single-value {
     @include set-font-size(16px, 20px, 400);
 
@@ -14,12 +10,14 @@
   }
 
   &__control {
+    width: 120px;
     height: 52px;
     padding: 0 20px;
+
     border: 1px solid rgb(230 230 230 / 100%);
     border-radius: 12px;
 
-    &--menu-is-open .tz-select__indicator {
+    &--menu-is-open .t-select__indicator {
       transform: rotate(180deg);
     }
   }
@@ -27,7 +25,7 @@
   &__menu {
     overflow: hidden;
 
-    width: 400px;
+    width: 120px;
     height: fit-content;
     max-height: 276px;
     margin-top: 12px;
@@ -49,14 +47,14 @@
   }
 
   &__option {
-    @include set-font-size(16px, 20px, 500);
+    @include set-font-size(16px, 20px, 600);
 
     overflow: hidden;
 
     max-width: 100%;
-    margin: 5px 0;
+    margin: 16px auto;
 
-    text-align: left;
+    text-align: center;
     text-overflow: ellipsis;
     letter-spacing: -0.03em;
     white-space: nowrap;
@@ -68,7 +66,11 @@
     }
 
     &:first-child {
-      margin: 0 0 5px;
+      margin: 0 auto 5px;
     }
+  }
+
+  &__indicators {
+    cursor: pointer;
   }
 }

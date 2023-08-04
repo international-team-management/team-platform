@@ -4,6 +4,7 @@ import { ProfileSectionTitle } from 'src/components/profile-section-title/Profil
 // import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
 import { errorTexts, helperTexts } from 'src/utils/validation/helperTexts';
 import InputTimezoneSelect from '../UI/timezone-input-template/InputTimezoneSelect';
+import { InputTimeSelect } from '../UI/time-input-template/InputTimeSelect';
 import { Input } from '../UI/input-template/InputTemplate';
 import { InputType, InputName } from 'src/typings/constants';
 import styles from './ProfileForm.module.scss';
@@ -212,6 +213,7 @@ export const ProfileForm: React.FC = () => {
             handler={handlerInputZoneSubmit}
             label="Часовой пояс"
           />
+          <InputTimeSelect label="График работы" />
         </form>
       </section>
 
