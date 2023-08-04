@@ -19,10 +19,12 @@ export const authAPI = {
     return request.post<TokenType, LoginRequestData>(URLS.SIGN_IN, data);
   },
 
-  me: async (): Promise<UserType> => {
-    const result = await request.get<UserType>(URLS.USER_ME);
+  getMe: async (): Promise<UserType> => {
+    return request.get<UserType>(URLS.USER_ME);
+  },
 
-    return result;
+  patchMe: async (data: UserType): Promise<UserType> => {
+    return request.patch<UserType, UserType>(URLS.USER_ME, data);
   },
 
   // logout: (): Promise<'OK'> => request.post<'OK', null>(URLS.LOGOUT),

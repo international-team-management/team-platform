@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ButtonTemplate } from 'src/components/UI/button-template/ButtonTemplate';
 import { Input } from 'src/components/UI/input-template/InputTemplate';
 import { InputType, InputName } from 'src/typings/constants';
@@ -11,10 +12,18 @@ import { DevTool } from '@hookform/devtools';
 import { errorTexts, helperTexts } from 'src/utils/validation/helperTexts';
 import { patterns } from 'src/utils/validation/patterns';
 import promo from '../../assets/Promo.png';
-import { useDispatch } from 'src/services/hooks';
-import { authThunks } from 'src/services/slices/authSlice';
+import { useDispatch, useSelector } from 'src/services/hooks';
+import { authThunks, selectUserMe } from 'src/services/slices/authSlice';
 
-export const LoginPage = () => {
+export const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userMe = useSelector(selectUserMe);
+
+  React.useEffect(() => {
+    if (userMe) navigate(routes['profile'].path, { replace: true });
+  }, [userMe, navigate]);
+
   const {
     register,
     reset,
@@ -22,8 +31,6 @@ export const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginRequestData>({ mode: 'onChange', criteriaMode: 'all' });
-
-  const dispatch = useDispatch();
 
   const handlerFormSubmit = (data: LoginRequestData) => {
     console.log(data);

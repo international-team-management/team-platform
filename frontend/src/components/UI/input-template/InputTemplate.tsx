@@ -14,6 +14,7 @@ type InputProps = {
   isPassword?: boolean;
   isToggle?: boolean;
   useTogglePassword?: boolean;
+  isDisabled?: boolean;
   placeholder?: string;
   helperText?: string[];
   errorText?: string;
@@ -27,6 +28,7 @@ type InputProps = {
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onClick?: (event: React.MouseEvent<HTMLInputElement>) => void;
 };
+
 export const Input = (props: InputProps) => {
   const [valueHasChanged, setValueHasChanged] = React.useState(false);
   const [value, setValue] = React.useState('');
@@ -58,7 +60,7 @@ export const Input = (props: InputProps) => {
     });
 
     setErrors(errorMessages);
-  }, [props.errorObject]);
+  }, [props, value]);
 
   function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     setValueHasChanged(true);
@@ -78,12 +80,14 @@ export const Input = (props: InputProps) => {
             {props.labelPassword}
           </button>
         </div>
+
         <input
           className={clsx(styles.input__field, {
             [styles.input__field_valid]: !props.errorObject && valueHasChanged,
             [styles.input__field_invalid]: props.errorObject,
           })}
           type={isToggleEye ? 'text' : props.type}
+          disabled={props.isDisabled}
           placeholder={props.placeholder || ''}
           {...props.register(props.name, {
             ...props.validOptions,
@@ -101,6 +105,7 @@ export const Input = (props: InputProps) => {
           </div>
         )}
       </div>
+
       {props.helperText && !props.errorObject && (
         <>
           {props.helperText.map((helperText) => {

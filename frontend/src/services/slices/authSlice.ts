@@ -23,24 +23,8 @@ type AuthStateType = {
 
 // State
 
-const test = {
-  id: 4,
-  username: 'tm',
-  email: 'dfdf@freezeDraftable.ew,',
-  first_name: 'Джонни',
-  last_name: 'Доу',
-  role: 'Чокнутый проффесоррррррр',
-  created_at: '',
-  update_at: '',
-  is_active: true,
-  user_timezone: 'wew',
-  // timetable: [],
-  photo: 'sting',
-  telephone_number: 9154804054,
-};
-
 const initialState: AuthStateType = {
-  user: test,
+  user: null,
   isLoading: false,
   error: null,
 };
@@ -75,7 +59,12 @@ export const authThunks = {
     },
   ),
 
-  userMe: createAsyncThunk('auth/userMe', async () => await authAPI.me()),
+  userMe: createAsyncThunk('auth/userMe', async () => await authAPI.getMe()),
+
+  patchMe: createAsyncThunk('auth/patchMe', async (data: UserType) => {
+    const patchedMe = await authAPI.patchMe(data);
+    return patchedMe;
+  }),
 };
 
 // Slice
@@ -118,10 +107,53 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.error = false;
       })
-      .addCase(authThunks.login.rejected, (state) => {
-        state.isLoading = false;
-        state.error = true;
-      });
+      .addCase(
+        authThunks.login.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      )
+      // get userMe
+      .addCase(authThunks.userMe.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(
+        authThunks.userMe.fulfilled,
+        (state, action: PayloadAction<UserType>) => {
+          state.isLoading = false;
+          state.error = false;
+          state.user = action.payload;
+        },
+      )
+      .addCase(
+        authThunks.userMe.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      )
+      // patch Me
+      .addCase(authThunks.patchMe.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(
+        authThunks.patchMe.fulfilled,
+        (state, action: PayloadAction<UserType>) => {
+          state.isLoading = false;
+          state.error = false;
+          state.user = action.payload;
+        },
+      )
+      .addCase(
+        authThunks.patchMe.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      );
   },
 });
 
@@ -129,5 +161,5 @@ export const authSlice = createSlice({
 export const selectAuthData = (state: RootState) => state.auth;
 export const selectUserMe = (state: RootState) => state.auth.user;
 
-// Action creator
+// Action creator (not async)
 export const { logout } = authSlice.actions;

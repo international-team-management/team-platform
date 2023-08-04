@@ -1,20 +1,29 @@
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ButtonTemplate } from 'src/components/UI/button-template/ButtonTemplate';
 import { Input } from 'src/components/UI/input-template/InputTemplate';
 import { InputType, InputName } from 'src/typings/constants';
 import styles from './SignUpPage.module.scss';
 import { TitleTemplate } from 'src/components/UI/title-template/TitleTemplate';
 import promo from '../../assets/Promo.png';
-import { Link } from 'react-router-dom';
 import { routes } from 'src/routes';
 import { useForm } from 'react-hook-form';
 import { RegisterRequestData } from 'src/services/api/types';
 import { DevTool } from '@hookform/devtools';
 import { errorTexts, helperTexts } from 'src/utils/validation/helperTexts';
 import { patterns } from 'src/utils/validation/patterns';
-import { useDispatch } from 'src/services/hooks';
-import { authThunks } from 'src/services/slices/authSlice';
+import { useDispatch, useSelector } from 'src/services/hooks';
+import { authThunks, selectUserMe } from 'src/services/slices/authSlice';
 
-export const SignUpPage = () => {
+export const SignUpPage: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userMe = useSelector(selectUserMe);
+
+  React.useEffect(() => {
+    if (userMe) navigate(routes['profile'].path, { replace: true });
+  }, [userMe, navigate]);
+
   const {
     register,
     control,
@@ -23,8 +32,6 @@ export const SignUpPage = () => {
     reset,
     formState: { errors },
   } = useForm<RegisterRequestData>({ mode: 'onChange', criteriaMode: 'all' });
-
-  const dispatch = useDispatch();
 
   const handlerFormSubmit = (data: RegisterRequestData) => {
     getValues(InputName.FIRST_NAME).trim();
