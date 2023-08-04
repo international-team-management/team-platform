@@ -6,14 +6,14 @@ from rest_framework_simplejwt.tokens import AccessToken
 def token_user_superuser(user_superuser):
     token = AccessToken.for_user(user_superuser)
     return {
-        'access': str(token),
+        "access": str(token),
     }
 
 
 @pytest.fixture
 def user(django_user_model):
     return django_user_model.objects.create_user(
-        email='test@yandex.ru',
+        email="test@yandex.ru",
         password="securepassword",
         first_name="John",
         last_name="Doe",
@@ -24,7 +24,7 @@ def user(django_user_model):
 def token(user):
     token = AccessToken.for_user(user)
     return {
-        'access': str(token),
+        "access": str(token),
     }
 
 
