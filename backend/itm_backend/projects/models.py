@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -121,6 +122,7 @@ class Project(models.Model):
     )
     participants = models.ManyToManyField(User, through="ProjectUser", verbose_name="Участники проекта", blank=True)
     tasks = models.ManyToManyField(Task, related_name="projects", verbose_name="Задачи проекта", blank=True)
+    start = models.DateField(verbose_name="Дата начала проекта", default=timezone.now)
     deadline = models.DateField(verbose_name="Дата окончания проекта")
     status = models.CharField(
         verbose_name="Статус проекта",

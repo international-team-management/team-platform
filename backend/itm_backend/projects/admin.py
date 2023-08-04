@@ -30,6 +30,7 @@ class ProjectAdmin(admin.ModelAdmin):
         "name",
         "description",
         "owner",
+        "start",
         "deadline",
         "status",
         "priority",
@@ -37,6 +38,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_editable = (
         "name",
         "description",
+        "start",
         "deadline",
         "status",
         "priority",

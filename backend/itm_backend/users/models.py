@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager as DefaultUserManager
 from django.db import models
-
+from phonenumber_field.modelfields import PhoneNumberField
 
 class TimeTable(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="timetables")
@@ -78,7 +78,7 @@ class User(AbstractUser):
         blank=True,
     )
     photo = models.ImageField(verbose_name="Аватар пользователя", upload_to="media/", blank=True, null=True)
-    telephone_number = models.CharField(verbose_name="Номер телефона", blank=True, null=True, max_length=20)
+    telephone_number = PhoneNumberField(verbose_name="Номер телефона", blank=True, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name"]
 
