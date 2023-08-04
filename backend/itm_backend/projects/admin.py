@@ -50,7 +50,7 @@ class ProjectAdmin(admin.ModelAdmin):
         """Автоподстановка текущего пользователя в создателя проекта при
         создании через Админку."""
         field = super(ProjectAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name == "creator":
+        if db_field.name == "owner":
             field.initial = kwargs["request"].user.id
         return field
 
