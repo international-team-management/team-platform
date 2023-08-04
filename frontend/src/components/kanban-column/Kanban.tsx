@@ -201,7 +201,7 @@ export const KanbanColumn = () => {
           onDragOver={(e) => dragOverHandlerBoard(e)}
           onDrop={(e) => dropCardHendler(e, board)}
         >
-          <ul className={styles.column__info}>
+          <div className={styles.column__info}>
             <div className={styles.column__text}>
               <h3 className={styles.column__title}>{board.title}</h3>
               <span className={styles.column__quantity}>
@@ -209,9 +209,9 @@ export const KanbanColumn = () => {
               </span>
             </div>
             <AddTaskButton className={styles.column__button} />
-          </ul>
+          </div>
           {board.tasks.map((task) => (
-            <li
+            <div
               className={clsx(styles.column__task_line, {
                 [styles.column__task_line_active]: task.id === hover,
               })}
@@ -244,7 +244,7 @@ export const KanbanColumn = () => {
                   <></>
                 )}
               </div>
-            </li>
+            </div>
           ))}
         </li>
       ))}
