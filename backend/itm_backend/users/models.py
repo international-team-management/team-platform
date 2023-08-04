@@ -100,23 +100,11 @@ class User(AbstractUser):
 class TimeZone(models.Model):
     """Модель часового пояса"""
 
-    value = models.CharField(
-        max_length=150,
-        primary_key=True,
-    )
-    label = models.CharField(
-        max_length=250,
-        blank=True,
-    )
+    value = models.CharField(max_length=150)
+    label = models.CharField(max_length=250, blank=True)
     offset = models.SmallIntegerField()
-    abbrev = models.CharField(
-        max_length=50,
-        blank=True,
-    )
-    altName = models.CharField(
-        max_length=150,
-        blank=True,
-    )
+    abbrev = models.CharField(max_length=50, blank=True)
+    altName = models.CharField(max_length=150, blank=True)
 
     class Meta:
         verbose_name = "Часовой пояс"
