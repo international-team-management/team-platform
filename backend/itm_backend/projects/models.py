@@ -31,12 +31,8 @@ class Task(models.Model):
         in_progress = "In progress", _("В работе")
         in_review = "In review", _("На рассмотрении")
         done = "Done", _("Завершено")
-    project = models.ForeignKey(
-        "Project", 
-        verbose_name="Проект",
-        on_delete=models.CASCADE,
-        related_name="task"
-    )
+
+    project = models.ForeignKey("Project", verbose_name="Проект", on_delete=models.CASCADE, related_name="task")
     creator = models.ForeignKey(
         User,
         verbose_name="Создатель",
