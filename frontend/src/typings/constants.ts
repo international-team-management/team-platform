@@ -14,6 +14,8 @@ export enum InputName {
   FIRST_NAME = 'first_name',
   LAST_NAME = 'last_name',
   ROLE = 'role',
-  TIMEZONE = 'user_timezone',
+  TIMEZONE = 'timezone',
+  WORK_START = 'work_start',
+  WORK_FINISH = 'work_finish',
   TELEPHONE = 'telephone_number',
 }

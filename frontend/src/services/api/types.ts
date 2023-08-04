@@ -34,10 +34,12 @@ export type UserType = {
   created_at?: string;
   update_at?: string;
   is_active?: boolean;
-  user_timezone?: unknown;
-  timetable?: unknown;
+  timezone?: unknown;
+  work_start?: number | null;
+  work_finish?: number | null;
+  // timetable?: unknown;
   photo?: string;
-  telephone_number?: number;
+  telephone_number?: string;
 };
 
 export type TokenType = {

@@ -3,8 +3,11 @@ import { InputPhoneTemplate } from '../UI/phone-input-template/InputPhoneTemplat
 import { ProfileSectionTitle } from 'src/components/profile-section-title/ProfileSectionTitle';
 // import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
 import { errorTexts, helperTexts } from 'src/utils/validation/helperTexts';
-import InputTimezoneSelect from '../UI/timezone-input-template/InputTimezoneSelect';
-import { InputTimeSelect } from '../UI/time-input-template/InputTimeSelect';
+import { InputTimezoneSelect } from '../UI/timezone-input-template/InputTimezoneSelect';
+import {
+  InputTimeSelect,
+  WorkTimeType,
+} from '../UI/time-input-template/InputTimeSelect';
 import { Input } from '../UI/input-template/InputTemplate';
 import { InputType, InputName } from 'src/typings/constants';
 import styles from './ProfileForm.module.scss';
@@ -59,16 +62,23 @@ export const ProfileForm: React.FC = () => {
     criteriaMode: 'all',
   });
 
-  // const handlerFormSubmit = (data: RegisterRequestData) => {
-  //   console.log(data);
-  // };
-
   const handlerFormPasswordSubmit = (data: UpdatePasswordData) => {
     console.log(data);
   };
 
-  const handlerInputZoneSubmit = (data: SingleValue<ITimezoneOption>) => {
+  const handlerInputZoneSubmit = (
+    data: SingleValue<ITimezoneOption>,
+    name?: string,
+  ) => {
+    if (!name) return;
+    console.log({ [name]: data });
+    dispatch(authThunks.patchMe({ [name]: data }));
+  };
+
+  const handlerInputWorkTimeSubmit = (data: WorkTimeType) => {
+    // TODO: Date or number? waiting for backend decision
     console.log(data);
+    dispatch(authThunks.patchMe(data));
   };
 
   return (
@@ -100,7 +110,7 @@ export const ProfileForm: React.FC = () => {
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle="Личные данные"
-          description="Эта информация будет доступна всем участникам проекта."
+          description="Эта информация будет доступна всем участникам проекта."
         />
         <form className={styles.profile__form_data}>
           <Input
@@ -210,10 +220,15 @@ export const ProfileForm: React.FC = () => {
         />
         <form className={styles.profile__form}>
           <InputTimezoneSelect
-            handler={handlerInputZoneSubmit}
+            name={InputName.TIMEZONE}
             label="Часовой пояс"
+            handleChange={handlerInputZoneSubmit}
           />
-          <InputTimeSelect label="График работы" />
+          <InputTimeSelect
+            names={[InputName.WORK_START, InputName.WORK_FINISH]}
+            label="График работы"
+            handleChange={handlerInputWorkTimeSubmit}
+          />
         </form>
       </section>
 
