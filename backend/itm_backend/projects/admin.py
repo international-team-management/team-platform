@@ -97,7 +97,7 @@ class TaskAdmin(admin.ModelAdmin):
         """Автоподстановка текущего пользователя в создателя задачи при
         создании через Админку."""
         field = super(TaskAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name == "owner":
+        if db_field.name == "creator":
             field.initial = kwargs["request"].user.id
         return field
 

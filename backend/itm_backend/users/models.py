@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager as DefaultUserManager
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 
 
 class TimeTable(models.Model):
@@ -44,11 +43,6 @@ class User(AbstractUser):
     Регистрация с помощью email.
     """
 
-    class StatusChoice(models.TextChoices):
-        Admin = "Admin", _("Администратор")
-        Editor = "Editor", _("Редактор")
-        Executor = "Executor", _("Исполнитель")
-
     username = models.CharField("Логин", max_length=150, blank=True, unique=False)
 
     email = models.EmailField(verbose_name="адрес электронной почты", help_text="example@site.mail", unique=True)
@@ -67,9 +61,7 @@ class User(AbstractUser):
     role = models.CharField(
         verbose_name="Должность",
         help_text="Ваша должность",
-        choices=StatusChoice.choices,
-        default=StatusChoice.Executor,
-        max_length=20,
+        max_length=50,
     )
     created_at = models.DateTimeField(verbose_name="Дата регистрации пользователя", auto_now_add=True)
     update_at = models.DateTimeField(verbose_name="Дата обновления данных пользователя", auto_now=True)
@@ -86,7 +78,7 @@ class User(AbstractUser):
         blank=True,
     )
     photo = models.ImageField(verbose_name="Аватар пользователя", upload_to="media/", blank=True, null=True)
-    telephone_number = models.SmallIntegerField(verbose_name="Номер телефона", blank=True, null=True)
+    telephone_number = models.CharField(verbose_name="Номер телефона", blank=True, null=True, max_length=15)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name"]
 

@@ -26,30 +26,31 @@ class Task(models.Model):
     """
 
     class StatusChoice(models.TextChoices):
-        onbording = "Onbording", _("Онбординг")
+        backlog = "Backlog", _("Бэклог")
+        todo = "Todo", _("Необходимо сделать")
         in_progress = "In progress", _("В работе")
-        production = "Production", _("Проект взлетел")
-        tests = "Tests", _("Тестирование")
+        in_review = "In review", _("На рассмотрении")
+        done = "Done", _("Завершено")
 
     creator = models.ForeignKey(
         User,
         verbose_name="Создатель",
         null=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         related_name="created_tasks",
     )
     assigned_to = models.ManyToManyField(User, verbose_name="Участники задачи", blank=True)
-    tags = models.ManyToManyField(Tag, related_name="related_tasks", verbose_name="Тэги")
+    tags = models.ManyToManyField(Tag, related_name="related_tasks", verbose_name="Тэги", blank=True)
     status = models.CharField(
-        verbose_name="Статус проекта",
+        verbose_name="Статус задачи",
         choices=StatusChoice.choices,
-        default=StatusChoice.onbording,
+        default=StatusChoice.backlog,
         max_length=20,
     )
     description = models.TextField(verbose_name="Описание задачи")
     created_at = models.DateTimeField(verbose_name="Дата создания задачи", auto_now_add=True)
     update_at = models.DateTimeField(verbose_name="Дата обновления обносления задачи", auto_now=True)
-    deadline = models.DateTimeField(verbose_name="Срок исполнения задачи")
+    deadline = models.DateField(verbose_name="Срок исполнения задачи")
     name = models.CharField(verbose_name="Название задачи", max_length=150, blank=True)
 
     class Meta:
