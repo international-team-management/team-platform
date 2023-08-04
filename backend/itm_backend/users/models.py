@@ -4,6 +4,7 @@ from django.contrib.auth.models import UserManager as DefaultUserManager
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
+
 class TimeTable(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="timetables")
     work_start = models.TimeField(verbose_name="Время начала работы")

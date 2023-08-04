@@ -19,6 +19,8 @@ drf-spectacular = "^0.26.3"
 django-cors-headers = "^4.2.0"
 pytest = "^7.4.0"
 pytest-django = "^4.5.2"
+django-phonenumber-field = "^7.1.0"
+phonenumbers = "^8.13.18"
 
 
 
