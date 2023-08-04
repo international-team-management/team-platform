@@ -49,7 +49,7 @@ class Task(models.Model):
     )
     description = models.TextField(verbose_name="Описание задачи")
     created_at = models.DateTimeField(verbose_name="Дата создания задачи", auto_now_add=True)
-    update_at = models.DateTimeField(verbose_name="Дата обновления обносления задачи", auto_now=True)
+    update_at = models.DateTimeField(verbose_name="Дата обновления обновления задачи", auto_now=True)
     deadline = models.DateField(verbose_name="Срок исполнения задачи")
     name = models.CharField(verbose_name="Название задачи", max_length=150, blank=True)
 
