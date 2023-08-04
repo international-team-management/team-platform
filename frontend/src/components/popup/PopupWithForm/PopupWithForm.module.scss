@@ -1,6 +1,24 @@
 @import 'styles/colors';
 @import 'styles/constants';
 
+%button {
+  @include set-font-size(16px, 20px, 400);
+
+  all: unset;
+
+  cursor: pointer;
+
+  width: 412px;
+  height: 52px;
+  padding: 0;
+
+  text-align: center;
+
+  border-radius: 12px;
+
+  transition: 0.5s;
+}
+
 .popup {
   @extend %flex-column;
 
@@ -88,24 +106,10 @@
   }
 
   &__button {
-    @include set-font-size(16px, 20px, 400);
-
-    all: unset;
-
-    cursor: pointer;
-
-    width: 412px;
-    height: 52px;
-    padding: 0;
-
-    text-align: center;
-
-    border-radius: 12px;
-
-    transition: 0.5s;
+    @extend %button;
 
     &_confirmation {
-      @extend %__button;
+      @extend %button;
 
       margin: 0;
       color: $white;
@@ -113,7 +117,7 @@
     }
 
     &_reject {
-      @extend %__button;
+      @extend %button;
 
       margin: 4px 0 0;
       color: $black-text;
