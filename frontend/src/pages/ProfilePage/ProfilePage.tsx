@@ -14,7 +14,7 @@ export const ProfilePage: React.FC = () => {
     <section className={styles.profile}>
       <Sidebar />
       <div className={styles['profile__main-content']}>
-        <HeaderTemplate state={state} />
+        <HeaderTemplate state={state} title="Личный кабинет" />
         <ProfileForm />
       </div>
     </section>

@@ -1,0 +1,159 @@
+@import '../../styles/colors';
+@import '../../styles/constants';
+
+.column {
+  &__kanban {
+    overflow-x: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 300px);
+    gap: 0 24px;
+
+    width: 1200px;
+    padding: 22px 32px;
+
+    // Следующее свойство скрывает скролл
+
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
+
+    &_active {
+      cursor: grabbing;
+    }
+  }
+
+  &__wrapper {
+    @extend %flex-column;
+
+    width: $ui-width-s;
+    min-height: 300px;
+  }
+
+  &__info {
+    @extend %flex-row;
+
+    align-items: end;
+    justify-content: space-between;
+    margin: 2px 0 12px;
+  }
+
+  &__text {
+    @extend %flex-row;
+  }
+
+  &__title {
+    @include set-font-size(16px, 20px, 600);
+
+    margin-right: 8px;
+    color: $black;
+    letter-spacing: -0.01rem;
+  }
+
+  &__quantity {
+    @include set-font-size(14px, 16px, 700);
+
+    padding: 2px 8px;
+
+    color: $blue-62;
+    letter-spacing: -0.04rem;
+
+    background-color: $blue-230;
+    border-radius: $ui-border-radius-s;
+  }
+
+  &__button {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: $ui-border-radius-s;
+  }
+
+  &__task,
+  &__task_drag {
+    display: grid;
+    grid-template-columns: 240px 28px;
+    gap: 16px 0;
+    align-items: end;
+
+    height: 136px;
+    margin: 4px 0;
+    padding: 16px;
+
+    background-color: $white;
+    border: 1px solid $grey-241;
+    border-radius: $ui-border-radius-m;
+
+    &_drag {
+      width: 300px;
+      height: 136px;
+      margin: 4px 0;
+
+      background-color: $grey-247;
+      background-image: url('../../assets/Task.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    &_line {
+      cursor: grab;
+      width: 300px;
+      height: 146px;
+      background-color: transparent;
+
+      &_active {
+        height: 146px;
+        padding: 0 0 2px;
+        border-bottom: 4px solid $blue-95;
+      }
+    }
+
+    &_text {
+      @include set-font-size(18px, 20px, 600);
+
+      overflow: hidden;
+      display: -webkit-box;
+      align-self: flex-start;
+
+      width: 215px;
+      height: 60px;
+
+      color: $black;
+      letter-spacing: -0.02rem;
+
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+
+    &_button {
+      cursor: pointer;
+
+      align-self: flex-start;
+      justify-self: end;
+
+      width: 16px;
+      height: 16px;
+    }
+
+    &_wrapper {
+      @extend %flex-row;
+
+      align-self: center;
+    }
+
+    &_time {
+      @include set-font-size(16px, 20px, 600);
+
+      color: $grey-118;
+      letter-spacing: -0.01rem;
+    }
+
+    &_icon {
+      margin-right: 4px;
+    }
+
+    &_img {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}

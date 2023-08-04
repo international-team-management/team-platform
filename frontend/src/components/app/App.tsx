@@ -7,6 +7,7 @@ import { ProfilePage } from 'src/pages/ProfilePage/ProfilePage';
 import { SignUpPage } from 'pages/SignUpPage/SignUpPage';
 import { useDispatch, useSelector } from 'src/services/hooks';
 import { authThunks, selectUserMe } from 'src/services/slices/authSlice';
+import { KanbanPage } from 'pages/KanbanPage/KanbanPage';
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,17 +20,7 @@ export const App: React.FC = () => {
 
   return (
     <Routes>
-      <Route
-        path={routes.home.path}
-        element={
-          <div>
-            <h1 className={styles.title_large}>Hello World!</h1>
-            <h3 className={styles.title_small}>
-              This is the start page of the project
-            </h3>
-          </div>
-        }
-      />
+      <Route path={routes.home.path} element={<KanbanPage />} />
       <Route path={routes['sign-in'].path} element={<LoginPage />} />
       <Route path={routes['sign-up'].path} element={<SignUpPage />} />
       <Route path={routes.profile.path} element={<ProfilePage />} />
