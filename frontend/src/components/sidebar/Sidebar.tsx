@@ -15,10 +15,11 @@ export const Sidebar: React.FC = () => {
   };
 
   const projects = [
-    { id: 1, name: 'ABC.Документы' },
-    { id: 2, name: 'UV’s Таблицы' },
-    { id: 3, name: 'Intel Дизайн' },
-    { id: 4, name: 'Power—Точка' },
+    { id: 1, name: 'Пример проекта' },
+    { id: 2, name: 'ABC.Документы' },
+    { id: 3, name: 'UV’s Таблицы' },
+    { id: 4, name: 'Intel Дизайн' },
+    { id: 5, name: 'Power—Точка' },
   ];
 
   return (

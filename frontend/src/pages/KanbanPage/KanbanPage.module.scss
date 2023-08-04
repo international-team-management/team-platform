@@ -1,0 +1,16 @@
+@import '../../styles/colors';
+@import '../../styles/constants';
+
+.kanban {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100vh;
+  background-color: $grey-247;
+
+  &__main-content {
+    @extend %flex-column;
+
+    width: 1200px;
+    margin-left: 240px;
+  }
+}
