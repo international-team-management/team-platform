@@ -78,7 +78,7 @@ class User(AbstractUser):
         blank=True,
     )
     photo = models.ImageField(verbose_name="Аватар пользователя", upload_to="media/", blank=True, null=True)
-    telephone_number = models.CharField(verbose_name="Номер телефона", blank=True, null=True, max_length=15)
+    telephone_number = models.CharField(verbose_name="Номер телефона", blank=True, null=True, max_length=20)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name"]
 
