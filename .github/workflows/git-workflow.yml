@@ -59,9 +59,9 @@ jobs:
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
-          context: backend_test
+          context: backend
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/backend_test
+          tags: ${{ secrets.DOCKER_USERNAME }}/backend
 
   send_message:
     runs-on: ubuntu-latest
