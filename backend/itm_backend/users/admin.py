@@ -1,11 +1,6 @@
 from django.contrib import admin
 
-from .models import TimeTable, TimeZone, User
-
-
-class TimeTableInline(admin.TabularInline):
-    model = TimeTable
-    extra = 1
+from .models import TimeZone, User
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -18,10 +13,11 @@ class UserAdmin(admin.ModelAdmin):
         "update_at",
         "is_active",
         "timezone",
+        "work_start",
+        "work_finish",
         "photo",
         "telephone_number",
     )
-    inlines = [TimeTableInline]
 
 
 class TimeZoneAdmin(admin.ModelAdmin):
