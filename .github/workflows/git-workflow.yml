@@ -46,6 +46,9 @@ jobs:
       - name: Get branch name
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
 
+      - name: Get commit SHA
+        run: echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
+
       - name: send message
         uses: appleboy/telegram-action@master
         with:
@@ -55,5 +58,4 @@ jobs:
             ${{ github.actor }} успешно выполнил ${{ github.workflow }}!
             Ветка: ${{ env.BRANCH_NAME }}
             Тип операции: ${{ github.event_name }}
-            Ссылка на коммит: ${{ github.sha }}
-            Ссылка на ветку или пулл-реквест: ${{ github.event.pull_request.html_url }}
+            Ссылка на коммит: [${{ env.COMMIT_SHA }}](https://github.com/${{ github.repository }}/commit/${{ env.COMMIT_SHA }})
