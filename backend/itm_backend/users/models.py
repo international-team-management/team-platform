@@ -84,17 +84,17 @@ class User(AbstractUser):
 
     objects = CustomUserManager()
 
-    def save(self, *args, **kwargs):
-        if not self.username:
-            self.username = self.email
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = self.email
+        super().save(*args, **kwargs)
 
 
 class TimeZone(models.Model):
