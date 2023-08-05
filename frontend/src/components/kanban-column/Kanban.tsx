@@ -185,7 +185,7 @@ export const KanbanColumn = (props: KanbanColumnProps) => {
               </div>
             ))
           ) : (
-            <AddTask />
+            <AddTask board={board} />
           )}
         </li>
       ))}
