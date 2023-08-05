@@ -116,8 +116,3 @@ class TimeZone(models.Model):
 
     def __str__(self):
         return f"{self.value}"
-
-    def save(self, *args, **kwargs):
-        if not self.username:
-            self.username = self.email
-        super().save(*args, **kwargs)
