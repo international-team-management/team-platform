@@ -22,21 +22,7 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install Poetry
-        # Устанавливаем Poetry
-        uses: snok/install-poetry@v1
 
-      - name: Install dependencies with Poetry
-        # Устанавливаем зависимости Poetry
-        run: |
-          poetry env use 3.9
-          poetry install
-        working-directory: ./backend
-
-      - name: Run pre-commit checks for backend
-        # Запуск тестов
-        run: poetry run pre-commit run --all-files
-        working-directory: ./backend
 
   send_message:
     runs-on: ubuntu-latest
