@@ -139,7 +139,11 @@ export const KanbanColumn = (props: KanbanColumnProps) => {
                 {board.tasks.length}
               </span>
             </div>
-            <AddTaskButton className={styles.column__button} />
+            {board.title !== 'In Review' && board.title !== 'Done' ? (
+              <AddTaskButton className={styles.column__button} />
+            ) : (
+              <></>
+            )}
           </div>
           {name !== 'Без названия' ? (
             board.tasks.map((task) => (

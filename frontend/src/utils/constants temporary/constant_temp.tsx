@@ -1,13 +1,7 @@
 import photo from '../../assets/user-avatar.svg';
 import { BoardItem } from '../../components/kanban-column/Kanban';
 
-export const projects = [
-  { id: 1, name: 'Пример проекта' },
-  { id: 2, name: 'ABC.Документы' },
-  { id: 3, name: 'UV’s Таблицы' },
-  { id: 4, name: 'Intel Дизайн' },
-  { id: 5, name: 'Power—Точка' },
-];
+export const projects = [{ id: 1, name: 'Пример проекта' }];
 
 export const mockEmptyBoard: BoardItem[] = [
   {
