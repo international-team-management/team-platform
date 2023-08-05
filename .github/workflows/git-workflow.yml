@@ -58,6 +58,6 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             Разработчик ${{ github.actor }} успешно выполнил ${{ github.workflow }}!
-            Ветка: ${{ env.BRANCH_NAME }}
+            Веткаf: ${{ env.BRANCH_NAME }}
             Тип операции: ${{ github.event_name }} ${{ github.event.pull_request.base.ref }}
             Ссылка на коммит: https://github.com/${{ github.repository }}/commit/${{ env.COMMIT_SHA }}
