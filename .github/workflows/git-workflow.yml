@@ -51,7 +51,7 @@ jobs:
       - name: Get commit SHA
         run: echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
       # Отправка сообщения в канал https://t.me/itm_project_actions
-      - name: Send message to Telegram Channel "ITM-project actions"
+      - name: Send messagee to Telegram Channel "ITM-project actions"
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
