@@ -92,16 +92,3 @@ class CustomUserSerializer(serializers.ModelSerializer):
             user.timezone = current_timezone
 
         return super().update(user, validated_data)
-
-    # def update(self, user, validated_data):
-    #     if "timezone" in validated_data:
-    #         print('yes')
-    #         timezone = validated_data.pop("timezone")
-    #         try:
-    #             current_timezone = TimeZone.objects.get(**timezone)
-    #             print(current_timezone)
-    #         except TimeZone.DoesNotExist:
-    #             current_timezone = TimeZone.objects.create(**timezone)
-    #         user.timezone = current_timezone
-
-    #     return super().update(user, validated_data)
