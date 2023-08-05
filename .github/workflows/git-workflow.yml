@@ -41,14 +41,16 @@ jobs:
   send_message:
     runs-on: ubuntu-latest
     needs: tests
-    if: ${{ success() }}  # Выполнять только при успешном выполнении предыдущих задач
+    # Выполнять только при успешном выполнении предыдущих задач
+    if: ${{ success() }}
     steps:
+      # Получение активной ветки
       - name: Get branch name
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
-
+      # Получение активного коммита
       - name: Get commit SHA
         run: echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
-
+      # Отправка сообщения в канал https://t.me/itm_project_actions
       - name: send message
         uses: appleboy/telegram-action@master
         with:
