@@ -8,6 +8,7 @@ export enum InputType {
 export enum InputName {
   TEXT = InputType.TEXT,
   PASSWORD = InputType.PASSWORD,
+  CURRENT_PASSWORD = 'current_password',
   CONFIRM_PASSWORD = 'confirm_password',
   NEW_PASSWORD = 'new_password',
   EMAIL = InputType.EMAIL,

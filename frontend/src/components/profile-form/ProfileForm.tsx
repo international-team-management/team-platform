@@ -63,7 +63,8 @@ export const ProfileForm: React.FC = () => {
   });
 
   const handlerFormPasswordSubmit = (data: UpdatePasswordData) => {
-    console.log(data);
+    delete data.confirm_password;
+    dispatch(authThunks.setPassword(data));
   };
 
   const handlerInputZoneSubmit = (
@@ -244,14 +245,14 @@ export const ProfileForm: React.FC = () => {
         >
           <Input
             type={InputType.PASSWORD}
-            name={InputName.PASSWORD}
+            name={InputName.CURRENT_PASSWORD}
             label="Текущий пароль"
             register={updatePasswordForm.register}
             isPassword={true}
             placeholder=""
             useTogglePassword={true}
             errorObject={
-              updatePasswordForm.formState.errors[InputName.PASSWORD]
+              updatePasswordForm.formState.errors[InputName.CURRENT_PASSWORD]
             }
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,

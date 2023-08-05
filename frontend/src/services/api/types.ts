@@ -14,9 +14,9 @@ export type ProfileRequestData = {
 };
 
 export type UpdatePasswordData = {
-  password: string;
-  confirm_password: string;
+  current_password: string;
   new_password: string;
+  confirm_password?: string;
 };
 
 export type LoginRequestData = {
@@ -52,4 +52,5 @@ export enum URLS {
   SIGN_UP = `${URLS.AUTH}/users/`,
   SIGN_IN = `${URLS.AUTH}/jwt/create/`,
   USER_ME = `${URLS.AUTH}/users/me/`,
+  SET_PASSWORD = `${URLS.AUTH}/users/set_password/`,
 }
