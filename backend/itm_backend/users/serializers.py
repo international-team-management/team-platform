@@ -32,8 +32,8 @@ class TimeZoneSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["value", "label", "offset", "abbrev", "altName"]
 
     def validate_offset(self, value):
-        if value not in range(OFFSET_RANGE):
-            raise serializers.ValidationError("Смещение от UTC должно лежать в диапазоне -12 - +15 часов.")
+        if value not in range(*OFFSET_RANGE):
+            raise serializers.ValidationError("Смещение от UTC должно лежать в диапазоне от -12 до +15 часов.")
 
         return value
 
