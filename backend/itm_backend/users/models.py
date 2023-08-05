@@ -1,22 +1,7 @@
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager as DefaultUserManager
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-
-
-class TimeTable(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="timetables")
-    work_start = models.TimeField(verbose_name="Время начала работы")
-    work_finish = models.TimeField(verbose_name="Время окончания работы")
-
-    class Meta:
-        ordering = ["id"]
-        verbose_name = "График работы"
-        verbose_name_plural = "График работы"
-
-    def __str__(self):
-        return f"{self.work_start} - {self.work_finish}"
 
 
 class CustomUserManager(DefaultUserManager):
@@ -75,12 +60,8 @@ class User(AbstractUser):
         related_name="users",
         verbose_name="Часовой пояс пользователя",
     )
-    timetable = models.ManyToManyField(
-        TimeTable,
-        verbose_name="График работы",
-        related_name="user_set",
-        blank=True,
-    )
+    work_start = models.TimeField(verbose_name="Время начала работы", null=True)
+    work_finish = models.TimeField(verbose_name="Время окончания работы", null=True)
     photo = models.ImageField(verbose_name="Аватар пользователя", upload_to="media/", blank=True, null=True)
     telephone_number = PhoneNumberField(verbose_name="Номер телефона", blank=True, null=True)
     USERNAME_FIELD = "email"

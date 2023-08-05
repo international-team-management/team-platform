@@ -2,23 +2,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
-from .models import TimeTable, TimeZone
+from .models import TimeZone
 
 User = get_user_model()
 
 
 OFFSET_RANGE = (-12, 15)
-
-
-class TimeTableSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для модели TimeTable.
-    Отображает информацию о графике работы в JSON-представлении.
-    """
-
-    class Meta:
-        model = TimeTable
-        fields = "__all__"
 
 
 class TimeZoneSerializer(serializers.HyperlinkedModelSerializer):
@@ -68,7 +57,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
     отобразить информацию о связанных графиках работы для каждого пользователя.
     """
 
-    timetable = TimeTableSerializer(many=True, read_only=True)
     timezone = TimeZoneSerializer()
 
     class Meta:
@@ -89,7 +77,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "update_at",
             "is_active",
             "timezone",
-            "timetable",
+            "work_start",
+            "work_finish",
             "photo",
             "telephone_number",
         ]
