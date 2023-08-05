@@ -43,15 +43,17 @@ jobs:
     needs: tests
     if: ${{ success() }}  # Выполнять только при успешном выполнении предыдущих задач
     steps:
-    - name: send message
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          ${{ github.actor }} успешно выполнил ${{ github.workflow }}!
-          Ветка: ${{ env.BRANCH_NAME }}
-          Тип операции: ${{ github.event_name }}
-          Ссылка на коммит: ${{ github.sha }}
-          Ссылка на ветку или пулл-реквест: ${{ github.event.pull_request.html_url }}
-          Коммиттер: ${{ github.event.head_commit.author.name }} (${github.event.head_commit.author.email})
+      - name: Get branch name
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
+      - name: send message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} успешно выполнил ${{ github.workflow }}!
+            Ветка: ${{ env.BRANCH_NAME }}
+            Тип операции: ${{ github.event_name }}
+            Ссылка на коммит: ${{ github.sha }}
+            Ссылка на ветку или пулл-реквест: ${{ github.event.pull_request.html_url }}
