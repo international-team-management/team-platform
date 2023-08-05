@@ -64,10 +64,9 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/backend
 
   deploy:
-    name: Deploy to the server
     runs-on: ubuntu-22.04
     needs: build_and_push_to_docker_hub
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/backend-feat-workflow-message-fix'
 
     steps:
       - name: executing remote ssh commands to deploy
