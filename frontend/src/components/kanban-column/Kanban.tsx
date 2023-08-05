@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Kanban.module.scss';
 import { ReactComponent as TimerKanban } from 'assets/timer.svg';
 import { ReactComponent as AddTaskButton } from 'assets/add-task.svg';
 import { ReactComponent as MoreActions } from 'assets/more-actions.svg';
-import photo from '../../assets/user-avatar.svg';
 import clsx from 'clsx';
+import { AddTask } from '../UI/add-task-kanban/AddTask';
 
 type BoardTask = {
   id: number;
@@ -13,97 +13,28 @@ type BoardTask = {
   img: any;
 };
 
-type BoardItem = {
+export type BoardItem = {
   id: number;
   title: string;
   tasks: BoardTask[];
 };
 
-const mockBoardItems: BoardItem[] = [
-  {
-    id: 1,
-    title: 'Backlog',
-    tasks: [
-      {
-        id: 11,
-        subtitle: 'Поиск инвесторов на “Форум Развития 2023”',
-        expiredDate: '23 июля',
-        img: '',
-      },
-      {
-        id: 12,
-        subtitle:
-          'Создание новой таблицы лидеров по велогонке на стадионе во Франции',
-        expiredDate: '28 июля',
-        img: '',
-      },
-      {
-        id: 13,
-        subtitle:
-          'Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява',
-        expiredDate: '4 августа',
-        img: '',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'To Do',
-    tasks: [
-      {
-        id: 14,
-        subtitle:
-          'Создание новой таблицы лидеров по велогонке на стадионе во Франции',
-        expiredDate: '28 июля',
-        img: photo,
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: 'In Progress',
-    tasks: [
-      {
-        id: 15,
-        subtitle:
-          'Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява',
-        expiredDate: '14 июня',
-        img: photo,
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: 'In Review',
-    tasks: [
-      {
-        id: 16,
-        subtitle: 'Поиск инвесторов на “Форум Развития 2023”',
-        expiredDate: '4 июня',
-        img: photo,
-      },
-    ],
-  },
-  {
-    id: 5,
-    title: 'Done',
-    tasks: [
-      {
-        id: 17,
-        subtitle:
-          'Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява',
-        expiredDate: '3 июля',
-        img: '',
-      },
-    ],
-  },
-];
+type KanbanColumnProps = {
+  name: string;
+  boards: BoardItem[];
+};
 
-export const KanbanColumn = () => {
-  const [boards, setBoards] = React.useState(mockBoardItems);
+export const KanbanColumn = (props: KanbanColumnProps) => {
+  const [boards, setBoards] = React.useState(props.boards);
+  const [name, setName] = React.useState(props.name);
   const [currentBoard, setCurrentBoard] = React.useState<BoardItem>();
   const [currentTask, setCurrentTask] = React.useState<BoardTask>();
   const [hover, setHover] = React.useState<number | null>(null);
+
+  useEffect(() => {
+    setBoards(props.boards);
+    setName(props.name);
+  }, [props.boards, props.name]);
 
   const dragOverHandlerTask = (
     e: React.DragEvent<HTMLElement>,
@@ -210,42 +141,48 @@ export const KanbanColumn = () => {
             </div>
             <AddTaskButton className={styles.column__button} />
           </div>
-          {board.tasks.map((task) => (
-            <div
-              className={clsx(styles.column__task_line, {
-                [styles.column__task_line_active]: task.id === hover,
-              })}
-              key={task.id}
-              draggable={true}
-              onDragOver={(e) => dragOverHandlerTask(e, task)}
-              onDragLeave={() => dragLeaveHandler()}
-              onDragStart={() => dragStartHandler(task, board)}
-              onDragEnd={() => dragEndHandler()}
-              onDrop={(e) => dropHandler(e, task, board)}
-            >
+          {name !== 'Без названия' ? (
+            board.tasks.map((task) => (
               <div
-                className={clsx(styles.column__task, {
-                  [styles.column__task_drag]: currentTask === task,
+                className={clsx(styles.column__task_line, {
+                  [styles.column__task_line_active]: task.id === hover,
                 })}
+                key={task.id}
+                draggable={true}
+                onDragOver={(e) => dragOverHandlerTask(e, task)}
+                onDragLeave={() => dragLeaveHandler()}
+                onDragStart={() => dragStartHandler(task, board)}
+                onDragEnd={() => dragEndHandler()}
+                onDrop={(e) => dropHandler(e, task, board)}
               >
-                <p className={styles.column__task_text}>{task.subtitle}</p>
-                <MoreActions className={styles.column__task_button} />
-                <div className={styles.column__task_wrapper}>
-                  <TimerKanban className={styles.column__task_icon} />
-                  <p className={styles.column__task_time}>{task.expiredDate}</p>
+                <div
+                  className={clsx(styles.column__task, {
+                    [styles.column__task_drag]: currentTask === task,
+                  })}
+                >
+                  <p className={styles.column__task_text}>{task.subtitle}</p>
+                  <MoreActions className={styles.column__task_button} />
+                  <div className={styles.column__task_wrapper}>
+                    <TimerKanban className={styles.column__task_icon} />
+                    <p className={styles.column__task_time}>
+                      {task.expiredDate}
+                    </p>
+                  </div>
+                  {task.img !== '' ? (
+                    <img
+                      className={styles.column__task_img}
+                      title="Изоображение"
+                      src={task.img}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {task.img !== '' ? (
-                  <img
-                    className={styles.column__task_img}
-                    title="Изоображение"
-                    src={task.img}
-                  />
-                ) : (
-                  <></>
-                )}
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <AddTask />
+          )}
         </li>
       ))}
     </ul>
