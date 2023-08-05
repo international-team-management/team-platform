@@ -55,7 +55,10 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ${{ github.actor }} успешно выполнил ${{ github.workflow }}!
+            Разработчик ${{ github.actor }} успешно выполнил ${{ github.workflow }}!
             Ветка: ${{ env.BRANCH_NAME }}
             Тип операции: ${{ github.event_name }}
-            Ссылка на коммит: [${{ env.COMMIT_SHA }}](https://github.com/${{ github.repository }}/commit/${{ env.COMMIT_SHA }})
+            {% if github.event_name == 'pull_request' %}
+            В ветку: ${{ github.event.pull_request.base.ref }}
+            {% endif %}
+            Ссылка на коммит: https://github.com/${{ github.repository }}/commit/${{ env.COMMIT_SHA }}
