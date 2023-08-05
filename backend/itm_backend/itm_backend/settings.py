@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "djoser",
     "drf_spectacular",
+    "phonenumber_field",
     "api.apps.ApiConfig",
     "projects.apps.ProjectsConfig",
     "users.apps.UsersConfig",

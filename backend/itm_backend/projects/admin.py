@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Project, ProjectUser, Tag
+from .models import Project, ProjectUser, Tag, Task, TaskUser
 
 
 class ProjectUserInline(admin.TabularInline):
@@ -30,6 +30,7 @@ class ProjectAdmin(admin.ModelAdmin):
         "name",
         "description",
         "owner",
+        "start",
         "deadline",
         "status",
         "priority",
@@ -37,6 +38,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_editable = (
         "name",
         "description",
+        "start",
         "deadline",
         "status",
         "priority",
@@ -64,5 +66,55 @@ class ProjectUserAdmin(admin.ModelAdmin):
     list_filter = ("id", "user_id", "project_id")
 
 
+class TaskUserInline(admin.TabularInline):
+    model = TaskUser
+    extra = 1
+
+
+class TaskAdmin(admin.ModelAdmin):
+    """
+    Отображение модели Task в Админке.
+    """
+
+    list_display = (
+        "pk",
+        "name",
+        "project",
+        "description",
+        "creator",
+        "deadline",
+        "status",
+    )
+    list_editable = (
+        "name",
+        "description",
+        "deadline",
+        "status",
+    )
+    list_filter = ("tags",)
+    search_fields = ("tasks",)
+    inlines = (TaskUserInline,)
+    empty_value_display = "-пусто-"
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        """Автоподстановка текущего пользователя в создателя задачи при
+        создании через Админку."""
+        field = super(TaskAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == "creator":
+            field.initial = kwargs["request"].user.id
+        return field
+
+
+class TaskUserAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user_id",
+        "task_id",
+    )
+    list_filter = ("id", "user_id", "task_id")
+
+
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Project, ProjectAdmin)
+admin.site.register(Task, TaskAdmin)
+admin.site.register(TaskUser, TaskUserAdmin)

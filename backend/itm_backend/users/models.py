@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager as DefaultUserManager
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class TimeTable(models.Model):
@@ -58,8 +59,11 @@ class User(AbstractUser):
         max_length=150,
         blank=True,
     )
-    ROLE_CHOICES = (("admin", "Администратор"), ("editor", "Редактор"), ("executor", "Исполнитель"))
-    role = models.CharField(verbose_name="Должность", help_text="Ваша должность", choices=ROLE_CHOICES, max_length=20)
+    role = models.CharField(
+        verbose_name="Должность",
+        help_text="Ваша должность",
+        max_length=50,
+    )
     created_at = models.DateTimeField(verbose_name="Дата регистрации пользователя", auto_now_add=True)
     update_at = models.DateTimeField(verbose_name="Дата обновления данных пользователя", auto_now=True)
     is_active = models.BooleanField(verbose_name="Активный пользователь", default=True, blank=True, null=True)
@@ -75,16 +79,11 @@ class User(AbstractUser):
         blank=True,
     )
     photo = models.ImageField(verbose_name="Аватар пользователя", upload_to="media/", blank=True, null=True)
-    telephone_number = models.SmallIntegerField(verbose_name="Номер телефона", blank=True, null=True)
+    telephone_number = PhoneNumberField(verbose_name="Номер телефона", blank=True, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name"]
 
     objects = CustomUserManager()
-
-    def save(self, *args, **kwargs):
-        if not self.username:
-            self.username = self.email
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Пользователь"
@@ -92,3 +91,8 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = self.email
+        super().save(*args, **kwargs)
