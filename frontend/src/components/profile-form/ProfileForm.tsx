@@ -6,7 +6,7 @@ import { errorTexts, helperTexts } from 'src/utils/validation/helperTexts';
 import { InputTimezoneSelect } from '../UI/timezone-input-template/InputTimezoneSelect';
 import {
   InputTimeSelect,
-  WorkTimeType,
+  RequestWorkTimeType,
 } from '../UI/time-input-template/InputTimeSelect';
 import { Input } from '../UI/input-template/InputTemplate';
 import { InputType, InputName } from 'src/typings/constants';
@@ -50,11 +50,9 @@ export const ProfileForm: React.FC = () => {
     const { name, value } = e.target;
     // TODO:
     // - pass if value hasnt changed
-    // - on backend change SmallIntegerField to CharField
+    // - validation
 
-    dispatch(
-      authThunks.patchMe({ [name]: value.replace(/\D/g, '').toString() }),
-    );
+    dispatch(authThunks.patchMe({ [name]: value }));
   };
 
   const updatePasswordForm = useForm<UpdatePasswordData>({
@@ -76,9 +74,7 @@ export const ProfileForm: React.FC = () => {
     dispatch(authThunks.patchMe({ [name]: data }));
   };
 
-  const handlerInputWorkTimeSubmit = (data: WorkTimeType) => {
-    // TODO: Date or number? waiting for backend decision
-    console.log(data);
+  const handlerInputWorkTimeSubmit = (data: RequestWorkTimeType) => {
     dispatch(authThunks.patchMe(data));
   };
 
@@ -227,6 +223,8 @@ export const ProfileForm: React.FC = () => {
           />
           <InputTimeSelect
             names={[InputName.WORK_START, InputName.WORK_FINISH]}
+            workStart={userMe?.work_start}
+            workFinish={userMe?.work_finish}
             label="График работы"
             handleChange={handlerInputWorkTimeSubmit}
           />

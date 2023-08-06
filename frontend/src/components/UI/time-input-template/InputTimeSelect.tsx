@@ -3,36 +3,59 @@ import Select, { SingleValue, ActionMeta } from 'react-select';
 import styles from './InputTimeSelect.module.scss';
 import './SelectTComponent.scss'; // <-- Управление стилями компонента Select, модульно пока не получилось (https://react-select.com/styles#inner-components)
 
+export type RequestWorkTimeType = {
+  [key: string]: string;
+};
+
 type OptionType = {
   value: number;
   label: string;
 };
 
-export type WorkTimeType = {
-  [key: string]: null | number;
+type ComponentWorkTimeType = {
+  [key: string]: OptionType;
 };
 
-type InputTimePropsType = {
+type PropsType = {
   names: [string, string];
   label: string;
-  handleChange: (data: WorkTimeType) => void;
+  workStart: string;
+  workFinish: string;
+  handleChange: (data: RequestWorkTimeType) => void;
 };
 
-export const InputTimeSelect: React.FC<InputTimePropsType> = (props) => {
-  const STEP_MINUTES = 10;
+export const InputTimeSelect: React.FC<PropsType> = (props) => {
+  const STEP_MINUTES = 30;
   const DAY_MINUTES = 1440;
   const [start, finish] = props.names;
 
-  const [workTime, setWorkTime] = React.useState<WorkTimeType>({
-    [start]: null,
-    [finish]: null,
-  });
+  const [selectedTime, setSelectedTime] = React.useState<ComponentWorkTimeType>(
+    {
+      [start]: { value: 0, label: '' },
+      [finish]: { value: 0, label: '' },
+    },
+  );
 
   React.useEffect(() => {
-    if (Object.values(workTime).every((value) => value !== null)) return;
-    if (workTime[start] >= workTime[finish]) return; // TODO: how to fix TS issue here
-    props.handleChange(workTime);
-  }, [workTime, props, start, finish]);
+    // get time from props (from Redux)
+    if (props.workStart && props.workFinish) {
+      const [startHour, startMin] = props.workStart.split(':');
+      const [finishHour, finishMin] = props.workFinish.split(':');
+
+      const serverOption = {
+        [start]: {
+          value: parseInt(startHour, 10) * 60 + parseInt(startMin, 10),
+          label: `${startHour}:${startMin}`,
+        },
+        [finish]: {
+          value: parseInt(finishHour, 10) * 60 + parseInt(finishMin, 10),
+          label: `${finishHour}:${finishMin}`,
+        },
+      };
+      console.log(serverOption, 'server');
+      setSelectedTime(serverOption);
+    }
+  }, [props, start, finish]);
 
   const toHoursAndMinutes = (min: number): string => {
     const hours: number = Math.floor(min / 60);
@@ -48,7 +71,7 @@ export const InputTimeSelect: React.FC<InputTimePropsType> = (props) => {
 
   const getOptions = (): OptionType[] => {
     const result = [];
-    for (let min = 0; min < DAY_MINUTES; ) {
+    for (let min = 0; min <= DAY_MINUTES; ) {
       const time: string = toHoursAndMinutes(min);
       result.push({ value: min, label: time });
       min += STEP_MINUTES;
@@ -64,7 +87,21 @@ export const InputTimeSelect: React.FC<InputTimePropsType> = (props) => {
   ) => {
     if (choice === null) return;
     if (action.name !== start && action.name !== finish) return;
-    setWorkTime({ ...workTime, [action.name]: choice?.value });
+
+    // simple selectedTime validation
+    // if (Object.values(selectedTime).every((obj) => obj.value !== 0)) return;
+    // if (selectedTime[start].value >= selectedTime[finish].value) return;
+
+    console.log(action.name);
+    const componentTime = {
+      [start]: `${selectedTime[start].label}:00`,
+      [finish]: `${selectedTime[finish].label}:00`,
+    };
+    const clientTime = {
+      ...componentTime,
+      [action.name]: `${choice.label}:00`,
+    };
+    props.handleChange(clientTime); // send to Redux
   };
 
   return (
@@ -78,6 +115,7 @@ export const InputTimeSelect: React.FC<InputTimePropsType> = (props) => {
           placeholder={''}
           name={start}
           onChange={handleSelection}
+          value={selectedTime[start]}
         />
 
         <Select
@@ -87,6 +125,7 @@ export const InputTimeSelect: React.FC<InputTimePropsType> = (props) => {
           placeholder={''}
           name={finish}
           onChange={handleSelection}
+          value={selectedTime[finish]}
         />
       </div>
     </div>
