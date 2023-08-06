@@ -34,7 +34,16 @@ export const ProfileForm: React.FC = () => {
     control,
     getValues,
     formState: { errors },
-  } = useForm<ProfileRequestData>({ mode: 'onChange', criteriaMode: 'all' });
+  } = useForm<ProfileRequestData>({
+    mode: 'onChange',
+    criteriaMode: 'all',
+    defaultValues: {
+      [InputName.FIRST_NAME]: userMe?.first_name || '',
+      [InputName.LAST_NAME]: userMe?.last_name || '',
+      [InputName.ROLE]: userMe?.role || '',
+      [InputName.EMAIL]: userMe?.email || '',
+    },
+  });
 
   const handlerInputSubmit = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
