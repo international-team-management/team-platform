@@ -5,17 +5,16 @@ import { Account } from '../account/Account';
 import { Projects } from '../projects/Projects';
 import { useSelector } from 'src/services/hooks';
 import { selectUserMe } from 'src/services/slices/authSlice';
+import { projects } from 'src/utils/constants temporary/constant_temp';
 
-export const Sidebar: React.FC = () => {
+type SidebarProps = {
+  createProgect: () => void;
+};
+
+export const Sidebar: React.FC<SidebarProps> = ({
+  createProgect,
+}: SidebarProps) => {
   const userMe = useSelector(selectUserMe);
-
-  const projects = [
-    { id: 1, name: 'Пример проекта' },
-    { id: 2, name: 'ABC.Документы' },
-    { id: 3, name: 'UV’s Таблицы' },
-    { id: 4, name: 'Intel Дизайн' },
-    { id: 5, name: 'Power—Точка' },
-  ];
 
   return (
     <aside className={styles.sidebar}>
@@ -24,7 +23,10 @@ export const Sidebar: React.FC = () => {
         <Projects projects={projects} />
       </div>
       <div className={styles['sidebar__createBtn-container']}>
-        <button className={`${styles.sidebar__createBtn}`}>
+        <button
+          className={`${styles.sidebar__createBtn}`}
+          onClick={() => createProgect()}
+        >
           <SignPlus className={styles.sidebar__plus} />
           <span>Создать проект</span>
         </button>

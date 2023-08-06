@@ -13,11 +13,12 @@ $svg-filter-path: '/src/assets/projects-filter.svg';
   align-items: center;
   justify-content: space-between;
 
-  padding-top: 76px;
+  padding: 76px 0;
 
   &__title {
     @include set-font-size(16px, 20px, 500);
 
+    padding: 0 16px;
     color: $grey-text;
     letter-spacing: -0.16px;
   }
@@ -26,15 +27,19 @@ $svg-filter-path: '/src/assets/projects-filter.svg';
     @include set-block-size(20px, 20px);
 
     cursor: pointer;
+
+    padding: 0 16px;
+
     background-color: $main-white;
     background-image: url(#{$svg-filter-path});
+    background-repeat: no-repeat;
     border: none;
   }
 
   &__list {
     @extend %flex-column;
 
-    row-gap: 20px;
+    row-gap: 12px;
     min-width: 100%;
   }
 
@@ -51,12 +56,16 @@ $svg-filter-path: '/src/assets/projects-filter.svg';
     gap: 8px;
     align-items: center;
     justify-content: flex-start;
-    padding: 0;
+    padding: 0 16px;
 
     &_active {
+      padding: 8px 16px;
+
       color: $main-black;
+
       background-color: $main-white;
-      border-radius: 8px;
+      background-color: $blue-237;
+      border-radius: $ui-border-radius-s;
     }
   }
 
