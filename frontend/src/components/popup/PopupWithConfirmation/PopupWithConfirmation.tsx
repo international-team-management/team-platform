@@ -1,4 +1,4 @@
-import styles from './PopupWithForm.module.scss';
+import styles from './PopupWithConfirmation.module.scss';
 
 type PopupPropsType = {
   name: string;
@@ -10,7 +10,7 @@ type PopupPropsType = {
   reject: string;
 };
 
-export const PopupWithForm: React.FC<PopupPropsType> = (props) => {
+export const PopupWithConfirmation: React.FC<PopupPropsType> = (props) => {
   return (
     <div
       className={`${styles.popup} ${styles[`popup_${props.name}`]} ${
@@ -24,7 +24,7 @@ export const PopupWithForm: React.FC<PopupPropsType> = (props) => {
           aria-label="Закрыть"
         ></button>
         <h2 className={styles.popup__title}>{props.title}</h2>
-        <form id={props.name} className={styles.popup__form} name={props.name}>
+        <div className={styles.popup__form}>
           {props.children}
           <button className={styles.popup__button_confirmation} type="submit">
             {props.confirmation}
@@ -32,7 +32,7 @@ export const PopupWithForm: React.FC<PopupPropsType> = (props) => {
           <button className={styles.popup__button_reject} type="button">
             {props.reject}
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );
