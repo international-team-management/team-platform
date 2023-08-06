@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ../backend/.env
+      - ./.env
 
 
   backend:
@@ -28,7 +28,7 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - ../backend/.env
+      - ./.env
 
 
   nginx:
