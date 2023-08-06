@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
-from .models import TimeZone
+from users.models import TimeZone
+from projects.models import Project, Task, Tag
 
 User = get_user_model()
 
@@ -90,3 +91,81 @@ class CustomUserSerializer(serializers.ModelSerializer):
             user.timezone = current_timezone
 
         return super().update(user, validated_data)
+
+
+class TagSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Tag
+        fields = ["id", "name",]
+
+class ProjectGetSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для просмотра модели Проект.
+    Отображает информацию о проекте в JSON-представлении.
+
+    """
+    owner = CustomUserSerializer(read_only=True,)
+   
+    participants = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        many=True,
+    )
+    tasks = serializers.PrimaryKeyRelatedField(
+        queryset=Task.objects.all(),
+        many=True,
+        required=True,
+    )
+    tags = TagSerializer(read_only=True, many=True,)
+    
+    class Meta:
+        model = Project
+        fields = [
+            "name", 
+            "description", 
+            "owner", 
+            "participants",
+            "tasks",
+            "start",
+            "deadline",
+            "status",
+            "priority",
+            "tags",
+            "created_at",
+            "updated_at",
+        ]
+    
+class ProjectPostSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для создания и редактирования модели Проект.
+    Отображает информацию о проекте в JSON-представлении.
+
+    """
+    participants = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        many=True,
+    )
+    tasks = serializers.PrimaryKeyRelatedField(
+        queryset=Task.objects.all(),
+        many=True,
+        required=True,
+    )
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(),
+        many=True,
+    )
+    class Meta:
+        model = Project
+        fields = [
+            "name", 
+            "description", 
+            "participants",
+            "tasks",
+            "start",
+            "deadline",
+            "status",
+            "priority",
+            "tags",
+            "created_at",
+            "updated_at",
+        ]
