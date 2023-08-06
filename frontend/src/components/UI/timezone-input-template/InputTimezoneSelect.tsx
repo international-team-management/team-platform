@@ -10,6 +10,7 @@ import './SelectTzComponent.scss'; // <-- Управление стилями к
 
 type InputTimezonePropsType = {
   name: string;
+  lastChoice: ITimezoneOption | undefined;
   label: string;
   handleChange: (data: SingleValue<ITimezoneOption>, name?: string) => void;
 };
@@ -29,9 +30,15 @@ export const InputTimezoneSelect: React.FC<InputTimezonePropsType> = (
     displayValue,
   });
 
-  const [tz] = React.useState(
+  const [tz, setTz] = React.useState(
     parseTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone),
   );
+
+  React.useEffect(() => {
+    if (props.lastChoice) {
+      setTz(props.lastChoice);
+    }
+  }, [props.lastChoice]);
 
   const handleSelection = (
     choice: SingleValue<ITimezoneOption>,
@@ -47,7 +54,7 @@ export const InputTimezoneSelect: React.FC<InputTimezonePropsType> = (
         unstyled={true}
         classNamePrefix={'tz-select'}
         options={options}
-        defaultValue={tz}
+        value={tz}
         name={props.name}
         onChange={handleSelection}
       />

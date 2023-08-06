@@ -19,8 +19,8 @@ type ComponentWorkTimeType = {
 type PropsType = {
   names: [string, string];
   label: string;
-  workStart: string;
-  workFinish: string;
+  workStart: string | undefined;
+  workFinish: string | undefined;
   handleChange: (data: RequestWorkTimeType) => void;
 };
 

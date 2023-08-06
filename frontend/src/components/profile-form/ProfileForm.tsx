@@ -218,6 +218,7 @@ export const ProfileForm: React.FC = () => {
         <form className={styles.profile__form}>
           <InputTimezoneSelect
             name={InputName.TIMEZONE}
+            lastChoice={userMe?.timezone}
             label="Часовой пояс"
             handleChange={handlerInputZoneSubmit}
           />

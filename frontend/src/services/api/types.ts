@@ -35,8 +35,8 @@ export type UserType = {
   update_at?: string;
   is_active?: boolean;
   timezone?: unknown;
-  work_start?: number | null;
-  work_finish?: number | null;
+  work_start?: string;
+  work_finish?: string;
   // timetable?: unknown;
   photo?: string;
   telephone_number?: string;
