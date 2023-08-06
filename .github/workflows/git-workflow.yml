@@ -90,15 +90,6 @@ jobs:
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             sudo docker-compose up -d
 
-            # Вход в контейнер и выполнение миграций и сбора статики
-            docker exec -it itm_backend bash
-            poetry install
-            cd itm_backend
-            python manage.py makemigrations users
-            python manage.py makemigrations projects
-            python manage.py migrate
-            python manage.py collectstatic
-
   send_message:
     name: Send message to Telegram
     runs-on: ubuntu-latest
