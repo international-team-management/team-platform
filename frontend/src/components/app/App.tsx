@@ -22,7 +22,7 @@ export const App: React.FC = () => {
   return (
     <Routes>
       {/* free access */}
-      
+
       {/* <Route path={routes.home.path} element={<KanbanPage />} />
       <Route path={routes.canban.path} element={<KanbanPage />} /> */}
 
@@ -32,7 +32,7 @@ export const App: React.FC = () => {
       {/* protected */}
       <Route element={<ProtectedRoute />}>
         <Route path={routes['profile'].path} element={<ProfilePage />} />
-        <Route path={routes['home'].path} element={<KanbanPage />} />
+        <Route path={routes.canban.path} element={<KanbanPage />} />
       </Route>
 
       {/* 404 */}
