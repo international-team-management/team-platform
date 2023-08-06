@@ -22,6 +22,10 @@ export const App: React.FC = () => {
   return (
     <Routes>
       {/* free access */}
+      
+      {/* <Route path={routes.home.path} element={<KanbanPage />} />
+      <Route path={routes.canban.path} element={<KanbanPage />} /> */}
+
       <Route path={routes['sign-in'].path} element={<LoginPage />} />
       <Route path={routes['sign-up'].path} element={<SignUpPage />} />
 

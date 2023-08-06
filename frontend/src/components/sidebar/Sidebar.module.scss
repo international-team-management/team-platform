@@ -19,39 +19,32 @@
 
   &__content {
     flex-grow: 1;
-    padding: 36px 24px 32px;
+    padding: 24px 8px;
   }
 
   &__createBtn-container {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    padding: 32px 0;
-
-    border-top: 1px solid $grey-225;
-
-    &__createBtn-container::before {
-      border-top: 1px solid $grey-225;
-    }
+    padding: 24px 0;
   }
 
   &__createBtn {
     @extend %flex-row;
 
     @include set-block-size(192px, 52px);
-    @include set-font-size(16px, 20px);
+    @include set-font-size(16px, 20px, 600);
 
     cursor: pointer;
 
     align-items: center;
     justify-content: center;
 
-    color: $bright-blue;
+    color: $black;
 
-    background-color: $main-white;
-    border: 1px solid $bright-blue;
-    border-radius: 12px;
+    background-color: $grey-241;
+    border: none;
+    border-radius: $ui-border-radius-m;
   }
 
   &__plus {

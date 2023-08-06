@@ -8,9 +8,10 @@
 
   width: 300px;
   height: 136px;
+  margin-top: 8px;
 
   background-image: url('../../../assets/border.png');
-  background-size: cover;
+  background-size: contain;
   border-radius: $ui-border-radius-m;
 
   &__wrapper {
