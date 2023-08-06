@@ -91,6 +91,7 @@ jobs:
             sudo docker-compose --env-file /backend/.env up -d
 
   send_message:
+    name: Send message to Telegram
     runs-on: ubuntu-latest
     needs: deploy
     # Выполнять только при успешном выполнении предыдущих задач
