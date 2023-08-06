@@ -31,13 +31,13 @@ export const InputTimeSelect: React.FC<PropsType> = (props) => {
 
   const [selectedTime, setSelectedTime] = React.useState<ComponentWorkTimeType>(
     {
-      [start]: { value: 0, label: '' },
-      [finish]: { value: 0, label: '' },
+      [start]: { value: -1, label: '' },
+      [finish]: { value: -1, label: '' },
     },
   );
 
+  // get time from props (from Redux)
   React.useEffect(() => {
-    // get time from props (from Redux)
     if (props.lastWorkStartChoice && props.lastWorkFinishChoice) {
       const [startHour, startMin] = props.lastWorkStartChoice.split(':');
       const [finishHour, finishMin] = props.lastWorkFinishChoice.split(':');
@@ -71,10 +71,9 @@ export const InputTimeSelect: React.FC<PropsType> = (props) => {
 
   const getOptions = (): OptionType[] => {
     const result = [];
-    for (let min = 0; min <= DAY_MINUTES; ) {
+    for (let min = 0; min <= DAY_MINUTES; min += STEP_MINUTES) {
       const time: string = toHoursAndMinutes(min);
       result.push({ value: min, label: time });
-      min += STEP_MINUTES;
     }
     return result;
   };
@@ -87,21 +86,30 @@ export const InputTimeSelect: React.FC<PropsType> = (props) => {
   ) => {
     if (choice === null) return;
     if (action.name !== start && action.name !== finish) return;
+    console.log(action.name);
 
     // simple selectedTime validation
-    // if (Object.values(selectedTime).every((obj) => obj.value !== 0)) return;
-    // if (selectedTime[start].value >= selectedTime[finish].value) return;
+    if (action.name === start) {
+      if (choice.value >= selectedTime[finish].value) {
+        setSelectedTime({ ...selectedTime, [action.name]: choice });
+        return;
+      }
+    }
+    if (action.name === finish) {
+      if (selectedTime[start].value >= choice.value) {
+        setSelectedTime({ ...selectedTime, [action.name]: choice });
+        return;
+      }
+    }
 
-    console.log(action.name);
-    const componentTime = {
+    // if valid, send on a server by Redux
+    const clientTime = {
       [start]: `${selectedTime[start].label}:00`,
       [finish]: `${selectedTime[finish].label}:00`,
-    };
-    const clientTime = {
-      ...componentTime,
+      // update
       [action.name]: `${choice.label}:00`,
     };
-    props.handleChange(clientTime); // send to Redux
+    props.handleChange(clientTime);
   };
 
   return (
