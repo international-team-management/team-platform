@@ -10,7 +10,7 @@ on:
 
 jobs:
   tests:
-    name: Tests with installations and pre-commit settings
+    name: Tests with pre-commit
     runs-on: ubuntu-22.04
 
     steps:
@@ -40,7 +40,7 @@ jobs:
         working-directory: ./backend
 
   build_and_push_to_docker_hub:
-    name: Push Docker image to Docker Hub
+    name: Push image to Docker Hub
     runs-on: ubuntu-22.04
     needs: tests
 
@@ -65,7 +65,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/backend
 
   deploy:
-    name: Deploy Backend to the server
+    name: Deploy Backend to server
     runs-on: ubuntu-22.04
     needs: build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/backend-feat-workflow-message-fix'
