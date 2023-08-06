@@ -206,7 +206,10 @@ export const ProfileForm: React.FC = () => {
             // }}
             onBlur={handlerInputSubmit}
           />
-          <InputPhoneTemplate onBlur={handleInputPhoneSubmit} />
+          <InputPhoneTemplate
+            onBlur={handleInputPhoneSubmit}
+            lastPhoneChoice={userMe?.telephone_number}
+          />
         </form>
       </section>
 
@@ -218,14 +221,14 @@ export const ProfileForm: React.FC = () => {
         <form className={styles.profile__form}>
           <InputTimezoneSelect
             name={InputName.TIMEZONE}
-            lastChoice={userMe?.timezone}
+            lastTzChoice={userMe?.timezone}
             label="Часовой пояс"
             handleChange={handlerInputZoneSubmit}
           />
           <InputTimeSelect
             names={[InputName.WORK_START, InputName.WORK_FINISH]}
-            workStart={userMe?.work_start}
-            workFinish={userMe?.work_finish}
+            lastWorkStartChoice={userMe?.work_start}
+            lastWorkFinishChoice={userMe?.work_finish}
             label="График работы"
             handleChange={handlerInputWorkTimeSubmit}
           />

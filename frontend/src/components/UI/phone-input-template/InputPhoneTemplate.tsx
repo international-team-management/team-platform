@@ -5,12 +5,19 @@ import ru from 'react-phone-input-2/lang/ru.json';
 import styles from './InputPhoneTemplate.module.scss';
 import { InputName } from 'src/typings/constants';
 
-type InputPhoneTemplateType = {
+type PropsType = {
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  lastPhoneChoice: string | undefined;
 };
 
-export const InputPhoneTemplate = (props: InputPhoneTemplateType) => {
+export const InputPhoneTemplate = (props: PropsType) => {
   const [phone, setPhone] = React.useState('');
+
+  React.useEffect(() => {
+    if (props.lastPhoneChoice) {
+      setPhone(props.lastPhoneChoice);
+    }
+  }, [props.lastPhoneChoice]);
 
   const handlePhoneChange = (value: string) => {
     setPhone(value);

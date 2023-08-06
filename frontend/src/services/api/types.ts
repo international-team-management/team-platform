@@ -1,3 +1,5 @@
+import { ITimezoneOption } from 'react-timezone-select';
+
 export type RegisterRequestData = {
   first_name: string;
   last_name: string;
@@ -34,7 +36,7 @@ export type UserType = {
   created_at?: string;
   update_at?: string;
   is_active?: boolean;
-  timezone?: unknown;
+  timezone?: ITimezoneOption | undefined;
   work_start?: string;
   work_finish?: string;
   // timetable?: unknown;

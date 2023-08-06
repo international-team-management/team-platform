@@ -10,7 +10,7 @@ import './SelectTzComponent.scss'; // <-- Управление стилями к
 
 type InputTimezonePropsType = {
   name: string;
-  lastChoice: ITimezoneOption | undefined;
+  lastTzChoice: ITimezoneOption | undefined;
   label: string;
   handleChange: (data: SingleValue<ITimezoneOption>, name?: string) => void;
 };
@@ -35,10 +35,10 @@ export const InputTimezoneSelect: React.FC<InputTimezonePropsType> = (
   );
 
   React.useEffect(() => {
-    if (props.lastChoice) {
-      setTz(props.lastChoice);
+    if (props.lastTzChoice) {
+      setTz(props.lastTzChoice);
     }
-  }, [props.lastChoice]);
+  }, [props.lastTzChoice]);
 
   const handleSelection = (
     choice: SingleValue<ITimezoneOption>,

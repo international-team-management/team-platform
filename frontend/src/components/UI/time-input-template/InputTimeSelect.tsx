@@ -19,8 +19,8 @@ type ComponentWorkTimeType = {
 type PropsType = {
   names: [string, string];
   label: string;
-  workStart: string | undefined;
-  workFinish: string | undefined;
+  lastWorkStartChoice: string | undefined;
+  lastWorkFinishChoice: string | undefined;
   handleChange: (data: RequestWorkTimeType) => void;
 };
 
@@ -38,9 +38,9 @@ export const InputTimeSelect: React.FC<PropsType> = (props) => {
 
   React.useEffect(() => {
     // get time from props (from Redux)
-    if (props.workStart && props.workFinish) {
-      const [startHour, startMin] = props.workStart.split(':');
-      const [finishHour, finishMin] = props.workFinish.split(':');
+    if (props.lastWorkStartChoice && props.lastWorkFinishChoice) {
+      const [startHour, startMin] = props.lastWorkStartChoice.split(':');
+      const [finishHour, finishMin] = props.lastWorkFinishChoice.split(':');
 
       const serverOption = {
         [start]: {
