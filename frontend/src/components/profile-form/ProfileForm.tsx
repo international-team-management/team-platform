@@ -3,8 +3,11 @@ import { InputPhoneTemplate } from '../UI/phone-input-template/InputPhoneTemplat
 import { ProfileSectionTitle } from 'src/components/profile-section-title/ProfileSectionTitle';
 // import { ProfileMenu } from 'src/components/profile-menu/ProfileMenu';
 import { errorTexts, helperTexts } from 'src/utils/validation/helperTexts';
-import InputTimezoneSelect from '../UI/timezone-input-template/InputTimezoneSelect';
-import { InputTimeSelect } from '../UI/time-input-template/InputTimeSelect';
+import { InputTimezoneSelect } from '../UI/timezone-input-template/InputTimezoneSelect';
+import {
+  InputTimeSelect,
+  RequestWorkTimeType,
+} from '../UI/time-input-template/InputTimeSelect';
 import { Input } from '../UI/input-template/InputTemplate';
 import { InputType, InputName } from 'src/typings/constants';
 import styles from './ProfileForm.module.scss';
@@ -31,7 +34,16 @@ export const ProfileForm: React.FC = () => {
     control,
     getValues,
     formState: { errors },
-  } = useForm<ProfileRequestData>({ mode: 'onChange', criteriaMode: 'all' });
+  } = useForm<ProfileRequestData>({
+    mode: 'onChange',
+    criteriaMode: 'all',
+    defaultValues: {
+      [InputName.FIRST_NAME]: userMe?.first_name || '',
+      [InputName.LAST_NAME]: userMe?.last_name || '',
+      [InputName.ROLE]: userMe?.role || '',
+      [InputName.EMAIL]: userMe?.email || '',
+    },
+  });
 
   const handlerInputSubmit = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,11 +59,9 @@ export const ProfileForm: React.FC = () => {
     const { name, value } = e.target;
     // TODO:
     // - pass if value hasnt changed
-    // - on backend change SmallIntegerField to CharField
+    // - validation
 
-    dispatch(
-      authThunks.patchMe({ [name]: value.replace(/\D/g, '').toString() }),
-    );
+    dispatch(authThunks.patchMe({ [name]: value }));
   };
 
   const updatePasswordForm = useForm<UpdatePasswordData>({
@@ -59,16 +69,22 @@ export const ProfileForm: React.FC = () => {
     criteriaMode: 'all',
   });
 
-  // const handlerFormSubmit = (data: RegisterRequestData) => {
-  //   console.log(data);
-  // };
-
   const handlerFormPasswordSubmit = (data: UpdatePasswordData) => {
-    console.log(data);
+    delete data.confirm_password;
+    dispatch(authThunks.setPassword(data));
   };
 
-  const handlerInputZoneSubmit = (data: SingleValue<ITimezoneOption>) => {
-    console.log(data);
+  const handlerInputZoneSubmit = (
+    data: SingleValue<ITimezoneOption>,
+    name?: string,
+  ) => {
+    if (!name) return;
+    console.log({ [name]: data });
+    dispatch(authThunks.patchMe({ [name]: data }));
+  };
+
+  const handlerInputWorkTimeSubmit = (data: RequestWorkTimeType) => {
+    dispatch(authThunks.patchMe(data));
   };
 
   return (
@@ -100,7 +116,7 @@ export const ProfileForm: React.FC = () => {
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle="Личные данные"
-          description="Эта информация будет доступна всем участникам проекта."
+          description="Эта информация будет доступна всем участникам проекта."
         />
         <form className={styles.profile__form_data}>
           <Input
@@ -199,7 +215,10 @@ export const ProfileForm: React.FC = () => {
             // }}
             onBlur={handlerInputSubmit}
           />
-          <InputPhoneTemplate onBlur={handleInputPhoneSubmit} />
+          <InputPhoneTemplate
+            onBlur={handleInputPhoneSubmit}
+            lastPhoneChoice={userMe?.telephone_number}
+          />
         </form>
       </section>
 
@@ -210,10 +229,18 @@ export const ProfileForm: React.FC = () => {
         />
         <form className={styles.profile__form}>
           <InputTimezoneSelect
-            handler={handlerInputZoneSubmit}
+            name={InputName.TIMEZONE}
+            lastTzChoice={userMe?.timezone}
             label="Часовой пояс"
+            handleChange={handlerInputZoneSubmit}
           />
-          <InputTimeSelect label="График работы" />
+          <InputTimeSelect
+            names={[InputName.WORK_START, InputName.WORK_FINISH]}
+            lastWorkStartChoice={userMe?.work_start}
+            lastWorkFinishChoice={userMe?.work_finish}
+            label="График работы"
+            handleChange={handlerInputWorkTimeSubmit}
+          />
         </form>
       </section>
 
@@ -229,14 +256,14 @@ export const ProfileForm: React.FC = () => {
         >
           <Input
             type={InputType.PASSWORD}
-            name={InputName.PASSWORD}
+            name={InputName.CURRENT_PASSWORD}
             label="Текущий пароль"
             register={updatePasswordForm.register}
             isPassword={true}
             placeholder=""
             useTogglePassword={true}
             errorObject={
-              updatePasswordForm.formState.errors[InputName.PASSWORD]
+              updatePasswordForm.formState.errors[InputName.CURRENT_PASSWORD]
             }
             validOptions={{
               required: errorTexts.EMPTY_FIELD.PATTERN,

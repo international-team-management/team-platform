@@ -1,24 +1,23 @@
-import { useState } from 'react';
+import React from 'react';
 import {
   useTimezoneSelect,
   allTimezones,
   ITimezoneOption,
-  // ITimezoneOption,
 } from 'react-timezone-select';
-import Select, { SingleValue } from 'react-select';
+import Select, { SingleValue, ActionMeta } from 'react-select';
 import styles from './InputTimezoneSelect.module.scss';
 import './SelectTzComponent.scss'; // <-- Управление стилями компонента Select, модульно пока не получилось (https://react-select.com/styles#inner-components)
 
 type InputTimezonePropsType = {
+  name: string;
+  lastTzChoice: ITimezoneOption | undefined;
   label: string;
-  handler: (data: SingleValue<ITimezoneOption>) => void;
+  handleChange: (data: SingleValue<ITimezoneOption>, name?: string) => void;
 };
 
-export default function InputTimezoneSelect({
-  label,
-  handler,
-  ...props
-}: InputTimezonePropsType) {
+export const InputTimezoneSelect: React.FC<InputTimezonePropsType> = (
+  props,
+) => {
   const labelStyle = 'altName';
   const timezones = {
     ...allTimezones,
@@ -31,21 +30,34 @@ export default function InputTimezoneSelect({
     displayValue,
   });
 
-  const [tz] = useState(
+  const [tz, setTz] = React.useState(
     parseTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone),
   );
 
+  React.useEffect(() => {
+    if (props.lastTzChoice) {
+      setTz(props.lastTzChoice);
+    }
+  }, [props.lastTzChoice]);
+
+  const handleSelection = (
+    choice: SingleValue<ITimezoneOption>,
+    action: ActionMeta<ITimezoneOption>,
+  ) => {
+    props.handleChange(choice, action.name);
+  };
+
   return (
     <label className={styles.tz}>
-      <span>{label}</span>
+      <span>{props.label}</span>
       <Select
         unstyled={true}
         classNamePrefix={'tz-select'}
         options={options}
-        defaultValue={tz}
-        onChange={handler}
-        {...props}
+        value={tz}
+        name={props.name}
+        onChange={handleSelection}
       />
     </label>
   );
-}
+};

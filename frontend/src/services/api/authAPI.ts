@@ -2,6 +2,7 @@ import { request } from './apiRequest';
 import {
   LoginRequestData,
   RegisterRequestData,
+  UpdatePasswordData,
   TokenType,
   URLS,
   UserType,
@@ -25,6 +26,15 @@ export const authAPI = {
 
   patchMe: async (data: UserType): Promise<UserType> => {
     return request.patch<UserType, UserType>(URLS.USER_ME, data);
+  },
+
+  setPassword: async (
+    data: UpdatePasswordData,
+  ): Promise<UpdatePasswordData> => {
+    return request.post<UpdatePasswordData, UpdatePasswordData>(
+      URLS.SET_PASSWORD,
+      data,
+    );
   },
 
   // logout: (): Promise<'OK'> => request.post<'OK', null>(URLS.LOGOUT),

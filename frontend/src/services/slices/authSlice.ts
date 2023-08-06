@@ -5,6 +5,7 @@ import type { RootState } from 'services/store';
 import type {
   RegisterRequestData,
   LoginRequestData,
+  UpdatePasswordData,
   UserType,
 } from 'services/api/types';
 
@@ -65,6 +66,15 @@ export const authThunks = {
     const patchedMe = await authAPI.patchMe(data);
     return patchedMe;
   }),
+
+  setPassword: createAsyncThunk(
+    'auth/setPassword',
+    async (passwords: UpdatePasswordData) => {
+      await authAPI.setPassword(passwords);
+      localStorage.removeItem('tokenAccess');
+      localStorage.removeItem('tokenRefresh');
+    },
+  ),
 };
 
 // Slice
@@ -149,6 +159,23 @@ export const authSlice = createSlice({
       )
       .addCase(
         authThunks.patchMe.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      )
+      // set password
+      .addCase(authThunks.setPassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(authThunks.setPassword.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = false;
+        state.user = null;
+      })
+      .addCase(
+        authThunks.setPassword.rejected,
         (state, action: PayloadAction<unknown>) => {
           state.isLoading = false;
           state.error = action.payload;

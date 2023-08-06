@@ -1,3 +1,5 @@
+import { ITimezoneOption } from 'react-timezone-select';
+
 export type RegisterRequestData = {
   first_name: string;
   last_name: string;
@@ -14,9 +16,9 @@ export type ProfileRequestData = {
 };
 
 export type UpdatePasswordData = {
-  password: string;
-  confirm_password: string;
+  current_password: string;
   new_password: string;
+  confirm_password?: string;
 };
 
 export type LoginRequestData = {
@@ -34,10 +36,12 @@ export type UserType = {
   created_at?: string;
   update_at?: string;
   is_active?: boolean;
-  user_timezone?: unknown;
-  timetable?: unknown;
+  timezone?: ITimezoneOption | undefined;
+  work_start?: string;
+  work_finish?: string;
+  // timetable?: unknown;
   photo?: string;
-  telephone_number?: number;
+  telephone_number?: string;
 };
 
 export type TokenType = {
@@ -50,4 +54,5 @@ export enum URLS {
   SIGN_UP = `${URLS.AUTH}/users/`,
   SIGN_IN = `${URLS.AUTH}/jwt/create/`,
   USER_ME = `${URLS.AUTH}/users/me/`,
+  SET_PASSWORD = `${URLS.AUTH}/users/set_password/`,
 }
