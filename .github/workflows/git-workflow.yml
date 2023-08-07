@@ -35,7 +35,7 @@ jobs:
         working-directory: ./backend
 
       - name: Run pre-commit checks for backend
-        # Запуск тестов
+        # Запуск тестов pre-commit
         run: poetry run pre-commit run --all-files
         working-directory: ./backend
 
