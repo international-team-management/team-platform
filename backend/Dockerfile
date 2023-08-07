@@ -8,7 +8,7 @@ COPY poetry.lock pyproject.toml ./
 
 RUN poetry config virtualenvs.create false && poetry install --without test --no-interaction --no-ansi
 
-COPY itm_backend itm_backend
+COPY itm_backend /backend/itm_backend
 
 ENV PYTHONPATH=/backend
 
