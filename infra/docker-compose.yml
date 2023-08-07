@@ -31,8 +31,6 @@ services:
     container_name: itm_frontend
     volumes:
       - ./frontend/result_build:/app/dist/
-    depends_on:
-      - backend
 
 
   nginx:
