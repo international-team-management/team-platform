@@ -6,7 +6,7 @@ on:
     branches: [ backend ]
   # Запуск при любом push-действии в ветку backend
   push:
-    branches: [ backend-feat-workflow-message-fix ]
+    branches: [ backend-feat-servertest-front ]
 
 jobs:
   tests:
@@ -65,6 +65,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/backend
 
   build_and_push_frontend_to_docker_hub:
+    # Сборка Frontend
     name: Push Frontend image to Docker Hub
     runs-on: ubuntu-22.04
     needs: tests
