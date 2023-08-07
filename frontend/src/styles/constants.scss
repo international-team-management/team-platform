@@ -1,0 +1,69 @@
+%flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+%flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+%text-overflow-hidden {
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+$i: !important;
+
+// UI
+$ui-width: 340px;
+$ui-width-m: 320px;
+$ui-width-l: 400px;
+$ui-width-s: 300px;
+$ui-width-xs: 76px;
+$ui-height: 52px;
+$ui-border-radius: 16px;
+$ui-border-radius-s: 8px;
+$ui-border-radius-m: 12px;
+$ui-border-radius-phone: 16px;
+
+// MIXINS
+
+@mixin set-font-size($font, $line, $weight: 400) {
+  font-size: $font;
+  font-weight: $weight;
+  line-height: $line;
+}
+
+@mixin set-block-size($width, $height) {
+  @include set-font-size(
+    14px,
+    16px,
+    600
+  ); // так лучше не делать, теперь этот миксин кроме размеров блока, почему-то меняет шрифт
+
+  min-width: $width;
+  min-height: $height;
+  letter-spacing: -0.01rem;
+}
+
+@mixin set-check-validation-icon($icon-path) {
+  position: relative;
+  padding-left: 15px;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: 10px;
+    left: 0;
+
+    width: 12px;
+    height: 100%;
+
+    background-image: url($icon-path);
+    background-repeat: no-repeat;
+  }
+}

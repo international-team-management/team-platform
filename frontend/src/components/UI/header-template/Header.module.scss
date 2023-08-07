@@ -1,0 +1,127 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.header {
+  @extend %flex-row;
+
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  max-height: 64px;
+  padding: 18px 32px;
+
+  background-color: $main-white;
+  border-bottom: 1px solid $grey-225;
+
+  &__title {
+    @include set-font-size(24px, 28px, 700);
+
+    margin-block-start: 0;
+    margin-block-end: 0;
+
+    font-style: normal;
+    color: $main-black;
+    letter-spacing: -0.48px;
+  }
+
+  &__project-menu {
+    @extend %flex-row;
+
+    gap: 52px;
+  }
+
+  &__icons {
+    @extend %flex-row;
+
+    gap: 20px;
+    justify-self: flex-end;
+  }
+
+  &__changes-status {
+    @include set-font-size(16px, 20px, 700);
+
+    font-style: normal;
+    color: $main-black;
+    text-align: center;
+    letter-spacing: -0.32px;
+  }
+
+  &__participants {
+    position: relative;
+  }
+
+  &__participants-count {
+    @include set-block-size(40px, 40px);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: -8px;
+
+    background-color: $grey-241;
+    border-radius: 28px;
+    box-shadow: 0 0 0 1px $grey-225;
+  }
+
+  &__participants-extra {
+    @include set-font-size(16px, 20px, 600);
+
+    position: absolute;
+    left: 0;
+
+    width: 100%;
+
+    font-style: normal;
+    color: $grey-text;
+    text-align: center;
+    letter-spacing: -0.16px;
+
+    background-color: transparent;
+  }
+
+  &__project-buttons {
+    @extend %flex-row;
+
+    align-items: center;
+  }
+
+  &__buttons {
+    @extend %flex-row;
+
+    flex-shrink: 0;
+    align-items: center;
+
+    height: 32px;
+    padding: 0 8px;
+
+    border-radius: 8px;
+  }
+
+  &__button-area {
+    @extend %flex-row;
+
+    gap: 4px;
+    align-items: center;
+  }
+
+  &__switch-button {
+    cursor: pointer;
+
+    color: $grey-text;
+
+    background-color: $main-white;
+    border: none;
+
+    transition: color 0.2s ease-in-out;
+  }
+
+  &__switch-button_active {
+    color: $blue-26;
+  }
+
+  &__switch-icon {
+    @include set-block-size(18px, 18px);
+  }
+}

@@ -1,0 +1,133 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.input {
+  &__wrapper {
+    @extend %flex-column;
+
+    @include set-font-size(16px, 20px, 600);
+
+    width: $ui-width-l;
+
+    & + & {
+      margin-top: 12px;
+    }
+  }
+
+  &__label {
+    letter-spacing: -0.01rem;
+
+    &_wrapper {
+      @extend %flex-row;
+
+      justify-content: space-between;
+    }
+
+    &_password {
+      cursor: pointer;
+
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 20px;
+      color: rgb(62 80 214);
+      letter-spacing: -0.01rem;
+
+      background-color: rgb(255 255 255);
+      border: none;
+    }
+  }
+
+  &__content {
+    @extend %flex-column;
+
+    position: relative;
+  }
+
+  &__field {
+    @include set-font-size(16px, 20px, 500);
+
+    height: $ui-height;
+    margin: 8px 0 0;
+    padding: 16px 20px;
+
+    letter-spacing: -0.01rem;
+
+    border: 1px solid $grey-225;
+    border-radius: $ui-border-radius;
+
+    transition: all 0.15s ease-in-out;
+
+    &:hover {
+      border-color: $grey-191;
+    }
+
+    &:focus {
+      border: 2px solid $blue-95;
+
+      &::placeholder {
+        color: transparent;
+      }
+    }
+
+    &_valid {
+      border-color: $green-4;
+
+      &:focus {
+        border-color: $green-4;
+      }
+    }
+
+    &_invalid {
+      border-color: $red-237;
+
+      &:focus {
+        border-color: $red-237;
+      }
+    }
+  }
+
+  &__helperText {
+    @include set-font-size(14px, 16px, 600);
+
+    padding: 8px 0 0;
+    color: $grey-118;
+    letter-spacing: -0.01rem;
+
+    &_valid {
+      color: $green-3;
+    }
+
+    &_invalid {
+      color: $green-3;
+    }
+
+    &_password {
+      @include set-check-validation-icon('src/assets/password_neutral.svg');
+
+      &.input__helperText_valid {
+        &::before {
+          background-image: url('src/assets/password_valid.svg');
+        }
+      }
+    }
+  }
+
+  &__errorText {
+    @include set-font-size(14px, 16px, 600);
+
+    padding: 8px 0 0;
+    color: $red-224;
+    letter-spacing: -0.01rem;
+
+    &_password {
+      @include set-check-validation-icon('src/assets/password_invalid.svg');
+    }
+  }
+
+  &__tooglePassword {
+    cursor: pointer;
+    position: absolute;
+    top: 20px + 8px + 13px;
+    right: 15px;
+  }
+}

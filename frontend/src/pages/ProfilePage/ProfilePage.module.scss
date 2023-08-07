@@ -1,0 +1,16 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.profile {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100vh;
+
+  &__main-content {
+    @extend %flex-column;
+
+    width: 100%;
+    max-width: 1200px;
+    margin-left: 240px;
+  }
+}
