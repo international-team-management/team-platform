@@ -4,7 +4,9 @@
 .avatar {
   @extend %flex-row;
 
+  cursor: pointer;
   gap: -20px;
+  align-items: center;
   padding: 0 0 0 52px;
 
   &__image {

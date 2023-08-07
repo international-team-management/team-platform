@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: space-between;
 
-  width: 100%;
+  width: calc(100vw - 240px);
   max-height: 64px;
   padding: 18px 32px;
 
@@ -84,6 +84,7 @@
   &__project-buttons {
     @extend %flex-row;
 
+    z-index: 1;
     align-items: center;
   }
 
@@ -99,29 +100,88 @@
     border-radius: 8px;
   }
 
+  &__button-wrapper:has(.header__button-area_active) {
+    position: relative;
+
+    &::after,
+    &::before {
+      content: url('src/assets/header-icons/header-active-angel.svg');
+
+      position: absolute;
+      bottom: -10px;
+
+      width: 16px;
+      height: 16px;
+    }
+
+    &::after {
+      left: -15px;
+    }
+
+    &::before {
+      right: -15px;
+      transform: rotateY(180deg);
+    }
+  }
+
   &__button-area {
     @extend %flex-row;
 
+    cursor: pointer;
+
+    position: relative;
+
     gap: 4px;
     align-items: center;
-  }
 
-  &__switch-button {
-    cursor: pointer;
+    padding: 12px;
 
     color: $grey-text;
 
-    background-color: $main-white;
+    background-color: transparent;
     border: none;
+    border-radius: 12px 12px 0 0;
 
     transition: color 0.2s ease-in-out;
-  }
 
-  &__switch-button_active {
-    color: $blue-26;
+    & svg rect {
+      stroke: $grey-text;
+    }
+
+    & svg path {
+      fill: $grey-text;
+    }
+
+    &_active {
+      color: $blue-26;
+      background-color: $grey-247;
+      border: 1px solid $grey-225;
+      border-bottom: none;
+
+      &::after {
+        content: '';
+
+        position: absolute;
+        bottom: -10px;
+        left: -1px;
+
+        width: calc(100% + 2px);
+        height: 12px;
+
+        background-color: $grey-247;
+      }
+
+      & svg rect {
+        stroke: $blue-26;
+      }
+
+      & svg path {
+        fill: $blue-26;
+      }
+    }
   }
 
   &__switch-icon {
-    @include set-block-size(18px, 18px);
+    @include set-block-size(16px, 16px);
   }
 }
