@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import styles from './App.module.scss';
 import { routes } from 'src/routes';
 import { ProtectedRoute } from '../protected-route/ProtectedRoute';
 import { LoginPage } from 'src/pages/LoginPage/LoginPage';
@@ -23,8 +22,8 @@ export const App: React.FC = () => {
     <Routes>
       {/* free access */}
 
-      {/* <Route path={routes.home.path} element={<KanbanPage />} />
-      <Route path={routes.canban.path} element={<KanbanPage />} /> */}
+      {/* instead of the main page, there will be a registration page for now */}
+      <Route path={routes['home'].path} element={<SignUpPage />} />
 
       <Route path={routes['sign-in'].path} element={<LoginPage />} />
       <Route path={routes['sign-up'].path} element={<SignUpPage />} />
@@ -32,7 +31,7 @@ export const App: React.FC = () => {
       {/* protected */}
       <Route element={<ProtectedRoute />}>
         <Route path={routes['profile'].path} element={<ProfilePage />} />
-        <Route path={routes.canban.path} element={<KanbanPage />} />
+        <Route path={routes['canban'].path} element={<KanbanPage />} />
       </Route>
 
       {/* 404 */}

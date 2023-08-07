@@ -12,7 +12,11 @@ export const ProfilePage: React.FC = () => {
 
   return (
     <section className={styles.profile}>
-      <Sidebar />
+      <Sidebar
+        createProgect={() => {
+          return;
+        }}
+      />
       <div className={styles['profile__main-content']}>
         <HeaderTemplate state={state} title="Личный кабинет" />
         <ProfileForm />
