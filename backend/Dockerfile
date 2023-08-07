@@ -8,8 +8,6 @@ COPY poetry.lock pyproject.toml ./
 
 RUN poetry config virtualenvs.create false && poetry install --without test --no-interaction --no-ansi
 
-COPY itm_backend /backend/itm_backend
+COPY . /backend
 
-ENV PYTHONPATH=/backend
-
-CMD ["gunicorn", "itm_backend.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["python3", "itm_backend/manage.py", "runserver", "0:8000"]
