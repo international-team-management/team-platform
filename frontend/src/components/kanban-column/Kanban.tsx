@@ -53,6 +53,7 @@ export const KanbanColumn = (props: KanbanColumnProps) => {
   };
 
   const dragStartHandler = (task: BoardTask, board: BoardItem) => {
+    console.log('start', task);
     setCurrentTask(task);
     setCurrentBoard(board);
   };

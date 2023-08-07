@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 
 export const Account: React.FC<UserType> = (props) => {
   return (
-    <figure className={styles.account}>
-      <Link to={'/profile'}>
+    <figure>
+      <Link to={'/profile'} className={styles.account}>
         {props.photo ? (
           <img
             className={styles.account__image}
@@ -17,13 +17,14 @@ export const Account: React.FC<UserType> = (props) => {
         ) : (
           <FramedAvatar className={styles.account__image} />
         )}
+
+        <figcaption className={styles.account__caption}>
+          <p
+            className={styles.account__user}
+          >{`${props.first_name} ${props.last_name}`}</p>
+          <p className={styles.account__role}>{props.role}</p>
+        </figcaption>
       </Link>
-      <figcaption className={styles.account__caption}>
-        <p
-          className={styles.account__user}
-        >{`${props.first_name} ${props.last_name}`}</p>
-        <p className={styles.account__role}>{props.role}</p>
-      </figcaption>
     </figure>
   );
 };

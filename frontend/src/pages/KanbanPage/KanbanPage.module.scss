@@ -10,7 +10,7 @@
   &__main-content {
     @extend %flex-column;
 
-    width: 1200px;
+    width: calc(100vw - 240px);
     margin-left: 240px;
   }
 }
