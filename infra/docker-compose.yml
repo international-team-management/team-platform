@@ -28,6 +28,8 @@ services:
 
   nginx:
     image: nginx:1.21.3-alpine
+    container_name: itm_nginx
+    restart: always
     ports:
       - "80:80"
     volumes:

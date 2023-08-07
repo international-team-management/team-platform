@@ -10,4 +10,4 @@ RUN poetry config virtualenvs.create false && poetry install --without test --no
 
 COPY . /backend
 
-CMD ["python3", "itm_backend/manage.py", "runserver", "0:8000"]
+CMD ["gunicorn", "itm_backend.wsgi:application", "--bind", "runserver", "0:8000"]

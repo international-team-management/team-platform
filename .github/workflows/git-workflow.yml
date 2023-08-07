@@ -93,7 +93,7 @@ jobs:
             sudo docker exec itm_backend bash -c "cd itm_backend && python manage.py makemigrations users"
             sudo docker exec itm_backend bash -c "cd itm_backend && python manage.py makemigrations projects"
             sudo docker exec itm_backend bash -c "cd itm_backend && python manage.py migrate"
-            sudo docker exec itm_backend bash -c "cd itm_backend && python manage.py collectstatic"
+            sudo docker exec itm_backend bash -c "cd itm_backend && python manage.py collectstatic --noinput"
 
   send_message:
     name: Send message to Telegram
