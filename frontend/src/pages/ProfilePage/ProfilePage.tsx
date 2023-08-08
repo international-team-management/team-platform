@@ -10,14 +10,13 @@ import { useCreateProject } from 'src/utils/createProject';
 // import { useParams } from 'react-router-dom';
 
 export const ProfilePage: React.FC = () => {
-  const state = HeaderState.CHANGES_SAVED;
   const [, , createProject] = useCreateProject();
 
   return (
     <section className={styles.profile}>
       <Sidebar createProject={createProject} />
       <div className={styles['profile__main-content']}>
-        <HeaderTemplate state={state} title="Личный кабинет" />
+        <HeaderTemplate state={HeaderState.PROFILE} title="Личный кабинет" />
         <ProfileForm />
       </div>
     </section>

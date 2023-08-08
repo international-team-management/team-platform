@@ -19,7 +19,7 @@ import type {
 type AuthStateType = {
   user: null | UserType;
   isLoading: boolean;
-  error: null | unknown;
+  error: null | unknown | string;
 };
 
 // State
@@ -187,6 +187,8 @@ export const authSlice = createSlice({
 // Selectors
 export const selectAuthData = (state: RootState) => state.auth;
 export const selectUserMe = (state: RootState) => state.auth.user;
+export const selectAuthIsLoading = (state: RootState) => state.auth.isLoading;
+export const selectAuthError = (state: RootState) => state.auth.error;
 
 // Action creator (not async)
 export const { logout } = authSlice.actions;

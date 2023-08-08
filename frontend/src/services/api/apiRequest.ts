@@ -7,7 +7,8 @@ import axios, {
 
 // Custom axios instance
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_ENDPOINT,
+  // baseURL: import.meta.env.VITE_API_ENDPOINT,
+  baseURL: __API_ENDPOINT__, // <-- while building it takes url from the .env file, it is configured in Vite.config.ts
   withCredentials: true,
 });
 
