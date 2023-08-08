@@ -40,7 +40,7 @@ export const useCreateProject = () => {
     });
   };
 
-  const createProject = useCallback(callback, [projects, mockEmptyBoard]);
+  const createProject = useCallback(callback, [navigate]);
 
   return [currentProject, setCurrentProject, createProject] as const;
 };
