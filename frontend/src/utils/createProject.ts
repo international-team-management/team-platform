@@ -33,7 +33,6 @@ export const useCreateProject = () => {
 
   const callback = () => {
     createProjectAPI().then((newProject) => {
-      console.log(newProject);
       projects.push(newProject);
       setCurrentProject(newProject);
       window.history.pushState(null, '', `/${newProject.id}`);
