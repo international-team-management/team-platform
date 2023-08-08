@@ -5,31 +5,18 @@ import {
   HeaderTemplate,
   HeaderState,
 } from 'components/UI/header-template/HeaderTemplate';
-import { KanbanColumn, BoardItem } from 'src/components/kanban-column/Kanban';
+import { KanbanColumn } from 'src/components/kanban-column/Kanban';
 import { useParams } from 'react-router-dom';
-import {
-  mockEmptyBoard,
-  mockBoardItems,
-  projects,
-} from 'src/utils/constants temporary/constant_temp';
+import { projects } from 'src/utils/constants temporary/constant_temp';
 import { useNavigate } from 'react-router-dom';
+import { getProjectInfoAPI, useCreateProject } from 'src/utils/createProject';
 
 export const KanbanPage: React.FC = () => {
   const navigate = useNavigate();
   const state = HeaderState.KANBAN;
-  const [currentProject, setCurrentProject] = React.useState<ProjectInfo>({
-    ...projects[0],
-    boards: [],
-  });
-  const params = useParams();
 
-  const createProgect = () => {
-    createProjectAPI().then((newProject) => {
-      projects.push({ id: newProject.id, name: newProject.name });
-      setCurrentProject(newProject);
-      window.history.pushState(null, '', `/${newProject.id}`);
-    });
-  };
+  const params = useParams();
+  const [currentProject, setCurrentProject, createProject] = useCreateProject();
 
   useEffect(() => {
     if (!params.id) {
@@ -43,7 +30,7 @@ export const KanbanPage: React.FC = () => {
 
   return (
     <section className={styles.kanban}>
-      <Sidebar createProgect={createProgect} />
+      <Sidebar createProject={createProject} />
       <div className={styles['kanban__main-content']}>
         <HeaderTemplate state={state} title={currentProject.name} />
         <KanbanColumn
@@ -56,33 +43,3 @@ export const KanbanPage: React.FC = () => {
 };
 
 // Временное решение пока нет backend
-
-type ProjectInfo = {
-  id: number;
-  name: string;
-  boards: BoardItem[];
-};
-
-function getProjectInfoAPI(projectId: number): Promise<ProjectInfo> {
-  if (projectId === 1) {
-    return Promise.resolve({
-      id: projectId,
-      name: 'Пример проекта',
-      boards: mockBoardItems,
-    });
-  } else {
-    return Promise.resolve({
-      id: projectId,
-      name: 'Без названия',
-      boards: mockEmptyBoard,
-    });
-  }
-}
-
-function createProjectAPI(): Promise<ProjectInfo> {
-  return Promise.resolve({
-    id: projects.length + 1,
-    name: 'Без названия',
-    boards: mockEmptyBoard,
-  });
-}

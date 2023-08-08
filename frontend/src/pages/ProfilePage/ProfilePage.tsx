@@ -6,15 +6,15 @@ import {
   HeaderState,
 } from 'components/UI/header-template/HeaderTemplate';
 import { ProfileForm } from 'src/components/profile-form/ProfileForm';
+import { useCreateProject } from 'src/utils/createProject';
+// import { useParams } from 'react-router-dom';
 
 export const ProfilePage: React.FC = () => {
+  const [, , createProject] = useCreateProject();
+
   return (
     <section className={styles.profile}>
-      <Sidebar
-        createProgect={() => {
-          return;
-        }}
-      />
+      <Sidebar createProject={createProject} />
       <div className={styles['profile__main-content']}>
         <HeaderTemplate state={HeaderState.PROFILE} title="Личный кабинет" />
         <ProfileForm />
