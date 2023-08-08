@@ -56,6 +56,8 @@ $svg-filter-path: '/src/assets/projects-filter.svg';
     gap: 8px;
     align-items: center;
     justify-content: flex-start;
+
+    min-height: 36px;
     padding: 0 16px;
 
     &_active {
