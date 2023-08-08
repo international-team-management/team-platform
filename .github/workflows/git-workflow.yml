@@ -110,6 +110,7 @@ jobs:
           script: |
             sudo docker-compose down
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/backend
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/frontend
             rm .env
             touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
