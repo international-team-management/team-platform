@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Header.module.scss';
 import notificationIcon from 'src/assets/header-icons/header-notification-icon.svg';
 import searchIcon from 'src/assets/header-icons/header-search-icon.svg';
@@ -9,9 +9,14 @@ import { UserAvatar } from 'src/components/UI/user-avatar-template/UserAvatarTem
 import userAvatar from 'src/assets/user-avatar.svg';
 import addNewParticipant from 'src/assets/add-new-participant.svg';
 import clsx from 'clsx';
+import { useSelector } from 'src/services/hooks';
+import {
+  selectAuthIsLoading,
+  selectAuthError,
+} from 'src/services/slices/authSlice';
 
 export enum HeaderState {
-  CHANGES_SAVED = 'CHANGES_SAVED',
+  PROFILE = 'PROFILE',
   KANBAN = 'KANBAN',
 }
 
@@ -34,6 +39,28 @@ export const HeaderTemplate: React.FC<HeaderTemplateProps> = ({
   state,
   title,
 }) => {
+  const isAuthApiLoading = useSelector(selectAuthIsLoading);
+  const isAuthApiError = useSelector(selectAuthError);
+  const [profileInfo, setProfileInfo] = useState<string>('');
+
+  useEffect(() => {
+    const showMessage = (message: string, duration: number): Promise<void> => {
+      setProfileInfo(message);
+      return new Promise<void>((resolve) => setTimeout(resolve, duration));
+    };
+
+    if (isAuthApiLoading) {
+      showMessage('Сохраняем...', 700)
+        .then(() => showMessage('Изменения были сохранены', 1400))
+        .then(() => showMessage('', 0));
+      if (isAuthApiError) {
+        showMessage(isAuthApiError.toString(), 5000).then(() =>
+          showMessage('', 0),
+        );
+      }
+    }
+  }, [isAuthApiLoading, isAuthApiError]);
+
   const [activeView, setActiveView] = useState(VIEWS.KANBAN);
 
   const handlerChangeView = (
@@ -47,10 +74,8 @@ export const HeaderTemplate: React.FC<HeaderTemplateProps> = ({
     <section className={styles.header}>
       <h1 className={styles.header__title}>{title}</h1>
 
-      {state === HeaderState.CHANGES_SAVED && (
-        <p className={styles['header__changes-status']}>
-          Изменения были сохранены
-        </p>
+      {state === HeaderState.PROFILE && (
+        <p className={styles['header__changes-status']}>{profileInfo}</p>
       )}
 
       {state === HeaderState.KANBAN && (

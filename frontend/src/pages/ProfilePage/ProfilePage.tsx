@@ -8,8 +8,6 @@ import {
 import { ProfileForm } from 'src/components/profile-form/ProfileForm';
 
 export const ProfilePage: React.FC = () => {
-  const state = HeaderState.CHANGES_SAVED;
-
   return (
     <section className={styles.profile}>
       <Sidebar
@@ -18,7 +16,7 @@ export const ProfilePage: React.FC = () => {
         }}
       />
       <div className={styles['profile__main-content']}>
-        <HeaderTemplate state={state} title="Личный кабинет" />
+        <HeaderTemplate state={HeaderState.PROFILE} title="Личный кабинет" />
         <ProfileForm />
       </div>
     </section>
