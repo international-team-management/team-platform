@@ -6,7 +6,7 @@ on:
     branches: [ backend ]
   # Запуск при любом push-действии в ветку backend
   push:
-    branches: [ backend-feat-servertest-front ]
+    branches: [ backend-feat-servertest-gunicorn ]
 
 jobs:
   tests:
