@@ -20,8 +20,8 @@ services:
     container_name: itm_backend
     restart: always
     volumes:
-      - static_value:/backend/itm_backend/static/
-      - media_value:/backend/itm_backend/media/
+      - static_value:/itm_backend/static/
+      - media_value:/itm_backend/media/
     depends_on:
       - db
 
