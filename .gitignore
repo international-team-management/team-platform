@@ -301,3 +301,6 @@ dist
 # OSX
 */.DS_Store
 .DS_Store
+
+# result build inside docker
+infra/frontend
