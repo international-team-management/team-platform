@@ -145,7 +145,7 @@ export const KanbanColumn = (props: KanbanColumnProps) => {
               <></>
             )}
           </div>
-          {name !== 'Без названия' ? (
+          {name.indexOf('Без названия') === -1 ? (
             board.tasks.map((task) => (
               <div
                 className={clsx(styles.column__task_line, {

@@ -8,11 +8,11 @@ import { selectUserMe } from 'src/services/slices/authSlice';
 import { projects } from 'src/utils/constants temporary/constant_temp';
 
 type SidebarProps = {
-  createProgect: () => void;
+  createProject: () => void;
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({
-  createProgect,
+  createProject,
 }: SidebarProps) => {
   const userMe = useSelector(selectUserMe);
 
@@ -25,7 +25,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className={styles['sidebar__createBtn-container']}>
         <button
           className={`${styles.sidebar__createBtn}`}
-          onClick={() => createProgect()}
+          onClick={() => createProject()}
         >
           <SignPlus className={styles.sidebar__plus} />
           <span>Создать проект</span>
