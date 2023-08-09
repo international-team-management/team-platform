@@ -2,9 +2,9 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,7 +15,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost").split(",")
+#  https://pypi.org/project/django-cors-headers/
+CORS_ALLOWED_ORIGINS = []
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -89,16 +90,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "itm_backend.wsgi.application"
 
+
+# Database
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DB_ENGINE", default="django.db.backends.sqlite3"),
-        "NAME": os.getenv("POSTGRES_DB", default=(BASE_DIR / "db.sqlite3")),
+        "ENGINE": os.getenv("DB_ENGINE", default="django.db.backends.postgresql"),
+        "NAME": os.getenv("POSTGRES_DB", default="postgres"),
         "USER": os.getenv("POSTGRES_USER", default="postgres"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="postgres"),
-        "HOST": os.getenv("DB_HOST", default="localhost"),
-        "PORT": os.getenv("DB_PORT", default=5432),
+        "HOST": os.getenv("DB_HOST", default="db"),
+        "PORT": os.getenv("DB_PORT", default="5432"),
+        "OPTIONS": {"options": "-c timezone=UTC"},
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -115,6 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -126,12 +132,11 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-MEDIA_ROOT = BASE_DIR / "media"
 
 AUTH_USER_MODEL = "users.User"
 
