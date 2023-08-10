@@ -33,6 +33,12 @@ class Task(models.Model):
         in_review = "In review", _("На рассмотрении")
         done = "Done", _("Завершено")
 
+    class PriorityChoice(models.TextChoices):
+        maximum = "maximum", _("Максимальный")
+        average = "average", _("Средний")
+        minimum = "minimum", _("Минимальный")
+        urgent = "urgent", _("Срочно")
+
     project = models.ForeignKey("Project", verbose_name="Проект", on_delete=models.CASCADE, related_name="task")
     creator = models.ForeignKey(
         User,
@@ -41,7 +47,8 @@ class Task(models.Model):
         on_delete=models.PROTECT,
         related_name="created_tasks",
     )
-    assigned_to = models.ManyToManyField(User, verbose_name="Участники задачи", blank=True)
+    priority = models.CharField(verbose_name="Приоритет задачи", choices=PriorityChoice.choices, max_length=20)
+    assigned_to = models.ManyToManyField(User, through='TaskUser', verbose_name="Участники задачи", blank=True)
     tags = models.ManyToManyField(Tag, related_name="related_tasks", verbose_name="Тэги", blank=True)
     status = models.CharField(
         verbose_name="Статус задачи",
