@@ -2,9 +2,9 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-#  from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-#  load_dotenv()
+load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,8 +15,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
-#  https://pypi.org/project/django-cors-headers/
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+
+CORS_ALLOWED_ORIGINS = ("http://localhost", "http://localhost:5173", "http://localhost:8000")
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -91,15 +91,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "itm_backend.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     "default": {
         "ENGINE": os.getenv("DB_ENGINE", default="django.db.backends.sqlite3"),
@@ -146,7 +137,6 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
 
-
 AUTH_USER_MODEL = "users.User"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -160,10 +150,16 @@ DJOSER = {
     "SEND_CONFIRMATION_EMAIL": False,
     "SEND_ACTIVATION_EMAIL": False,
     "SERIALIZERS": {
+<<<<<<< HEAD
         "user_create": "api.serializers.CustomUserCreateSerializer",
         "user": "api.serializers.CustomUserSerializer",
         "current_user": "api.serializers.CustomUserSerializer",
         # 'set_password': 'djoser.serializers.SetPasswordSerializer',
+=======
+        "user_create": "users.serializers.CustomUserCreateSerializer",
+        "user": "users.serializers.CustomUserSerializer",
+        "current_user": "users.serializers.CustomUserSerializer",
+>>>>>>> origin/backend
     },
     "PERMISSIONS": {
         "user": ["rest_framework.permissions.IsAuthenticated"],
