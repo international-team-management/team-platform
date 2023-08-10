@@ -48,7 +48,7 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         """
-        Возвращаем ответ по ТЗ.
+        Возвращает информацию о пользователе по ТЗ.
         """
         return {
             "id": instance.id,
