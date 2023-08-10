@@ -26,7 +26,7 @@ export const KanbanPage: React.FC = () => {
     getProjectInfoAPI(Number(params.id)).then((projectInfo) => {
       setCurrentProject(projectInfo);
     });
-  }, [params]);
+  }, [params, navigate, setCurrentProject]);
 
   return (
     <section className={styles.kanban}>

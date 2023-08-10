@@ -32,19 +32,14 @@
   &__info {
     @extend %flex-row;
 
-    align-items: end;
-    justify-content: space-between;
-    margin: 2px 0 12px;
-  }
-
-  &__text {
-    @extend %flex-row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 2px 0 14px;
   }
 
   &__title {
     @include set-font-size(16px, 20px, 600);
 
-    margin-right: 8px;
     color: $black;
     letter-spacing: -0.01rem;
   }
@@ -52,9 +47,12 @@
   &__quantity {
     @include set-font-size(14px, 16px, 700);
 
+    min-width: 25px;
+    margin: 0 0 0 8px;
     padding: 2px 8px;
 
     color: $blue-62;
+    text-align: center;
     letter-spacing: -0.04rem;
 
     background-color: $blue-230;
@@ -63,8 +61,11 @@
 
   &__button {
     cursor: pointer;
+
     width: 24px;
     height: 24px;
+    margin: 0 0 0 12px;
+
     border-radius: $ui-border-radius-s;
   }
 
@@ -77,7 +78,7 @@
 
     height: 136px;
     margin: 4px 0;
-    padding: 16px;
+    padding: 16px 16px 20px;
 
     background-color: $white;
     border: 1px solid $grey-241;
@@ -132,12 +133,6 @@
 
       width: 16px;
       height: 16px;
-    }
-
-    &_wrapper {
-      @extend %flex-row;
-
-      align-self: center;
     }
 
     &_time {

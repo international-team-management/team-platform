@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styles from './Kanban.module.scss';
-import { ReactComponent as TimerKanban } from 'assets/timer.svg';
 import { ReactComponent as AddTaskButton } from 'assets/add-task.svg';
 import { ReactComponent as MoreActions } from 'assets/more-actions.svg';
 import clsx from 'clsx';
@@ -133,18 +132,15 @@ export const KanbanColumn = (props: KanbanColumnProps) => {
           onDrop={(e) => dropCardHendler(e, board)}
         >
           <div className={styles.column__info}>
-            <div className={styles.column__text}>
-              <h3 className={styles.column__title}>{board.title}</h3>
-              <span className={styles.column__quantity}>
-                {board.tasks.length}
-              </span>
-            </div>
-            {board.title !== 'In Review' && board.title !== 'Done' ? (
+            <h3 className={styles.column__title}>{board.title}</h3>
+            <span className={styles.column__quantity}>
+              {board.tasks.length}
+            </span>
+            {['In Review', 'Done'].includes(board.title) || (
               <AddTaskButton className={styles.column__button} />
-            ) : (
-              <></>
             )}
           </div>
+
           {name.indexOf('Без названия') === -1 ? (
             board.tasks.map((task) => (
               <div
@@ -166,20 +162,13 @@ export const KanbanColumn = (props: KanbanColumnProps) => {
                 >
                   <p className={styles.column__task_text}>{task.subtitle}</p>
                   <MoreActions className={styles.column__task_button} />
-                  <div className={styles.column__task_wrapper}>
-                    <TimerKanban className={styles.column__task_icon} />
-                    <p className={styles.column__task_time}>
-                      {task.expiredDate}
-                    </p>
-                  </div>
-                  {task.img !== '' ? (
+                  <p className={styles.column__task_time}>{task.expiredDate}</p>
+                  {task.img && (
                     <img
                       className={styles.column__task_img}
-                      title="Изоображение"
+                      title="Аватар участника"
                       src={task.img}
                     />
-                  ) : (
-                    <></>
                   )}
                 </div>
               </div>
