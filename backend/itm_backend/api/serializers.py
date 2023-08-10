@@ -23,7 +23,9 @@ class TimeZoneSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate_offset(self, value):
         if value not in range(*OFFSET_RANGE):
-            raise serializers.ValidationError("Смещение от UTC должно лежать в диапазоне от -12 до +15 часов.")
+            raise serializers.ValidationError(
+                "Смещение от UTC должно лежать в диапазоне от -12 до +15 часов."
+            )
 
         return value
 
@@ -94,10 +96,13 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Tag
-        fields = ["id", "name",]
+        fields = [
+            "id",
+            "name",
+        ]
+
 
 class ProjectGetSerializer(serializers.ModelSerializer):
     """
@@ -105,8 +110,11 @@ class ProjectGetSerializer(serializers.ModelSerializer):
     Отображает информацию о проекте в JSON-представлении.
 
     """
-    owner = CustomUserSerializer(read_only=True,)
-   
+
+    owner = CustomUserSerializer(
+        read_only=True,
+    )
+
     participants = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(),
         many=True,
@@ -116,14 +124,17 @@ class ProjectGetSerializer(serializers.ModelSerializer):
         many=True,
         required=True,
     )
-    tags = TagSerializer(read_only=True, many=True,)
-    
+    tags = TagSerializer(
+        read_only=True,
+        many=True,
+    )
+
     class Meta:
         model = Project
         fields = [
-            "name", 
-            "description", 
-            "owner", 
+            "name",
+            "description",
+            "owner",
             "participants",
             "tasks",
             "start",
@@ -134,13 +145,15 @@ class ProjectGetSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-    
+
+
 class ProjectPostSerializer(serializers.ModelSerializer):
     """
     Сериализатор для создания и редактирования модели Проект.
     Отображает информацию о проекте в JSON-представлении.
 
     """
+
     participants = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(),
         many=True,
@@ -154,11 +167,19 @@ class ProjectPostSerializer(serializers.ModelSerializer):
         queryset=Tag.objects.all(),
         many=True,
     )
+
+    def create(self, validated_data):
+        validated_data["owner"] = self.context["request"].user
+        return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
+
     class Meta:
         model = Project
         fields = [
-            "name", 
-            "description", 
+            "name",
+            "description",
             "participants",
             "tasks",
             "start",
