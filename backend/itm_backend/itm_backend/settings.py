@@ -150,16 +150,10 @@ DJOSER = {
     "SEND_CONFIRMATION_EMAIL": False,
     "SEND_ACTIVATION_EMAIL": False,
     "SERIALIZERS": {
-<<<<<<< HEAD
         "user_create": "api.serializers.CustomUserCreateSerializer",
         "user": "api.serializers.CustomUserSerializer",
         "current_user": "api.serializers.CustomUserSerializer",
         # 'set_password': 'djoser.serializers.SetPasswordSerializer',
-=======
-        "user_create": "users.serializers.CustomUserCreateSerializer",
-        "user": "users.serializers.CustomUserSerializer",
-        "current_user": "users.serializers.CustomUserSerializer",
->>>>>>> origin/backend
     },
     "PERMISSIONS": {
         "user": ["rest_framework.permissions.IsAuthenticated"],
