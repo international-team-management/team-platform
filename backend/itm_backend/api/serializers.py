@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from users.models import TimeZone
 from projects.models import Project, Task, Tag
@@ -132,6 +133,7 @@ class ProjectGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = [
+            "id",
             "name",
             "description",
             "owner",
@@ -168,6 +170,13 @@ class ProjectPostSerializer(serializers.ModelSerializer):
         many=True,
     )
 
+    def validate_name(self, value):
+        user = self.context["request"].user
+        if Project.objects.filter(name=value, owner=user).exists():
+            raise ValidationError(f"Проект с таким именем у пользователя '{user}' уже существует.")
+
+        return value
+        
     def create(self, validated_data):
         validated_data["owner"] = self.context["request"].user
         return super().create(validated_data)
