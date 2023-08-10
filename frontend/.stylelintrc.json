@@ -7,20 +7,14 @@
     "property-no-unknown": [
       true,
       {
-        "ignoreSelectors": [":export", ":share"]
+        "ignoreSelectors": [":export"]
       }
     ],
     "property-case": null,
     "selector-pseudo-class-no-unknown": [
       true,
       {
-        "ignorePseudoClasses": ["export", "share"]
-      }
-    ],
-    "selector-type-no-unknown": [
-      true,
-      {
-        "ignore": ["default-namespace"]
+        "ignorePseudoClasses": ["export"]
       }
     ]
   }
