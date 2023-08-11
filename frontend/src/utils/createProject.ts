@@ -1,16 +1,16 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BoardItem } from 'src/components/kanban-column/Kanban';
+import { ColumnItem } from 'src/components/kanban-table/KanbanTable';
 import {
-  mockBoardItems,
-  mockEmptyBoard,
+  mockColumnItems,
+  mockEmptyColumn,
   projects,
 } from 'src/utils/constants temporary/constant_temp';
 
 export type ProjectInfo = {
   id: number;
   name: string;
-  boards: BoardItem[];
+  columns: ColumnItem[];
 };
 
 const createProjectAPI = (): Promise<ProjectInfo> => {
@@ -19,14 +19,14 @@ const createProjectAPI = (): Promise<ProjectInfo> => {
   return Promise.resolve({
     id: i + 1,
     name: `Без названия ${i}`,
-    boards: mockEmptyBoard,
+    columns: mockEmptyColumn,
   });
 };
 
 export const useCreateProject = () => {
   const [currentProject, setCurrentProject] = React.useState<ProjectInfo>({
     ...projects[0],
-    boards: [],
+    columns: [],
   });
 
   const navigate = useNavigate();
@@ -50,13 +50,13 @@ export const getProjectInfoAPI = (projectId: number): Promise<ProjectInfo> => {
     return Promise.resolve({
       id: projectId,
       name: 'Пример проекта',
-      boards: mockBoardItems,
+      columns: mockColumnItems,
     });
   } else {
     return Promise.resolve({
       id: projectId,
       name: `Без названия ${projectId - 1}`,
-      boards: mockEmptyBoard,
+      columns: mockEmptyColumn,
     });
   }
 };

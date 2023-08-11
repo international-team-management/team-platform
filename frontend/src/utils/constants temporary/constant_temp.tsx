@@ -1,9 +1,9 @@
 import photo from '../../assets/user-avatar.svg';
-import { BoardItem } from '../../components/kanban-column/Kanban';
+import { ColumnItem } from '../../components/kanban-table/KanbanTable';
 
 export const projects = [{ id: 1, name: 'Пример проекта' }];
 
-export const mockEmptyBoard: BoardItem[] = [
+export const mockEmptyColumn: ColumnItem[] = [
   {
     id: 1,
     title: 'Backlog',
@@ -31,7 +31,7 @@ export const mockEmptyBoard: BoardItem[] = [
   },
 ];
 
-export const mockBoardItems: BoardItem[] = [
+export const mockColumnItems: ColumnItem[] = [
   {
     id: 1,
     title: 'Backlog',

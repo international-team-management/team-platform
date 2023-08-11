@@ -5,7 +5,7 @@ import {
   HeaderTemplate,
   HeaderState,
 } from 'components/UI/header-template/HeaderTemplate';
-import { KanbanColumn } from 'src/components/kanban-column/Kanban';
+import { KanbanTable } from 'src/components/kanban-table/KanbanTable';
 import { useParams } from 'react-router-dom';
 import { projects } from 'src/utils/constants temporary/constant_temp';
 import { useNavigate } from 'react-router-dom';
@@ -33,10 +33,7 @@ export const KanbanPage: React.FC = () => {
       <Sidebar createProject={createProject} />
       <div className={styles['kanban__main-content']}>
         <HeaderTemplate state={state} title={currentProject.name} />
-        <KanbanColumn
-          boards={currentProject.boards}
-          name={currentProject.name}
-        />
+        <KanbanTable columns={currentProject.columns} />
       </div>
     </section>
   );

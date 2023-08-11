@@ -29,10 +29,10 @@ export const App: React.FC = () => {
       <Route path={routes['sign-up'].path} element={<SignUpPage />} />
 
       {/* protected */}
-      {/* <Route element={<ProtectedRoute />}> */}
-      <Route path={routes['profile'].path} element={<ProfilePage />} />
-      <Route path={routes['canban'].path} element={<KanbanPage />} />
-      {/* </Route> */}
+      <Route element={<ProtectedRoute />}>
+        <Route path={routes['profile'].path} element={<ProfilePage />} />
+        <Route path={routes['canban'].path} element={<KanbanPage />} />
+      </Route>
 
       {/* 404 */}
       <Route path={'*'} element={<div>Такой страницы не существует</div>} />
