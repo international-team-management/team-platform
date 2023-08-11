@@ -10,20 +10,13 @@
   }
 
   &__title {
-    @include set-font-size(14px, 16px, 600);
+    @extend %profile-button;
 
-    cursor: pointer;
+    @include set-font-size(14px, 16px, 600);
 
     position: absolute;
     top: 0;
     left: 0;
-
-    padding: 10px 12px;
-
-    color: $main-white;
-
-    background-color: $blue-56;
-    border-radius: 12px;
   }
 }
 
@@ -31,4 +24,69 @@
   display: flex;
   gap: 24px;
   align-items: center;
+}
+
+.cropper {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: $black-bg-modal;
+
+  &__title {
+    @include set-font-size(28px, 32px, 700);
+  }
+
+  &__content {
+    overflow: hidden;
+    margin: 24px 0;
+    border-radius: 12px;
+  }
+
+  &__wrapper {
+    @extend %flex-column;
+
+    position: relative;
+    padding: 24px;
+    background-color: $main-white;
+    border-radius: 16px;
+  }
+
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  &__button-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    @extend %profile-button;
+
+    @include set-font-size(16px, 20px, 600);
+
+    width: fit-content;
+
+    &_save {
+      min-width: 282px;
+    }
+
+    &_delete {
+      min-width: 152px;
+      color: $black-text;
+      background-color: transparent;
+      border: 1px solid $white-225;
+    }
+  }
 }

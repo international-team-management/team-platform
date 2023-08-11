@@ -2,6 +2,10 @@
 @import 'styles/constants';
 
 .profile {
+  &__section {
+    position: relative;
+  }
+
   &__section,
   &__section_header {
     @extend %flex-row;
