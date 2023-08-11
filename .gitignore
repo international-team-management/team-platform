@@ -304,5 +304,5 @@ dist
 */.DS_Store
 .DS_Store
 
-# Docker build
+# result build inside docker
 infra/frontend

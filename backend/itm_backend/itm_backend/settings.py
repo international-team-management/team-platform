@@ -5,6 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
+load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,6 +89,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "itm_backend.wsgi.application"
+
 
 DATABASES = {
     "default": {
