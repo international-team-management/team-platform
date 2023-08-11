@@ -64,6 +64,17 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
         validated_data["password"] = make_password(validated_data["password"])
         return super().create(validated_data)
 
+    def to_representation(self, instance):
+        """
+        Возвращает информацию о пользователе по ТЗ.
+        """
+        return {
+            "id": instance.id,
+            "email": instance.email,
+            "first_name": instance.first_name,
+            "last_name": instance.last_name
+        }
+
 
 class CustomUserSerializer(serializers.ModelSerializer):
     """
