@@ -48,7 +48,7 @@ class Task(models.Model):
         related_name="created_tasks",
     )
     priority = models.CharField(verbose_name="Приоритет задачи", choices=PriorityChoice.choices, max_length=20)
-    assigned_to = models.ManyToManyField(User, through='TaskUser', verbose_name="Участники задачи", blank=True)
+    assigned_to = models.ManyToManyField(User, through="TaskUser", verbose_name="Участники задачи", blank=True)
     tags = models.ManyToManyField(Tag, related_name="related_tasks", verbose_name="Тэги", blank=True)
     status = models.CharField(
         verbose_name="Статус задачи",

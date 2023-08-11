@@ -4,16 +4,25 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('projects', '0001_initial'),
+        ("projects", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='task',
-            name='priority',
-            field=models.CharField(choices=[('maximum', 'Максимальный'), ('average', 'Средний'), ('minimum', 'Минимальный'), ('urgent', 'Срочно')], default='maximum', max_length=20, verbose_name='Приоритет задачи'),
+            model_name="task",
+            name="priority",
+            field=models.CharField(
+                choices=[
+                    ("maximum", "Максимальный"),
+                    ("average", "Средний"),
+                    ("minimum", "Минимальный"),
+                    ("urgent", "Срочно"),
+                ],
+                default="maximum",
+                max_length=20,
+                verbose_name="Приоритет задачи",
+            ),
             preserve_default=False,
         ),
     ]

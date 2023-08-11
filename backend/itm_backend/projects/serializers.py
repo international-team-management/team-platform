@@ -1,15 +1,16 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
 from rest_framework.exceptions import ValidationError
-from .models import Task, TaskUser
+from django.shortcuts import get_object_or_404
+from users.models import User
+
+from .models import Task, TaskUser, Tag
 
 
 class TaskUserSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField()
-    task_id = serializers.IntegerField
 
     class Meta:
         model = TaskUser
-        fields = ('user_id', 'task_id')
+        fields = ("user_id",)
 
 
 class TaskCreateSerializer(serializers.ModelSerializer):
@@ -32,10 +33,23 @@ class TaskReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ('id', 'name', 'project', 'creator', 'priority', 'assigned_to', 'tags', 'status', 'description', 'deadline')
+        fields = (
+            "id",
+            "name",
+            "project",
+            "creator",
+            "priority",
+            "assigned_to",
+            "tags",
+            "status",
+            "description",
+            "deadline",
+        )
 
 
 class TaskAddSerializer(serializers.ModelSerializer):
+    assigned_to = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
+
     def validate_name(self, value):
         user = self.context["request"].user
         if Task.objects.filter(name=value, creator=user).exists():
@@ -43,9 +57,16 @@ class TaskAddSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        validated_data["creator"] = self.context["request"].user
-        return super().create(validated_data)
+        assigned_data = validated_data.pop('assigned_to')
+        tags = validated_data.pop('tags')
+        task = Task.objects.create(**validated_data)
+        task.tags.set(tags)
+
+        for user_id in assigned_data:
+            TaskUser.objects.create(task_id=task, user_id=user_id)
+
+        return task
 
     class Meta:
         model = Task
-        fields = ('name', 'project', 'priority', 'assigned_to', 'tags', 'status', 'description', 'deadline')
+        fields = ("id", "name", "project", "creator", "priority", "assigned_to", "tags", "status", "description", "deadline")
