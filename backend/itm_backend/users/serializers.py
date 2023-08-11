@@ -1,5 +1,8 @@
+import base64
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
+from django.core.files.base import ContentFile
 from rest_framework import serializers
 
 from .models import TimeZone
@@ -8,6 +11,21 @@ User = get_user_model()
 
 
 OFFSET_RANGE = (-12, 15)
+
+
+class Base64ImageField(serializers.ImageField):
+    """Сериализация и десериализация изображений в формат base64."""
+
+    def to_internal_value(self, data):
+        """Преобразует изображение в формате base64 в объект ContentFile Django."""
+
+        if isinstance(data, str) and data.startswith('data:image'):
+            format, imgstr = data.split(';base64,')
+            ext = format.split('/')[-1]
+
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+
+        return super().to_internal_value(data)
 
 
 class TimeZoneSerializer(serializers.HyperlinkedModelSerializer):
@@ -58,6 +76,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     """
 
     timezone = TimeZoneSerializer()
+    photo = Base64ImageField()
 
     class Meta:
         """
