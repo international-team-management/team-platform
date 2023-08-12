@@ -3,7 +3,7 @@ import base64
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
-from projects.models import Project, Tag, Task
+from projects.models import Project, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from users.models import TimeZone
@@ -22,11 +22,11 @@ class Base64ImageField(serializers.ImageField):
     def to_internal_value(self, data):
         """Преобразует изображение в формате base64 в объект ContentFile Django."""
 
-        if isinstance(data, str) and data.startswith('data:image'):
-            format, imgstr = data.split(';base64,')
-            ext = format.split('/')[-1]
+        if isinstance(data, str) and data.startswith("data:image"):
+            format, imgstr = data.split(";base64,")
+            ext = format.split("/")[-1]
 
-            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            data = ContentFile(base64.b64decode(imgstr), name="temp." + ext)
 
         return super().to_internal_value(data)
 
@@ -43,9 +43,7 @@ class TimeZoneSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate_offset(self, value):
         if value not in range(*OFFSET_RANGE):
-            raise serializers.ValidationError(
-                "Смещение от UTC должно лежать в диапазоне от -12 до +15 часов."
-            )
+            raise serializers.ValidationError("Смещение от UTC должно лежать в диапазоне от -12 до +15 часов.")
 
         return value
 
@@ -79,7 +77,7 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
             "id": instance.id,
             "email": instance.email,
             "first_name": instance.first_name,
-            "last_name": instance.last_name
+            "last_name": instance.last_name,
         }
 
 
@@ -129,13 +127,48 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return super().update(user, validated_data)
 
 
-class TagSerializer(serializers.ModelSerializer):
+class TaskGetSerializer(serializers.ModelSerializer):
+    creator = CustomUserSerializer(
+        read_only=True,
+    )
+    assigned_to = CustomUserSerializer(
+        many=True,
+        read_only=True,
+    )
+
     class Meta:
-        model = Tag
-        fields = [
+        model = Task
+        fields = (
             "id",
             "name",
-        ]
+            "creator",
+            "priority",
+            "assigned_to",
+            "status",
+            "description",
+            "deadline",
+        )
+
+
+class TaskPostSerializer(serializers.ModelSerializer):
+    assigned_to = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
+
+    def validate_name(self, value):
+        user = self.context["request"].user
+        if Task.objects.filter(name=value, creator=user).exists():
+            raise ValidationError(f"Задача с таким именем у пользователя '{user}' уже существует.")
+        return value
+
+    def create(self, validated_data):
+        assigned_data = validated_data.pop("assigned_to")
+        task = Task.objects.create(**validated_data)
+        for user_id in assigned_data:
+            TaskUser.objects.create(task_id=task, user_id=user_id)
+        return task
+
+    class Meta:
+        model = Task
+        fields = ("id", "name", "priority", "assigned_to", "status", "description", "deadline")
 
 
 class ProjectGetSerializer(serializers.ModelSerializer):
@@ -148,19 +181,13 @@ class ProjectGetSerializer(serializers.ModelSerializer):
     owner = CustomUserSerializer(
         read_only=True,
     )
-
-    participants = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
-        many=True,
-    )
-    tasks = serializers.PrimaryKeyRelatedField(
-        queryset=Task.objects.all(),
-        many=True,
-        required=True,
-    )
-    tags = TagSerializer(
+    participants = CustomUserSerializer(
         read_only=True,
         many=True,
+    )
+    tasks = TaskGetSerializer(
+        many=True,
+        read_only=True,
     )
 
     class Meta:
@@ -176,7 +203,6 @@ class ProjectGetSerializer(serializers.ModelSerializer):
             "deadline",
             "status",
             "priority",
-            "tags",
             "created_at",
             "updated_at",
         ]
@@ -196,11 +222,6 @@ class ProjectPostSerializer(serializers.ModelSerializer):
     tasks = serializers.PrimaryKeyRelatedField(
         queryset=Task.objects.all(),
         many=True,
-        required=True,
-    )
-    tags = serializers.PrimaryKeyRelatedField(
-        queryset=Tag.objects.all(),
-        many=True,
     )
 
     def validate_name(self, value):
@@ -209,11 +230,11 @@ class ProjectPostSerializer(serializers.ModelSerializer):
             raise ValidationError(f"Проект с таким именем у пользователя '{user}' уже существует.")
 
         return value
-        
+
     def create(self, validated_data):
         validated_data["owner"] = self.context["request"].user
         return super().create(validated_data)
-    
+
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
 
@@ -228,7 +249,6 @@ class ProjectPostSerializer(serializers.ModelSerializer):
             "deadline",
             "status",
             "priority",
-            "tags",
             "created_at",
             "updated_at",
         ]
