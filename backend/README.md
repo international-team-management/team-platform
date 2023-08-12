@@ -15,7 +15,7 @@ poetry shell
 
 poetry install --without test
 
-#### Для работы библиотеки pre-commit в папке backend/ выполнить команду:
+#### Для работы библиотеки pre-commit в папке 'backend/' выполнить команду:
 
 pre-commit install
 
