@@ -8,7 +8,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from users.models import TimeZone
 
-from .validators import validate_password
+from .validators import validate_offset, validate_password
 
 User = get_user_model()
 
@@ -25,9 +25,7 @@ class Base64ImageField(serializers.ImageField):
         if isinstance(data, str) and data.startswith("data:image"):
             format, imgstr = data.split(";base64,")
             ext = format.split("/")[-1]
-
             data = ContentFile(base64.b64decode(imgstr), name="temp." + ext)
-
         return super().to_internal_value(data)
 
 
@@ -37,15 +35,11 @@ class TimeZoneSerializer(serializers.HyperlinkedModelSerializer):
     Отображает информацию о часовом поясе в JSON-представлении.
     """
 
+    offset = serializers.IntegerField(validators=[validate_offset])
+
     class Meta:
         model = TimeZone
         fields = ["value", "label", "offset", "abbrev", "altName"]
-
-    def validate_offset(self, value):
-        if value not in range(*OFFSET_RANGE):
-            raise serializers.ValidationError("Смещение от UTC должно лежать в диапазоне от -12 до +15 часов.")
-
-        return value
 
 
 class CustomUserCreateSerializer(serializers.ModelSerializer):
@@ -100,7 +94,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         """
 
         model = User
-
         fields = [
             "id",
             "username",
@@ -123,7 +116,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
             timezone = validated_data.pop("timezone")
             current_timezone, status = TimeZone.objects.get_or_create(**timezone)
             user.timezone = current_timezone
-
         return super().update(user, validated_data)
 
 
@@ -228,7 +220,6 @@ class ProjectPostSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
         if Project.objects.filter(name=value, owner=user).exists():
             raise ValidationError(f"Проект с таким именем у пользователя '{user}' уже существует.")
-
         return value
 
     def create(self, validated_data):
