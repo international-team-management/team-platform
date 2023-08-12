@@ -1,23 +1,11 @@
 from django.contrib import admin
 
-from .models import Project, ProjectUser, Tag, Task, TaskUser
+from .models import Project, ProjectUser, Task, TaskUser
 
 
 class ProjectUserInline(admin.TabularInline):
     model = ProjectUser
     extra = 1
-
-
-class TagAdmin(admin.ModelAdmin):
-    """Отображение модели Tag в Админке."""
-
-    list_display = (
-        "pk",
-        "name",
-    )
-    list_editable = ("name",)
-    search_fields = ("name",)
-    empty_value_display = "-пусто-"
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -43,7 +31,6 @@ class ProjectAdmin(admin.ModelAdmin):
         "status",
         "priority",
     )
-    list_filter = ("tags",)
     search_fields = ("tasks",)
     inlines = (ProjectUserInline,)
     empty_value_display = "-пусто-"
@@ -91,7 +78,6 @@ class TaskAdmin(admin.ModelAdmin):
         "deadline",
         "status",
     )
-    list_filter = ("tags",)
     search_fields = ("tasks",)
     inlines = (TaskUserInline,)
     empty_value_display = "-пусто-"
@@ -114,7 +100,6 @@ class TaskUserAdmin(admin.ModelAdmin):
     list_filter = ("id", "user_id", "task_id")
 
 
-admin.site.register(Tag, TagAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(TaskUser, TaskUserAdmin)
