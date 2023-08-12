@@ -32,7 +32,7 @@ class User(AbstractUser):
     username = models.CharField("Логин", max_length=150, blank=True, unique=False)
 
     email = models.EmailField(verbose_name="адрес электронной почты", help_text="example@site.mail", unique=True)
-    password = models.CharField(max_length=150, verbose_name="Пароль", null=True)
+    password = models.CharField(max_length=150, verbose_name="Пароль")
     first_name = models.CharField(
         verbose_name="Имя",
         help_text="Иван",
