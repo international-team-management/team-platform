@@ -27,11 +27,3 @@ repos:
     hooks:
     -   id: flake8
         args: [--config, backend/setup.cfg]
-
-exclude: |
-    (?x)^backend/itm_backend/(
-
-        api/.*|
-        users/tests.py|
-        users/views.py
-    )$
