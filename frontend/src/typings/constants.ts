@@ -19,4 +19,5 @@ export enum InputName {
   WORK_START = 'work_start',
   WORK_FINISH = 'work_finish',
   TELEPHONE = 'telephone_number',
+  PROJECT_TITLE = 'project_title',
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './KanbanPage.module.scss';
 import { Sidebar } from 'src/components/sidebar/Sidebar';
 import {
@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { projects } from 'src/utils/constants temporary/constant_temp';
 import { useNavigate } from 'react-router-dom';
 import { getProjectInfoAPI, useCreateProject } from 'src/utils/createProject';
+import { ProjectSidebar } from 'src/components/project-sidebar/ProjectSidebar';
 
 export const KanbanPage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ export const KanbanPage: React.FC = () => {
 
   const params = useParams();
   const [currentProject, setCurrentProject, createProject] = useCreateProject();
+
+  const [isProjectSidebar, setIsProjectSidebar] = useState(true);
 
   useEffect(() => {
     if (!params.id) {
@@ -28,14 +31,31 @@ export const KanbanPage: React.FC = () => {
     });
   }, [params, navigate, setCurrentProject]);
 
+  const closeAllSidebars = () => {
+    setIsProjectSidebar(false);
+    console.log('closeAllSidebars');
+  };
+
+  const showProjectActions = () => {
+    console.log('showProjectActions');
+  };
+
   return (
-    <section className={styles.kanban}>
-      <Sidebar createProject={createProject} />
-      <div className={styles['kanban__main-content']}>
-        <HeaderTemplate state={state} title={currentProject.name} />
-        <KanbanTable columns={currentProject.columns} />
-      </div>
-    </section>
+    <>
+      <section className={styles.kanban}>
+        <Sidebar createProject={createProject} />
+        <div className={styles['kanban__main-content']}>
+          <HeaderTemplate state={state} title={currentProject.name} />
+          <KanbanTable columns={currentProject.columns} />
+        </div>
+      </section>
+
+      <ProjectSidebar
+        isOpened={isProjectSidebar}
+        close={closeAllSidebars}
+        showActions={showProjectActions}
+      />
+    </>
   );
 };
 
