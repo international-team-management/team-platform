@@ -2,18 +2,18 @@ import { InputName, InputType } from 'src/typings/constants';
 import styles from './UserAvatarUpload.module.scss';
 import React from 'react';
 import { AvatarIcon } from '../avatar-icon/AvatarIcon';
+import { encodeBase64 } from 'src/utils/encodeBase64';
+import { authThunks } from 'src/services/slices/authSlice';
+import { useDispatch } from 'src/services/hooks';
 
 export const UserAvatarUpload = (): JSX.Element => {
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const { name, files } = event.currentTarget;
+  const dispatch = useDispatch();
 
-    console.log(name, files);
+  const handleChange = async (event: React.FormEvent<HTMLInputElement>) => {
+    const avatar = await encodeBase64(event);
 
-    if (files?.length === 1) {
-      const newAvatar = files[0];
-      console.log(newAvatar.name);
-      const formData = new FormData();
-      formData.append(InputName.PHOTO, newAvatar, newAvatar.name);
+    if (typeof avatar === 'string') {
+      dispatch(authThunks.patchMe({ [InputName.PHOTO]: avatar }));
     }
   };
 
