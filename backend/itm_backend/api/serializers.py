@@ -22,11 +22,11 @@ class Base64ImageField(serializers.ImageField):
     def to_internal_value(self, data):
         """Преобразует изображение в формате base64 в объект ContentFile Django."""
 
-        if isinstance(data, str) and data.startswith('data:image'):
-            format, imgstr = data.split(';base64,')
-            ext = format.split('/')[-1]
+        if isinstance(data, str) and data.startswith("data:image"):
+            format, imgstr = data.split(";base64,")
+            ext = format.split("/")[-1]
 
-            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            data = ContentFile(base64.b64decode(imgstr), name="temp." + ext)
 
         return super().to_internal_value(data)
 
@@ -43,9 +43,7 @@ class TimeZoneSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate_offset(self, value):
         if value not in range(*OFFSET_RANGE):
-            raise serializers.ValidationError(
-                "Смещение от UTC должно лежать в диапазоне от -12 до +15 часов."
-            )
+            raise serializers.ValidationError("Смещение от UTC должно лежать в диапазоне от -12 до +15 часов.")
 
         return value
 
@@ -79,7 +77,7 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
             "id": instance.id,
             "email": instance.email,
             "first_name": instance.first_name,
-            "last_name": instance.last_name
+            "last_name": instance.last_name,
         }
 
 
@@ -209,11 +207,11 @@ class ProjectPostSerializer(serializers.ModelSerializer):
             raise ValidationError(f"Проект с таким именем у пользователя '{user}' уже существует.")
 
         return value
-        
+
     def create(self, validated_data):
         validated_data["owner"] = self.context["request"].user
         return super().create(validated_data)
-    
+
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
 

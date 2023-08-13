@@ -169,3 +169,6 @@ class ProjectUser(models.Model):
         )
         verbose_name = "Участник Проекта"
         verbose_name_plural = "Участники Проекта"
+
+    def __str__(self):
+        return f"{self.user_id} - {self.project_id}"

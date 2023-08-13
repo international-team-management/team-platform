@@ -19,6 +19,10 @@ poetry install --without test
 
 pre-commit install
 
+#### Чтобы проверить проект на соблюдение "Coding style" для Django при внесении изменений в код нужно выполнить в папке 'backend/' команду:
+
+flake8
+
 ### Прочее
 
 
