@@ -10,7 +10,7 @@ on:
 
 jobs:
   tests:
-    name: Tests with pre-commit
+    name: Tests - pre-commit, pytest
     runs-on: ubuntu-22.04
 
     steps:
