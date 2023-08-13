@@ -256,3 +256,18 @@ class ProjectPostSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    """Сериализатор для отображения команды проекта."""
+
+    total_members = serializers.SerializerMethodField()
+    members = CustomUserSerializer(source="participants", read_only=True, many=True)
+
+    class Meta:
+        model = Project
+        fields = ["total_members", "members"]
+
+    def get_total_members(self, obj):
+        """Возвращает количество участников команды."""
+        return obj.participants.count()
