@@ -8,6 +8,12 @@ COPY poetry.lock pyproject.toml ./
 
 RUN poetry config virtualenvs.create false && poetry install --without test --no-interaction --no-ansi
 
-COPY ./itm_backend/ /backend
+COPY itm_backend/ /backend
 
-CMD ["python3", "manage.py", "runserver", "0:8000"]
+# local_version
+# CMD ["python3", "manage.py", "runserver", "0:8000"]
+
+# server_version
+CMD ["gunicorn", "itm_backend.wsgi:application", "--bind", "0:8000" ]
+
+LABEL author='team-platform' version='server-smoketest v1.0' broken_keyboards=1

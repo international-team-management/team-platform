@@ -5,7 +5,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
-load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +15,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost").split(",")
+# local_version
+# CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost").split(",")
+
+# server_version
+CORS_ALLOWED_ORIGINS = []
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -91,14 +94,28 @@ TEMPLATES = [
 WSGI_APPLICATION = "itm_backend.wsgi.application"
 
 
+# local_version
+# DATABASES = {
+#     "default": {
+#         "ENGINE": os.getenv("DB_ENGINE", default="django.db.backends.sqlite3"),
+#         "NAME": os.getenv("POSTGRES_DB", default=(BASE_DIR / "db.sqlite3")),
+#         "USER": os.getenv("POSTGRES_USER", default="postgres"),
+#         "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="postgres"),
+#         "HOST": os.getenv("DB_HOST", default="localhost"),
+#         "PORT": os.getenv("DB_PORT", default=5432),
+#     }
+# }
+
+# server_version
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DB_ENGINE", default="django.db.backends.sqlite3"),
-        "NAME": os.getenv("POSTGRES_DB", default=(BASE_DIR / "db.sqlite3")),
+        "ENGINE": os.getenv("DB_ENGINE", default="django.db.backends.postgresql"),
+        "NAME": os.getenv("POSTGRES_DB", default="postgres"),
         "USER": os.getenv("POSTGRES_USER", default="postgres"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="postgres"),
-        "HOST": os.getenv("DB_HOST", default="localhost"),
-        "PORT": os.getenv("DB_PORT", default=5432),
+        "HOST": os.getenv("DB_HOST", default="db"),
+        "PORT": os.getenv("DB_PORT", default="5432"),
+        "OPTIONS": {"options": "-c timezone=UTC"},
     }
 }
 
