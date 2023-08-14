@@ -136,7 +136,7 @@ jobs:
             sudo docker exec itm_backend bash -c "python manage.py migrate"
             sudo docker exec itm_backend bash -c "python manage.py collectstatic --noinput"
 
-            sudo docker image prune -af
+#            sudo docker image prune -af
 
   send_message:
     name: Send message to Telegram
