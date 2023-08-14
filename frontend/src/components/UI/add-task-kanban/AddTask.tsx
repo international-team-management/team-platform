@@ -1,15 +1,15 @@
 import styles from './AddTask.module.scss';
 import { ReactComponent as PlusTask } from 'assets/plus.svg';
-import { BoardItem } from 'src/components/kanban-column/Kanban';
+import { ColumnItem } from 'src/components/kanban-table/KanbanTable';
 
 type AddTaskProps = {
-  board: BoardItem;
+  column: ColumnItem;
 };
 
-export const AddTask = ({ board }: AddTaskProps) => {
+export const AddTask = ({ column }: AddTaskProps) => {
   return (
     <>
-      {board.title !== 'In Review' && board.title !== 'Done' ? (
+      {column.title !== 'In Review' && column.title !== 'Done' ? (
         <div className={styles.task}>
           <button className={styles.task__wrapper}>
             <PlusTask className={styles.task__button} />
