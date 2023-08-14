@@ -2,6 +2,8 @@ import re
 
 from django.core.exceptions import ValidationError
 
+OFFSET_RANGE = (-12, 15)
+
 
 def validate_password(value):
     """
@@ -48,4 +50,10 @@ def validate_first_last_names(value):
         )
     if message:
         raise ValidationError(message)
+    return value
+
+
+def validate_offset(value):
+    if value not in range(*OFFSET_RANGE):
+        raise ValidationError("Смещение от UTC должно лежать в диапазоне от -12 до +14 часов.")
     return value

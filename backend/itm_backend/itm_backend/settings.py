@@ -16,7 +16,10 @@ DEBUG = True
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 
-CORS_ALLOWED_ORIGINS = ("http://localhost", "http://localhost:5173", "http://localhost:8000")
+CORS_ALLOWED_ORIGINS = (
+    "http://localhost",
+    "http://127.0.0.1",
+)
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -153,7 +156,6 @@ DJOSER = {
         "user_create": "api.serializers.CustomUserCreateSerializer",
         "user": "api.serializers.CustomUserSerializer",
         "current_user": "api.serializers.CustomUserSerializer",
-        # 'set_password': 'djoser.serializers.SetPasswordSerializer',
     },
     "PERMISSIONS": {
         "user": ["rest_framework.permissions.IsAuthenticated"],
