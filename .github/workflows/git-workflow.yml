@@ -6,7 +6,7 @@ on:
   #   branches: [ backend-frontend-smoketest ]
   # Запуск при любом push-действии в ветку backend-frontend-smoketest
   push:
-    branches: [ backend-frontend-smoketest ]
+    branches: [ backend-frontend-smoketest-server-edit ]
 
 jobs:
 #  tests:
