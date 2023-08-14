@@ -130,11 +130,15 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+            echo DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }} >> .env
 
             sudo docker-compose up -d
             sudo docker exec itm_backend bash -c "poetry install"
             sudo docker exec itm_backend bash -c "python manage.py migrate"
             sudo docker exec itm_backend bash -c "python manage.py collectstatic --noinput"
+            sudo docker exec itm_backend bash -c "python manage.py createsuperuser --noinput --username=admin --email=admin@yandex.com"
+            
+            sudo docker image prune -af
 
   send_message:
     name: Send message to Telegram
