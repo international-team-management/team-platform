@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from .models import TimeZone, User
+from users.models import TimeZone, User
 
 
 class UserAdmin(admin.ModelAdmin):

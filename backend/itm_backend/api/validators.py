@@ -30,6 +30,29 @@ def validate_password(value):
     return value
 
 
+def validate_first_last_names(value):
+    """
+    Проверяет, что имя и фамилия пользователя соответствуют правилам:
+    - Алфавит латинский/кириллица, строчные или заглавные буквы
+    - Длина от 1 до 30 символов
+    - Разрешены цифры, пробелы, дефисы и тире
+    - Пробелы в начале и конце строки автоматически удаляются
+    """
+    value = value.strip()
+    message = ""
+    if len(value) > 30:
+        message += "Имя и фамилия пользователя должны быть от 1 до 30 символов. "
+    pattern = r"^[A-Za-zА-Яа-я0-9\s\-—]+$"
+    if not re.match(pattern, value):
+        message += (
+            "Имя или фамилия пользователя содержат недопустимые символы. "
+            "Они могут содержать только буквы, цифры, пробелы и дефисы или тире."
+        )
+    if message:
+        raise ValidationError(message)
+    return value
+
+
 def validate_offset(value):
     if value not in range(*OFFSET_RANGE):
         raise ValidationError("Смещение от UTC должно лежать в диапазоне от -12 до +14 часов.")

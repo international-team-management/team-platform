@@ -520,6 +520,20 @@ pycodestyle = ">=2.11.0,<2.12.0"
 pyflakes = ">=3.1.0,<3.2.0"
 
 [[package]]
+name = "flake8-django"
+version = "1.4"
+description = "Plugin to catch bad style specific to Django Projects."
+optional = false
+python-versions = ">=3.7.2,<4.0.0"
+files = [
+    {file = "flake8_django-1.4.tar.gz", hash = "sha256:4debba883084191568e3187416d1d6bdd4abd826da988f197a3c36572e9f30de"},
+]
+
+[package.dependencies]
+astroid = ">=2.15.2,<3.0.0"
+flake8 = ">=3.8.4,<7"
+
+[[package]]
 name = "gunicorn"
 version = "21.2.0"
 description = "WSGI HTTP Server for UNIX"
@@ -1604,4 +1618,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "b193e4f20d96dcddcd9eeb39ad089f075068de8b5c376ecd40380699191cebaf"
+content-hash = "02d800a77af6c6961fe88dc33cdc07b9148e82c679650130397556318de47949"

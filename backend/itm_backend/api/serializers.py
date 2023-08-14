@@ -8,7 +8,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from users.models import TimeZone
 
-from .validators import validate_offset, validate_password
+from .validators import validate_offset, validate_first_last_names, validate_password
 
 User = get_user_model()
 
@@ -51,6 +51,8 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
     """
 
     password = serializers.CharField(validators=[validate_password])
+    first_name = serializers.CharField(validators=[validate_first_last_names])
+    last_name = serializers.CharField(validators=[validate_first_last_names])
 
     class Meta:
         model = User
@@ -87,6 +89,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     timezone = TimeZoneSerializer()
     photo = Base64ImageField()
+    first_name = serializers.CharField(validators=[validate_first_last_names])
+    last_name = serializers.CharField(validators=[validate_first_last_names])
 
     class Meta:
         """
