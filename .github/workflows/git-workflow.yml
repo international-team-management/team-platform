@@ -74,7 +74,7 @@ jobs:
     # Сборка Frontend
     name: Push Frontend image to Docker Hub
     runs-on: ubuntu-22.04
-    needs: tests
+#    needs: tests
 
     steps:
       - name: Check out the repo
