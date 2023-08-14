@@ -3,6 +3,7 @@ export enum InputType {
   PASSWORD = 'password',
   EMAIL = 'email',
   SELECT = 'select',
+  FILE = 'file',
 }
 
 export enum InputName {
@@ -19,4 +20,5 @@ export enum InputName {
   WORK_START = 'work_start',
   WORK_FINISH = 'work_finish',
   TELEPHONE = 'telephone_number',
+  PHOTO = 'photo',
 }
