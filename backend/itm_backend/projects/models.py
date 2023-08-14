@@ -33,7 +33,13 @@ class Task(models.Model):
         in_review = "In review", _("На рассмотрении")
         done = "Done", _("Завершено")
 
-    project = models.ForeignKey("Project", verbose_name="Проект", on_delete=models.CASCADE, related_name="task")
+    class PriorityChoice(models.TextChoices):
+        maximum = "maximum", _("Максимальный")
+        average = "average", _("Средний")
+        minimum = "minimum", _("Минимальный")
+        urgent = "urgent", _("Срочно")
+
+    task_project = models.ForeignKey("Project", verbose_name="Проект", on_delete=models.CASCADE, related_name="tasks")
     creator = models.ForeignKey(
         User,
         verbose_name="Создатель",
@@ -41,8 +47,15 @@ class Task(models.Model):
         on_delete=models.PROTECT,
         related_name="created_tasks",
     )
-    assigned_to = models.ManyToManyField(User, verbose_name="Участники задачи", blank=True)
-    tags = models.ManyToManyField(Tag, related_name="related_tasks", verbose_name="Тэги", blank=True)
+    priority = models.CharField(
+        verbose_name="Приоритет задачи", choices=PriorityChoice.choices, max_length=20, default=PriorityChoice.minimum
+    )
+    assigned_to = models.ManyToManyField(
+        User,
+        through="TaskUser",
+        verbose_name="Участники задачи",
+        blank=True,
+    )
     status = models.CharField(
         verbose_name="Статус задачи",
         choices=StatusChoice.choices,
@@ -121,8 +134,8 @@ class Project(models.Model):
         verbose_name="Автор Проекта",
     )
     participants = models.ManyToManyField(User, through="ProjectUser", verbose_name="Участники проекта", blank=True)
-    tasks = models.ManyToManyField(Task, related_name="projects", verbose_name="Задачи проекта", blank=True)
-    start = models.DateField(verbose_name="Дата начала проекта", default=timezone.now)
+    project_tasks = models.ManyToManyField(Task, related_name="project", verbose_name="Задачи проекта", blank=True)
+    start = models.DateField(verbose_name="Дата начала проекта", default=timezone.now().date())
     deadline = models.DateField(verbose_name="Дата окончания проекта")
     status = models.CharField(
         verbose_name="Статус проекта",
@@ -131,7 +144,6 @@ class Project(models.Model):
         max_length=20,
     )
     priority = models.CharField(verbose_name="Приоритет проекта", choices=PriorityChoice.choices, max_length=20)
-    tags = models.ManyToManyField(Tag, related_name="projects", verbose_name="Тэги", blank=True)
     created_at = models.DateTimeField(verbose_name="Дата регистрации проекта", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="Дата обновления проекта", auto_now=True)
 

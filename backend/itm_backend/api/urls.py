@@ -6,10 +6,11 @@ from drf_spectacular.views import (
 )
 from rest_framework.routers import SimpleRouter
 
-from .views import ProjectViewSet
+from .views import ProjectViewSet, TaskViewSet
 
 router = SimpleRouter()
 router.register("projects", ProjectViewSet)
+router.register(r"projects/(?P<projects_id>\d+)/tasks", TaskViewSet)
 
 urlpatterns = [
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
