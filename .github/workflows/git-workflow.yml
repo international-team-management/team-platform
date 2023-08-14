@@ -137,7 +137,7 @@ jobs:
             sudo docker exec itm_backend bash -c "python manage.py migrate"
             sudo docker exec itm_backend bash -c "python manage.py collectstatic --noinput"
             sudo docker exec itm_backend bash -c "python manage.py createsuperuser --noinput --username=admin --email=admin@yandex.com"
-            
+
             sudo docker image prune -af
 
   send_message:
