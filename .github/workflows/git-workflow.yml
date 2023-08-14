@@ -136,10 +136,20 @@ jobs:
             sudo docker exec itm_backend bash -c "python manage.py migrate"
             sudo docker exec itm_backend bash -c "python manage.py collectstatic --noinput"
 
+            touch .env.create_superuser
+            echo "DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}" > .env.create_superuser
+            echo "DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}" >> .env.create_superuser
+            echo "DJANGO_SUPERUSER_FIRST_NAME=${{ secrets.DJANGO_SUPERUSER_FIRST_NAME }}" >> .env.create_superuser
+            echo "DJANGO_SUPERUSER_LAST_NAME=${{ secrets.DJANGO_SUPERUSER_LAST_NAME }}" >> .env.create_superuser
+
+            sudo docker exec itm_backend bash -c "source .env.create_superuser && python manage.py createsuperuser --noinput"
+            rm .env.create_superuser
+
             sudo docker image prune -af
 
       - name: Create Superuser
         run: |
+          touch .env.create_superuser
           echo "DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}" > .env.create_superuser
           echo "DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}" >> .env.create_superuser
           echo "DJANGO_SUPERUSER_FIRST_NAME=${{ secrets.DJANGO_SUPERUSER_FIRST_NAME }}" >> .env.create_superuser
