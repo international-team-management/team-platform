@@ -148,6 +148,7 @@ class TaskGetSerializer(serializers.ModelSerializer):
 
 class TaskPostSerializer(serializers.ModelSerializer):
     assigned_to = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
+    task_project = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def validate_name(self, value):
         user = self.context["request"].user
@@ -164,7 +165,7 @@ class TaskPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ("id", "name", "priority", "assigned_to", "status", "description", "deadline")
+        fields = ("id", "name", "priority", "assigned_to", "status", "task_project", "description", "deadline")
 
 
 class ProjectGetSerializer(serializers.ModelSerializer):
