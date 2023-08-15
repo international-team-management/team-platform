@@ -35,7 +35,7 @@
   &__menu {
     overflow: hidden;
 
-    width: 400px;
+    min-width: 134px;
     height: fit-content;
     max-height: 276px;
     margin-top: 12px;
@@ -45,14 +45,14 @@
     border: 1px solid $grey-230;
     border-radius: 16px;
     box-shadow: 0 5px 50px 5px $blue-0;
-  }
 
-  &__menu-list {
-    height: fit-content;
-    max-height: 260px;
+    &-list {
+      height: fit-content;
+      max-height: 260px;
 
-    &::-webkit-scrollbar {
-      width: 0;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
     }
   }
 

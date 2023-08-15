@@ -72,7 +72,7 @@ export const ProjectSidebar = ({
 
         <Select
           name={InputName.PROJECT_PRIORITY}
-          label={'Приортет'}
+          label={'Приоритет'}
           options={PRIORITY_OPTIONS}
           value={null}
           handleChange={handleSelectSubmit}
