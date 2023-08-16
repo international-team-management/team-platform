@@ -48,7 +48,10 @@ class Task(models.Model):
         related_name="created_tasks",
     )
     priority = models.CharField(
-        verbose_name="Приоритет задачи", choices=PriorityChoice.choices, max_length=20, default=PriorityChoice.minimum
+        verbose_name="Приоритет задачи",
+        choices=PriorityChoice.choices,
+        max_length=20,
+        default=PriorityChoice.minimum,
     )
     assigned_to = models.ManyToManyField(
         User,
@@ -153,6 +156,11 @@ class Project(models.Model):
 
     def __str__(self):
         return f"{self.name}, {self.description[::35]}"
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            super().save(*args, **kwargs)
+            self.participants.add(self.owner)
 
 
 class ProjectUser(models.Model):

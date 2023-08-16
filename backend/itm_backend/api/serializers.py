@@ -164,7 +164,15 @@ class TaskPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ("id", "name", "priority", "assigned_to", "status", "description", "deadline")
+        fields = (
+            "id",
+            "name",
+            "priority",
+            "assigned_to",
+            "status",
+            "description",
+            "deadline",
+        )
 
 
 class ProjectGetSerializer(serializers.ModelSerializer):
@@ -227,10 +235,19 @@ class ProjectPostSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        validated_data["owner"] = self.context["request"].user
+        owner = self.context["request"].user
+        validated_data["owner"] = owner
+        validated_data["participants"] += [owner]
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
+        participants = validated_data.get("participants")
+        owner = instance.owner
+        if owner not in participants:
+            participants.append(owner)
+
+        validated_data["participants"] = participants
+
         return super().update(instance, validated_data)
 
     class Meta:
