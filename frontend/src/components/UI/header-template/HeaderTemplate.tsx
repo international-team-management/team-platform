@@ -14,20 +14,23 @@ import {
   selectAuthIsLoading,
   selectAuthError,
 } from 'src/services/slices/authSlice';
+import { NavLink, useParams } from 'react-router-dom';
+import { selectCurrentProject } from 'src/services/slices/projectSlice';
 
 export enum HeaderState {
   PROFILE = 'PROFILE',
   KANBAN = 'KANBAN',
 }
 
-const VIEWS = {
-  KANBAN: 'button-kanban',
-  LIST: 'button-list',
-};
+export enum VIEWS {
+  KANBAN = 'button-kanban',
+  LIST = 'button-list',
+  TEAM = 'button-team',
+}
 
 interface HeaderTemplateProps {
   state: HeaderState;
-  title: string;
+  view: VIEWS;
 }
 
 const users = [
@@ -37,11 +40,14 @@ const users = [
 
 export const HeaderTemplate: React.FC<HeaderTemplateProps> = ({
   state,
-  title,
+  view,
 }) => {
   const isAuthApiLoading = useSelector(selectAuthIsLoading);
   const isAuthApiError = useSelector(selectAuthError);
   const [profileInfo, setProfileInfo] = useState<string>('');
+  const params = useParams();
+
+  const projectTitle = useSelector(selectCurrentProject);
 
   useEffect(() => {
     const showMessage = (message: string, duration: number): Promise<void> => {
@@ -61,18 +67,9 @@ export const HeaderTemplate: React.FC<HeaderTemplateProps> = ({
     }
   }, [isAuthApiLoading, isAuthApiError]);
 
-  const [activeView, setActiveView] = useState(VIEWS.KANBAN);
-
-  const handlerChangeView = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    const current = e.currentTarget as HTMLElement;
-    setActiveView(current.id);
-  };
-
   return (
     <section className={styles.header}>
-      <h1 className={styles.header__title}>{title}</h1>
+      <h1 className={styles.header__title}>{projectTitle.name}</h1>
 
       {state === HeaderState.PROFILE && (
         <p className={styles['header__changes-status']}>{profileInfo}</p>
@@ -82,14 +79,13 @@ export const HeaderTemplate: React.FC<HeaderTemplateProps> = ({
         <div className={styles['header__project-menu']}>
           <div className={styles['header__project-buttons']}>
             <div className={styles['header__button-wrapper']}>
-              <button
+              <NavLink
+                to={`/${params.id}`}
                 className={clsx(
                   styles['header__button-area'],
-                  activeView === VIEWS.KANBAN &&
-                    styles['header__button-area_active'],
+                  view === VIEWS.KANBAN && styles['header__button-area_active'],
                 )}
                 id={VIEWS.KANBAN}
-                onClick={(e) => handlerChangeView(e)}
               >
                 <KanbanIcon className={styles['header__switch-icon']} />
                 <div
@@ -97,24 +93,33 @@ export const HeaderTemplate: React.FC<HeaderTemplateProps> = ({
                 >
                   Канбан
                 </div>
-              </button>
+              </NavLink>
             </div>
             <div className={styles['header__button-wrapper']}>
               <button
                 className={clsx(
                   styles['header__button-area'],
-                  activeView === VIEWS.LIST &&
-                    styles['header__button-area_active'],
+                  view === VIEWS.LIST && styles['header__button-area_active'],
                 )}
                 id={VIEWS.LIST}
-                onClick={(e) => handlerChangeView(e)}
               >
                 <ListIcon className={styles['header__switch-icon']} />
                 <div className={styles['header__switch-button']}>Список</div>
               </button>
             </div>
           </div>
-          <UserAvatar users={users} />
+          <div className={styles['header__button-wrapper']}>
+            <NavLink
+              className={clsx(
+                styles['header__button-area'],
+                view === VIEWS.TEAM && styles['header__button-area_active'],
+              )}
+              to={`/${params.id}/team`}
+              id={VIEWS.TEAM}
+            >
+              <UserAvatar users={users} />
+            </NavLink>
+          </div>
         </div>
       )}
 

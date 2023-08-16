@@ -1,0 +1,7 @@
+@import 'styles/constants';
+
+.team {
+  &__main-content {
+    @extend %main-content-size;
+  }
+}

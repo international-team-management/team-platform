@@ -11,6 +11,9 @@ export const routes = {
   'sign-up': {
     path: '/sign-up',
   },
+  team: {
+    path: '/:id/team',
+  },
   profile: {
     path: '/profile',
   },
