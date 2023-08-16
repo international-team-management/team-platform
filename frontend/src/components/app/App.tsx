@@ -8,6 +8,7 @@ import { SignUpPage } from 'pages/SignUpPage/SignUpPage';
 import { useDispatch, useSelector } from 'src/services/hooks';
 import { authThunks, selectUserMe } from 'src/services/slices/authSlice';
 import { KanbanPage } from 'pages/KanbanPage/KanbanPage';
+import { TeamPage } from 'src/pages/TeamPage/TeamPage';
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export const App: React.FC = () => {
       <Route element={<ProtectedRoute />}>
         <Route path={routes['profile'].path} element={<ProfilePage />} />
         <Route path={routes['canban'].path} element={<KanbanPage />} />
+        <Route path={routes['team'].path} element={<TeamPage />} />
       </Route>
 
       {/* 404 */}

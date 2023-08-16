@@ -1,42 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './KanbanPage.module.scss';
 import { Sidebar } from 'src/components/sidebar/Sidebar';
 import {
   HeaderTemplate,
   HeaderState,
+  VIEWS,
 } from 'components/UI/header-template/HeaderTemplate';
 import { KanbanTable } from 'src/components/kanban-table/KanbanTable';
-import { useParams } from 'react-router-dom';
-import { projects } from 'src/utils/constants temporary/constant_temp';
-import { useNavigate } from 'react-router-dom';
-import { getProjectInfoAPI, useCreateProject } from 'src/utils/createProject';
+import { useSelector } from 'src/services/hooks';
+import { selectCurrentProject } from 'src/services/slices/projectSlice';
 
-export const KanbanPage: React.FC = () => {
-  const navigate = useNavigate();
+export const KanbanPage = (): JSX.Element => {
   const state = HeaderState.KANBAN;
-
-  const params = useParams();
-  const [currentProject, setCurrentProject, createProject] = useCreateProject();
-
-  useEffect(() => {
-    if (!params.id) {
-      return navigate(`/${projects[0].id}`);
-    }
-
-    getProjectInfoAPI(Number(params.id)).then((projectInfo) => {
-      setCurrentProject(projectInfo);
-    });
-  }, [params, navigate, setCurrentProject]);
+  const currentProject = useSelector(selectCurrentProject);
 
   return (
     <section className={styles.kanban}>
-      <Sidebar createProject={createProject} />
+      <Sidebar />
       <div className={styles['kanban__main-content']}>
-        <HeaderTemplate state={state} title={currentProject.name} />
-        <KanbanTable columns={currentProject.columns} />
+        <HeaderTemplate state={state} view={VIEWS.KANBAN} />
+        <KanbanTable columns={currentProject.column} />
       </div>
     </section>
   );
 };
-
-// Временное решение пока нет backend

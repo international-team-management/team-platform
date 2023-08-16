@@ -17,6 +17,14 @@
   white-space: nowrap;
 }
 
+%main-content-size {
+  @extend %flex-column;
+
+  width: 100%;
+  max-width: 1200px;
+  margin-left: 240px;
+}
+
 %smooth-visibility-hidden {
   visibility: hidden;
   opacity: 0;
@@ -43,7 +51,7 @@
 }
 
 // Constants
-$i: !important;
+$i:  !important;
 
 // UI
 $ui-width: 340px;

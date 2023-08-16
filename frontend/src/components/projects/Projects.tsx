@@ -3,19 +3,24 @@ import clsx from 'clsx';
 import style from './Projects.module.scss';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as ProjectIcon } from 'assets/project-icon.svg';
+import {
+  selectProjectInfo,
+  setCurrent,
+} from 'src/services/slices/projectSlice';
+import { useDispatch, useSelector } from 'src/services/hooks';
 
-type project = {
-  id: number;
-  name: string;
-};
+export const Projects = (): JSX.Element => {
+  const projectsArr = useSelector(selectProjectInfo);
+  const dispatch = useDispatch();
 
-type ProjectsProps = {
-  projects: project[];
-};
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const arr = e.currentTarget.id.split('-');
+    const id = arr[0];
+    dispatch(setCurrent(Number(id)));
+  };
 
-export const Projects: React.FC<ProjectsProps> = (props) => {
   function renderProjects(): React.ReactNode[] {
-    return props.projects.map((project) => {
+    return projectsArr.map((project) => {
       return (
         <li key={project.id}>
           <NavLink
@@ -23,6 +28,8 @@ export const Projects: React.FC<ProjectsProps> = (props) => {
             className={({ isActive }) =>
               clsx(style.projects__nav, isActive && style.projects__nav_active)
             }
+            onClick={(e) => handleClick(e)}
+            id={`${project.id}-project`}
           >
             <ProjectIcon className={style.projects__icon} />
             <span className={style.projects__name}>{project.name}</span>
