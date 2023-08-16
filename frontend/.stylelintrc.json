@@ -3,6 +3,19 @@
   "plugins": ["stylelint-order", "stylelint-scss"],
   "ignoreFiles": ["node_modules/*"],
   "rules": {
-    "selector-class-pattern": null
+    "selector-class-pattern": null,
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreSelectors": [":export"]
+      }
+    ],
+    "property-case": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["export"]
+      }
+    ]
   }
 }
