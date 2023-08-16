@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './KanbanPage.module.scss';
 import { Sidebar } from 'src/components/sidebar/Sidebar';
 import {
