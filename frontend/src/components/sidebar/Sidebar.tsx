@@ -4,14 +4,22 @@ import { Account } from '../account/Account';
 import { Projects } from '../projects/Projects';
 import { useDispatch, useSelector } from 'src/services/hooks';
 import { selectUserMe } from 'src/services/slices/authSlice';
-import { addProject } from 'src/services/slices/projectSlice';
+import {
+  addProject,
+  selectProjectInfo,
+  setCurrent,
+} from 'src/services/slices/projectSlice';
 
 export const Sidebar = (): JSX.Element => {
   const userMe = useSelector(selectUserMe);
+  const projectList = useSelector(selectProjectInfo);
   const dispatch = useDispatch();
 
   const createNewProject = () => {
+    const count = projectList.length;
+
     dispatch(addProject());
+    dispatch(setCurrent(count + 1));
   };
 
   return (
