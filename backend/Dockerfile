@@ -14,6 +14,7 @@ COPY itm_backend/ /backend
 # CMD ["python3", "manage.py", "runserver", "0:8000"]
 
 # server_version
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["gunicorn", "itm_backend.wsgi:application", "--bind", "0:8000" ]
 
 LABEL author='team-platform' version='server-smoketest v1.0' broken_keyboards=1

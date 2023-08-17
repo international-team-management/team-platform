@@ -131,10 +131,12 @@ jobs:
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
 
+            sudo docker exec itm_backend chmod +x entrypoint.sh
+
             sudo docker-compose up -d
-            sudo docker exec itm_backend bash -c "poetry install"
-            sudo docker exec itm_backend bash -c "python manage.py migrate"
-            sudo docker exec itm_backend bash -c "python manage.py collectstatic --noinput"
+#            sudo docker exec itm_backend bash -c "poetry install"
+#            sudo docker exec itm_backend bash -c "python manage.py migrate"
+#            sudo docker exec itm_backend bash -c "python manage.py collectstatic --noinput"
 
 #            sudo docker image prune -af
 
