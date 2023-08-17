@@ -12,6 +12,7 @@ import { RightSidebarDescriptionTemplate as Description } from '../UI/right-side
 import { useForm } from 'react-hook-form';
 import { SingleValue } from 'react-select';
 import { InputName } from 'src/typings/constants';
+import { Calendar } from '../UI/calendar/Calendar';
 
 export const ProjectSidebar = ({
   isOpened,
@@ -34,8 +35,7 @@ export const ProjectSidebar = ({
   const { register } = useForm({
     defaultValues: {
       // it works for inputs/textareas, not for selects
-      [InputName.PROJECT_TITLE]:
-        'Имя проектаИмя проектаИмя проекта Имя проекта',
+      [InputName.PROJECT_TITLE]: 'Имя проектаИмя проектаИмя проекта',
       [InputName.PROJECT_DESCRIPTION]:
         'Здесь описание проекта на много-много строк\nЗдесь описание проекта на много-много строк',
     },
@@ -87,13 +87,10 @@ export const ProjectSidebar = ({
         />
 
         {/* replace it with Deadline */}
-        <Select
-          name={''}
-          label={'Дедлайн (заглушка)'}
-          options={[]}
-          value={null}
-          handleChange={handleSelectSubmit}
-        />
+        <label className={styles.form__select}>
+          <span className={styles.form__select_title}>Дедлайн</span>
+          <Calendar onChange={(date) => console.log(date)} />
+        </label>
 
         {/* replace it with Teammates */}
         <Select

@@ -58,5 +58,3 @@ export const KanbanPage: React.FC = () => {
     </>
   );
 };
-
-// Временное решение пока нет backend
