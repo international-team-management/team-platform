@@ -15,7 +15,7 @@ import { patterns } from 'src/utils/validation/patterns';
 import { useDispatch, useSelector } from 'src/services/hooks';
 import { authThunks, selectUserMe } from 'src/services/slices/authSlice';
 
-export const SignUpPage: React.FC = () => {
+export const SignUpPage = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userMe = useSelector(selectUserMe);
@@ -42,7 +42,7 @@ export const SignUpPage: React.FC = () => {
   };
 
   return (
-    <main className={styles['sign-up-page']}>
+    <section className={styles['sign-up-page']}>
       <img src={promo} className={styles['sign-up-page__promo']} alt="promo" />
       <form
         className={styles['sign-up-page__wrapper']}
@@ -190,6 +190,6 @@ export const SignUpPage: React.FC = () => {
         </p>
       </form>
       <DevTool control={control} />
-    </main>
+    </section>
   );
 };

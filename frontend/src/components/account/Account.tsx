@@ -3,11 +3,23 @@ import styles from './Account.module.scss';
 import type { UserType } from 'src/services/api/types';
 import { Link } from 'react-router-dom';
 import { AvatarIcon } from '../UI/avatar-icon/AvatarIcon';
+import { useDispatch } from 'src/services/hooks';
+import { HeaderState, setHeaderState } from 'src/services/slices/headerSlice';
 
-export const Account: React.FC<UserType> = (props) => {
+export const Account = (props: UserType): JSX.Element => {
+  const dispatch = useDispatch();
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    dispatch(setHeaderState(HeaderState.PROFILE));
+  };
+
   return (
     <figure>
-      <Link to={'/profile'} className={styles.account}>
+      <Link
+        to={'/profile'}
+        className={styles.account}
+        onClick={(e) => handleClick(e)}
+      >
         <AvatarIcon isSmall={true} />
         <figcaption className={styles.account__caption}>
           <p

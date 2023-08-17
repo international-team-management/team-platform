@@ -4,19 +4,23 @@ import style from './Projects.module.scss';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as ProjectIcon } from 'assets/project-icon.svg';
 import {
+  selectCurrentProject,
   selectProjectInfo,
   setCurrent,
 } from 'src/services/slices/projectSlice';
 import { useDispatch, useSelector } from 'src/services/hooks';
+import { HeaderState, setHeaderState } from 'src/services/slices/headerSlice';
 
 export const Projects = (): JSX.Element => {
   const projectsArr = useSelector(selectProjectInfo);
+  const currentProject = useSelector(selectCurrentProject);
   const dispatch = useDispatch();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const arr = e.currentTarget.id.split('-');
     const id = arr[0];
     dispatch(setCurrent(Number(id)));
+    dispatch(setHeaderState(HeaderState.KANBAN));
   };
 
   function renderProjects(): React.ReactNode[] {
@@ -25,9 +29,9 @@ export const Projects = (): JSX.Element => {
         <li key={project.id}>
           <NavLink
             to={`/${project.id}`}
-            className={({ isActive }) =>
-              clsx(style.projects__nav, isActive && style.projects__nav_active)
-            }
+            className={clsx(style.projects__nav, {
+              [style.projects__nav_active]: currentProject.id === project.id,
+            })}
             onClick={(e) => handleClick(e)}
             id={`${project.id}-project`}
           >

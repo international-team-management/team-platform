@@ -39,7 +39,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <main className={styles.login}>
+    <section className={styles.login}>
       <img src={promo} className={styles.login__promo} alt="promo" />
       <form
         className={styles.login__wrapper}
@@ -118,6 +118,6 @@ export const LoginPage: React.FC = () => {
         </div>
       </form>
       <DevTool control={control} />
-    </main>
+    </section>
   );
 };

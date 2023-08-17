@@ -4,6 +4,9 @@
 .header {
   @extend %flex-row;
 
+  z-index: 100;
+
+  grid-area: header;
   align-items: center;
   justify-content: space-between;
 
