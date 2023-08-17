@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Выполнение миграций и сборки статики
 poetry install
 python manage.py migrate
