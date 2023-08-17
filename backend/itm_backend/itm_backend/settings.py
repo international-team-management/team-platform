@@ -15,6 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
+TIME_INPUT_FORMATS = ("%H:%M",)
 
 CORS_ALLOWED_ORIGINS = (
     "http://localhost",
@@ -61,6 +62,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "TIME_FORMAT": "%H:%M",
 }
 
 SIMPLE_JWT = {
