@@ -137,7 +137,6 @@ class Project(models.Model):
         verbose_name="Автор Проекта",
     )
     participants = models.ManyToManyField(User, through="ProjectUser", verbose_name="Участники проекта", blank=True)
-    project_tasks = models.ManyToManyField(Task, related_name="project", verbose_name="Задачи проекта", blank=True)
     start = models.DateField(verbose_name="Дата начала проекта", default=timezone.now().date())
     deadline = models.DateField(verbose_name="Дата окончания проекта")
     status = models.CharField(

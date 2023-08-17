@@ -66,7 +66,7 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = (
         "pk",
         "name",
-        "project",
+        "task_project",
         "description",
         "creator",
         "deadline",
