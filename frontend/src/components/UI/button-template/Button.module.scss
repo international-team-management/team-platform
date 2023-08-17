@@ -1,0 +1,29 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.button {
+  cursor: pointer;
+
+  width: $ui-width-l;
+  height: $ui-height;
+
+  color: $white;
+
+  background-color: $blue-56;
+  border: none;
+  border-radius: $ui-border-radius;
+
+  &:hover {
+    background-color: $blue-26;
+  }
+
+  &:active {
+    background-color: $blue-9;
+  }
+
+  &_disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: $blue-161;
+  }
+}

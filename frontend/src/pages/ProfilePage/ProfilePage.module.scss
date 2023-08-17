@@ -1,0 +1,12 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.profile {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100vh;
+
+  &__main-content {
+    @extend %main-content-size;
+  }
+}

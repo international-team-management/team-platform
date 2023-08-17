@@ -1,0 +1,8 @@
+@import 'reset';
+@import 'colors';
+@import 'src/assets/fonts/fonts';
+
+html {
+  font-family: 'Tilda Sans', sans-serif;
+  color: $black;
+}

@@ -1,0 +1,16 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.form {
+  @extend %flex-column;
+
+  row-gap: 16px;
+
+  > *:first-child {
+    margin: 0 0 16px;
+  }
+
+  > *:last-child {
+    margin: 16px 0 0;
+  }
+}

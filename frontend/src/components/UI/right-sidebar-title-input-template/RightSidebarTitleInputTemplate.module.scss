@@ -1,0 +1,10 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.title {
+  @include set-font-size(18px, 20px, 600);
+
+  resize: none;
+  width: 74%;
+  border: none;
+}

@@ -1,0 +1,59 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.sidebar {
+  @extend %smooth-visibility-hidden;
+
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+
+  width: 35vw;
+  height: 100vh;
+  padding: 24px;
+
+  background-color: $white;
+
+  &_opened {
+    @extend %smooth-visibility-visible;
+  }
+
+  &__close-btn {
+    @extend %transition-initial;
+
+    @include set-background-btn(
+      '../../../assets/right-sidebar-icons/close-btn.svg',
+      32px,
+      32px
+    );
+
+    position: absolute;
+    z-index: 2;
+    top: 24px;
+    right: 24px;
+
+    &:hover {
+      @extend %transition-hover;
+    }
+  }
+
+  &__menu-btn {
+    @extend %transition-initial;
+
+    @include set-background-btn(
+      '../../../assets/right-sidebar-icons/actions-btn.svg',
+      32px,
+      32px
+    );
+
+    position: absolute;
+    z-index: 2;
+    top: 24px;
+    right: 68px;
+
+    &:hover {
+      @extend %transition-hover;
+    }
+  }
+}

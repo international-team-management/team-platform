@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'Tilda Sans';
+  font-weight: 900;
+  font-style: normal;
+  src:
+    url('./Tilda-Sans/tilda-sans_black.woff2') format('woff2'),
+    url('./Tilda-Sans/tilda-sans_black.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Tilda Sans';
+  font-weight: 800;
+  font-style: normal;
+  src:
+    url('./Tilda-Sans/tilda-sans_bold.woff2') format('woff2'),
+    url('./Tilda-Sans/tilda-sans_bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: TildaSansWebSemibold;
+  font-weight: 700;
+  font-style: normal;
+  src:
+    url('./Tilda-Sans/tilda-sans_semibold.woff2') format('woff2'),
+    url('./Tilda-Sans/tilda-sans_semibold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Tilda Sans';
+  font-weight: 600;
+  font-style: normal;
+  src:
+    url('./Tilda-Sans/tilda-sans_medium.woff2') format('woff2'),
+    url('./Tilda-Sans/tilda-sans_medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Tilda Sans';
+  font-weight: 400;
+  font-style: normal;
+  src:
+    url('./Tilda-Sans/tilda-sans_regular.woff2') format('woff2'),
+    url('./Tilda-Sans/tilda-sans_regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans Japanese';
+  font-weight: 900;
+  font-style: normal;
+  src: url('./Noto-Sans-JP/NotoSansJP-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans Japanese';
+  font-weight: 700;
+  font-style: normal;
+  src: url('./Noto-Sans-JP/NotoSansJP-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans Japanese';
+  font-weight: 600;
+  font-style: normal;
+  src: url('./Noto-Sans-JP/NotoSansJP-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans Japanese';
+  font-weight: 400;
+  font-style: normal;
+  src: url('./Noto-Sans-JP/NotoSansJP-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans Japanese';
+  font-weight: 300;
+  font-style: normal;
+  src: url('./Noto-Sans-JP/NotoSansJP-Light.ttf') format('truetype');
+}
