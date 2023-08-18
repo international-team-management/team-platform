@@ -6,7 +6,7 @@
 
   align-items: center;
   justify-content: space-between;
-  width: max(220px, 49%);
+  width: 220px;
 
   &__label {
     @include set-font-size(16px, 20px, 600);

@@ -14,12 +14,18 @@
     "prepare": "cd .. && husky install frontend/.husky"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@hookform/devtools": "^4.3.1",
+    "@mui/material": "^5.14.5",
+    "@mui/x-date-pickers": "^6.11.1",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "1.4.0",
     "clsx": "2.0.0",
     "cross-env": "7.0.3",
+    "dayjs": "^1.11.9",
     "dotenv": "16.3.1",
+    "moment": "^2.29.4",
     "nanoid": "4.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",

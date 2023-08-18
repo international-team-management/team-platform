@@ -1,0 +1,75 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.MuiPickersCalendarHeader-root {
+  @extend %flex-row;
+
+  justify-content: space-between;
+  min-height: 40px;
+  margin: 4px 0 16px 4px;
+  padding: 0;
+}
+
+.MuiPickersCalendarHeader-labelContainer {
+  margin: 0;
+}
+
+.MuiPickersCalendarHeader-label {
+  @include set-font-size(18px, 20px, 600);
+
+  margin: 0;
+  padding: 10px 0 10px 8px;
+  letter-spacing: -0.04rem;
+}
+
+.MuiPickersCalendarHeader-switchViewButton {
+  margin-left: 8px;
+  padding: 0;
+  color: $black;
+}
+
+.MuiPickersArrowSwitcher-root {
+  @extend %flex-row;
+
+  justify-content: space-between;
+  width: 96px;
+}
+
+.MuiPickersArrowSwitcher-button {
+  color: $black;
+}
+
+.MuiDayCalendar-header {
+  height: 40px;
+}
+
+.MuiDayCalendar-weekDayLabel {
+  @include set-font-size(16px, 24px, 400);
+
+  width: 48px;
+  margin: 0;
+  color: $black;
+}
+
+.MuiPickersDay-root {
+  @include set-font-size(16px, 24px, 400);
+
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  color: $black;
+}
+
+.MuiDayCalendar-weekContainer {
+  margin: 0;
+}
+
+.MuiPickersDay-today {
+  color: $blue-56;
+  background-color: $white;
+  border: 1px solid $blue-56 $i;
+}
+
+.Mui-selected {
+  background-color: $blue-56 $i;
+}

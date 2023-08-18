@@ -7,10 +7,29 @@
   row-gap: 16px;
 
   > *:first-child {
-    margin: 0 0 16px;
+    margin: 6px 0 0;
   }
 
   > *:last-child {
     margin: 16px 0 0;
+  }
+
+  &__select {
+    @extend %flex-row;
+
+    position: relative;
+
+    align-items: center;
+    justify-content: space-between;
+
+    width: 263px;
+    height: 28px;
+
+    &_title {
+      @include set-font-size(16px, 20px, 600);
+
+      padding: 6px 0 0;
+      color: $grey-118;
+    }
   }
 }
