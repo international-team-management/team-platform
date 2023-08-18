@@ -1,45 +1,46 @@
-import React, { useEffect } from 'react';
 import styles from './KanbanPage.module.scss';
 import { Sidebar } from 'src/components/sidebar/Sidebar';
 import {
   HeaderTemplate,
   HeaderState,
+  VIEWS,
 } from 'components/UI/header-template/HeaderTemplate';
-import { KanbanColumn } from 'src/components/kanban-column/Kanban';
-import { useParams } from 'react-router-dom';
-import { projects } from 'src/utils/constants temporary/constant_temp';
-import { useNavigate } from 'react-router-dom';
-import { getProjectInfoAPI, useCreateProject } from 'src/utils/createProject';
+import { KanbanTable } from 'src/components/kanban-table/KanbanTable';
+import { useSelector } from 'src/services/hooks';
+import { selectCurrentProject } from 'src/services/slices/projectSlice';
+import { ProjectSidebar } from 'src/components/project-sidebar/ProjectSidebar';
+import { useState } from 'react';
 
-export const KanbanPage: React.FC = () => {
-  const navigate = useNavigate();
+export const KanbanPage = (): JSX.Element => {
   const state = HeaderState.KANBAN;
 
-  const params = useParams();
-  const [currentProject, setCurrentProject, createProject] = useCreateProject();
+  const currentProject = useSelector(selectCurrentProject);
+  const [isProjectSidebar, setIsProjectSidebar] = useState(true);
 
-  useEffect(() => {
-    if (!params.id) {
-      return navigate(`/${projects[0].id}`);
-    }
+  const closeAllSidebars = () => {
+    setIsProjectSidebar(false);
+    console.log('closeAllSidebars');
+  };
 
-    getProjectInfoAPI(Number(params.id)).then((projectInfo) => {
-      setCurrentProject(projectInfo);
-    });
-  }, [params]);
+  const showProjectActions = () => {
+    console.log('showProjectActions');
+  };
 
   return (
-    <section className={styles.kanban}>
-      <Sidebar createProject={createProject} />
-      <div className={styles['kanban__main-content']}>
-        <HeaderTemplate state={state} title={currentProject.name} />
-        <KanbanColumn
-          boards={currentProject.boards}
-          name={currentProject.name}
-        />
-      </div>
-    </section>
+    <>
+      <section className={styles.kanban}>
+        <Sidebar />
+        <div className={styles['kanban__main-content']}>
+          <HeaderTemplate state={state} view={VIEWS.KANBAN} />
+          <KanbanTable columns={currentProject.column} />
+        </div>
+      </section>
+
+      <ProjectSidebar
+        isOpened={isProjectSidebar}
+        close={closeAllSidebars}
+        showActions={showProjectActions}
+      />
+    </>
   );
 };
-
-// Временное решение пока нет backend

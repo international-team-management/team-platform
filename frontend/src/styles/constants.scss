@@ -1,3 +1,5 @@
+// Templates
+
 %flex-column {
   display: flex;
   flex-direction: column;
@@ -15,7 +17,41 @@
   white-space: nowrap;
 }
 
-$i: !important;
+%main-content-size {
+  @extend %flex-column;
+
+  width: 100%;
+  max-width: 1200px;
+  margin-left: 240px;
+}
+
+%smooth-visibility-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    visibility 0s linear 0.3s,
+    opacity 0.3s;
+}
+
+%smooth-visibility-visible {
+  visibility: visible;
+  opacity: 1;
+  transition:
+    visibility 0s linear 0s,
+    opacity 0.3s;
+}
+
+%transition-initial {
+  opacity: 1;
+  transition: opacity 0.2s linear;
+}
+
+%transition-hover {
+  opacity: 0.6;
+}
+
+// Constants
+$i:  !important;
 
 // UI
 $ui-width: 340px;
@@ -39,16 +75,31 @@ $ui-border-radius-phone: 16px;
 
 @mixin set-block-size($width, $height) {
   @include set-font-size(
+    // так лучше не делать, теперь этот миксин кроме размеров блока, почему-то меняет шрифт
     14px,
     16px,
     600
-  ); // так лучше не делать, теперь этот миксин кроме размеров блока, почему-то меняет шрифт
+  );
 
   min-width: $width;
   min-height: $height;
   letter-spacing: -0.01rem;
 }
 
+@mixin set-background-btn($img-url, $width, $height) {
+  cursor: pointer;
+
+  width: $width;
+  height: $height;
+
+  background-color: $white;
+  background-image: url($img-url);
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: none;
+}
+
+// password stuff
 @mixin set-check-validation-icon($icon-path) {
   position: relative;
   padding-left: 15px;

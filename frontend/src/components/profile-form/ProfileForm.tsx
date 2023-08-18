@@ -11,7 +11,6 @@ import {
 import { Input } from '../UI/input-template/InputTemplate';
 import { InputType, InputName } from 'src/typings/constants';
 import styles from './ProfileForm.module.scss';
-import { ReactComponent as FramedAvatar } from 'assets/framed-avatar.svg';
 import { useForm } from 'react-hook-form';
 import { patterns } from 'src/utils/validation/patterns';
 import { DevTool } from '@hookform/devtools';
@@ -24,6 +23,7 @@ import { SingleValue } from 'react-select';
 import { ITimezoneOption } from 'react-timezone-select';
 import { useDispatch, useSelector } from 'src/services/hooks';
 import { authThunks, selectUserMe } from 'src/services/slices/authSlice';
+import { UserAvatarUpload } from '../UI/user-avatar-upload/UserAvatarUpload';
 
 export const ProfileForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -94,23 +94,7 @@ export const ProfileForm: React.FC = () => {
           subtitle="Фото профиля"
           description="По&nbsp;реальной фотографии коллеги смогут легко узнать вас."
         />
-        <form className={styles.profile__form_photo}>
-          {userMe?.photo ? (
-            <img
-              className={styles.profile__img}
-              src={userMe.photo}
-              alt={`${userMe.first_name} ${userMe.last_name}`}
-            />
-          ) : (
-            <FramedAvatar className={styles.profile__img} />
-          )}
-
-          <div className={styles.profile__buttons}>
-            <button className={styles.profile__button_blue}>
-              Загрузить фотографию
-            </button>
-          </div>
-        </form>
+        <UserAvatarUpload />
       </section>
 
       <section className={styles.profile__section}>

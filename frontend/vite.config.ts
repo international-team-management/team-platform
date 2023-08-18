@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
+import ViteCSSExportPlugin from 'vite-plugin-css-export';
 
 import path from 'path';
 import dotenv from 'dotenv';
@@ -27,5 +28,5 @@ export default defineConfig({
   define: {
     __API_ENDPOINT__: JSON.stringify(process.env.API_ENDPOINT), // это нужно, чтобы потом добавить переменную из.env в глобальную видимость
   },
-  plugins: [react(), svgr()],
+  plugins: [react(), svgr(), ViteCSSExportPlugin()],
 });

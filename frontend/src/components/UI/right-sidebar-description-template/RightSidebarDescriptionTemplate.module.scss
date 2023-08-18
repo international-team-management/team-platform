@@ -1,0 +1,22 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.description {
+  @extend %flex-column;
+
+  row-gap: 12px;
+
+  &__text {
+    @include set-font-size(15px, 24px, 400);
+
+    resize: vertical;
+    width: 100%;
+    border: none;
+  }
+
+  &__label {
+    @include set-font-size(16px, 20px, 600);
+
+    color: $grey-118;
+  }
+}
