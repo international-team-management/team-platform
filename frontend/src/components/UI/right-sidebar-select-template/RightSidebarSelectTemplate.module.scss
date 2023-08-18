@@ -1,0 +1,16 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.select {
+  @extend %flex-row;
+
+  align-items: center;
+  justify-content: space-between;
+  width: 220px;
+
+  &__label {
+    @include set-font-size(16px, 20px, 600);
+
+    color: $grey-118;
+  }
+}

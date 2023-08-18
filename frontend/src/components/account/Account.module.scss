@@ -1,0 +1,42 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.account {
+  @extend %flex-row;
+
+  column-gap: 12px;
+  align-items: center;
+  padding: 0 12px;
+
+  &__image {
+    width: 40px;
+    height: 40px;
+    background-color: $grey-light;
+    border-radius: 50%;
+  }
+
+  &__caption {
+    @extend %flex-column;
+
+    gap: 4px;
+    align-items: flex-start;
+    max-width: 164px;
+  }
+
+  &__user {
+    @extend %text-overflow-hidden;
+
+    @include set-font-size(14px, 16px, 700);
+
+    color: $main-black;
+    letter-spacing: -0.28px;
+  }
+
+  &__role {
+    @extend %text-overflow-hidden;
+
+    @include set-font-size(14px, 16px);
+
+    color: $grey-dark;
+  }
+}
