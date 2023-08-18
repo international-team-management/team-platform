@@ -1,15 +1,14 @@
 import base64
-import datetime
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
-from django.db.models import F
 from projects.models import Project, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from users.models import TimeZone
 
+from .services import get_members_num_per_interval
 from .validators import validate_first_last_names, validate_offset, validate_password
 
 User = get_user_model()
@@ -279,67 +278,14 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Project
         fields = ["total_members", "members", "members_per_interval"]
 
-    def get_total_members(self, obj):
+    def get_total_members(self, project):
         """Возвращает количество участников команды."""
-        return obj.participants.count()
+        return project.participants.count()
 
-    def get_members_per_interval(self, obj):
+    def get_members_per_interval(self, project):
         """
         Возвращает список словарей с часовыми интервалами, и количеством
         доступных участников проекта в каждый интервал времени.
         """
         user = self.context["request"].user
-        if user.timezone:
-            user_offset = user.timezone.offset
-        else:
-            raise ValidationError("У вас не задана временная зона.")
-        print(user.first_name)
-        print(user_offset)
-        user_work_start = user.work_start
-        user_work_finish = user.work_finish
-        print(f"user_work_start: {user_work_start}, user_work_finish: {user_work_finish}")
-
-        new_hour = (user_work_start.hour - user_offset) % 24
-        # получение queryset объектов участников, содержащих время начала и окончания работы, и offset от UTC
-        participants_times = (
-            obj.participants.all()
-            .filter(work_start__isnull=False, work_finish__isnull=False, timezone__offset__isnull=False)
-            .values("first_name", "work_start", "work_finish", offset=F("timezone__offset"))
-        )
-        print(participants_times)
-        working_times_to_user_relation = []  # список рабочего времени для каждого участника
-        # по отношению к времени пользователя:
-        for participant_times in participants_times:
-            # вычисляем время начала и конца работы участника в таймзоне пользователя, который делает запрос
-            participant_offset = participant_times.get("offset")
-            work_start = participant_times.get("work_start")
-            # т.к. offset и work_start в разных форматах, для вычисления времени преобразуем часовую
-            # составляющую work_start в целое число. После вычисления - корректируем часовую составляющую work_finish
-            new_hour = (work_start.hour - participant_offset + user_offset) % 24
-            work_start = work_start.replace(hour=new_hour)
-            work_finish = participant_times.get("work_finish")
-            new_hour = (work_finish.hour - participant_offset + user_offset) % 24
-            work_finish = work_finish.replace(hour=new_hour)
-            working_times_to_user_relation.append([work_start, work_finish])
-            print(participant_times.get("first_name"), work_start, work_finish)
-        print(working_times_to_user_relation)
-        result = []
-        time_intervals = [f"{hour:02d}:00 - {(hour + 1) % 24:02d}:00" for hour in range(24)]  # генерирует список
-        # часовых интервалов в виде ["00:00 - 01:00", ..., "23:00 - 00:00"]
-        for interval in time_intervals:
-            interval_start = interval.split(" - ")[0]
-            interval_finish = interval_start[:2] + ":59"
-            interval_start = datetime.datetime.strptime(interval_start, "%H:%M").time()
-            interval_finish = datetime.datetime.strptime(interval_finish, "%H:%M").time()
-            print(interval_start, interval_finish)
-            counter = 0
-            for working_time in working_times_to_user_relation:
-                work_start, work_finish = working_time[0], working_time[1]
-                if work_start < work_finish:  # если рабочий интервал не пересекает полночь
-                    if work_start <= interval_start and work_finish >= interval_finish:
-                        counter += 1
-                else:  # если рабочий интервал пересекает полночь
-                    if work_finish >= interval_finish or work_start <= interval_start:
-                        counter += 1
-            result.append({interval: counter})
-        return result
+        return get_members_num_per_interval(user, project)
