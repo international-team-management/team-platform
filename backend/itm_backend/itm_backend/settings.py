@@ -15,8 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
-# local_version
-# CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost").split(",")
+TIME_INPUT_FORMATS = ("%H:%M",)
 
 # server_version
 CORS_ALLOWED_ORIGINS = []
@@ -61,6 +60,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "TIME_FORMAT": "%H:%M",
 }
 
 SIMPLE_JWT = {
@@ -168,7 +168,6 @@ DJOSER = {
         "user_create": "api.serializers.CustomUserCreateSerializer",
         "user": "api.serializers.CustomUserSerializer",
         "current_user": "api.serializers.CustomUserSerializer",
-        # 'set_password': 'djoser.serializers.SetPasswordSerializer',
     },
     "PERMISSIONS": {
         "user": ["rest_framework.permissions.IsAuthenticated"],

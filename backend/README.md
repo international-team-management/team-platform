@@ -15,6 +15,14 @@ poetry shell
 
 poetry install --without test
 
+#### Для работы библиотеки pre-commit в папке 'backend/' выполнить команду:
+
+pre-commit install
+
+#### Чтобы проверить проект на соблюдение "Coding style" для Django при внесении изменений в код нужно выполнить в папке 'backend/' команду:
+
+flake8
+
 ### Прочее
 
 
