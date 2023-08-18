@@ -289,7 +289,10 @@ class TeamSerializer(serializers.ModelSerializer):
         доступных участников проекта в каждый интервал времени.
         """
         user = self.context["request"].user
-        user_offset = user.timezone.offset
+        if user.timezone:
+            user_offset = user.timezone.offset
+        else:
+            raise ValidationError("У вас не задана временная зона.")
         print(user.first_name)
         print(user_offset)
         user_work_start = user.work_start
@@ -298,8 +301,10 @@ class TeamSerializer(serializers.ModelSerializer):
 
         new_hour = (user_work_start.hour - user_offset) % 24
         # получение queryset объектов участников, содержащих время начала и окончания работы, и offset от UTC
-        participants_times = obj.participants.all().values(
-            "first_name", "work_start", "work_finish", offset=F("timezone__offset")
+        participants_times = (
+            obj.participants.all()
+            .filter(work_start__isnull=False, work_finish__isnull=False, timezone__offset__isnull=False)
+            .values("first_name", "work_start", "work_finish", offset=F("timezone__offset"))
         )
         print(participants_times)
         working_times_to_user_relation = []  # список рабочего времени для каждого участника
