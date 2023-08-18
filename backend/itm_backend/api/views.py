@@ -1,17 +1,56 @@
-from django.shortcuts import get_object_or_404
-from projects.models import Project, Task
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
-from rest_framework.response import Response
-
-from .serializers import (
+from api.serializers import (
+    CustomUserCreateSerializer,
+    CustomUserSerializer,
     ProjectGetSerializer,
     ProjectPostSerializer,
     TaskGetSerializer,
     TaskPostSerializer,
     TeamSerializer,
 )
+from django.shortcuts import get_object_or_404
+from projects.models import Project, Task
+from rest_framework import mixins, status, views, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from users.models import User
+
+
+class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = CustomUserCreateSerializer
+
+    def post(self, request, pk=None):
+        user = self.request.user
+        serializer = CustomUserCreateSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(["post"], detail=False)
+    def set_password(self, request, *args, **kwargs):
+        serializer = CustomUserCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.request.user.set_password(serializer.data["new_password"])
+        self.request.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserMeView(views.APIView):
+    def get(self, request):
+        user = self.request.user
+        serializer = CustomUserSerializer(user, many=False)
+        return Response(serializer.data)
+
+    def patch(self, request, pk=None):
+        user = self.request.user
+        serializer = CustomUserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -46,5 +85,5 @@ class TaskViewSet(viewsets.ModelViewSet):
         return TaskPostSerializer
 
     def perform_create(self, serializer):
-        project = get_object_or_404(Project, pk=self.kwargs["projects_id"])
-        serializer.save(creator=self.request.user, task_project_id=project.id)
+        project = get_object_or_404(Project, pk=self.kwargs.get("task_project_id"))
+        serializer.save(creator=self.request.user, project=project)
