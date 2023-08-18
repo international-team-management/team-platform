@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { ColumnTask, ColumnItem } from '../components/kanban-table/KanbanTable';
+import { useDispatch } from 'src/services/hooks';
+import { updateColumn } from 'src/services/slices/projectSlice';
 
 export type dragTaskType = {
   overTask: (e: React.DragEvent<HTMLElement>, task: ColumnTask) => void;
@@ -31,6 +33,8 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
   const [currentColumn, setCurrentColumn] = React.useState<ColumnItem>();
   const [currentTask, setCurrentTask] = React.useState<ColumnTask>();
   const [hover, setHover] = React.useState<number | null>(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setColumns(columnItems);
@@ -87,6 +91,8 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
         );
         componentRedraw();
       }
+
+      dispatch(updateColumn(columns));
     },
   };
 
@@ -114,6 +120,8 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
         );
         componentRedraw();
       }
+
+      dispatch(updateColumn(columns));
     },
   };
 

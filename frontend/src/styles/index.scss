@@ -6,3 +6,26 @@ html {
   font-family: 'Tilda Sans', sans-serif;
   color: $black;
 }
+
+.main {
+  width: 100vw;
+  height: 100vh;
+
+  &_auth {
+    overflow: hidden;
+    display: grid;
+    grid-template: 'sidebar header' 64px 'sidebar section' 1fr / 240px 1fr;
+
+    .content {
+      overflow: auto;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &_kanban {
+    .content {
+      background-color: $grey-247;
+    }
+  }
+}

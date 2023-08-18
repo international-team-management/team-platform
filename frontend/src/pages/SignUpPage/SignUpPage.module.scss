@@ -5,13 +5,14 @@
   @extend %flex-row;
 
   justify-content: center;
-  height: 1000px;
+  height: 100%;
 
   &__wrapper {
     @extend %flex-column;
 
     width: $ui-width-l;
-    margin: 48px 120px 0;
+    margin: 0 120px;
+    padding: 48px 0;
   }
 
   &__inputs {
@@ -21,7 +22,6 @@
   }
 
   &__promo {
-    height: 1000px;
     margin: 12px 0 12px 12px;
   }
 
@@ -56,7 +56,7 @@
   &__agreement {
     @include set-font-size(14px, 16px, 600);
 
-    margin-top: 152px;
+    margin-top: auto;
     color: $grey-118;
     text-align: center;
     letter-spacing: -0.01rem;

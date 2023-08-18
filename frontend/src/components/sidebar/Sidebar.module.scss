@@ -4,11 +4,7 @@
 .sidebar {
   @extend %flex-column;
 
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  overflow-y: auto;
+  grid-area: sidebar;
 
   width: 240px;
   height: 100vh;

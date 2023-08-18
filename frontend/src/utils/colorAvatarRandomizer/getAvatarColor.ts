@@ -1,14 +1,14 @@
 import colors from './avatarColors.module.scss';
 
-type TPalleteItem = {
+type TPaletteItem = {
   bg: string;
   txt: string;
 };
 
-const pallete: TPalleteItem[] = [
+const palette: TPaletteItem[] = [
   {
     bg: colors.blue_bg,
-    txt: colors.bule_txt,
+    txt: colors.blue_txt,
   },
   {
     bg: colors.margenta_bg,
@@ -30,14 +30,14 @@ const pallete: TPalleteItem[] = [
 
 export const getAvatarColor = (
   min = 0,
-  max = pallete.length - 1,
-): TPalleteItem => {
+  max = palette.length - 1,
+): TPaletteItem => {
   const random = Math.floor(min + Math.random() * (max + 1 - min));
 
   const localColor = localStorage.getItem('avatarColor');
 
   if (!localColor) {
-    localStorage.setItem('avatarColor', JSON.stringify(pallete[random]));
+    localStorage.setItem('avatarColor', JSON.stringify(palette[random]));
   }
 
   const result = JSON.parse(localColor!);
