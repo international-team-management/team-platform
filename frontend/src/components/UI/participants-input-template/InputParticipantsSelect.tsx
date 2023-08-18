@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Select from "react-select";
 import styles from './InputParticipantsSelect.module.scss';
 import './SelectParticipantsComponent.scss';
-import addNewParticipant from 'src/assets/add-new-participant.svg';
+import addSuceess from 'src/assets/add_success.svg';
 import searchIcon from 'src/assets/header-icons/header-search-icon.svg';
 
 
@@ -57,7 +57,7 @@ export const InputParticipantsSelect = (): JSX.Element => {
                   <div className={styles.participants__option}>
                     <img className={styles.participants__option_img} src={option.image} alt="country-image" />
                     <span className={styles.participants__option_span} >{option.label}</span>
-                    <img className={`${styles.participants__option_selected} ${option.inTeam ? styles.participants__option_selected_visible : ''}`} src={addNewParticipant} alt="country-selected" />
+                    <img className={`${styles.participants__option_selected} ${option.inTeam ? styles.participants__option_selected_visible : ''}`} src={addSuceess} alt="country-selected" />
                   </div>
                 )}
               />
