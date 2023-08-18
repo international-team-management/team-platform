@@ -4,10 +4,15 @@ RUN pip3 install --upgrade pip && pip3 install poetry
 
 WORKDIR /backend
 
-COPY poetry.lock pyproject.toml ./
+COPY poetry.lock pyproject.toml entrypoint.sh ./
 
 RUN poetry config virtualenvs.create false && poetry install --without test --no-interaction --no-ansi
 
-COPY . /backend
+COPY itm_backend/ /backend
 
-CMD ["python3", "itm_backend/manage.py", "runserver", "0:8000"]
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
+
+CMD ["gunicorn", "itm_backend.wsgi:application", "--bind", "0:8000" ]
+
+LABEL author='team-platform' version='develop v1.0' broken_keyboards=1
