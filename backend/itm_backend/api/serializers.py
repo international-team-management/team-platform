@@ -308,6 +308,8 @@ class TeamSerializer(serializers.ModelSerializer):
             # вычисляем время начала и конца работы участника в таймзоне пользователя, который делает запрос
             participant_offset = participant_times.get("offset")
             work_start = participant_times.get("work_start")
+            # т.к. offset и work_start в разных форматах, для вычисления времени преобразуем часовую
+            # составляющую work_start в целое число. После вычисления - корректируем часовую составляющую work_finish
             new_hour = (work_start.hour - participant_offset + user_offset) % 24
             work_start = work_start.replace(hour=new_hour)
             work_finish = participant_times.get("work_finish")
