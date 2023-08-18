@@ -16,7 +16,7 @@ def get_members_num_per_interval(user, project):
     else:
         raise ValidationError("У вас не задана временная зона.")
 
-    # получение queryset объектов участников, содержащих время начала и окончания работы, и смещение от UTC
+    # получение queryset объектов участников, содержащих время начала и окончания работы и смещение от UTC
     participants_times = (
         project.participants.all()
         .filter(work_start__isnull=False, work_finish__isnull=False, timezone__offset__isnull=False)
