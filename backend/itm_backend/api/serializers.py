@@ -1,8 +1,10 @@
 import base64
+import datetime
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
+from django.db.models import F
 from projects.models import Project, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -286,14 +288,25 @@ class TeamSerializer(serializers.ModelSerializer):
         Возвращает список словарей с часовыми интервалами, и количеством
         доступных участников проекта в каждый интервал времени.
         """
-        time_intervals = [f"{hour:02d}:00 - {(hour + 1) % 24:02d}:00" for hour in range(24)]  # генерирует список
+        user = self.context["request"].user
+        user_offset = user.timezone.offset
+        print(user_offset)
+        time = datetime.datetime.utcnow().time()
+        print(f"Время по utc: {time}")
+        new_hour = (time.hour + user_offset) % 24
+        user_time = time.replace(hour=new_hour)
+        print(f"Время пользователя: {user_time}")
+        participants_times = obj.participants.all().values("work_start", "work_finish", offset=F("timezone__offset"))
+        print(participants_times)
+
+        # time_intervals = [f"{hour:02d}:00 - {(hour + 1) % 24:02d}:00" for hour in range(24)]  # генерирует список
         # часовых интервалов в виде ["00:00 - 01:00", ..., "23:00 - 00:00"]
-        result = []
-        for interval in time_intervals:
-            start_time = interval.split(" - ")[0]
-            # для корректности в подсчете конец интервала представляем в виде "23:59, т.е. начало + 59 минут."
-            end_time = start_time[:2] + ":59"
-            result.append(
-                {interval: obj.participants.filter(work_start__lte=start_time, work_finish__gte=end_time).count()}
-            )
-        return result
+        # result = []
+        # for interval in time_intervals:
+        #     start_time = interval.split(" - ")[0]
+        #     # для корректности в подсчете конец интервала представляем в виде "23:59, т.е. начало + 59 минут."
+        #     end_time = start_time[:2] + ":59"
+        #     result.append(
+        #         {interval: obj.participants.filter(work_start__lte=start_time, work_finish__gte=end_time).count()}
+        #     )
+        # return result
