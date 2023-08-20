@@ -39,6 +39,10 @@
       border-radius: $ui-border-radius-phone;
 
       transition: all 0.15s ease-in-out;
+
+      &:focus {
+        @include set-on-focus;
+      }
     }
 
     .phone-info__button {
@@ -46,6 +50,10 @@
       background-color: $main-white;
       border: 1px solid $input-border-color;
       border-radius: $ui-border-radius-phone;
+
+      &:focus-within {
+        @include set-on-focus;
+      }
 
       .phone-info__country-list {
         @extend %flex-column;

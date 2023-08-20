@@ -2,9 +2,9 @@
 @import 'styles/colors';
 
 .tz-select {
-  // &__value-container {
-
-  // }
+  &_container {
+    border: 1px solid red;
+  }
 
   &__single-value {
     @include set-font-size(16px, 20px, 400);
@@ -21,6 +21,10 @@
 
     &--menu-is-open .tz-select__indicator {
       transform: rotate(180deg);
+    }
+
+    &:focus-within {
+      @include set-on-focus;
     }
   }
 
