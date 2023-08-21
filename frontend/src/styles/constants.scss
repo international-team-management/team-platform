@@ -1,3 +1,5 @@
+@import 'styles/colors';
+
 // Templates
 
 %flex-column {
@@ -117,4 +119,9 @@ $ui-border-radius-phone: 16px;
     background-image: url($icon-path);
     background-repeat: no-repeat;
   }
+}
+
+@mixin set-on-focus($border-radius: $ui-border-radius) {
+  border-radius: $border-radius $i;
+  outline: 1px solid $blue-95 $i;
 }

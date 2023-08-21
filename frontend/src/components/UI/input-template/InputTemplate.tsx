@@ -72,14 +72,22 @@ export const Input = (props: InputProps) => {
   }
 
   return (
+    // TODO: split the complex component into simple components
+
     <div className={styles.input__wrapper}>
       <div className={styles.input__content}>
-        <div className={styles.input__label_wrapper}>
-          <label className={styles.input__label}>{props.label}</label>
-          <button className={styles.input__label_password}>
-            {props.labelPassword}
-          </button>
-        </div>
+        {/* ! It could be part of a Password component */}
+
+        {props.labelPassword && (
+          <div className={styles.input__label_wrapper}>
+            <label className={styles.input__label}>{props.label}</label>
+            <button className={styles.input__label_password}>
+              {props.labelPassword}
+            </button>
+          </div>
+        )}
+
+        {/* ! It could be part of a Input component */}
 
         <input
           className={clsx(styles.input__field, {
@@ -96,6 +104,8 @@ export const Input = (props: InputProps) => {
           })}
         />
 
+        {/* ! It could be part of a Password component */}
+
         {props.isPassword && props.useTogglePassword && value !== '' && (
           <div
             className={clsx(styles.input__tooglePassword)}
@@ -105,6 +115,8 @@ export const Input = (props: InputProps) => {
           </div>
         )}
       </div>
+
+      {/* ! It could be part of Validation & Helper text component */}
 
       {props.helperText && !props.errorObject && (
         <>
@@ -126,6 +138,8 @@ export const Input = (props: InputProps) => {
           })}
         </>
       )}
+
+      {/* ! It could be part of Validation & Error text component */}
 
       {errors.map((errorText) => {
         return (

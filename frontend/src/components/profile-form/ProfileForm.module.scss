@@ -93,6 +93,10 @@
       background-color: $bright-blue;
       border: 1px solid $bright-blue;
       border-radius: 12px;
+
+      &:focus {
+        @include set-on-focus(12px);
+      }
     }
   }
 

@@ -21,6 +21,10 @@
     background-color: $blue-9;
   }
 
+  &:focus {
+    @include set-on-focus;
+  }
+
   &_disabled {
     pointer-events: none;
     cursor: not-allowed;
