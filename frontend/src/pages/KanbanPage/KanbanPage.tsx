@@ -27,6 +27,7 @@ export const KanbanPage = (): JSX.Element => {
         isOpened={isProjectSidebar}
         close={closeAllSidebars}
         showActions={showProjectActions}
+        project={currentProject}
       />
     </section>
   );

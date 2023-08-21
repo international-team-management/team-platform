@@ -1,10 +1,12 @@
 import styles from './RightSidebarTemplate.module.scss';
 import clsx from 'clsx';
+import type { ProjectType } from 'src/services/api/types';
 
 export type RightSidebarPropsType = {
   isOpened: boolean;
   close: () => void;
   showActions: () => void;
+  project?: ProjectType;
   children?: JSX.Element;
 };
 

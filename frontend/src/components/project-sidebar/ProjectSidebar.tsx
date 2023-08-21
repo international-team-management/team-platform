@@ -18,6 +18,7 @@ export const ProjectSidebar = ({
   isOpened,
   close,
   showActions,
+  project,
 }: RightSidebarPropsType): JSX.Element => {
   // until there is redux
   const PRIORITY_OPTIONS = [
@@ -35,9 +36,8 @@ export const ProjectSidebar = ({
   const { register } = useForm({
     defaultValues: {
       // it works for inputs/textareas, not for selects
-      [InputName.PROJECT_TITLE]: 'Имя проектаИмя проектаИмя проекта',
-      [InputName.PROJECT_DESCRIPTION]:
-        'Здесь описание проекта на много-много строк\nЗдесь описание проекта на много-много строк',
+      [InputName.PROJECT_TITLE]: project?.name,
+      [InputName.PROJECT_DESCRIPTION]: project?.description,
     },
   });
 
@@ -86,7 +86,6 @@ export const ProjectSidebar = ({
           handleChange={handleSelectSubmit}
         />
 
-        {/* replace it with Deadline */}
         <label className={styles.form__select}>
           <span className={styles.form__select_title}>Дедлайн</span>
           <Calendar onChange={(date) => console.log(date)} />
