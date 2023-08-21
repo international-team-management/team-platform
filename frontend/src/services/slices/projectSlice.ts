@@ -7,8 +7,8 @@ import { RootState } from '../store';
 import { ColumnItem } from 'src/components/kanban-table/KanbanTable';
 
 const initialState = {
-  list: [{ id: 1, name: 'Пример проекта', column: mockColumnItems }],
-  current: { id: 1, name: 'Пример проекта', column: mockColumnItems },
+  list: [{ id: 1, name: 'Пример проекта', columns: mockColumnItems }],
+  current: { id: 1, name: 'Пример проекта', columns: mockColumnItems },
 };
 
 export const projectSlice = createSlice({
@@ -20,20 +20,20 @@ export const projectSlice = createSlice({
       state.list.push({
         id: i + 1,
         name: `Без названия ${i}`,
-        column: mockEmptyColumn,
+        columns: mockEmptyColumn,
       });
     },
     setCurrent: (state, action: PayloadAction<number>) => {
       state.current = state.list[action.payload - 1];
     },
-    updateColumn: (state, action: PayloadAction<ColumnItem[]>) => {
-      state.current.column = action.payload;
+    updateColumns: (state, action: PayloadAction<ColumnItem[]>) => {
+      state.current.columns = action.payload;
     },
   },
 });
 
-export const selectProjectInfo = (state: RootState) => state.projects.list;
+export const selectProjects = (state: RootState) => state.projects.list;
 export const selectCurrentProject = (state: RootState) =>
   state.projects.current;
 
-export const { addProject, setCurrent, updateColumn } = projectSlice.actions;
+export const { addProject, setCurrent, updateColumns } = projectSlice.actions;

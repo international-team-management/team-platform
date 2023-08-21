@@ -7,6 +7,7 @@ import { useState } from 'react';
 export const KanbanPage = (): JSX.Element => {
   const currentProject = useSelector(selectCurrentProject);
   const copy = structuredClone(currentProject);
+
   const [isProjectSidebar, setIsProjectSidebar] = useState(true);
 
   const closeAllSidebars = () => {
@@ -20,7 +21,8 @@ export const KanbanPage = (): JSX.Element => {
 
   return (
     <section className="content">
-      <KanbanTable columns={copy.column} />
+      <KanbanTable columns={copy.columns} />
+
       <ProjectSidebar
         isOpened={isProjectSidebar}
         close={closeAllSidebars}
