@@ -8,6 +8,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from users.models import TimeZone
 
+from .services import get_members_num_per_interval
 from .validators import validate_first_last_names, validate_offset, validate_password
 
 User = get_user_model()
@@ -277,23 +278,14 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Project
         fields = ["total_members", "members", "members_per_interval"]
 
-    def get_total_members(self, obj):
+    def get_total_members(self, project):
         """Возвращает количество участников команды."""
-        return obj.participants.count()
+        return project.participants.count()
 
-    def get_members_per_interval(self, obj):
+    def get_members_per_interval(self, project):
         """
         Возвращает список словарей с часовыми интервалами, и количеством
         доступных участников проекта в каждый интервал времени.
         """
-        time_intervals = [f"{hour:02d}:00 - {(hour + 1) % 24:02d}:00" for hour in range(24)]  # генерирует список
-        # часовых интервалов в виде ["00:00 - 01:00", ..., "23:00 - 00:00"]
-        result = []
-        for interval in time_intervals:
-            start_time = interval.split(" - ")[0]
-            # для корректности в подсчете конец интервала представляем в виде "23:59, т.е. начало + 59 минут."
-            end_time = start_time[:2] + ":59"
-            result.append(
-                {interval: obj.participants.filter(work_start__lte=start_time, work_finish__gte=end_time).count()}
-            )
-        return result
+        user = self.context["request"].user
+        return get_members_num_per_interval(user, project)
