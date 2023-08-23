@@ -16,6 +16,8 @@
   }
 
   &__form {
+    width: $ui-width-l;
+
     &_photo {
       @extend %flex-row;
 

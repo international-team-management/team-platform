@@ -20,10 +20,15 @@
     margin: 0 120px;
   }
 
+  &__inputs {
+    width: $ui-width-l;
+  }
+
   &__buttons {
     @extend %flex-column;
 
     align-items: center;
+    width: $ui-width-l;
   }
 
   &__text {
