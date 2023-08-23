@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 from rest_framework.response import Response
 
+from .permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
 from .serializers import (
     ProjectGetSerializer,
     ProjectPostSerializer,
@@ -18,7 +19,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     """Вьюсет модели Project"""
 
     queryset = Project.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
 
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:
@@ -37,7 +38,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsParticipantOrReadOnly)
     queryset = Task.objects.all()
 
     def get_serializer_class(self):
