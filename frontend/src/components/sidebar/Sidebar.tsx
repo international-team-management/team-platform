@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'src/services/hooks';
 import { selectUserMe } from 'src/services/slices/authSlice';
 import {
   addProject,
-  selectProjectInfo,
+  selectProjects,
   setCurrent,
 } from 'src/services/slices/projectSlice';
 
 export const Sidebar = (): JSX.Element => {
   const userMe = useSelector(selectUserMe);
-  const projectList = useSelector(selectProjectInfo);
+  const projectList = useSelector(selectProjects);
   const dispatch = useDispatch();
 
   const createNewProject = () => {

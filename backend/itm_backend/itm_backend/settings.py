@@ -19,6 +19,7 @@ TIME_INPUT_FORMATS = ("%H:%M",)
 
 CORS_ALLOWED_ORIGINS = (
     "http://localhost",
+    "http://localhost:5173",
     "http://127.0.0.1",
 )
 

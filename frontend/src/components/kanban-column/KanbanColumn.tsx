@@ -2,13 +2,13 @@ import clsx from 'clsx';
 import styles from '../kanban-table/KanbanTable.module.scss';
 import { ReactComponent as AddTaskButton } from 'assets/add-task.svg';
 import { AddTask } from '../UI/add-task-kanban/AddTask';
-import { ColumnItem, ColumnTask } from '../kanban-table/KanbanTable';
 import { KanbanTask } from '../kanban-task/KanbanTask';
 import { dragTaskType } from 'src/hooks/useDragDropKanban';
+import type { TaskType, ColumnType } from 'src/services/api/types';
 
 type PropsType = {
-  column: ColumnItem;
-  currentTask: ColumnTask | undefined;
+  column: ColumnType;
+  currentTask: TaskType | undefined;
   dragTaskHandler: dragTaskType;
   hover: number | null;
   isEmptyTable: boolean;

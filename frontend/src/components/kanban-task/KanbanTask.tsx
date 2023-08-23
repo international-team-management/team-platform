@@ -1,11 +1,11 @@
 import styles from '../kanban-table/KanbanTable.module.scss';
 import { ReactComponent as MoreActions } from 'assets/more-actions.svg';
 import clsx from 'clsx';
-import { ColumnTask } from '../kanban-table/KanbanTable';
+import type { TaskType } from 'src/services/api/types';
 
 type PropsType = {
-  task: ColumnTask;
-  currentTask: ColumnTask | undefined;
+  task: TaskType;
+  currentTask: TaskType | undefined;
 };
 
 export const KanbanTask = ({ task, currentTask }: PropsType) => {

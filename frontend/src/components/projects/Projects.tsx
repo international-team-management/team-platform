@@ -5,14 +5,14 @@ import { NavLink } from 'react-router-dom';
 import { ReactComponent as ProjectIcon } from 'assets/project-icon.svg';
 import {
   selectCurrentProject,
-  selectProjectInfo,
+  selectProjects,
   setCurrent,
 } from 'src/services/slices/projectSlice';
 import { useDispatch, useSelector } from 'src/services/hooks';
 import { HeaderState, setHeaderState } from 'src/services/slices/headerSlice';
 
 export const Projects = (): JSX.Element => {
-  const projectsArr = useSelector(selectProjectInfo);
+  const projects = useSelector(selectProjects);
   const currentProject = useSelector(selectCurrentProject);
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ export const Projects = (): JSX.Element => {
   };
 
   function renderProjects(): React.ReactNode[] {
-    return projectsArr.map((project) => {
+    return projects.map((project) => {
       return (
         <li key={project.id}>
           <NavLink
