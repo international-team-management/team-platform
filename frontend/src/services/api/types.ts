@@ -26,6 +26,10 @@ export type LoginRequestData = {
   password: string;
 };
 
+export type AddMemberRequestData = {
+  email: string;
+};
+
 export type UserType = {
   id?: number;
   username?: string;

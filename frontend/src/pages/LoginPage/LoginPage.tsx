@@ -49,7 +49,7 @@ export const LoginPage: React.FC = () => {
           text="С возвращением"
           descrption="Введите свои данные и войдите в аккаунт"
         />
-        <div>
+        <div className={styles.login__inputs}>
           <Input
             register={register}
             errorObject={errors[InputName.EMAIL]}

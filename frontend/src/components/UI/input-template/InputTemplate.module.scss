@@ -7,7 +7,7 @@
 
     @include set-font-size(16px, 20px, 600);
 
-    width: $ui-width-l;
+    width: 100%;
 
     & + & {
       margin-top: 12px;
