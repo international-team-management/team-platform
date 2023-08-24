@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "djoser",
     "drf_spectacular",
-    "django-resized",
     "phonenumber_field",
     "api.apps.ApiConfig",
     "projects.apps.ProjectsConfig",

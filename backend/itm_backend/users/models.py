@@ -55,6 +55,7 @@ class User(AbstractUser):
         verbose_name="Должность",
         help_text="Ваша должность",
         max_length=50,
+        blank=True,
     )
     created_at = models.DateTimeField(verbose_name="Дата регистрации пользователя", auto_now_add=True)
     update_at = models.DateTimeField(verbose_name="Дата обновления данных пользователя", auto_now=True)
@@ -67,8 +68,8 @@ class User(AbstractUser):
         related_name="users",
         verbose_name="Часовой пояс пользователя",
     )
-    work_start = models.TimeField(verbose_name="Время начала работы", null=True)
-    work_finish = models.TimeField(verbose_name="Время окончания работы", null=True)
+    work_start = models.TimeField(verbose_name="Время начала работы", blank=True, null=True)
+    work_finish = models.TimeField(verbose_name="Время окончания работы", blank=True, null=True)
     photo = ResizedImageField(
         "Аватар пользователя", upload_to="media/", size=[400, 400], blank=True, null=True, validators=[validate_photo]
     )
