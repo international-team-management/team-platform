@@ -53,15 +53,9 @@ class User(AbstractUser):
         help_text="Ваша должность",
         max_length=50,
     )
-    created_at = models.DateTimeField(
-        verbose_name="Дата регистрации пользователя", auto_now_add=True
-    )
-    update_at = models.DateTimeField(
-        verbose_name="Дата обновления данных пользователя", auto_now=True
-    )
-    is_active = models.BooleanField(
-        verbose_name="Активный пользователь", default=True, blank=True, null=True
-    )
+    created_at = models.DateTimeField(verbose_name="Дата регистрации пользователя", auto_now_add=True)
+    update_at = models.DateTimeField(verbose_name="Дата обновления данных пользователя", auto_now=True)
+    is_active = models.BooleanField(verbose_name="Активный пользователь", default=True, blank=True, null=True)
     timezone = models.ForeignKey(
         "TimeZone",
         on_delete=models.SET_NULL,
@@ -72,12 +66,8 @@ class User(AbstractUser):
     )
     work_start = models.TimeField(verbose_name="Время начала работы", null=True)
     work_finish = models.TimeField(verbose_name="Время окончания работы", null=True)
-    photo = models.ImageField(
-        verbose_name="Аватар пользователя", upload_to="media/", blank=True, null=True
-    )
-    telephone_number = PhoneNumberField(
-        verbose_name="Номер телефона", blank=True, null=True
-    )
+    photo = models.ImageField(verbose_name="Аватар пользователя", upload_to="media/", blank=True, null=True)
+    telephone_number = PhoneNumberField(verbose_name="Номер телефона", blank=True, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name"]
 
@@ -109,9 +99,7 @@ class TimeZone(models.Model):
         verbose_name="Смещение от UTC",
     )
     abbrev = models.CharField(verbose_name="Аббревиатура", max_length=50, blank=True)
-    altName = models.CharField(
-        verbose_name="Условное наименование", max_length=150, blank=True
-    )
+    altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
 
     class Meta:
         verbose_name = "Часовой пояс"
