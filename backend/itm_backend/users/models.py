@@ -35,9 +35,7 @@ class User(AbstractUser):
         filesize = fieldfile_obj.file.size
         megabyte_limit = 5.0
         if filesize > megabyte_limit * 1024 * 1024:
-            raise ValidationError(
-                "Максимальный размер файла для аватарки %sMB" % str(megabyte_limit)
-            )
+            raise ValidationError("Максимальный размер файла для аватарки %sMB" % str(megabyte_limit))
 
     username = models.CharField("Логин", max_length=150, blank=True, unique=False)
     email = models.EmailField(
@@ -63,15 +61,9 @@ class User(AbstractUser):
         max_length=50,
         blank=True,
     )
-    created_at = models.DateTimeField(
-        verbose_name="Дата регистрации пользователя", auto_now_add=True
-    )
-    update_at = models.DateTimeField(
-        verbose_name="Дата обновления данных пользователя", auto_now=True
-    )
-    is_active = models.BooleanField(
-        verbose_name="Активный пользователь", default=True, blank=True, null=True
-    )
+    created_at = models.DateTimeField(verbose_name="Дата регистрации пользователя", auto_now_add=True)
+    update_at = models.DateTimeField(verbose_name="Дата обновления данных пользователя", auto_now=True)
+    is_active = models.BooleanField(verbose_name="Активный пользователь", default=True, blank=True, null=True)
     timezone = models.ForeignKey(
         "TimeZone",
         on_delete=models.SET_NULL,
@@ -80,12 +72,8 @@ class User(AbstractUser):
         related_name="users",
         verbose_name="Часовой пояс пользователя",
     )
-    work_start = models.TimeField(
-        verbose_name="Время начала работы", blank=True, null=True
-    )
-    work_finish = models.TimeField(
-        verbose_name="Время окончания работы", blank=True, null=True
-    )
+    work_start = models.TimeField(verbose_name="Время начала работы", blank=True, null=True)
+    work_finish = models.TimeField(verbose_name="Время окончания работы", blank=True, null=True)
     photo = ResizedImageField(
         "Аватар пользователя",
         upload_to="media/",
@@ -94,9 +82,7 @@ class User(AbstractUser):
         null=True,
         validators=[validate_photo],
     )
-    telephone_number = PhoneNumberField(
-        verbose_name="Номер телефона", blank=True, null=True
-    )
+    telephone_number = PhoneNumberField(verbose_name="Номер телефона", blank=True, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name"]
 
@@ -112,9 +98,7 @@ class User(AbstractUser):
     def clean(self):
         if self.photo:
             if self.photo.width < 400 or self.photo.height < 400:
-                raise ValidationError(
-                    {"image": "Минимальный размер картинки 400х400 пикселей."}
-                )
+                raise ValidationError({"image": "Минимальный размер картинки 400х400 пикселей."})
         return super().clean()
 
     def save(self, *args, **kwargs):
@@ -137,12 +121,8 @@ class TimeZone(models.Model):
         verbose_name="Смещение от UTC",
     )
     abbrev = models.CharField(verbose_name="Аббревиатура", max_length=50, blank=True)
-    altName = models.CharField(
-        verbose_name="Условное наименование", max_length=150, blank=True
-    )
-    altName = models.CharField(
-        verbose_name="Условное наименование", max_length=150, blank=True
-    )
+    altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
+    altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
 
     class Meta:
         verbose_name = "Часовой пояс"
