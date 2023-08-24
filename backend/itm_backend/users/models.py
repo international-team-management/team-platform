@@ -140,6 +140,9 @@ class TimeZone(models.Model):
     altName = models.CharField(
         verbose_name="Условное наименование", max_length=150, blank=True
     )
+    altName = models.CharField(
+        verbose_name="Условное наименование", max_length=150, blank=True
+    )
 
     class Meta:
         verbose_name = "Часовой пояс"
