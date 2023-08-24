@@ -38,7 +38,11 @@ class User(AbstractUser):
             raise ValidationError("Максимальный размер файла для аватарки %sMB" % str(megabyte_limit))
 
     username = models.CharField("Логин", max_length=150, blank=True, unique=False)
-    email = models.EmailField(verbose_name="адрес электронной почты", help_text="example@site.mail", unique=True)
+    email = models.EmailField(
+        verbose_name="адрес электронной почты",
+        help_text="example@site.mail",
+        unique=True,
+    )
     password = models.CharField(max_length=150, verbose_name="Пароль")
     first_name = models.CharField(
         verbose_name="Имя",
@@ -71,7 +75,12 @@ class User(AbstractUser):
     work_start = models.TimeField(verbose_name="Время начала работы", blank=True, null=True)
     work_finish = models.TimeField(verbose_name="Время окончания работы", blank=True, null=True)
     photo = ResizedImageField(
-        "Аватар пользователя", upload_to="media/", size=[400, 400], blank=True, null=True, validators=[validate_photo]
+        "Аватар пользователя",
+        upload_to="media/",
+        size=[400, 400],
+        blank=True,
+        null=True,
+        validators=[validate_photo],
     )
     telephone_number = PhoneNumberField(verbose_name="Номер телефона", blank=True, null=True)
     USERNAME_FIELD = "email"
@@ -98,6 +107,10 @@ class User(AbstractUser):
             self.username = self.email
         super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        self.is_active = False
+        super().save(*args, **kwargs)
+
 
 class TimeZone(models.Model):
     """Модель часового пояса"""
@@ -108,6 +121,7 @@ class TimeZone(models.Model):
         verbose_name="Смещение от UTC",
     )
     abbrev = models.CharField(verbose_name="Аббревиатура", max_length=50, blank=True)
+    altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
     altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
 
     class Meta:
