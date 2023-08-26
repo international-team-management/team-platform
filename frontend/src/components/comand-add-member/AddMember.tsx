@@ -10,7 +10,6 @@ import React from 'react';
 import { useDispatch } from 'src/services/hooks';
 
 export const AddMember: React.FC = () => {
-  const dispatch = useDispatch();
   const [addStatus, setAddStatus] = React.useState(false);
 
   const {

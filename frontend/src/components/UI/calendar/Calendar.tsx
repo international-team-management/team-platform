@@ -10,6 +10,8 @@ import clsx from 'clsx';
 import moment from 'moment';
 import 'moment/dist/locale/ru';
 import './Calendar.scss';
+import { useDispatch, useSelector } from 'src/services/hooks';
+import { closePopup, openPopup } from 'src/services/slices/popupSlice';
 
 type DateCalendarValue = {
   $d: Date;
@@ -21,7 +23,8 @@ type CalendarProps = {
 };
 
 export const Calendar: React.FC<CalendarProps> = (props: CalendarProps) => {
-  const [activeCalendar, setActiveCalendar] = React.useState(false);
+  const dispatch = useDispatch();
+  const { isOpen } = useSelector((store) => store.popup);
   const [value, setValue] = React.useState<Date>(
     props.initialValue || new Date(),
   );
@@ -29,13 +32,9 @@ export const Calendar: React.FC<CalendarProps> = (props: CalendarProps) => {
     props.initialValue ? formatDate(props.initialValue) : '',
   );
 
-  const closePopap = () => {
-    setActiveCalendar(false);
-  };
-
   const saveDate = () => {
     setTitle(formatDate(value));
-    setActiveCalendar(false);
+    dispatch(closePopup());
     props.onChange(value);
   };
 
@@ -43,22 +42,26 @@ export const Calendar: React.FC<CalendarProps> = (props: CalendarProps) => {
     return moment(date).locale('ru').format('LL').slice(0, -3);
   }
 
+  const togglePopap = () => {
+    if (isOpen) {
+      dispatch(closePopup());
+    } else {
+      dispatch(openPopup());
+    }
+  };
+
   return (
     <>
       <div
         className={clsx(styles.calendar__field, {
-          [styles.calendar__field_active]: activeCalendar === true,
+          [styles.calendar__field_active]: isOpen === true,
         })}
       >
         <div className={styles.calendar__data}>{title}</div>
-        <CalendarIcon
-          onClick={() => {
-            setActiveCalendar(!activeCalendar);
-          }}
-        />
+        <CalendarIcon onClick={() => togglePopap()} />
       </div>
 
-      {activeCalendar && (
+      {isOpen && (
         <div className={styles.calendar}>
           <StyledEngineProvider injectFirst>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
@@ -75,7 +78,7 @@ export const Calendar: React.FC<CalendarProps> = (props: CalendarProps) => {
             </button>
             <button
               className={styles.calendar__button_cancel}
-              onClick={closePopap}
+              onClick={() => dispatch(closePopup())}
             >
               Отменить
             </button>

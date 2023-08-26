@@ -15,8 +15,6 @@ import { InputName } from 'src/typings/constants';
 import { Calendar } from '../UI/calendar/Calendar';
 
 export const ProjectSidebar = ({
-  isOpened,
-  close,
   showActions,
   project,
 }: RightSidebarPropsType): JSX.Element => {
@@ -57,11 +55,7 @@ export const ProjectSidebar = ({
   };
 
   return (
-    <RightSidebarTemplate
-      isOpened={isOpened}
-      close={close}
-      showActions={showActions}
-    >
+    <RightSidebarTemplate showActions={showActions}>
       <form className={styles.form}>
         <InputTitle
           name={InputName.PROJECT_TITLE}
