@@ -133,7 +133,12 @@ $ui-border-radius-phone: 16px;
   bottom: 0;
   left: -$width;
 
-  width: calc(100% + $width * 2);
+  @if $width == 0 {
+    width: 100%;
+  } @else {
+    width: calc(100% + $width * 2);
+  }
+
   height: 1px;
 
   background-color: $grey-225;
