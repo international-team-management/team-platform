@@ -3,7 +3,7 @@
 .team {
   display: grid;
   grid-gap: 24px;
-  grid-template: 33.67% 1fr / max(min(196px, 10.2vw), auto) min(260px, 13.54vw) 1fr;
+  grid-template: 196px 260px 1fr / 404px 1fr;
   grid-template-areas:
     'intersections squad'
     'add squad'

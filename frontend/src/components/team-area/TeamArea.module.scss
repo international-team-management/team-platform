@@ -7,8 +7,13 @@
   grid-area: squad;
 
   &__header {
+    position: relative;
     display: flex;
     padding: 20px 24px;
+
+    &::after {
+      @include set-team-border;
+    }
   }
 
   &__full-team {
@@ -99,5 +104,34 @@
     width: 20px;
     height: 20px;
     margin-left: 24px;
+  }
+
+  &__table {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 40px repeat(auto-fill, 72px);
+    padding: 0 24px;
+
+    &-header {
+      @include set-font-size(14px, 16px, 700);
+
+      position: relative;
+
+      display: grid;
+      grid-template-columns: 247px 236px 1fr;
+      grid-template-rows: 1fr;
+
+      color: $grey-118;
+
+      &::after {
+        @include set-team-border(24px);
+      }
+
+      span {
+        display: flex;
+        align-items: center;
+        margin-left: 31px;
+      }
+    }
   }
 }

@@ -125,3 +125,16 @@ $ui-border-radius-phone: 16px;
   border-radius: $border-radius $i;
   outline: 1px solid $blue-95 $i;
 }
+
+@mixin set-team-border($width: 0) {
+  content: '';
+
+  position: absolute;
+  bottom: 0;
+  left: -$width;
+
+  width: calc(100% + $width * 2);
+  height: 1px;
+
+  background-color: $grey-225;
+}
