@@ -10,11 +10,18 @@ import {
 } from 'src/services/slices/projectSlice';
 import { useDispatch, useSelector } from 'src/services/hooks';
 import { HeaderState, setHeaderState } from 'src/services/slices/headerSlice';
+import { closePopup } from 'src/services/slices/popupSlice';
+import { closeSidebar } from 'src/services/slices/sidebarSlice';
 
 export const Projects = (): JSX.Element => {
   const projects = useSelector(selectProjects);
   const currentProject = useSelector(selectCurrentProject);
   const dispatch = useDispatch();
+
+  React.useLayoutEffect(() => {
+    dispatch(closePopup());
+    dispatch(closeSidebar());
+  });
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const arr = e.currentTarget.id.split('-');
