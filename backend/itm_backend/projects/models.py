@@ -39,7 +39,12 @@ class Task(models.Model):
         minimum = "minimum", _("Минимальный")
         urgent = "urgent", _("Срочно")
 
-    task_project = models.ForeignKey("Project", verbose_name="Проект", on_delete=models.CASCADE, related_name="tasks")
+    task_project = models.ForeignKey(
+        "Project",
+        verbose_name="Проект",
+        on_delete=models.CASCADE,
+        related_name="tasks"
+    )
     creator = models.ForeignKey(
         User,
         verbose_name="Создатель",
