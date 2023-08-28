@@ -297,3 +297,18 @@ class TeamSerializer(serializers.ModelSerializer):
                 {interval: obj.participants.filter(work_start__lte=start_time, work_finish__gte=end_time).count()}
             )
         return result
+
+
+class SetPasswordSerializer(serializers.Serializer):
+    new_password = serializers.CharField(validators=[validate_password])
+
+    class Meta:
+        model = User
+        fields = ["new_password"]
+
+    def create(self, validated_data):
+        """
+        Хэшируем пароль перед сохранением в базу данных.
+        """
+        validated_data["new_password"] = make_password(validated_data["new_password"])
+        return super().create(validated_data)
