@@ -34,13 +34,11 @@ export const getAvatarColor = (
 ): TPaletteItem => {
   const random = Math.floor(min + Math.random() * (max + 1 - min));
 
-  const localColor = localStorage.getItem('avatarColor');
-
-  if (!localColor) {
-    localStorage.setItem('avatarColor', JSON.stringify(palette[random]));
+  if (!localStorage.getItem('avatarColor')) {
+    const localColor = palette[random];
+    localStorage.setItem('avatarColor', JSON.stringify(localColor));
+    return localColor;
   }
 
-  const result = JSON.parse(localColor!);
-
-  return result;
+  return JSON.parse(localStorage.getItem('avatarColor')!);
 };
