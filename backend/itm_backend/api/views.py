@@ -1,3 +1,4 @@
+from api.permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
 from api.serializers import (
     CustomUserCreateSerializer,
     CustomUserSerializer,
@@ -8,15 +9,15 @@ from api.serializers import (
     TaskPostSerializer,
     TeamSerializer,
 )
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from projects.models import Project, Task
 from rest_framework import mixins, status, views, viewsets
 from rest_framework.decorators import action, permission_classes
 from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from users.models import User
 
-from .permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
+User = get_user_model()
 
 
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
