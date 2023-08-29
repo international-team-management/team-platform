@@ -3,13 +3,14 @@ import base64
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
-from projects.models import Project, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from users.models import TimeZone
 
-from .services import get_members_num_per_interval
-from .validators import validate_first_last_names, validate_offset, validate_password
+from api.services import get_members_num_per_interval
+from api.validators import (validate_first_last_names, validate_offset,
+                            validate_password)
+from projects.models import Project, Task, TaskUser
+from users.models import TimeZone
 
 User = get_user_model()
 
