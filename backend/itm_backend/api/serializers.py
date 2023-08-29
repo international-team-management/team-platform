@@ -313,6 +313,13 @@ class UnauthorizedErrorSerializer(serializers.Serializer):
     )
 
 
+class NotFoundErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="Not found.",
+        help_text="Сообщение об ошибке",
+    )
+
+
 class InternalServerErrorSerializer(serializers.Serializer):
     detail = serializers.CharField(
         default="Internal server error.",
@@ -323,5 +330,19 @@ class InternalServerErrorSerializer(serializers.Serializer):
 class BadRequestUserErrorSerializer(serializers.Serializer):
     detail = serializers.CharField(
         default="Длина пароля должна быть от 8 до 22 символов.",
+        help_text="Сообщение об ошибке",
+    )
+
+
+class BadRequestProjectTaskErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="This field may not be blank.",
+        help_text="Сообщение об ошибке",
+    )
+
+
+class BadRequestTimezoneErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="У вас не задана временная зона.",
         help_text="Сообщение об ошибке",
     )

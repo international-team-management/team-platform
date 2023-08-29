@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
-from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view, OpenApiParameter
 from projects.models import Project, Task
 from rest_framework import mixins, status, views, viewsets
 from rest_framework.decorators import action, permission_classes
@@ -20,10 +21,13 @@ from .serializers import (
     TaskPostSerializer,
     TeamSerializer,
     UnauthorizedErrorSerializer,
+    NotFoundErrorSerializer,
+    BadRequestProjectTaskErrorSerializer,
+    BadRequestTimezoneErrorSerializer,
 )
 
 
-@extend_schema(tags=["User Edit"])
+@extend_schema(tags=["User - основное"])
 @extend_schema_view(
     create=extend_schema(
         request=CustomUserCreateSerializer,
@@ -54,7 +58,6 @@ from .serializers import (
         description="Этот метод позволяет измений пароль своего пользователя.",
         responses={
             204: OpenApiResponse(
-                response=SetPasswordSerializer,
                 description="OK",
             ),
             400: OpenApiResponse(
@@ -74,7 +77,7 @@ from .serializers import (
 )
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """
-    Вьюсет для пользователей.
+    Вьюсет о пользователях.
     """
 
     queryset = User.objects.all()
@@ -99,8 +102,11 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(tags=["User info"])
+@extend_schema(tags=["User - личный пользователь"])
 class UserMeView(views.APIView):
+    """
+    Вьюсет для пользователей.
+    """
     permission_classes = (IsAuthenticated,)
     serializer_class = CustomUserSerializer
 
@@ -115,11 +121,11 @@ class UserMeView(views.APIView):
             ),
             401: OpenApiResponse(
                 response=UnauthorizedErrorSerializer,
-                description="Unauthorized Error",
+                description="Error: Unauthorized",
             ),
             500: OpenApiResponse(
                 response=InternalServerErrorSerializer,
-                description="Internal server error.",
+                description="Error: Internal server error",
             ),
         },
     )
@@ -136,22 +142,26 @@ class UserMeView(views.APIView):
                 response=CustomUserSerializer,
                 description="OK",
             ),
-            (200, "application/json"): {
-                "description": "Success",
-                "type": "object",
-                "properties": {
-                    "access_token": {"type": "string", "minLength": 1},
-                    "refresh_token": {"type": "string", "minLength": 1},
-                },
-                "required": ["access_token", "refresh_token"],
-            },
+            # (200, "application/json"): {
+            #     "description": "Success",
+            #     "type": "object",
+            #     "properties": {
+            #         "access_token": {"type": "string", "minLength": 1},
+            #         "refresh_token": {"type": "string", "minLength": 1},
+            #     },
+            #     "required": ["access_token", "refresh_token"],
+            # },
+            400: OpenApiResponse(
+                response=BadRequestUserErrorSerializer,
+                description="Error: Bad Request",
+            ),
             401: OpenApiResponse(
                 response=UnauthorizedErrorSerializer,
-                description="Unauthorized Error",
+                description="Error: Unauthorized",
             ),
             500: OpenApiResponse(
                 response=InternalServerErrorSerializer,
-                description="Internal server error.",
+                description="Error: Internal server error",
             ),
         },
     )
@@ -164,23 +174,78 @@ class UserMeView(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(tags=["Project"])
+@extend_schema(tags=["Projects - создание и редактирование проектов"])
 @extend_schema_view(
     list=extend_schema(
+        request=ProjectGetSerializer(many=True),
         summary="Получить список проектов",
         description="Этот метод позволяет получить список проектов.",
         responses={
+            200: OpenApiResponse(
+                response=ProjectGetSerializer(many=True),
+                description="OK",
+            ),
+            401: OpenApiResponse(
+                response=UnauthorizedErrorSerializer,
+                description="Error: Unauthorized",
+            ),
+            500: OpenApiResponse(
+                response=InternalServerErrorSerializer,
+                description="Error: Internal server error",
+            ),
+        },
+    ),
+    create=extend_schema(
+        request=ProjectPostSerializer,
+        summary="Создание нового проекта",
+        description="Этот метод позволяет создать новый проект.",
+        responses={
             201: OpenApiResponse(
+                response=ProjectPostSerializer,
+                description="OK",
+            ),
+            400: OpenApiResponse(
+                response=BadRequestProjectTaskErrorSerializer,
+                description="Error: Bad Request",
+            ),
+            401: OpenApiResponse(
+                response=UnauthorizedErrorSerializer,
+                description="Error: Unauthorized",
+            ),
+            500: OpenApiResponse(
+                response=InternalServerErrorSerializer,
+                description="Error: Internal server error",
+            ),
+        },
+    ),
+    retrieve=extend_schema(
+        request=ProjectGetSerializer,
+        summary="Получить информацию о проекте",
+        description="Этот метод позволяет получить информацию о проекте.",
+        parameters=[
+            OpenApiParameter(
+                "id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID проекта:"
+            )
+        ],
+        responses={
+            200: OpenApiResponse(
                 response=ProjectGetSerializer,
                 description="OK",
             ),
             401: OpenApiResponse(
                 response=UnauthorizedErrorSerializer,
-                description="Unauthorized Error",
+                description="Error: Unauthorized",
+            ),
+            404: OpenApiResponse(
+                response=NotFoundErrorSerializer,
+                description="Error: Not Found",
             ),
             500: OpenApiResponse(
                 response=InternalServerErrorSerializer,
-                description="Internal server error.",
+                description="Error: Internal server error",
             ),
         },
     ),
@@ -199,19 +264,40 @@ class UserMeView(views.APIView):
             },
         },
     ),
-    create=extend_schema(
-        summary="Создание нового проекта", description="Этот метод позволяет создать новую задачу в проекте."
-    ),
-    retrieve=extend_schema(
-        summary="Получить детали проекта", description="Этот метод позволяет получить детали задачи в проекте."
-    ),
     partial_update=extend_schema(
-        summary="Частичное изменение проекта", description="Этот метод позволяет частично изменить задачу в проекте."
+        summary="Частичное изменение проекта",
+        description="Этот метод позволяет частично изменить задачу в проекте.",
     ),
-    destroy=extend_schema(summary="Удаление проекта", description="Этот метод позволяет удалить задачу из проекта."),
+    destroy=extend_schema(
+        summary="Удаление проекта",
+        description="Этот метод позволяет удалить проект.",
+        parameters=[
+            OpenApiParameter(
+                "id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID проекта:"
+            )
+        ],
+        responses={
+            204: OpenApiResponse(
+                description="OK",
+            ),
+            401: OpenApiResponse(
+                response=UnauthorizedErrorSerializer,
+                description="Error: Unauthorized",
+            ),
+            500: OpenApiResponse(
+                response=InternalServerErrorSerializer,
+                description="Error: Internal server error",
+            ),
+        },
+    ),
 )
 class ProjectViewSet(viewsets.ModelViewSet):
-    """Вьюсет модели Project"""
+    """
+    Вьюсет модели Project.
+    """
 
     queryset = Project.objects.all()
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
@@ -225,13 +311,37 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
     @extend_schema(
-        tags=["Project Teams"],
+        tags=["Projects - команды проекта (проверить таймзону)"],
         summary="Получить список команд",
         description="Этот метод позволяет получить список команд для проекта.",
+        parameters=[
+            OpenApiParameter(
+                "id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID проекта:"
+            )
+        ],
         responses={
+            200: OpenApiResponse(
+                response=ProjectGetSerializer,
+                description="OK",
+            ),
+            400: OpenApiResponse(
+                response=BadRequestTimezoneErrorSerializer,
+                description="Error: Bad Request",
+            ),
             401: OpenApiResponse(
                 response=UnauthorizedErrorSerializer,
-                description="Не авторизовано",
+                description="Error: Unauthorized",
+            ),
+            404: OpenApiResponse(
+                response=NotFoundErrorSerializer,
+                description="Error: Not Found",
+            ),
+            500: OpenApiResponse(
+                response=InternalServerErrorSerializer,
+                description="Error: Internal server error",
             ),
         },
     )
@@ -242,31 +352,153 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-@extend_schema(tags=["Tasks"])
+@extend_schema(tags=["Tasks - создание и редактрирование задач"])
 @extend_schema_view(
     list=extend_schema(
-        summary="Получить список задач",
-        description="Этот метод позволяет получить список задач в проекте.",
+        summary="Получить список задач для проекта",
+        description="Этот метод позволяет получить список задач в определённом проекте.",
+        parameters=[
+            OpenApiParameter(
+                "projects_id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID проекта:"
+            )
+        ],
+        responses={
+            200: OpenApiResponse(
+                response=TaskGetSerializer,
+                description="OK",
+            ),
+            401: OpenApiResponse(
+                response=UnauthorizedErrorSerializer,
+                description="Error: Unauthorized",
+            ),
+            404: OpenApiResponse(
+                response=NotFoundErrorSerializer,
+                description="Error: Not Found",
+            ),
+            500: OpenApiResponse(
+                response=InternalServerErrorSerializer,
+                description="Error: Internal server error",
+            ),
+        },
+    ),
+    create=extend_schema(
+        summary="Создание новой задачи для проекта",
+        description="Этот метод позволяет создать новую задачу для проекта.",
+        parameters=[
+            OpenApiParameter(
+                "projects_id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID проекта:"
+            )
+        ],
+        responses={
+            200: OpenApiResponse(
+                response=TaskPostSerializer,
+                description="OK",
+            ),
+            400: OpenApiResponse(
+                response=BadRequestProjectTaskErrorSerializer,
+                description="Error: Bad Request",
+            ),
+            401: OpenApiResponse(
+                response=UnauthorizedErrorSerializer,
+                description="Error: Unauthorized",
+            ),
+            500: OpenApiResponse(
+                response=InternalServerErrorSerializer,
+                description="Error: Internal server error",
+            ),
+        },
+    ),
+    retrieve=extend_schema(
+        summary="Получить детали задачи в проекте",
+        description="Этот метод позволяет получить детали задачи в проекте.",
+        parameters=[
+            OpenApiParameter(
+                "id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID задачи:"
+            ),
+            OpenApiParameter(
+                "projects_id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID проекта:"
+            )
+        ],
+        responses={
+            200: OpenApiResponse(
+                response=TaskPostSerializer,
+                description="OK",
+            ),
+            400: OpenApiResponse(
+                response=BadRequestProjectTaskErrorSerializer,
+                description="Error: Bad Request",
+            ),
+            401: OpenApiResponse(
+                response=UnauthorizedErrorSerializer,
+                description="Error: Unauthorized",
+            ),
+            500: OpenApiResponse(
+                response=InternalServerErrorSerializer,
+                description="Error: Internal server error",
+            ),
+        },
     ),
     update=extend_schema(
         summary="Изменение существующей задачи",
         description="Этот метод позволяет изменить существующую задачу в проекте.",
-    ),
-    create=extend_schema(
-        summary="Создание новой задачи", description="Этот метод позволяет создать новую задачу в проекте."
-    ),
-    retrieve=extend_schema(
-        summary="Получить детали задачи в проекте", description="Этот метод позволяет получить детали задачи в проекте."
     ),
     partial_update=extend_schema(
         summary="Частичное изменение задачи в проекте",
         description="Этот метод позволяет частично изменить задачу в проекте.",
     ),
     destroy=extend_schema(
-        summary="Удаление задачи из проекта", description="Этот метод позволяет удалить задачу из проекта."
+        summary="Удаление задачи из проекта",
+        description="Этот метод позволяет удалить задачу из проекта.",
+        parameters=[
+            OpenApiParameter(
+                "id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID задачи:"
+            ),
+            OpenApiParameter(
+                "projects_id",
+                int,
+                OpenApiParameter.PATH,
+                description="Введите уникальный ID проекта:"
+            )
+        ],
+        responses={
+            204: OpenApiResponse(
+                description="OK",
+            ),
+            401: OpenApiResponse(
+                response=UnauthorizedErrorSerializer,
+                description="Error: Unauthorized",
+            ),
+            404: OpenApiResponse(
+                response=NotFoundErrorSerializer,
+                description="Error: Not Found",
+            ),
+            500: OpenApiResponse(
+                response=InternalServerErrorSerializer,
+                description="Error: Internal server error",
+            ),
+        },
     ),
 )
 class TaskViewSet(viewsets.ModelViewSet):
+    """
+    Вьюсет модели Task.
+    """
+
     permission_classes = (IsAuthenticated, IsParticipantOrReadOnly)
     queryset = Task.objects.all()
 
