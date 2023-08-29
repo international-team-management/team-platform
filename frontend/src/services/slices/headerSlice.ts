@@ -13,7 +13,7 @@ export enum VIEWS {
 }
 
 const initialState = {
-  state: HeaderState.PROFILE,
+  state: '',
   view: VIEWS.KANBAN,
 };
 

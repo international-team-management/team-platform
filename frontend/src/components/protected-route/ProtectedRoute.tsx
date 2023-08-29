@@ -7,5 +7,11 @@ import { routes } from 'src/routes';
 export const ProtectedRoute: React.FC = () => {
   const userMe = useSelector(selectUserMe);
 
-  return userMe ? <Outlet /> : <Navigate to={routes['sign-in'].path} replace />;
+  return userMe === undefined ? (
+    <></>
+  ) : userMe ? (
+    <Outlet />
+  ) : (
+    <Navigate to={routes['sign-in'].path} replace />
+  );
 };
