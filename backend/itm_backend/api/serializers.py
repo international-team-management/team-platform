@@ -1,5 +1,6 @@
 import base64
 
+from api.validators import validate_first_last_names, validate_offset, validate_password
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
@@ -7,8 +8,6 @@ from projects.models import Project, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from users.models import TimeZone
-
-from .validators import validate_first_last_names, validate_offset, validate_password
 
 User = get_user_model()
 
@@ -226,6 +225,7 @@ class ProjectPostSerializer(serializers.ModelSerializer):
     tasks = serializers.PrimaryKeyRelatedField(
         queryset=Task.objects.all(),
         many=True,
+        required=False,
     )
 
     def validate_name(self, value):

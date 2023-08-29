@@ -1,17 +1,16 @@
-from django.shortcuts import get_object_or_404
-from projects.models import Project, Task
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
-from rest_framework.response import Response
-
-from .serializers import (
+from api.serializers import (
     ProjectGetSerializer,
     ProjectPostSerializer,
     TaskGetSerializer,
     TaskPostSerializer,
     TeamSerializer,
 )
+from django.shortcuts import get_object_or_404
+from projects.models import Project, Task
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
+from rest_framework.response import Response
 
 
 class ProjectViewSet(viewsets.ModelViewSet):

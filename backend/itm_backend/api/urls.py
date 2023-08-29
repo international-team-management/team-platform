@@ -1,3 +1,4 @@
+from api.views import ProjectViewSet, TaskViewSet
 from django.urls import include, path
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -5,8 +6,6 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 from rest_framework.routers import SimpleRouter
-
-from .views import ProjectViewSet, TaskViewSet
 
 router = SimpleRouter()
 router.register("projects", ProjectViewSet)
