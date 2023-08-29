@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager as DefaultUserManager
+from django.core.exceptions import ValidationError
 from django.db import models
+from django_resized import ResizedImageField
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -29,9 +31,18 @@ class User(AbstractUser):
     Регистрация с помощью email.
     """
 
-    username = models.CharField("Логин", max_length=150, blank=True, unique=False)
+    def validate_photo(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 5.0
+        if filesize > megabyte_limit * 1024 * 1024:
+            raise ValidationError("Максимальный размер файла для аватарки %sMB" % str(megabyte_limit))
 
-    email = models.EmailField(verbose_name="адрес электронной почты", help_text="example@site.mail", unique=True)
+    username = models.CharField("Логин", max_length=150, blank=True, unique=False)
+    email = models.EmailField(
+        verbose_name="адрес электронной почты",
+        help_text="example@site.mail",
+        unique=True,
+    )
     password = models.CharField(max_length=150, verbose_name="Пароль")
     first_name = models.CharField(
         verbose_name="Имя",
@@ -48,6 +59,7 @@ class User(AbstractUser):
         verbose_name="Должность",
         help_text="Ваша должность",
         max_length=50,
+        blank=True,
     )
     created_at = models.DateTimeField(verbose_name="Дата регистрации пользователя", auto_now_add=True)
     update_at = models.DateTimeField(verbose_name="Дата обновления данных пользователя", auto_now=True)
@@ -60,9 +72,16 @@ class User(AbstractUser):
         related_name="users",
         verbose_name="Часовой пояс пользователя",
     )
-    work_start = models.TimeField(verbose_name="Время начала работы", null=True)
-    work_finish = models.TimeField(verbose_name="Время окончания работы", null=True)
-    photo = models.ImageField(verbose_name="Аватар пользователя", upload_to="media/", blank=True, null=True)
+    work_start = models.TimeField(verbose_name="Время начала работы", blank=True, null=True)
+    work_finish = models.TimeField(verbose_name="Время окончания работы", blank=True, null=True)
+    photo = ResizedImageField(
+        "Аватар пользователя",
+        upload_to="media/",
+        size=[400, 400],
+        blank=True,
+        null=True,
+        validators=[validate_photo],
+    )
     telephone_number = PhoneNumberField(verbose_name="Номер телефона", blank=True, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name"]
@@ -76,9 +95,20 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+    def clean(self):
+        if self.photo:
+            if self.photo.width < 400 or self.photo.height < 400:
+                raise ValidationError({"image": "Минимальный размер картинки 400х400 пикселей."})
+        return super().clean()
+
     def save(self, *args, **kwargs):
+        self.full_clean()
         if not self.username:
             self.username = self.email
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.is_active = False
         super().save(*args, **kwargs)
 
 
@@ -91,6 +121,7 @@ class TimeZone(models.Model):
         verbose_name="Смещение от UTC",
     )
     abbrev = models.CharField(verbose_name="Аббревиатура", max_length=50, blank=True)
+    altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
     altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
 
     class Meta:
