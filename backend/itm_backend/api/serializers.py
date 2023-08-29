@@ -289,3 +289,39 @@ class TeamSerializer(serializers.ModelSerializer):
         """
         user = self.context["request"].user
         return get_members_num_per_interval(user, project)
+
+
+class SetPasswordSerializer(serializers.Serializer):
+    new_password = serializers.CharField(validators=[validate_password])
+
+    class Meta:
+        model = User
+        fields = ["new_password"]
+
+    def create(self, validated_data):
+        """
+        Хэшируем пароль перед сохранением в базу данных.
+        """
+        validated_data["new_password"] = make_password(validated_data["new_password"])
+        return super().create(validated_data)
+
+
+class UnauthorizedErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="Authentication credentials were not provided.",
+        help_text="Сообщение об ошибке",
+    )
+
+
+class InternalServerErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="Internal server error.",
+        help_text="Сообщение об ошибке",
+    )
+
+
+class BadRequestUserErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="Длина пароля должна быть от 8 до 22 символов.",
+        help_text="Сообщение об ошибке",
+    )
