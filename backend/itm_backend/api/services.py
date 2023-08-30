@@ -2,7 +2,7 @@ import datetime
 
 from django.db.models import F
 
-from .serializers import ValidationError
+from .serializers import Project, Task, ValidationError
 
 
 def get_members_num_per_interval(user, project):
@@ -57,3 +57,45 @@ def get_members_num_per_interval(user, project):
                     members_counter += 1
         result.append({interval: members_counter})
     return result
+
+
+def add_project_example(user):
+    """
+    Создает пример проекта c заданиями при создании нового пользователя.
+    """
+
+    tasks_names = [
+        "Поиск инвесторов на 'Форум Развития 2023'",
+        "Создание новой таблицы лидеров по велогонке на стадионе во Франции",
+        "Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява",
+        "Создание новой таблицы лидеров по велогонке на стадионе во Франции",
+        "Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява",
+        "Поиск инвесторов на 'Форум Развития 2023'",
+        "Заново произвести замер всех изменений за сутки в краторе вулкана на острове Ява",
+    ]
+    tasks_deadlines = [30, 7, 10, 7, 10, 30, 10]
+    tasks_statuses = ["backlog", "backlog", "backlog", "todo", "in_progress", "in_review", "done"]
+    tasks_priorities = ["average", "minimum", "maximum", "minimum", "maximum", "average", "maximum"]
+
+    project = Project.objects.create(
+        name="Пример проекта",
+        description="Пример проекта",
+        owner=user,
+        deadline=datetime.date.today() + datetime.timedelta(days=365),
+        priority="minimum",
+    )
+
+    tasks = []
+    for name, deadline, status, priority in zip(tasks_names, tasks_deadlines, tasks_statuses, tasks_priorities):
+        task = Task(
+            creator=user,
+            task_project=project,
+            name=name,
+            description=name,
+            deadline=datetime.date.today() + datetime.timedelta(days=deadline),
+            status=status,
+            priority=priority,
+        )
+        tasks.append(task)
+    Task.objects.bulk_create(tasks)
+    return project
