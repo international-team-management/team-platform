@@ -1,6 +1,7 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 
-from .views import Project, get_object_or_404
+from projects.models import Project
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
