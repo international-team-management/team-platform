@@ -147,15 +147,6 @@ class UserMeView(views.APIView):
                 response=CustomUserSerializer,
                 description="OK",
             ),
-            # (200, "application/json"): {
-            #     "description": "Success",
-            #     "type": "object",
-            #     "properties": {
-            #         "access_token": {"type": "string", "minLength": 1},
-            #         "refresh_token": {"type": "string", "minLength": 1},
-            #     },
-            #     "required": ["access_token", "refresh_token"],
-            # },
             400: OpenApiResponse(
                 response=BadRequestUserErrorSerializer,
                 description="Error: Bad Request",
