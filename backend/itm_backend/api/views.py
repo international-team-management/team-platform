@@ -1,5 +1,10 @@
 from django.shortcuts import get_object_or_404
-from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view, OpenApiParameter
+from drf_spectacular.utils import (
+    OpenApiParameter,
+    OpenApiResponse,
+    extend_schema,
+    extend_schema_view,
+)
 from projects.models import Project, Task
 from rest_framework import mixins, status, views, viewsets
 from rest_framework.decorators import action, permission_classes
@@ -9,10 +14,13 @@ from users.models import User
 
 from .permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
 from .serializers import (
+    BadRequestProjectTaskErrorSerializer,
+    BadRequestTimezoneErrorSerializer,
     BadRequestUserErrorSerializer,
     CustomUserCreateSerializer,
     CustomUserSerializer,
     InternalServerErrorSerializer,
+    NotFoundErrorSerializer,
     ProjectGetSerializer,
     ProjectPostSerializer,
     SetPasswordSerializer,
@@ -20,9 +28,6 @@ from .serializers import (
     TaskPostSerializer,
     TeamSerializer,
     UnauthorizedErrorSerializer,
-    NotFoundErrorSerializer,
-    BadRequestProjectTaskErrorSerializer,
-    BadRequestTimezoneErrorSerializer,
 )
 
 
@@ -106,6 +111,7 @@ class UserMeView(views.APIView):
     """
     Вьюсет для пользователей.
     """
+
     permission_classes = (IsAuthenticated,)
     serializer_class = CustomUserSerializer
 
@@ -221,14 +227,7 @@ class UserMeView(views.APIView):
         request=ProjectGetSerializer,
         summary="Получить информацию о проекте",
         description="Этот метод позволяет получить информацию о проекте.",
-        parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
-        ],
+        parameters=[OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:")],
         responses={
             200: OpenApiResponse(
                 response=ProjectGetSerializer,
@@ -252,14 +251,7 @@ class UserMeView(views.APIView):
         request=ProjectPostSerializer,
         summary="Изменение существующего проекта",
         description="Этот метод позволяет изменить существующий проект.",
-        parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
-        ],
+        parameters=[OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:")],
         responses={
             200: OpenApiResponse(
                 response=ProjectPostSerializer,
@@ -283,14 +275,7 @@ class UserMeView(views.APIView):
         request=ProjectPostSerializer,
         summary="Частичное изменение проекта",
         description="Этот метод позволяет частично изменить задачу в проекте.",
-        parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
-        ],
+        parameters=[OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:")],
         responses={
             200: OpenApiResponse(
                 response=ProjectPostSerializer,
@@ -313,14 +298,7 @@ class UserMeView(views.APIView):
     destroy=extend_schema(
         summary="Удаление проекта",
         description="Этот метод позволяет удалить проект.",
-        parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
-        ],
+        parameters=[OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:")],
         responses={
             204: OpenApiResponse(
                 description="OK",
@@ -356,14 +334,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         tags=["Projects - команды проекта"],
         summary="Получить список команд",
         description="Этот метод позволяет получить список команд для проекта.",
-        parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
-        ],
+        parameters=[OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:")],
         responses={
             200: OpenApiResponse(
                 response=ProjectGetSerializer,
@@ -400,12 +371,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         summary="Получить список задач для проекта",
         description="Этот метод позволяет получить список задач в определённом проекте.",
         parameters=[
-            OpenApiParameter(
-                "projects_id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
+            OpenApiParameter("projects_id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:")
         ],
         responses={
             200: OpenApiResponse(
@@ -430,12 +396,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         summary="Создание новой задачи для проекта",
         description="Этот метод позволяет создать новую задачу для проекта.",
         parameters=[
-            OpenApiParameter(
-                "projects_id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
+            OpenApiParameter("projects_id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:")
         ],
         responses={
             200: OpenApiResponse(
@@ -460,18 +421,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         summary="Получить детали задачи в проекте",
         description="Этот метод позволяет получить детали задачи в проекте.",
         parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID задачи:"
-            ),
-            OpenApiParameter(
-                "projects_id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
+            OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID задачи:"),
+            OpenApiParameter("projects_id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:"),
         ],
         responses={
             200: OpenApiResponse(
@@ -497,18 +448,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         summary="Изменение существующей задачи",
         description="Этот метод позволяет изменить существующую задачу в проекте.",
         parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID задачи:"
-            ),
-            OpenApiParameter(
-                "projects_id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
+            OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID задачи:"),
+            OpenApiParameter("projects_id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:"),
         ],
         responses={
             200: OpenApiResponse(
@@ -534,18 +475,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         summary="Частичное изменение задачи в проекте",
         description="Этот метод позволяет частично изменить задачу в проекте.",
         parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID задачи:"
-            ),
-            OpenApiParameter(
-                "projects_id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
+            OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID задачи:"),
+            OpenApiParameter("projects_id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:"),
         ],
         responses={
             200: OpenApiResponse(
@@ -570,18 +501,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         summary="Удаление задачи из проекта",
         description="Этот метод позволяет удалить задачу из проекта.",
         parameters=[
-            OpenApiParameter(
-                "id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID задачи:"
-            ),
-            OpenApiParameter(
-                "projects_id",
-                int,
-                OpenApiParameter.PATH,
-                description="Введите уникальный ID проекта:"
-            )
+            OpenApiParameter("id", int, OpenApiParameter.PATH, description="Введите уникальный ID задачи:"),
+            OpenApiParameter("projects_id", int, OpenApiParameter.PATH, description="Введите уникальный ID проекта:"),
         ],
         responses={
             204: OpenApiResponse(
