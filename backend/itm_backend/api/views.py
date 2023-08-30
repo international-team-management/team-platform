@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view, OpenApiParameter
 from projects.models import Project, Task
 from rest_framework import mixins, status, views, viewsets
