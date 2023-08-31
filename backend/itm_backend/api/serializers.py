@@ -294,10 +294,10 @@ class TeamSerializer(serializers.ModelSerializer):
 
 class SetPasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(validators=[validate_password])
-
+    current_password = serializers.CharField()
     class Meta:
         model = User
-        fields = ["new_password"]
+        fields = ["new_password", "current_password"]
 
     def create(self, validated_data):
         """
@@ -305,3 +305,41 @@ class SetPasswordSerializer(serializers.Serializer):
         """
         validated_data["new_password"] = make_password(validated_data["new_password"])
         return super().create(validated_data)
+    
+    def validate_current_password(self, value):
+        user = self.context["request"].user
+        is_password_valid = user.check_password(value)
+        
+        if not is_password_valid:
+            raise ValidationError(f"Введен неверный пароль пользователя '{user}'.")
+        return value
+
+
+
+# class CurrentPasswordSerializer(serializers.Serializer):
+#     current_password = serializers.CharField(style={"input_type": "password"})
+
+#     default_error_messages = {
+#         "invalid_password": settings.CONSTANTS.messages.INVALID_PASSWORD_ERROR
+#     }
+
+#     def validate_current_password(self, value):
+#         is_password_valid = self.context["request"].user.check_password(value)
+#         if is_password_valid:
+#             return value
+#         else:
+#             self.fail("invalid_password")
+            
+# class PasswordSerializer(serializers.Serializer):
+#     new_password = serializers.CharField(style={"input_type": "password"})
+
+#     def validate(self, attrs):
+#         user = getattr(self, "user", None) or self.context["request"].user
+#         # why assert? There are ValidationError / fail everywhere
+#         assert user is not None
+
+#         try:
+#             validate_password(attrs["new_password"], user)
+#         except django_exceptions.ValidationError as e:
+#             raise serializers.ValidationError({"new_password": list(e.messages)})
+#         return super().validate(attrs)

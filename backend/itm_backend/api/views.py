@@ -30,7 +30,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     @action(["post"], detail=False, permission_classes=(IsAuthenticated,))
     def set_password(self, request, *args, **kwargs):
-        serializer = SetPasswordSerializer(data=request.data)
+        serializer = SetPasswordSerializer(data=request.data, context={"request": request})
         if serializer.is_valid():
             self.request.user.set_password(serializer.data["new_password"])
             self.request.user.save()
