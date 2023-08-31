@@ -9,12 +9,6 @@ import {
   setCurrent,
 } from 'src/services/slices/projectSlice';
 import { useDispatch, useSelector } from 'src/services/hooks';
-import {
-  HeaderState,
-  VIEWS,
-  setHeaderState,
-  setHeaderView,
-} from 'src/services/slices/headerSlice';
 import { closePopup } from 'src/services/slices/popupSlice';
 import { closeSidebar } from 'src/services/slices/sidebarSlice';
 
@@ -32,8 +26,6 @@ export const Projects = (): JSX.Element => {
     const arr = e.currentTarget.id.split('-');
     const id = arr[0];
     dispatch(setCurrent(Number(id)));
-    dispatch(setHeaderState(HeaderState.KANBAN));
-    dispatch(setHeaderView(VIEWS.KANBAN));
   };
 
   function renderProjects(): React.ReactNode[] {
