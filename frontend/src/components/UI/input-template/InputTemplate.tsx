@@ -78,14 +78,14 @@ export const Input = (props: InputProps) => {
       <div className={styles.input__content}>
         {/* ! It could be part of a Password component */}
 
-        {props.labelPassword && (
-          <div className={styles.input__label_wrapper}>
-            <label className={styles.input__label}>{props.label}</label>
+        <div className={styles.input__label_wrapper}>
+          <label className={styles.input__label}>{props.label}</label>
+          {props.labelPassword && (
             <button className={styles.input__label_password}>
               {props.labelPassword}
             </button>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* ! It could be part of a Input component */}
 

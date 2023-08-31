@@ -126,7 +126,9 @@ export const HeaderTemplate = (): JSX.Element => {
     <section className={styles.header}>
       <h1 className={styles.header__title}>
         {headerState === HeaderState.KANBAN
-          ? currentProject.name
+          ? headerView === VIEWS.TEAM
+            ? 'Команда проекта'
+            : currentProject.name
           : 'Личный кабинет'}
       </h1>
 

@@ -1,5 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+const currentPath = window.location.pathname;
+let currentState;
+let currentView;
 
 export enum HeaderState {
   PROFILE = 'PROFILE',
@@ -12,9 +15,20 @@ export enum VIEWS {
   TEAM = 'button-team',
 }
 
+if (currentPath === '/profile') {
+  currentState = HeaderState.PROFILE;
+} else if (currentPath.includes('/team')) {
+  currentState = HeaderState.KANBAN;
+  currentView = VIEWS.TEAM;
+} else {
+  currentState = HeaderState.KANBAN;
+  currentView = VIEWS.KANBAN;
+}
+
 const initialState = {
-  state: '',
-  view: VIEWS.KANBAN,
+  state: currentState || '',
+  view: currentView || VIEWS.KANBAN,
+  path: '',
 };
 
 export const headerSlice = createSlice({
@@ -30,7 +44,9 @@ export const headerSlice = createSlice({
   },
 });
 
-export const selectHeaderState = (state: RootState) => state.header.state;
+export const selectHeaderState = (state: RootState) => {
+  return state.header.state;
+};
 export const selectHeaderView = (state: RootState) => state.header.view;
 
 export const { setHeaderState, setHeaderView } = headerSlice.actions;
