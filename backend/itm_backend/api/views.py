@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from projects.models import Project, Task
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -13,6 +13,7 @@ from .serializers import (
     TaskPostSerializer,
     TeamSerializer,
 )
+from .services import PROJECT_EXAMPLE_NAME, add_project_example
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -35,6 +36,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project = get_object_or_404(Project, pk=pk)
         serializer = TeamSerializer(project, context={"request": request})
         return Response(serializer.data)
+
+    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+    def project_example(self, request):
+        project = Project.objects.filter(owner=request.user, name=PROJECT_EXAMPLE_NAME).first()
+        if not project:
+            project = add_project_example(request.user)
+        return redirect("project-detail", pk=project.id)
 
 
 class TaskViewSet(viewsets.ModelViewSet):
