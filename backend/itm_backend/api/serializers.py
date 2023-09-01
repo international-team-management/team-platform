@@ -3,13 +3,14 @@ import base64
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
-from projects.models import Project, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from users.models import TimeZone
 
-from .services import get_members_num_per_interval
-from .validators import validate_first_last_names, validate_offset, validate_password
+from api.services import get_members_num_per_interval
+from api.validators import (validate_first_last_names, validate_offset,
+                            validate_password)
+from projects.models import Project, Task, TaskUser
+from users.models import TimeZone
 
 User = get_user_model()
 
@@ -289,3 +290,56 @@ class TeamSerializer(serializers.ModelSerializer):
         """
         user = self.context["request"].user
         return get_members_num_per_interval(user, project)
+
+
+class SetPasswordSerializer(serializers.Serializer):
+    new_password = serializers.CharField(validators=[validate_password])
+    current_password = serializers.CharField()
+    class Meta:
+        model = User
+        fields = ["new_password", "current_password"]
+
+    def create(self, validated_data):
+        """
+        Хэшируем пароль перед сохранением в базу данных.
+        """
+        validated_data["new_password"] = make_password(validated_data["new_password"])
+        return super().create(validated_data)
+    
+    def validate_current_password(self, value):
+        user = self.context["request"].user
+        is_password_valid = user.check_password(value)
+        
+        if not is_password_valid:
+            raise ValidationError(f"Введен неверный пароль пользователя '{user}'.")
+        return value
+
+
+
+# class CurrentPasswordSerializer(serializers.Serializer):
+#     current_password = serializers.CharField(style={"input_type": "password"})
+
+#     default_error_messages = {
+#         "invalid_password": settings.CONSTANTS.messages.INVALID_PASSWORD_ERROR
+#     }
+
+#     def validate_current_password(self, value):
+#         is_password_valid = self.context["request"].user.check_password(value)
+#         if is_password_valid:
+#             return value
+#         else:
+#             self.fail("invalid_password")
+            
+# class PasswordSerializer(serializers.Serializer):
+#     new_password = serializers.CharField(style={"input_type": "password"})
+
+#     def validate(self, attrs):
+#         user = getattr(self, "user", None) or self.context["request"].user
+#         # why assert? There are ValidationError / fail everywhere
+#         assert user is not None
+
+#         try:
+#             validate_password(attrs["new_password"], user)
+#         except django_exceptions.ValidationError as e:
+#             raise serializers.ValidationError({"new_password": list(e.messages)})
+#         return super().validate(attrs)

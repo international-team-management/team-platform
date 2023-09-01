@@ -381,6 +381,17 @@ phonenumbers = ["phonenumbers (>=7.0.2)"]
 phonenumberslite = ["phonenumberslite (>=7.0.2)"]
 
 [[package]]
+name = "django-resized"
+version = "1.0.2"
+description = "Resizes image origin to specified size."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-resized-1.0.2.tar.gz", hash = "sha256:52d727860f64ef4fdadbe2e74b66231c71c59df4d95949e338fcd320450f77fa"},
+    {file = "django_resized-1.0.2-py3-none-any.whl", hash = "sha256:d55a8d4125838486a1e76ffb689f8364f7d579bc7562b04400065602ec2ba7cc"},
+]
+
+[[package]]
 name = "django-templated-mail"
 version = "1.1.1"
 description = "Send emails using Django template system."
@@ -1618,4 +1629,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "02d800a77af6c6961fe88dc33cdc07b9148e82c679650130397556318de47949"
+content-hash = "18dde1b585d513e2974a4a36d7cb4540b242029e62664c1452abbc92b285fd26"
