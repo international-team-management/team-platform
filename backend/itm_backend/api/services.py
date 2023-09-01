@@ -5,13 +5,16 @@ from projects.models import Project, Task
 
 from .serializers import ValidationError
 
-PROJECT_EXAMPLE_NAME = "Пример проекта"
+PROJECT_EXAMPLE_NAME = "Пример проекта"  # Название проекта, которое будет задано в примере
+INTERVALS_NUMBER = 6  # Количество интервалов пересечений, которые будут отображаться на странице команды
 
 
 def get_members_num_per_interval(user, project):
     """
     Возвращает список словарей с часовыми интервалами, и количеством
-    доступных участников проекта в каждый интервал времени.
+    доступных участников проекта в каждый интервал времени. Учитывается
+    заданное в константе INTERVALS_NUMBER количество интервалов, в которые
+    доступны наибольшее количество участников.
     """
 
     if user.timezone:
@@ -30,7 +33,7 @@ def get_members_num_per_interval(user, project):
     for participant_time in participants_times:
         # вычисляем время начала и конца работы участника в таймзоне того пользователя, который делает запрос
         # т.к. offset и work_start в разных форматах, для вычисления времени преобразуем часовую
-        # составляющую work_start в целое число. После вычисления - корректируем часовую составляющую work_finish
+        # составляющую work_start в целое число. Затем корректируем часовую составляющую work_finish
         participant_offset = participant_time.get("offset")
         work_start = participant_time.get("work_start")
         new_hour = (work_start.hour - participant_offset + user_offset) % 24
@@ -40,15 +43,10 @@ def get_members_num_per_interval(user, project):
         work_finish = work_finish.replace(hour=new_hour)
         working_times_to_user_relation.append([work_start, work_finish])
     result = []
-    time_intervals = [f"{hour:02d}:00 - {(hour + 1) % 24:02d}:00" for hour in range(24)]  # генерирует список
-    # часовых интервалов в виде ["00:00 - 01:00", ..., "23:00 - 00:00"]
-    for interval in time_intervals:
-        interval_start = interval.split(" - ")[0]
-        # для корректности в подсчете конец интервала представляем в виде "23:59, т.е. начало + 59 минут."
-        interval_finish = interval_start[:2] + ":59"
-        # преобразуем строку в dateime.time() формат
-        interval_start = datetime.datetime.strptime(interval_start, "%H:%M").time()
-        interval_finish = datetime.datetime.strptime(interval_finish, "%H:%M").time()
+    # подсчет количества доступных участников в каждом часовом интервале времени за сутки
+    for hour in range(24):
+        interval_start = datetime.time(hour, 0)
+        interval_finish = datetime.time(hour, 59)
         members_counter = 0
         for working_time in working_times_to_user_relation:
             work_start, work_finish = working_time[0], working_time[1]
@@ -58,8 +56,12 @@ def get_members_num_per_interval(user, project):
             else:  # если рабочий интервал пересекает полночь
                 if work_finish >= interval_finish or work_start <= interval_start:
                     members_counter += 1
-        result.append({interval: members_counter})
-    return result
+        start_str = f'{interval_start.strftime("%H:%M")}'  # преобразование в строку для отрображения
+        finish_str = f'{(datetime.time((hour + 1) % 24) ).strftime("%H:%M")}'
+        result.append({f"{start_str} - {finish_str}": members_counter})
+    # сортировка результата по убыванию количества участников
+    result = sorted(result, key=lambda x: list(x.values())[0], reverse=True)
+    return result[:INTERVALS_NUMBER]
 
 
 def add_project_example(user):
