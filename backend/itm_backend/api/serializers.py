@@ -1,15 +1,13 @@
 import base64
 
+from api.services import get_members_num_per_interval
+from api.validators import validate_first_last_names, validate_offset, validate_password
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
+from projects.models import Project, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-
-from api.services import get_members_num_per_interval
-from api.validators import (validate_first_last_names, validate_offset,
-                            validate_password)
-from projects.models import Project, Task, TaskUser
 from users.models import TimeZone
 
 User = get_user_model()
@@ -306,11 +304,11 @@ class SetPasswordSerializer(serializers.Serializer):
         """
         validated_data["new_password"] = make_password(validated_data["new_password"])
         return super().create(validated_data)
-    
+
     def validate_current_password(self, value):
         user = self.context["request"].user
         is_password_valid = user.check_password(value)
-        
+
         if not is_password_valid:
             raise ValidationError(f"Введен неверный пароль пользователя '{user}'.")
         return value

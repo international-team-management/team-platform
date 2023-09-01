@@ -1,26 +1,33 @@
+from api.permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
+from api.serializers import (
+    CustomUserCreateSerializer,
+    CustomUserSerializer,
+    ProjectGetSerializer,
+    ProjectPostSerializer,
+    SetPasswordSerializer,
+    TaskGetSerializer,
+    TaskPostSerializer,
+    TeamSerializer,
+)
+from api.services import PROJECT_EXAMPLE_NAME, add_project_example
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, redirect
 from drf_spectacular.utils import extend_schema
+from projects.models import Project, Task
 from rest_framework import mixins, status, views, viewsets
-from rest_framework.decorators import action, permission_classes
+from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from api.permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
-from api.serializers import (CustomUserCreateSerializer, CustomUserSerializer,
-                             ProjectGetSerializer, ProjectPostSerializer,
-                             SetPasswordSerializer, TaskGetSerializer,
-                             TaskPostSerializer, TeamSerializer)
 from .decorators import (
+    project_view_project_example,
     project_view_set_schema,
     project_view_team_schema,
     task_view_set_schema,
     user_me_view_patch_schema,
     user_me_view_request_schema,
-    user_view_set_schema, project_view_project_example,
+    user_view_set_schema,
 )
-from api.services import PROJECT_EXAMPLE_NAME, add_project_example
-from projects.models import Project, Task
 
 User = get_user_model()
 
