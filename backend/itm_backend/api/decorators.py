@@ -1,25 +1,15 @@
-from drf_spectacular.utils import (
-    OpenApiParameter,
-    OpenApiResponse,
-    extend_schema,
-    extend_schema_view,
-)
+from drf_spectacular.utils import (OpenApiParameter, OpenApiResponse,
+                                   extend_schema, extend_schema_view)
 
-from .serializers import (
-    BadRequestProjectTaskErrorSerializer,
-    BadRequestTimezoneErrorSerializer,
-    BadRequestUserErrorSerializer,
-    CustomUserCreateSerializer,
-    CustomUserSerializer,
-    InternalServerErrorSerializer,
-    NotFoundErrorSerializer,
-    ProjectGetSerializer,
-    ProjectPostSerializer,
-    SetPasswordSerializer,
-    TaskGetSerializer,
-    TaskPostSerializer,
-    UnauthorizedErrorSerializer,
-)
+from .serializers import (BadRequestProjectTaskErrorSerializer,
+                          BadRequestTimezoneErrorSerializer,
+                          BadRequestUserErrorSerializer,
+                          CustomUserCreateSerializer, CustomUserSerializer,
+                          InternalServerErrorSerializer,
+                          NotFoundErrorSerializer, ProjectGetSerializer,
+                          ProjectPostSerializer, SetPasswordSerializer,
+                          TaskGetSerializer, TaskPostSerializer,
+                          UnauthorizedErrorSerializer)
 
 user_view_set_schema = extend_schema_view(
     create=extend_schema(
