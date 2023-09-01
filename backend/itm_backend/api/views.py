@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, redirect
+from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, status, views, viewsets
 from rest_framework.decorators import action, permission_classes
 from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
@@ -10,12 +11,22 @@ from api.serializers import (CustomUserCreateSerializer, CustomUserSerializer,
                              ProjectGetSerializer, ProjectPostSerializer,
                              SetPasswordSerializer, TaskGetSerializer,
                              TaskPostSerializer, TeamSerializer)
+from .decorators import (
+    project_view_set_schema,
+    project_view_team_schema,
+    task_view_set_schema,
+    user_me_view_patch_schema,
+    user_me_view_request_schema,
+    user_view_set_schema, project_view_project_example,
+)
 from api.services import PROJECT_EXAMPLE_NAME, add_project_example
 from projects.models import Project, Task
 
 User = get_user_model()
 
 
+@extend_schema(tags=["User - основное"])
+@user_view_set_schema
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = User.objects.all()
     serializer_class = CustomUserCreateSerializer
@@ -38,14 +49,17 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(tags=["User - личный пользователь"])
 class UserMeView(views.APIView):
     permission_classes = (IsAuthenticated,)
 
+    @user_me_view_request_schema
     def get(self, request):
         user = self.request.user
         serializer = CustomUserSerializer(user, many=False)
         return Response(serializer.data)
 
+    @user_me_view_patch_schema
     def patch(self, request, pk=None):
         user = self.request.user
         serializer = CustomUserSerializer(user, data=request.data, partial=True)
@@ -55,6 +69,8 @@ class UserMeView(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(tags=["Projects - создание и редактирование проектов"])
+@project_view_set_schema
 class ProjectViewSet(viewsets.ModelViewSet):
     """Вьюсет модели Project"""
 
@@ -69,6 +85,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    @project_view_team_schema
     @action(detail=True, methods=["get"], permission_classes=[IsAuthenticated])
     def team(self, request, pk=None):
         """Отображает команду проекта."""
@@ -76,6 +93,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer = TeamSerializer(project, context={"request": request})
         return Response(serializer.data)
 
+    @project_view_project_example
     @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
     def project_example(self, request):
         project = Project.objects.filter(owner=request.user, name=PROJECT_EXAMPLE_NAME).first()
@@ -84,6 +102,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return redirect("project-detail", pk=project.id)
 
 
+@extend_schema(tags=["Tasks - создание и редактрирование задач"])
+@task_view_set_schema
 class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsParticipantOrReadOnly)
     queryset = Task.objects.all()

@@ -295,6 +295,7 @@ class TeamSerializer(serializers.ModelSerializer):
 class SetPasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(validators=[validate_password])
     current_password = serializers.CharField()
+
     class Meta:
         model = User
         fields = ["new_password", "current_password"]
@@ -315,31 +316,43 @@ class SetPasswordSerializer(serializers.Serializer):
         return value
 
 
+class UnauthorizedErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="Authentication credentials were not provided.",
+        help_text="Сообщение об ошибке",
+    )
 
-# class CurrentPasswordSerializer(serializers.Serializer):
-#     current_password = serializers.CharField(style={"input_type": "password"})
 
-#     default_error_messages = {
-#         "invalid_password": settings.CONSTANTS.messages.INVALID_PASSWORD_ERROR
-#     }
+class NotFoundErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="Not found.",
+        help_text="Сообщение об ошибке",
+    )
 
-#     def validate_current_password(self, value):
-#         is_password_valid = self.context["request"].user.check_password(value)
-#         if is_password_valid:
-#             return value
-#         else:
-#             self.fail("invalid_password")
-            
-# class PasswordSerializer(serializers.Serializer):
-#     new_password = serializers.CharField(style={"input_type": "password"})
 
-#     def validate(self, attrs):
-#         user = getattr(self, "user", None) or self.context["request"].user
-#         # why assert? There are ValidationError / fail everywhere
-#         assert user is not None
+class InternalServerErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="Internal server error.",
+        help_text="Сообщение об ошибке",
+    )
 
-#         try:
-#             validate_password(attrs["new_password"], user)
-#         except django_exceptions.ValidationError as e:
-#             raise serializers.ValidationError({"new_password": list(e.messages)})
-#         return super().validate(attrs)
+
+class BadRequestUserErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="Длина пароля должна быть от 8 до 22 символов.",
+        help_text="Сообщение об ошибке",
+    )
+
+
+class BadRequestProjectTaskErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="This field may not be blank.",
+        help_text="Сообщение об ошибке",
+    )
+
+
+class BadRequestTimezoneErrorSerializer(serializers.Serializer):
+    detail = serializers.CharField(
+        default="У вас не задана временная зона.",
+        help_text="Сообщение об ошибке",
+    )
