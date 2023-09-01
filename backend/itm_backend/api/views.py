@@ -19,11 +19,10 @@ User = get_user_model()
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = User.objects.all()
     serializer_class = CustomUserCreateSerializer
+    permission_classes = (AllowAny,)
 
-    @permission_classes((AllowAny,))
     def post(self, request, pk=None):
-        user = self.request.user
-        serializer = CustomUserCreateSerializer(user, data=request.data, partial=True)
+        serializer = CustomUserCreateSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
