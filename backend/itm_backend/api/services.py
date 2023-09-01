@@ -1,8 +1,9 @@
 import datetime
 
 from django.db.models import F
+from projects.models import Project, Task
 
-from .serializers import Project, Task, ValidationError
+from .serializers import ValidationError
 
 PROJECT_EXAMPLE_NAME = "Пример проекта"
 
