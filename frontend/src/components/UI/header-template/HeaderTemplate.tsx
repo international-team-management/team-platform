@@ -1,0 +1,162 @@
+import React, { useState, useEffect } from 'react';
+import styles from './Header.module.scss';
+import notificationIcon from 'src/assets/header-icons/header-notification-icon.svg';
+import searchIcon from 'src/assets/header-icons/header-search-icon.svg';
+import settingsIcon from 'src/assets/header-icons/header-settings-icon.svg';
+import { ReactComponent as KanbanIcon } from 'src/assets/header-icons/header-kanban-icon.svg';
+import { ReactComponent as ListIcon } from 'src/assets/header-icons/header-list-icon.svg';
+import { UserAvatar } from 'src/components/UI/user-avatar-template/UserAvatarTemplate';
+import userAvatar from 'src/assets/user-avatar.svg';
+import addNewParticipant from 'src/assets/add-new-participant.svg';
+import clsx from 'clsx';
+import { useDispatch, useSelector } from 'src/services/hooks';
+import {
+  selectAuthIsLoading,
+  selectAuthError,
+} from 'src/services/slices/authSlice';
+import { NavLink } from 'react-router-dom';
+import { selectCurrentProject } from 'src/services/slices/projectSlice';
+import {
+  HeaderState,
+  VIEWS,
+  selectHeaderState,
+  selectHeaderView,
+  setHeaderView,
+} from 'src/services/slices/headerSlice';
+
+const users = [
+  { name: 'User 1', src: userAvatar },
+  { name: 'User 2', src: addNewParticipant },
+];
+
+export const HeaderTemplate = (): JSX.Element => {
+  const isAuthApiLoading = useSelector(selectAuthIsLoading);
+  const isAuthApiError = useSelector(selectAuthError);
+  const [profileInfo, setProfileInfo] = useState<string>('');
+
+  const headerState = useSelector(selectHeaderState);
+  const headerView = useSelector(selectHeaderView);
+
+  const dispatch = useDispatch();
+
+  const currentProject = useSelector(selectCurrentProject);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const id = e.currentTarget.id;
+
+    switch (id) {
+      case VIEWS.KANBAN:
+        dispatch(setHeaderView(VIEWS.KANBAN));
+        break;
+      case VIEWS.LIST:
+        dispatch(setHeaderView(VIEWS.LIST));
+        break;
+      case VIEWS.TEAM:
+        dispatch(setHeaderView(VIEWS.TEAM));
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const showMessage = (message: string, duration: number): Promise<void> => {
+      setProfileInfo(message);
+      return new Promise<void>((resolve) => setTimeout(resolve, duration));
+    };
+
+    if (isAuthApiLoading) {
+      showMessage('Сохраняем...', 700)
+        .then(() => showMessage('Изменения были сохранены', 1400))
+        .then(() => showMessage('', 0));
+      if (isAuthApiError) {
+        showMessage(isAuthApiError.toString(), 5000).then(() =>
+          showMessage('', 0),
+        );
+      }
+    }
+  }, [isAuthApiLoading, isAuthApiError]);
+
+  return (
+    <section className={styles.header}>
+      <h1 className={styles.header__title}>
+        {headerState === HeaderState.KANBAN
+          ? currentProject.name
+          : 'Личный кабинет'}
+      </h1>
+
+      {headerState === HeaderState.PROFILE && (
+        <p className={styles['header__changes-status']}>{profileInfo}</p>
+      )}
+
+      {headerState === HeaderState.KANBAN && (
+        <div className={styles['header__project-menu']}>
+          <div className={styles['header__project-buttons']}>
+            <div className={styles['header__button-wrapper']}>
+              <NavLink
+                to={`/${currentProject.id}`}
+                className={clsx(
+                  styles['header__button-area'],
+                  headerView === VIEWS.KANBAN &&
+                    styles['header__button-area_active'],
+                )}
+                id={VIEWS.KANBAN}
+                onClick={(e) => handleClick(e)}
+              >
+                <KanbanIcon className={styles['header__switch-icon']} />
+                <div
+                  className={`${styles['header__switch-button']} ${styles['header__switch-button_active']}`}
+                >
+                  Канбан
+                </div>
+              </NavLink>
+            </div>
+            <div className={styles['header__button-wrapper']}>
+              <button
+                className={clsx(
+                  styles['header__button-area'],
+                  headerView === VIEWS.LIST &&
+                    styles['header__button-area_active'],
+                )}
+                id={VIEWS.LIST}
+              >
+                <ListIcon className={styles['header__switch-icon']} />
+                <div className={styles['header__switch-button']}>Список</div>
+              </button>
+            </div>
+          </div>
+          <div className={styles['header__button-wrapper']}>
+            <NavLink
+              className={clsx(
+                styles['header__button-area'],
+                headerView === VIEWS.TEAM &&
+                  styles['header__button-area_active'],
+              )}
+              to={`/${currentProject.id}/team`}
+              id={VIEWS.TEAM}
+              onClick={(e) => handleClick(e)}
+            >
+              <UserAvatar users={users} />
+            </NavLink>
+          </div>
+        </div>
+      )}
+
+      <div className={styles.header__icons}>
+        <img
+          className={styles['header__icon']}
+          src={searchIcon}
+          alt={`Кнопка ${searchIcon}`}
+        />
+        <img
+          className={styles['header__icon']}
+          src={notificationIcon}
+          alt={`Кнопка ${notificationIcon}`}
+        />
+        <img
+          className={styles['header__icon']}
+          src={settingsIcon}
+          alt={`Кнопка ${settingsIcon}`}
+        />
+      </div>
+    </section>
+  );
+};

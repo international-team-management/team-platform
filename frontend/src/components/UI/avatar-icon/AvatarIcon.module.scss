@@ -1,0 +1,21 @@
+@import 'styles/constants';
+
+.icon {
+  @include set-font-size(28px, 32px, 700);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 80px;
+  height: 80px;
+
+  border-radius: 50%;
+
+  &_small {
+    @include set-font-size(18px, 20px, 600);
+
+    width: 40px;
+    height: 40px;
+  }
+}

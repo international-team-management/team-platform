@@ -1,0 +1,34 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.upload {
+  position: relative;
+  display: flex;
+
+  &__input {
+    opacity: 0;
+  }
+
+  &__title {
+    @include set-font-size(14px, 16px, 600);
+
+    cursor: pointer;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    padding: 10px 12px;
+
+    color: $main-white;
+
+    background-color: $blue-56;
+    border-radius: 12px;
+  }
+}
+
+.avatar {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}

@@ -1,0 +1,18 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.avatar {
+  @extend %flex-row;
+
+  cursor: pointer;
+  gap: -20px;
+  align-items: center;
+  padding: 4px 12px 0;
+
+  &__image {
+    width: 36px;
+    height: 36px;
+    margin: -10px;
+    object-fit: fill;
+  }
+}

@@ -1,0 +1,51 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.sidebar {
+  @extend %flex-column;
+
+  grid-area: sidebar;
+
+  width: 240px;
+  height: 100vh;
+  margin: 0;
+
+  background-color: $main-white;
+  border-right: 1px solid $grey-225;
+
+  &__content {
+    flex-grow: 1;
+    padding: 24px 8px;
+  }
+
+  &__createBtn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+  }
+
+  &__createBtn {
+    @extend %flex-row;
+
+    @include set-block-size(192px, 52px);
+    @include set-font-size(16px, 20px, 600);
+
+    cursor: pointer;
+
+    align-items: center;
+    justify-content: center;
+
+    color: $black;
+
+    background-color: $grey-241;
+    border: none;
+    border-radius: $ui-border-radius-m;
+  }
+
+  &__plus {
+    @include set-block-size(20px, 20px);
+
+    margin-right: 12px;
+  }
+}
