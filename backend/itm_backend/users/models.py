@@ -53,7 +53,6 @@ class User(AbstractUser):
         verbose_name="Фамилия",
         help_text="Иванов",
         max_length=30,
-        blank=True,
     )
     role = models.CharField(
         verbose_name="Должность",
