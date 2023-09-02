@@ -47,7 +47,7 @@ class TestProjectAPI:
 
         assert len(test_data) == Project.objects.count(), (
             "Проверьте, что GET-запрос авторизованного пользователя к "
-            f"`{self.project_list_url}` возвращает список всех постов."
+            f"`{self.project_list_url}` возвращает список всех проектов."
         )
 
     def test_projects_create_auth_with_invalid_data(self, user_client):
@@ -60,7 +60,7 @@ class TestProjectAPI:
         )
         assert projects_count == Project.objects.count(), (
             f"Проверьте, что POST-запрос с некорректными данными, "
-            f"отправленный к `{self.project_list_url}`, не создаёт новый пост."
+            f"отправленный к `{self.project_list_url}`, не создаёт новый проект."
         )
 
     def test_project_create_auth_with_valid_data(self, user_client, user):
@@ -90,24 +90,23 @@ class TestProjectAPI:
         assert isinstance(test_data, dict), (
             "Проверьте, что для авторизованного пользователя POST-запрос к "
             f"`{self.projects_list_url}` возвращает ответ, содержащий данные "
-            "нового поста в виде словаря."
+            "нового проекта в виде словаря."
         )
         assert test_data.get("description") == data["description"], (
             "Проверьте, что для авторизованного пользователя POST-запрос к "
-            f"`{self.project_list_url}` возвращает ответ, содержащий текст "
-            "нового поста в неизменном виде."
+            f"`{self.project_list_url}` возвращает ответ, содержащий описание "
+            "нового проекта в неизменном виде."
         )
         assert test_data.get("name") == data["name"], (
             "Проверьте, что для авторизованного пользователя при создании "
-            f"поста через POST-запрос к `{self.project_list_url}` с указанием "
-            "группы ответ содержит поле `group` с `id` указанной в запросе "
-            "группы."
+            f"проекта через POST-запрос к `{self.project_list_url}` возвращает ответ,"
+            " содержащий имя проекта "
         )
 
         assert projects_count == Project.objects.count(), (
             "Проверьте, что POST-запрос с корректными данными от "
             f"авторизованного пользователя к `{self.project_list_url}` создаёт "
-            "новый пост."
+            "новый проект."
         )
 
     def test_project_unauth_create(
@@ -138,5 +137,5 @@ class TestProjectAPI:
 
         assert project_count == Project.objects.count(), (
             "Проверьте, что POST-запрос неавторизованного пользователя к "
-            f"`{self.project_list_url}` не создаёт новый пост."
+            f"`{self.project_list_url}` не создаёт новый проект."
         )
