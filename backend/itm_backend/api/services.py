@@ -2,8 +2,7 @@ import datetime
 
 from django.db.models import F
 from projects.models import Project, Task
-
-from .serializers import ValidationError
+from rest_framework.exceptions import ValidationError
 
 PROJECT_EXAMPLE_NAME = "Пример проекта"  # Название проекта, которое будет задано в примере
 INTERVALS_NUMBER = 6  # Количество интервалов пересечений, которые будут отображаться на странице команды
