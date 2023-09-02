@@ -1,57 +1,137 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import {
-  mockColumnItems,
-  mockEmptyColumn,
-} from 'src/utils/constants temporary/constant_temp';
+import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { ProjectType } from '../api/types';
 import { RootState } from '../store';
-import type { ColumnType } from '../api/types';
 
-const mockProject = {
-  id: 1,
-  name: 'Пример проекта',
-  description:
-    'Здесь оставляйте описание проекта, дополнительные комментарии, ссылки на ресурсы',
-  status: '',
-  priority: '',
-  deadline: '',
-  columns: mockColumnItems,
-
-  owner: null,
-  participants: null,
-  tasks: [],
-  start: '',
+type ProjectStateType = {
+  list: any | ProjectType[];
+  current: null | ProjectType;
+  isLoading: boolean;
+  error: null | unknown | string;
 };
 
-const initialState = {
-  list: [mockProject],
-  current: mockProject,
+const initialState: ProjectStateType = {
+  list: [],
+  current: null,
+  isLoading: false,
+  error: null,
 };
 
-// Use it if the mock project is stored on the backend
-// const initialState = {
-//   list: [],
-//   current: null
-// }
+// < < <  TODO: дописать асинки (обращения к серверу) функции брать из projectsAPI.ts  > > >
+export const projectThunks = {
+  getList: createAsyncThunk('project/getList', async () => {
+    return;
+  }),
+
+  post: createAsyncThunk('project/post', async () => {
+    return;
+  }),
+
+  patch: createAsyncThunk('project/patch', async () => {
+    return;
+  }),
+
+  delete: createAsyncThunk('project/delete', async () => {
+    return;
+  }),
+};
 
 export const projectSlice = createSlice({
   name: 'projects',
   initialState,
+
   reducers: {
-    addProject: (state) => {
-      const i = state.list.length;
-      state.list.push({
-        ...mockProject,
-        id: i + 1,
-        name: `Без названия ${i}`,
-        columns: mockEmptyColumn,
-      });
-    },
     setCurrent: (state, action: PayloadAction<number>) => {
       state.current = state.list[action.payload - 1];
     },
-    updateColumns: (state, action: PayloadAction<ColumnType[]>) => {
-      state.current.columns = action.payload;
-    },
+  },
+
+  extraReducers: (builder) => {
+    builder
+      // get list of projects
+      .addCase(projectThunks.getList.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(
+        projectThunks.getList.fulfilled,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = false;
+          state.list = action.payload;
+        },
+      )
+      .addCase(
+        projectThunks.getList.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      )
+
+      // post project
+      .addCase(projectThunks.post.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(
+        projectThunks.post.fulfilled,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = false;
+          state.list = state.list.push(action.payload);
+        },
+      )
+      .addCase(
+        projectThunks.post.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      )
+
+      // patch project
+      .addCase(projectThunks.patch.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(
+        projectThunks.patch.fulfilled,
+        (state, action: PayloadAction<ProjectType | unknown>) => {
+          state.isLoading = false;
+          state.error = false;
+          const patched = action.payload;
+          if (patched) {
+            state.list = state.list.filter(
+              (project: ProjectType) => project?.id !== patched?.id,
+            );
+            state.list.push(action.payload);
+          }
+        },
+      )
+      .addCase(
+        projectThunks.patch.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      )
+
+      // delete project
+      .addCase(projectThunks.delete.pending, (state) => {
+        state.isLoading = true;
+        state.error = false;
+      })
+      .addCase(projectThunks.delete.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = false;
+      })
+      .addCase(
+        projectThunks.delete.rejected,
+        (state, action: PayloadAction<unknown>) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        },
+      );
   },
 });
 
@@ -59,4 +139,6 @@ export const selectProjects = (state: RootState) => state.projects.list;
 export const selectCurrentProject = (state: RootState) =>
   state.projects.current;
 
+// < < <  TODO: экспортировать действия для проектов (создать, получить, пропатчить..),
+// импортировать в компоненты KanbanPage и другие > > >
 export const { addProject, setCurrent, updateColumns } = projectSlice.actions;
