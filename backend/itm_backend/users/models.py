@@ -122,7 +122,6 @@ class TimeZone(models.Model):
     )
     abbrev = models.CharField(verbose_name="Аббревиатура", max_length=50, blank=True)
     altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
-    altName = models.CharField(verbose_name="Условное наименование", max_length=150, blank=True)
 
     class Meta:
         verbose_name = "Часовой пояс"

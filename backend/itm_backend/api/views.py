@@ -59,6 +59,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 @extend_schema(tags=["User - личный пользователь"])
 class UserMeView(views.APIView):
     permission_classes = (IsAuthenticated,)
+    serializer_class = CustomUserSerializer
 
     @user_me_view_request_schema
     def get(self, request):
