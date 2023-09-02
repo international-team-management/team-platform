@@ -89,7 +89,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "API_ENDPOINT=${{ secrets.API_ENDPOINT }}" > frontend/.env
+          echo "API_ENDPOINT=${{ secrets.SMOKETEST_API_ENDPOINT }}" > frontend/.env
         working-directory: ${{ github.workspace }}
 
       - name: Push Frontend to Docker Hub
@@ -111,10 +111,10 @@ jobs:
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          host: ${{ secrets.SMOKETEST_HOST }}
+          username: ${{ secrets.SMOKETEST_USER }}
+          key: ${{ secrets.SMOKETEST_SSH_KEY }}
+          passphrase: ${{ secrets.SMOKETEST_PASSPHRASE }}
           script: |
             sudo docker-compose down
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/backend-smoketest
