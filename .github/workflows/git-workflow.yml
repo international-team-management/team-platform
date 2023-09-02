@@ -7,40 +7,40 @@ on:
       - backend-feat-servertest-2023-09-02
 
 jobs:
-#  tests:
-#    name: Tests with pre-commit
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: Checking out a repo
-#        uses: actions/checkout@v2
-#
-#      - name: Set up Python 3.9
-#        # Устанавливаем Python 3.9
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.9'
-#
-#      - name: Install Poetry
-#        # Устанавливаем Poetry
-#        uses: snok/install-poetry@v1
-#
-#      - name: Install dependencies with Poetry
-#        # Устанавливаем зависимости Poetry
-#        run: |
-#          poetry env use 3.9
-#          poetry install
-#        working-directory: ./backend
-#
-#      - name: Run pre-commit checks for backend
-#        # Запуск тестов pre-commit
-#        run: poetry run pre-commit run --all-files
-#        working-directory: ./backend
-#
-#      - name: Run pytest
-#        # Запуск тестов pytest - не работают из-за настроек postgres
-#        run: pytest
-#        working-directory: ./backend
+  tests:
+    name: Tests with pre-commit
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checking out a repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        # Устанавливаем Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Poetry
+        # Устанавливаем Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies with Poetry
+        # Устанавливаем зависимости Poetry
+        run: |
+          poetry env use 3.9
+          poetry install
+        working-directory: ./backend
+
+      - name: Run pre-commit checks for backend
+        # Запуск тестов pre-commit
+        run: poetry run pre-commit run --all-files
+        working-directory: ./backend
+
+      - name: Run pytest
+        # Запуск тестов pytest - не работают из-за настроек postgres
+        run: pytest
+        working-directory: ./backend
 
   build_and_push_backend_to_docker_hub:
     # Сборка Backend
