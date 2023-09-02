@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 from users.models import TimeZone, User
 
 
@@ -14,9 +15,14 @@ class UserAdmin(admin.ModelAdmin):
         "timezone",
         "work_start",
         "work_finish",
-        "photo",
         "telephone_number",
+        "photo",
     )
+
+    readonly_fields = ("preview",)
+
+    def preview(self, obj):
+        return mark_safe(f'<img src=" { obj.photo.url } ">')
 
 
 class TimeZoneAdmin(admin.ModelAdmin):

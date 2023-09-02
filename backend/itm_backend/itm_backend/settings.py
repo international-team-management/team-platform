@@ -152,6 +152,7 @@ DJOSER = {
     "PASSWORD_CHANGED_EMAIL_CONFIRMATION": False,
     "SEND_CONFIRMATION_EMAIL": False,
     "SEND_ACTIVATION_EMAIL": False,
+    "TOKEN_MODEL": None,
     "SERIALIZERS": {
         "user_create": "api.serializers.CustomUserCreateSerializer",
         "user": "api.serializers.CustomUserSerializer",
@@ -163,3 +164,11 @@ DJOSER = {
         "user_create": ["rest_framework.permissions.AllowAny"],
     },
 }
+
+DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
+DJANGORESIZED_DEFAULT_SCALE = 1
+DJANGORESIZED_DEFAULT_QUALITY = 75
+DJANGORESIZED_DEFAULT_KEEP_META = True
+DJANGORESIZED_DEFAULT_FORCE_FORMAT = "JPEG"
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {"JPEG": ".jpg"}
+DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = False
