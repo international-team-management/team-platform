@@ -12,7 +12,16 @@ export const AvatarIcon = ({ isSmall = false }): JSX.Element => {
 
   const { bg: avatarBG, txt: avatarTXT } = getAvatarColor();
 
-  return (
+  return userMe?.photo ? (
+    <div
+      className={clsx(styles.icon, isSmall && styles.icon_small)}
+      style={{
+        backgroundColor: avatarBG,
+        color: avatarTXT,
+        backgroundImage: `url(${userMe.photo})`,
+      }}
+    ></div>
+  ) : (
     <div
       className={clsx(styles.icon, isSmall && styles.icon_small)}
       style={{
