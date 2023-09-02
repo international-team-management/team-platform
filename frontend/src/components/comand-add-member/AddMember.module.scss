@@ -3,8 +3,8 @@
 
 .newmember {
   &__wrapper {
-    width: 404px;
-    min-height: 260px;
+    width: 100%;
+    height: fit-content;
     padding: 20px 24px 24px;
 
     background-color: $white;

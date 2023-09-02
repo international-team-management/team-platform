@@ -29,3 +29,10 @@ html {
     }
   }
 }
+
+.team {
+  &__element {
+    background: $white;
+    border-radius: 16px;
+  }
+}
