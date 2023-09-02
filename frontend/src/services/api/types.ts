@@ -61,6 +61,9 @@ export enum URLS {
   SIGN_IN = `${URLS.AUTH}/jwt/create/`,
   USER_ME = `${URLS.AUTH}/users/me/`,
   SET_PASSWORD = `${URLS.AUTH}/users/set_password/`,
+
+  PROJ = 'projects',
+  PROJECTS = `${URLS.PROJ}/`,
 }
 
 // Project Types
