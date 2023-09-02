@@ -2,22 +2,10 @@ import styles from './KanbanTable.module.scss';
 import clsx from 'clsx';
 import { KanbanColumn } from '../kanban-column/KanbanColumn';
 import { useDragDropKanban } from '../../hooks/useDragDropKanban';
-
-export type ColumnTask = {
-  id: number;
-  subtitle: string;
-  expiredDate: string;
-  img: any;
-};
-
-export type ColumnItem = {
-  id: number;
-  title: string;
-  tasks: ColumnTask[];
-};
+import type { ColumnType } from 'src/services/api/types';
 
 type KanbanTableProps = {
-  columns: ColumnItem[];
+  columns: ColumnType[];
 };
 
 export const KanbanTable = (props: KanbanTableProps) => {

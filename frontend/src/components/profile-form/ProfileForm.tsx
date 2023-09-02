@@ -209,7 +209,7 @@ export const ProfileForm: React.FC = () => {
       <section className={styles.profile__section}>
         <ProfileSectionTitle
           subtitle="Доступность"
-          description="Текущая локация и&nbsp;актуальный график работы помогут точнее расчитать пересечение команды."
+          description="Текущая локация и&nbsp;актуальный график работы помогут точнее расcчитать пересечение команды."
         />
         <form className={styles.profile__form}>
           <InputTimezoneSelect

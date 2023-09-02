@@ -4,6 +4,7 @@
 .header {
   @extend %flex-row;
 
+  position: relative;
   z-index: 100;
 
   grid-area: header;

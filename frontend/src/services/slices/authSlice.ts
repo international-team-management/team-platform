@@ -87,6 +87,8 @@ export const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
+      localStorage.removeItem('tokenAccess');
+      localStorage.removeItem('tokenRefresh');
     },
   },
   // triggered by async action creators usualy implemented by thunks

@@ -7,7 +7,7 @@
 
     @include set-font-size(16px, 20px, 600);
 
-    width: $ui-width-l;
+    width: 100%;
 
     & + & {
       margin-top: 12px;
@@ -34,6 +34,10 @@
 
       background-color: rgb(255 255 255);
       border: none;
+
+      &:focus {
+        @include set-on-focus;
+      }
     }
   }
 
@@ -127,7 +131,7 @@
   &__tooglePassword {
     cursor: pointer;
     position: absolute;
-    top: 20px + 8px + 13px;
     right: 15px;
+    bottom: 9px;
   }
 }

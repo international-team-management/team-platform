@@ -1,0 +1,94 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.participants-select {
+  &__single-value {
+    @include set-font-size(16px, 20px, 400);
+
+    text-align: left;
+    letter-spacing: -0.03em;
+  }
+
+  &__control {
+    width: 300px;
+    height: 52px;
+    margin-bottom: 0;
+    padding: 0 20px;
+    padding-bottom: 0;
+
+    background-color: $white;
+    border-top: 1px solid $input-border-color;
+    border-right: 1px solid $input-border-color;
+    border-left: 1px solid $input-border-color;
+    border-radius: 16px 16px 0 0;
+  }
+
+  &__placeholder {
+    @include set-font-size(16px, 20px, 500);
+
+    color: $grey-118;
+  }
+
+  &__menu {
+    width: 300px;
+    height: fit-content;
+    max-height: 416px;
+    margin: 0;
+    padding: 0 20px;
+
+    background-color: $white;
+    border: 1px solid $input-border-color;
+    border-radius: 0 0 16px 16px;
+    box-shadow: none;
+  }
+
+  &__menu-list {
+    height: fit-content;
+    max-height: 416px;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+
+  &__option {
+    @include set-font-size(16px, 20px, 600);
+
+    overflow: hidden;
+
+    margin: 16px auto;
+
+    text-align: center;
+    text-overflow: ellipsis;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $input-border-color;
+      border-radius: 2px;
+    }
+
+    &:first-child {
+      margin: 0 auto 5px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__indicators {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+  }
+
+  &__input-container {
+    cursor: text;
+  }
+
+  &__value-container {
+    margin-left: 30px;
+  }
+}

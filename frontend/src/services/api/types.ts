@@ -1,5 +1,7 @@
 import { ITimezoneOption } from 'react-timezone-select';
 
+// Auth Types
+
 export type RegisterRequestData = {
   first_name: string;
   last_name: string;
@@ -24,6 +26,10 @@ export type UpdatePasswordData = {
 export type LoginRequestData = {
   email: string;
   password: string;
+};
+
+export type AddMemberRequestData = {
+  email: string;
 };
 
 export type UserType = {
@@ -56,3 +62,31 @@ export enum URLS {
   USER_ME = `${URLS.AUTH}/users/me/`,
   SET_PASSWORD = `${URLS.AUTH}/users/set_password/`,
 }
+
+// Project Types
+
+export type TaskType = {
+  id: number;
+  subtitle: string;
+  expiredDate: string;
+  img: any;
+};
+
+export type ColumnType = {
+  id: number;
+  title: string;
+  tasks: TaskType[];
+};
+
+export type ProjectType = {
+  id: number;
+  name: string;
+  description: string;
+  owner: UserType;
+  participants: UserType[];
+  tasks: TaskType[];
+  start: string;
+  deadline: string;
+  status: string;
+  priority: string;
+};
