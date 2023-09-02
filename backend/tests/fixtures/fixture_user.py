@@ -3,6 +3,13 @@ from rest_framework_simplejwt.tokens import AccessToken
 
 
 @pytest.fixture
+def unauthenticated_client():
+    from rest_framework.test import APIClient
+
+    return APIClient()
+
+
+@pytest.fixture
 def token_user_superuser(user_superuser):
     token = AccessToken.for_user(user_superuser)
     return {
@@ -17,6 +24,16 @@ def user(django_user_model):
         password="securepassword",
         first_name="John",
         last_name="Doe",
+    )
+
+
+@pytest.fixture
+def user2(django_user_model):
+    return django_user_model.objects.create_user(
+        email="ivan@yandex.ru",
+        password="securepassword",
+        first_name="Ivan",
+        last_name="Ivanovich",
     )
 
 
