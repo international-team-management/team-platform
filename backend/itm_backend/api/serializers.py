@@ -8,7 +8,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from users.models import TimeZone
 
-from .services import get_members_num_per_interval
+from .services import add_project_example, get_members_num_per_interval
 from .validators import validate_first_last_names, validate_offset, validate_password
 
 User = get_user_model()
@@ -64,7 +64,9 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
         Хэшируем пароль перед сохранением в базу данных.
         """
         validated_data["password"] = make_password(validated_data["password"])
-        return super().create(validated_data)
+        user = super().create(validated_data)
+        add_project_example(user)
+        return user
 
     def to_representation(self, instance):
         """
