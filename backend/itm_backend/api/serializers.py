@@ -51,7 +51,7 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
     Здесь определены поля, которые будут отображаться при создании пользователя.
     """
 
-    password = serializers.CharField(validators=[validate_password])
+    # password = serializers.CharField(validators=[validate_password])
     first_name = serializers.CharField(validators=[validate_first_last_names])
     last_name = serializers.CharField(validators=[validate_first_last_names])
 

@@ -162,6 +162,7 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
+frontend/.idea
 
 ############################################
 ### ------------- Frontend ------------- ###
@@ -298,9 +299,11 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# OSX
-*/.DS_Store
-.DS_Store
+frontend/package-lock.json
 
 # result build inside docker
 infra/frontend
+
+# OSX
+*/.DS_Store
+.DS_Store

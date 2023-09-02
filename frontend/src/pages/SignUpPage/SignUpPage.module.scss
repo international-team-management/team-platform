@@ -1,0 +1,64 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.sign-up-page {
+  @extend %flex-row;
+
+  justify-content: center;
+  height: 100%;
+
+  &__wrapper {
+    @extend %flex-column;
+
+    width: $ui-width-l;
+    margin: 0 120px;
+    padding: 48px 0;
+  }
+
+  &__inputs {
+    @extend %flex-column;
+
+    padding: 40px 0;
+  }
+
+  &__promo {
+    margin: 12px 0 12px 12px;
+  }
+
+  &__buttons {
+    @extend %flex-column;
+
+    align-items: center;
+  }
+
+  &__text {
+    @extend %flex-row;
+
+    margin-top: 24px;
+  }
+
+  &__question {
+    @include set-font-size(16px, 20px, 600);
+
+    margin-right: 4px;
+    color: $black;
+    letter-spacing: -0.01rem;
+  }
+
+  &__redirect {
+    @include set-font-size(16px, 20px, 600);
+
+    cursor: pointer;
+    color: $blue-62;
+    letter-spacing: -0.01rem;
+  }
+
+  &__agreement {
+    @include set-font-size(14px, 16px, 600);
+
+    margin-top: auto;
+    color: $grey-118;
+    text-align: center;
+    letter-spacing: -0.01rem;
+  }
+}
