@@ -1,0 +1,11 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.tz {
+  @extend %flex-column;
+
+  @include set-font-size(16px, 20px, 600);
+
+  row-gap: 8px;
+  width: $ui-width-l;
+}
