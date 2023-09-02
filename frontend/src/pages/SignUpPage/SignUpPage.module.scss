@@ -22,7 +22,9 @@
   }
 
   &__promo {
+    width: 788px;
     margin: 12px 0 12px 12px;
+    object-fit: contain;
   }
 
   &__buttons {
@@ -51,6 +53,10 @@
     cursor: pointer;
     color: $blue-62;
     letter-spacing: -0.01rem;
+
+    &:focus {
+      @include set-on-focus;
+    }
   }
 
   &__agreement {

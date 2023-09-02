@@ -1,9 +1,7 @@
 import photo from '../../assets/user-avatar.svg';
-import { ColumnItem } from '../../components/kanban-table/KanbanTable';
+import type { ColumnType } from 'src/services/api/types';
 
-export const projects = [{ id: 1, name: 'Пример проекта' }];
-
-export const mockEmptyColumn: ColumnItem[] = [
+export const mockEmptyColumn: ColumnType[] = [
   {
     id: 1,
     title: 'Backlog',
@@ -31,7 +29,7 @@ export const mockEmptyColumn: ColumnItem[] = [
   },
 ];
 
-export const mockColumnItems: ColumnItem[] = [
+export const mockColumnItems: ColumnType[] = [
   {
     id: 1,
     title: 'Backlog',

@@ -15,7 +15,7 @@ export const helperTexts = {
 export const errorTexts: ValidationError = {
   EMAIL: {
     PATTERN: 'ⓘ Введите действительный email',
-    LENGTH: helperTexts.EMAIL,
+    LENGTH: `ⓘ ${helperTexts.EMAIL}`,
     SERVER_ERROR: 'ⓘ Аккаунта с этим email не существует',
   },
   PASSWORD: {

@@ -7,6 +7,8 @@ import {
 import Select, { SingleValue, ActionMeta } from 'react-select';
 import styles from './InputTimezoneSelect.module.scss';
 import './SelectTzComponent.scss'; // <-- Управление стилями компонента Select, модульно пока не получилось (https://react-select.com/styles#inner-components)
+import { useDispatch } from 'src/services/hooks';
+import { authThunks } from 'src/services/slices/authSlice';
 
 type InputTimezonePropsType = {
   name: string;
@@ -18,6 +20,8 @@ type InputTimezonePropsType = {
 export const InputTimezoneSelect: React.FC<InputTimezonePropsType> = (
   props,
 ) => {
+  const dispatch = useDispatch();
+
   const labelStyle = 'altName';
   const timezones = {
     ...allTimezones,
@@ -37,8 +41,10 @@ export const InputTimezoneSelect: React.FC<InputTimezonePropsType> = (
   React.useEffect(() => {
     if (props.lastTzChoice) {
       setTz(props.lastTzChoice);
+    } else {
+      dispatch(authThunks.patchMe({ timezone: tz }));
     }
-  }, [props.lastTzChoice]);
+  }, [props.lastTzChoice, tz]);
 
   const handleSelection = (
     choice: SingleValue<ITimezoneOption>,

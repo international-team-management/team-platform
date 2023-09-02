@@ -4,7 +4,7 @@
 .button {
   cursor: pointer;
 
-  width: $ui-width-l;
+  width: 100%;
   height: $ui-height;
 
   color: $white;
@@ -19,6 +19,10 @@
 
   &:active {
     background-color: $blue-9;
+  }
+
+  &:focus {
+    @include set-on-focus;
   }
 
   &_disabled {
