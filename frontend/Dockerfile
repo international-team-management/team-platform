@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . ./
-RUN npm install esbuild@0.18.17  # there is smth wrong if version of esbuild isnt specified
+RUN npm install esbuild@0.18.17  # there is smth wrong if version of esbuild isnt specified 
 CMD npm run build
 
 # Info

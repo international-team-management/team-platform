@@ -1,37 +1,37 @@
 import React, { useEffect } from 'react';
-import { ColumnTask, ColumnItem } from '../components/kanban-table/KanbanTable';
 import { useDispatch } from 'src/services/hooks';
-import { updateColumn } from 'src/services/slices/projectSlice';
+import { updateColumns } from 'src/services/slices/projectSlice';
+import type { TaskType, ColumnType } from 'src/services/api/types';
 
 export type dragTaskType = {
-  overTask: (e: React.DragEvent<HTMLElement>, task: ColumnTask) => void;
+  overTask: (e: React.DragEvent<HTMLElement>, task: TaskType) => void;
   leave: () => void;
-  start: (task: ColumnTask, column: ColumnItem) => void;
+  start: (task: TaskType, column: ColumnType) => void;
   end: () => void;
   drop: (
     e: React.DragEvent<HTMLElement>,
-    task: ColumnTask,
-    column: ColumnItem,
+    task: TaskType,
+    column: ColumnType,
   ) => void;
 };
 
 export type dragOverColumnType = {
   over: (e: React.DragEvent<HTMLElement>) => void;
-  drop: (_e: React.DragEvent<HTMLElement>, column: ColumnItem) => void;
+  drop: (_e: React.DragEvent<HTMLElement>, column: ColumnType) => void;
 };
 
 export type DradDropType = {
-  columns: ColumnItem[];
-  currentTask: ColumnTask | undefined;
+  columns: ColumnType[];
+  currentTask: TaskType | undefined;
   hover: number | null;
   dragTaskHandler: dragTaskType;
   dragOverColumnHandler: dragOverColumnType;
 };
 
-export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
+export const useDragDropKanban = (columnItems: ColumnType[]): DradDropType => {
   const [columns, setColumns] = React.useState(columnItems);
-  const [currentColumn, setCurrentColumn] = React.useState<ColumnItem>();
-  const [currentTask, setCurrentTask] = React.useState<ColumnTask>();
+  const [currentColumn, setCurrentColumn] = React.useState<ColumnType>();
+  const [currentTask, setCurrentTask] = React.useState<TaskType>();
   const [hover, setHover] = React.useState<number | null>(null);
 
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
   };
 
   const dragTaskHandler = {
-    overTask: (e: React.DragEvent<HTMLElement>, task: ColumnTask) => {
+    overTask: (e: React.DragEvent<HTMLElement>, task: TaskType) => {
       e.preventDefault();
       setHover(task.id);
     },
@@ -55,7 +55,7 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
       setHover(null);
     },
 
-    start: (task: ColumnTask, column: ColumnItem) => {
+    start: (task: TaskType, column: ColumnType) => {
       setCurrentTask(task);
       setCurrentColumn(column);
     },
@@ -67,8 +67,8 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
 
     drop: (
       e: React.DragEvent<HTMLElement>,
-      task: ColumnTask,
-      column: ColumnItem,
+      task: TaskType,
+      column: ColumnType,
     ) => {
       if (currentTask && currentColumn) {
         e.preventDefault();
@@ -92,7 +92,7 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
         componentRedraw();
       }
 
-      dispatch(updateColumn(columns));
+      dispatch(updateColumns(columns));
     },
   };
 
@@ -101,7 +101,7 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
       e.preventDefault();
     },
 
-    drop: (_e: React.DragEvent<HTMLElement>, column: ColumnItem) => {
+    drop: (_e: React.DragEvent<HTMLElement>, column: ColumnType) => {
       if (currentTask && currentColumn) {
         column.tasks.push(currentTask);
         const currentIndex = currentColumn.tasks.indexOf(currentTask);
@@ -121,7 +121,7 @@ export const useDragDropKanban = (columnItems: ColumnItem[]): DradDropType => {
         componentRedraw();
       }
 
-      dispatch(updateColumn(columns));
+      dispatch(updateColumns(columns));
     },
   };
 

@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'src/services/hooks';
 import {
   selectAuthIsLoading,
   selectAuthError,
+  logout,
 } from 'src/services/slices/authSlice';
 import { NavLink } from 'react-router-dom';
 import { selectCurrentProject } from 'src/services/slices/projectSlice';
@@ -23,6 +24,9 @@ import {
   selectHeaderView,
   setHeaderView,
 } from 'src/services/slices/headerSlice';
+import { PopupTemplate } from '../popup/Popup';
+import { closePopup, openPopup } from 'src/services/slices/popupSlice';
+import { openSidebar } from 'src/services/slices/sidebarSlice';
 
 const users = [
   { name: 'User 1', src: userAvatar },
@@ -33,13 +37,56 @@ export const HeaderTemplate = (): JSX.Element => {
   const isAuthApiLoading = useSelector(selectAuthIsLoading);
   const isAuthApiError = useSelector(selectAuthError);
   const [profileInfo, setProfileInfo] = useState<string>('');
+  const { isOpen } = useSelector((store) => store.popup);
+  const dispatch = useDispatch();
 
   const headerState = useSelector(selectHeaderState);
   const headerView = useSelector(selectHeaderView);
 
-  const dispatch = useDispatch();
+  const togglePopap = () => {
+    if (isOpen) {
+      dispatch(closePopup());
+    } else {
+      dispatch(openPopup());
+    }
+  };
 
   const currentProject = useSelector(selectCurrentProject);
+
+  const handlerLogout = () => {
+    dispatch(logout());
+  };
+
+  const handleOpenSidebar = () => {
+    dispatch(openSidebar());
+    dispatch(closePopup());
+  };
+
+  const popupButtonsProfile = [
+    {
+      title: 'Выйти из аккаунта',
+      onClick: handlerLogout,
+    },
+    {
+      title: 'Удалить аккаунт',
+      onClick: () => console.log('Удалить аккаунт'),
+    },
+  ];
+
+  const popupButtonsProgect = [
+    {
+      title: 'О проекте',
+      onClick: handleOpenSidebar,
+    },
+    {
+      title: 'Выйти из проекта',
+      onClick: () => console.log('Выйти из проекта'),
+    },
+    {
+      title: 'Удалить проект',
+      onClick: () => console.log('Удалить проект'),
+    },
+  ];
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const id = e.currentTarget.id;
@@ -155,8 +202,18 @@ export const HeaderTemplate = (): JSX.Element => {
           className={styles['header__icon']}
           src={settingsIcon}
           alt={`Кнопка ${settingsIcon}`}
+          onClick={togglePopap}
         />
       </div>
+      {isOpen && (
+        <PopupTemplate
+          buttons={
+            headerState === HeaderState.PROFILE
+              ? popupButtonsProfile
+              : popupButtonsProgect
+          }
+        />
+      )}
     </section>
   );
 };

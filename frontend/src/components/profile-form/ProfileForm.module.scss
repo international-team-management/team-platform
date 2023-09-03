@@ -16,6 +16,8 @@
   }
 
   &__form {
+    width: $ui-width-l;
+
     &_photo {
       @extend %flex-row;
 
@@ -93,6 +95,10 @@
       background-color: $bright-blue;
       border: 1px solid $bright-blue;
       border-radius: 12px;
+
+      &:focus {
+        @include set-on-focus(12px);
+      }
     }
   }
 

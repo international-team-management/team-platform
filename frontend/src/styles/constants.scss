@@ -1,3 +1,5 @@
+@import 'styles/colors';
+
 // Templates
 
 %flex-column {
@@ -117,4 +119,27 @@ $ui-border-radius-phone: 16px;
     background-image: url($icon-path);
     background-repeat: no-repeat;
   }
+}
+
+@mixin set-on-focus($border-radius: $ui-border-radius) {
+  border-radius: $border-radius $i;
+  outline: 1px solid $blue-95 $i;
+}
+
+@mixin set-team-border($width: 0) {
+  content: '';
+
+  position: absolute;
+  bottom: 0;
+  left: -$width;
+
+  @if $width == 0 {
+    width: 100%;
+  } @else {
+    width: calc(100% + $width * 2);
+  }
+
+  height: 1px;
+
+  background-color: $grey-225;
 }

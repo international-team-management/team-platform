@@ -20,10 +20,15 @@
     margin: 0 120px;
   }
 
+  &__inputs {
+    width: $ui-width-l;
+  }
+
   &__buttons {
     @extend %flex-column;
 
     align-items: center;
+    width: $ui-width-l;
   }
 
   &__text {
@@ -46,5 +51,9 @@
     cursor: pointer;
     color: $blue-62;
     letter-spacing: -0.01rem;
+
+    &:focus {
+      @include set-on-focus;
+    }
   }
 }

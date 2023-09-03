@@ -1,0 +1,71 @@
+@import 'styles/constants';
+@import 'styles/colors';
+
+.popup {
+  position: absolute;
+  top: 89px;
+  right: 16px;
+
+  width: 100%;
+  max-width: 164px;
+  margin: 0;
+  padding: 12px 0;
+
+  color: $black;
+
+  background-color: $white;
+  border: 1px solid $grey-225;
+  border-radius: $ui-border-radius-m;
+  box-shadow: 0 5px 50px 5px $blue-0;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: -15px;
+    right: 19px;
+
+    border-right: 12px solid transparent;
+    border-bottom: 15px solid $grey-225;
+    border-left: 12px solid transparent;
+  }
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    top: -14px;
+    right: 19px;
+
+    border-right: 12px solid transparent;
+    border-bottom: 15px solid $white;
+    border-left: 12px solid transparent;
+  }
+
+  &__button {
+    @include set-font-size(16px, 20px, 700);
+
+    cursor: pointer;
+
+    width: 100%;
+    min-width: 157px;
+    padding: 12px 16px;
+
+    text-align: start;
+    letter-spacing: -0.04rem;
+
+    background-color: $white;
+    border: none;
+    border-bottom: 1px solid $grey-225;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+      color: $red-224;
+      border-bottom: none;
+    }
+  }
+}

@@ -20,6 +20,10 @@
     &--menu-is-open .t-select__indicator {
       transform: rotate(180deg);
     }
+
+    &:focus-within {
+      @include set-on-focus;
+    }
   }
 
   &__menu {
