@@ -3,13 +3,15 @@ import base64
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
-from projects.models import Project, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+
+from projects.models import Project, Task, TaskUser
 from users.models import TimeZone
 
 from .services import add_project_example, get_members_num_per_interval
-from .validators import validate_first_last_names, validate_offset, validate_password
+from .validators import (validate_first_last_names, validate_offset,
+                         validate_password)
 
 User = get_user_model()
 
@@ -241,6 +243,7 @@ class ProjectPostSerializer(serializers.ModelSerializer):
         owner = self.context["request"].user
         validated_data["owner"] = owner
         validated_data["participants"] += [owner]
+        validated_data.pop("tasks")
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
@@ -251,6 +254,12 @@ class ProjectPostSerializer(serializers.ModelSerializer):
 
         validated_data["participants"] = participants
 
+        for task in validated_data["tasks"]:
+            if task.task_project.id != instance.id:
+                raise ValidationError(
+                    f"Задача '{task}' с id = {task.id} принадлежит другому "
+                    f"проекту и не может быть добавлена."
+                )
         return super().update(instance, validated_data)
 
     class Meta:
