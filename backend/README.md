@@ -4,33 +4,35 @@
 
 Выполните команды:
 
-'''git checkout backend'''
-'''git pull'''
+`git checkout backend`
 
-Переименуйте файл .env.example в .env
+`git pull`
 
-Перейти в папку infra:
+Переименуйте файл `.env.example ` в `.env `
 
-'''cd infra'''
+Перейдите в папку infra и запустите проект:
 
-Запустить проект:
+`cd infra`
 
-'''sudo docker compose up -d'''
+`sudo docker compose up -d`
 
-Войти в контейнер:
+Войдите в контейнер:
 
-'''sudo docker exec -it itm_backend bash'''
+`sudo docker exec -it itm_backend bash`
 
-Выполнить последовательно команды:
+Выполните последовательно команды:
 
-'''python3 manage.py makemigrations'''
-'''python3 manage.py migrate'''
+`python3 manage.py makemigrations`
+
+`python3 manage.py migrate`
+
+`python3 manage.py collectstatic --no-input`
 
 Создайте суперпользователя для входа в админку http://127.0.0.1/admin
 
-'''python3 manage.py createsuperuser'''
-'''python3 manage.py collectstatic --no-input'''
-'''exit'''
+`python3 manage.py createsuperuser`
+
+`exit`
 
 API проекта доступен по адресу:
 
