@@ -1,31 +1,23 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
-from projects.models import Project, Task
 from rest_framework import mixins, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .decorators import (
-    project_view_set_schema,
-    project_view_team_schema,
-    task_view_set_schema,
-    user_me_view_patch_schema,
-    user_me_view_request_schema,
-    user_view_set_schema,
-)
+from projects.models import Project, Task
+
+from .decorators import (project_view_project_example, project_view_set_schema,
+                         project_view_team_schema, task_view_set_schema,
+                         user_me_view_patch_schema,
+                         user_me_view_request_schema, user_view_set_schema)
 from .permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
-from .serializers import (
-    CustomUserCreateSerializer,
-    CustomUserSerializer,
-    ProjectGetSerializer,
-    ProjectPostSerializer,
-    SetPasswordSerializer,
-    TaskGetSerializer,
-    TaskPostSerializer,
-    TeamSerializer,
-)
+from .serializers import (CustomUserCreateSerializer, CustomUserSerializer,
+                          ProjectGetSerializer, ProjectPostSerializer,
+                          SetPasswordSerializer, TaskGetSerializer,
+                          TaskPostSerializer, TeamSerializer)
+from .services import PROJECT_EXAMPLE_NAME, add_project_example
 
 User = get_user_model()
 
@@ -82,6 +74,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     queryset = Project.objects.all()
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+
+    def get_queryset(self):
+        user = self.request.user
+        return Project.objects.filter(participants=user.id)
 
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:
