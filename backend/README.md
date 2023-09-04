@@ -2,30 +2,35 @@
 
 Установите Docker Compose
 
+Выполните команды:
+
+'''git checkout backend'''
+'''git pull'''
+
 Переименуйте файл .env.example в .env
 
 Перейти в папку infra:
 
-cd infra
+'''cd infra'''
 
 Запустить проект:
 
-sudo docker compose up -d
+'''sudo docker compose up -d'''
 
 Войти в контейнер:
 
-sudo docker exec -it itm_backend bash
+'''sudo docker exec -it itm_backend bash'''
 
 Выполнить последовательно команды:
 
-python3 manage.py makemigrations
-python3 manage.py migrate
+'''python3 manage.py makemigrations'''
+'''python3 manage.py migrate'''
 
 Создайте суперпользователя для входа в админку http://127.0.0.1/admin
 
-python3 manage.py createsuperuser
-python3 manage.py collectstatic --no-input
-exit
+'''python3 manage.py createsuperuser'''
+'''python3 manage.py collectstatic --no-input'''
+'''exit'''
 
 API проекта доступен по адресу:
 
