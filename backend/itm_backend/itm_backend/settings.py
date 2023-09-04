@@ -17,10 +17,7 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 TIME_INPUT_FORMATS = ("%H:%M",)
 
-CORS_ALLOWED_ORIGINS = (
-    "http://localhost",
-    "http://127.0.0.1",
-)
+CORS_ALLOWED_ORIGINS = []
 
 CORS_ALLOW_CREDENTIALS = True
 
