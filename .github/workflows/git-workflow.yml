@@ -1,0 +1,159 @@
+name: Develop workflow
+
+on:
+  # Запуск при любом push-действии в ветку develop
+  push:
+    branches:
+      - develop
+      - develop-infra
+
+jobs:
+#  tests:
+#    name: Tests with pre-commit
+#    runs-on: ubuntu-22.04
+#
+#    steps:
+#      - name: Checking out a repo
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Python 3.9
+#        # Устанавливаем Python 3.9
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.9'
+#
+#      - name: Install Poetry
+#        # Устанавливаем Poetry
+#        uses: snok/install-poetry@v1
+#
+#      - name: Install dependencies with Poetry
+#        # Устанавливаем зависимости Poetry
+#        run: |
+#          poetry env use 3.9
+#          poetry install
+#        working-directory: ./backend
+#
+#      - name: Run pre-commit checks for backend
+#        # Запуск тестов pre-commit
+#        run: poetry run pre-commit run --all-files
+#        working-directory: ./backend
+#
+#      - name: Run pytest
+#        # Запуск тестов pytest - не работают из-за настроек postgres
+#        run: pytest
+#        working-directory: ./backend
+
+  build_and_push_backend_to_docker_hub:
+    # Сборка Backend
+    name: Push Backend image to Docker Hub
+    runs-on: ubuntu-22.04
+#    needs: tests
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: backend
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/backend
+
+  build_and_push_frontend_to_docker_hub:
+    # Сборка Frontend
+    name: Push Frontend image to Docker Hub
+    runs-on: ubuntu-22.04
+#    needs: tests
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Create .env file
+        run: |
+          echo "API_ENDPOINT=${{ secrets.API_ENDPOINT }}" > frontend/.env
+        working-directory: ${{ github.workspace }}
+
+      - name: Push Frontend to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: frontend
+          dockerfile: frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/frontend
+
+  deploy:
+    name: Deploy Backend to server
+    runs-on: ubuntu-22.04
+    needs:
+      - build_and_push_backend_to_docker_hub
+      - build_and_push_frontend_to_docker_hub
+
+    steps:
+      - name: executing remote ssh commands to deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            sudo docker-compose down
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/backend
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/frontend
+            rm .env
+            touch .env
+            echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
+            echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
+            echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+            echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+            echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+
+            sudo docker-compose up -d
+#            sudo docker image prune -af
+
+  send_message:
+    name: Send message to Telegram
+    runs-on: ubuntu-latest
+    needs: deploy
+    # Выполнять только при успешном выполнении предыдущих задач
+    if: ${{ success() }}
+    steps:
+      # Получение активной ветки
+      - name: Get branch name
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+      # Получение активного коммита
+      - name: Get commit SHA
+        run: echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
+      # Отправка сообщения в канал https://t.me/itm_project_actions
+      - name: Send message to Telegram Channel "ITM-project actions"
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Разработчик ${{ github.actor }} успешно выполнил ${{ github.workflow }}!
+            Ветка: ${{ env.BRANCH_NAME }}
+            Тип операции: ${{ github.event_name }} ${{ github.event.pull_request.base.ref }}
+            Ссылка на коммит: https://github.com/${{ github.repository }}/commit/${{ env.COMMIT_SHA }}

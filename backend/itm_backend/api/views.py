@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, status, views, viewsets
 from rest_framework.decorators import action
@@ -94,14 +94,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project = get_object_or_404(Project, pk=pk)
         serializer = TeamSerializer(project, context={"request": request})
         return Response(serializer.data)
-
-    @project_view_project_example
-    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
-    def project_example(self, request):
-        project = Project.objects.filter(owner=request.user, name=PROJECT_EXAMPLE_NAME).first()
-        if not project:
-            project = add_project_example(request.user)
-        return redirect("project-detail", pk=project.id)
 
 
 @extend_schema(tags=["Tasks - создание и редактрирование задач"])

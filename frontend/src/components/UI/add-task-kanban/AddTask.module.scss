@@ -1,0 +1,38 @@
+@import '../../../styles/colors';
+@import '../../../styles/constants';
+
+.task {
+  @extend %flex-column;
+
+  justify-content: center;
+
+  width: 300px;
+  height: 136px;
+  margin-top: 8px;
+
+  background-image: url('../../../assets/border.png');
+  background-size: contain;
+  border-radius: $ui-border-radius-m;
+
+  &__wrapper {
+    @extend %flex-row;
+
+    cursor: pointer;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+  }
+
+  &__button {
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+  }
+
+  &__text {
+    @include set-font-size(18px, 20px, 600);
+
+    color: $blue-56;
+    letter-spacing: -0.02rem;
+  }
+}

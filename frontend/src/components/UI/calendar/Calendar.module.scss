@@ -1,0 +1,89 @@
+@import 'styles/colors';
+@import 'styles/constants';
+
+.calendar {
+  @extend %flex-column;
+
+  position: absolute;
+  z-index: 10;
+  top: 35px;
+  left: 95px;
+
+  justify-content: space-between;
+
+  width: 360px;
+  height: 436px;
+
+  background-color: $white;
+  border-radius: $ui-border-radius;
+  box-shadow: 0 5px 50px 5px $blue-0;
+
+  &__field {
+    @extend %flex-row;
+
+    justify-content: space-between;
+
+    width: 147px;
+    height: 28px;
+    padding: 6px 8px;
+
+    background-color: $grey-241;
+    border: 1px solid $grey-225;
+    border-radius: $ui-border-radius-s;
+
+    &_active {
+      background-color: $grey-191;
+    }
+  }
+
+  &__data {
+    @include set-font-size(14px, 16px, 600);
+
+    width: 107px;
+    color: $black;
+    letter-spacing: -0.01rem;
+  }
+
+  &__buttons {
+    @extend %flex-row;
+
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 16px;
+    border-top: 1px solid $grey-241;
+  }
+
+  &__button,
+  &__button_save,
+  &__button_cancel {
+    @include set-font-size(14px, 16px, 600);
+
+    cursor: pointer;
+    letter-spacing: -0.01rem;
+    border: none;
+    border-radius: $ui-border-radius-m;
+
+    &_save {
+      padding: 10px 27px;
+      color: $white;
+      background-color: $blue-56;
+    }
+
+    &_cancel {
+      padding: 10px 33px;
+      color: $black;
+      background-color: $grey-241;
+    }
+  }
+
+  &__content {
+    width: 360px;
+    margin: 0;
+    padding: 16px 12px 0;
+  }
+
+  &__content .MuiPickersCalendarHeader-root {
+    margin: 0;
+    padding: 0;
+  }
+}
