@@ -1,9 +1,11 @@
+import { AxiosError } from 'axios';
 import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ProjectType } from '../api/types';
+import { ColumnType, ProjectType } from '../api/types';
 import { RootState } from '../store';
+import { projectsAPI } from 'services/api/projectsAPI';
 
 type ProjectStateType = {
-  list: any | ProjectType[];
+  list: ProjectType[];
   current: null | ProjectType;
   isLoading: boolean;
   error: null | unknown | string;
@@ -18,8 +20,14 @@ const initialState: ProjectStateType = {
 
 // < < <  TODO: дописать асинки (обращения к серверу) функции брать из projectsAPI.ts  > > >
 export const projectThunks = {
-  getList: createAsyncThunk('project/getList', async () => {
-    return;
+  getList: createAsyncThunk('project/getList', async (_, thunkAPI) => {
+    try {
+      return await projectsAPI.get();
+    } catch (e: unknown) {
+      const error = e as AxiosError;
+
+      return thunkAPI.rejectWithValue(error.response?.data);
+    }
   }),
 
   post: createAsyncThunk('project/post', async () => {
@@ -40,8 +48,15 @@ export const projectSlice = createSlice({
   initialState,
 
   reducers: {
+    addProject: () => {
+      return;
+    },
     setCurrent: (state, action: PayloadAction<number>) => {
       state.current = state.list[action.payload - 1];
+    },
+
+    updateColumns: (state, action: PayloadAction<ColumnType[]>) => {
+      return;
     },
   },
 
@@ -54,7 +69,7 @@ export const projectSlice = createSlice({
       })
       .addCase(
         projectThunks.getList.fulfilled,
-        (state, action: PayloadAction<unknown>) => {
+        (state, action: PayloadAction<ProjectType[]>) => {
           state.isLoading = false;
           state.error = false;
           state.list = action.payload;
@@ -102,7 +117,8 @@ export const projectSlice = createSlice({
           const patched = action.payload;
           if (patched) {
             state.list = state.list.filter(
-              (project: ProjectType) => project?.id !== patched?.id,
+              (project: ProjectType) =>
+                project?.id !== (patched as ProjectType)?.id,
             );
             state.list.push(action.payload);
           }

@@ -37,7 +37,7 @@ export const Projects = (): JSX.Element => {
           <NavLink
             to={`/${project.id}`}
             className={clsx(style.projects__nav, {
-              [style.projects__nav_active]: currentProject.id === project.id,
+              [style.projects__nav_active]: currentProject?.id === project.id,
             })}
             onClick={(e) => handleClick(e)}
             id={`${project.id}-project`}
