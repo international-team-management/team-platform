@@ -108,5 +108,5 @@ class TaskViewSet(viewsets.ModelViewSet):
         return TaskPostSerializer
 
     def perform_create(self, serializer):
-        project = get_object_or_404(Project, pk=self.kwargs.get("task_project_id"))
-        serializer.save(creator=self.request.user, project=project)
+        project = get_object_or_404(Project, pk=self.kwargs.get("projects_id"))
+        serializer.save(creator=self.request.user, task_project=project)
