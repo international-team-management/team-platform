@@ -111,7 +111,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
 
     def get_queryset(self):
-        task_project_id = self.kwargs["projects_id"]
+        task_project_id = self.kwargs.get("projects_id")
         queryset = Task.objects.filter(task_project=task_project_id)
         return queryset
 
