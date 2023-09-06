@@ -1,23 +1,31 @@
+from api.permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
+from api.serializers import (
+    CustomUserCreateSerializer,
+    CustomUserSerializer,
+    ProjectGetSerializer,
+    ProjectPostSerializer,
+    SetPasswordSerializer,
+    TaskGetSerializer,
+    TaskPostSerializer,
+    TeamSerializer,
+)
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
+from projects.models import Project, Task
 from rest_framework import mixins, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from projects.models import Project, Task
-
-from .decorators import (project_view_project_example, project_view_set_schema,
-                         project_view_team_schema, task_view_set_schema,
-                         user_me_view_patch_schema,
-                         user_me_view_request_schema, user_view_set_schema)
-from .permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
-from .serializers import (CustomUserCreateSerializer, CustomUserSerializer,
-                          ProjectGetSerializer, ProjectPostSerializer,
-                          SetPasswordSerializer, TaskGetSerializer,
-                          TaskPostSerializer, TeamSerializer)
-from .services import PROJECT_EXAMPLE_NAME, add_project_example
+from .decorators import (
+    project_view_set_schema,
+    project_view_team_schema,
+    task_view_set_schema,
+    user_me_view_patch_schema,
+    user_me_view_request_schema,
+    user_view_set_schema,
+)
 
 User = get_user_model()
 
@@ -102,11 +110,16 @@ class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsParticipantOrReadOnly)
     queryset = Task.objects.all()
 
+    def get_queryset(self):
+        task_project_id = self.kwargs["projects_id"]
+        queryset = Task.objects.filter(task_project=task_project_id)
+        return queryset
+
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:
             return TaskGetSerializer
         return TaskPostSerializer
 
     def perform_create(self, serializer):
-        project = get_object_or_404(Project, pk=self.kwargs.get("task_project_id"))
-        serializer.save(creator=self.request.user, project=project)
+        project = get_object_or_404(Project, pk=self.kwargs.get("projects_id"))
+        serializer.save(creator=self.request.user, task_project=project)
