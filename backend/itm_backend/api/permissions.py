@@ -30,3 +30,14 @@ class IsParticipantOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return request.user in obj.task_project.participants.all()
+
+
+class IsProjectParticipant(permissions.BasePermission):
+    """
+    Разрешает только участникам проекта добавлять пользователей в команду проекта.
+    """
+
+    def has_permission(self, request, view):
+        project_id = view.kwargs.get("pk")
+        project = get_object_or_404(Project, pk=project_id)
+        return request.user in project.participants.all()
