@@ -96,8 +96,9 @@ class User(AbstractUser):
 
     def clean(self):
         if self.photo:
-            if self.photo.width < 400 and self.photo.height < 400:
-                raise ValidationError({"image": "Минимальный размер картинки 400х400 пикселей."})
+            if (self.photo.width < 400 and self.photo.height < 100) or (
+                    self.photo.height < 400 and self.photo.width < 100):
+                raise ValidationError({"image": "Минимальный размер картинки 400 пикселей."})
         return super().clean()
 
     def save(self, *args, **kwargs):
