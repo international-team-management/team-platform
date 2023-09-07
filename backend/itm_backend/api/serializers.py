@@ -6,12 +6,11 @@ from django.core.files.base import ContentFile
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from api.services import add_project_example, get_members_num_per_interval
+from api.validators import (validate_first_last_names, validate_offset,
+                            validate_password)
 from projects.models import Project, Task, TaskUser
 from users.models import TimeZone
-
-from .services import add_project_example, get_members_num_per_interval
-from .validators import (validate_first_last_names, validate_offset,
-                         validate_password)
 
 User = get_user_model()
 
@@ -257,8 +256,7 @@ class ProjectPostSerializer(serializers.ModelSerializer):
         for task in validated_data["tasks"]:
             if task.task_project.id != instance.id:
                 raise ValidationError(
-                    f"Задача '{task}' с id = {task.id} принадлежит другому "
-                    f"проекту и не может быть добавлена."
+                    f"Задача '{task}' с id = {task.id} принадлежит другому " f"проекту и не может быть добавлена."
                 )
         return super().update(instance, validated_data)
 
