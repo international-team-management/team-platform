@@ -301,6 +301,11 @@ class TeamSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """Валидация добавления участника проекта."""
         if self.context["request"].method == "POST":
+            adding_user = self.context["request"].user  # пользователь добавляющий участника
+            if not adding_user.timezone:
+                raise ValidationError(
+                    "Вы пока не можете добавить участника в команду. Пожалуйста, установите таймзону в своем профиле."
+                )
             user = self.context["user"]
             project = self.context["project"]
             if ProjectUser.objects.filter(user_id=user, project_id=project).exists():
