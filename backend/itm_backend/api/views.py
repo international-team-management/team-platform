@@ -6,12 +6,12 @@ from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from api.permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
-from api.serializers import (CustomUserCreateSerializer, CustomUserSerializer,
+from api.permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly, IsProjectParticipant
+from api.serializers import (AddMemberSerializer, CustomUserCreateSerializer, CustomUserSerializer,
                              ProjectGetSerializer, ProjectPostSerializer,
                              SetPasswordSerializer, TaskGetSerializer,
                              TaskPostSerializer, TeamSerializer)
-from projects.models import Project, Task
+from projects.models import Project, ProjectUser, Task
 
 from .decorators import (project_view_set_schema, project_view_team_schema,
                          task_view_set_schema, user_me_view_patch_schema,
@@ -80,6 +80,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:
             return ProjectGetSerializer
+        if self.action == "add_member":
+            return AddMemberSerializer
         return ProjectPostSerializer
 
     def perform_create(self, serializer):
@@ -92,6 +94,22 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project = get_object_or_404(Project, pk=pk)
         serializer = TeamSerializer(project, context={"request": request})
         return Response(serializer.data)
+
+    @action(
+        detail=True,
+        methods=["post"],
+        permission_classes=[IsAuthenticated, IsProjectParticipant],
+    )
+    def add_member(self, request, pk=None):
+        """Добавляет участника в команду проекта."""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        project = get_object_or_404(Project, pk=pk)
+        user = get_object_or_404(User, email=request.data["email"])
+        serializer = TeamSerializer(data=request.data, context={"request": request, "user": user, "project": project})
+        serializer.is_valid(raise_exception=True)
+        ProjectUser.objects.create(user_id=user, project_id=project)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @extend_schema(tags=["Tasks - создание и редактрирование задач"])
