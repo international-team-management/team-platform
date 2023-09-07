@@ -1,11 +1,9 @@
-from api.views import ProjectViewSet, TaskViewSet
 from django.urls import include, path
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
+from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
+                                   SpectacularSwaggerView)
 from rest_framework.routers import SimpleRouter
+
+from api.views import ProjectViewSet, TaskViewSet
 
 router = SimpleRouter()
 router.register("projects", ProjectViewSet)
