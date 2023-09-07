@@ -301,11 +301,6 @@ class TeamSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """Валидация добавления участника проекта."""
         if self.context["request"].method == "POST":
-            adding_user = self.context["request"].user  # пользователь добавляющий участника
-            if not adding_user.timezone:
-                raise ValidationError(
-                    "Вы пока не можете добавить участника в команду. Пожалуйста, установите таймзону в своем профиле."
-                )
             user = self.context["user"]
             project = self.context["project"]
             if ProjectUser.objects.filter(user_id=user, project_id=project).exists():
@@ -313,8 +308,6 @@ class TeamSerializer(serializers.ModelSerializer):
             if not user.is_active:
                 raise ValidationError("Пользователь с таким email больше не активен.")
             return project
-        if self.context["request"].method == "DELETE":  # если понадобится сделать удаление участника
-            pass
 
 
 class SetPasswordSerializer(serializers.Serializer):
@@ -381,3 +374,19 @@ class BadRequestTimezoneErrorSerializer(serializers.Serializer):
         default="У вас не задана временная зона.",
         help_text="Сообщение об ошибке",
     )
+
+
+class AddMemberSerializer(serializers.Serializer):
+    """Сериализатор добавления пользователя в команду проекта."""
+
+    email = serializers.EmailField()
+
+    class Meta:
+        model = User
+        fields = ["email"]
+        read_only_fields = ["email"]
+
+    def validate_email(self, value):
+        if not User.objects.filter(email=value).exists():
+            raise ValidationError("Пользователь с таким email не найден.")
+        return value

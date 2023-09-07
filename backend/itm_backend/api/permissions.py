@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from projects.models import Project
 from rest_framework import permissions
+from rest_framework.exceptions import PermissionDenied
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -34,10 +35,15 @@ class IsParticipantOrReadOnly(permissions.BasePermission):
 
 class IsProjectParticipant(permissions.BasePermission):
     """
-    Разрешает только участникам проекта добавлять пользователей в команду проекта.
+    Разрешает только участникам проекта с заполненной таймзоной
+    добавлять пользователей в команду проекта.
     """
 
     def has_permission(self, request, view):
         project_id = view.kwargs.get("pk")
         project = get_object_or_404(Project, pk=project_id)
-        return request.user in project.participants.all()
+        if request.user not in project.participants.all():
+            raise PermissionDenied("Вы должны быть участником проекта для выполнения этого действия.")
+        if request.user.timezone is None:
+            raise PermissionDenied("У вас должна быть задана таймзона для выполнения этого действия.")
+        return True
