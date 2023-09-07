@@ -108,7 +108,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 @task_view_set_schema
 class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsParticipantOrReadOnly)
-    queryset = Task.objects.all()
 
     def get_queryset(self):
         task_project_id = self.kwargs.get("projects_id")

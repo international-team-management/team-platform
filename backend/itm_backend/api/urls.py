@@ -1,3 +1,4 @@
+from api.views import ProjectViewSet, TaskViewSet
 from django.urls import include, path
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -6,11 +7,9 @@ from drf_spectacular.views import (
 )
 from rest_framework.routers import SimpleRouter
 
-from .views import ProjectViewSet, TaskViewSet
-
 router = SimpleRouter()
 router.register("projects", ProjectViewSet)
-router.register(r"projects/(?P<projects_id>\d+)/tasks", TaskViewSet)
+router.register(r"projects/(?P<projects_id>\d+)/tasks", TaskViewSet, basename="tasks")
 
 urlpatterns = [
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
