@@ -8,8 +8,12 @@
 
   &__header {
     position: relative;
+
     display: flex;
-    padding: 20px 24px;
+    align-items: center;
+
+    height: 60px;
+    padding: 24px;
 
     &::after {
       @include set-team-border;
