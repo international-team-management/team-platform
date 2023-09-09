@@ -16,7 +16,7 @@ services:
   backend:
     build:
       context: ../backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.local
     container_name: itm_backend
     restart: always
     volumes:
