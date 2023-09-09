@@ -1,12 +1,11 @@
-import { AxiosError } from 'axios';
 import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ColumnType, ProjectType } from '../api/types';
+import { ColumnType, CurrentProjectType, ProjectType } from '../api/types';
 import { RootState } from '../store';
 import { projectsAPI } from 'services/api/projectsAPI';
 
 type ProjectStateType = {
   list: ProjectType[];
-  current: null | ProjectType;
+  current: null | CurrentProjectType;
   isLoading: boolean;
   error: null | unknown | string;
 };
@@ -20,26 +19,25 @@ const initialState: ProjectStateType = {
 
 // < < <  TODO: дописать асинки (обращения к серверу) функции брать из projectsAPI.ts  > > >
 export const projectThunks = {
-  getList: createAsyncThunk('project/getList', async (_, thunkAPI) => {
-    try {
-      return await projectsAPI.get();
-    } catch (e: unknown) {
-      const error = e as AxiosError;
+  getList: createAsyncThunk(
+    'project/getList',
+    async () => await projectsAPI.get(),
+  ),
 
-      return thunkAPI.rejectWithValue(error.response?.data);
-    }
-  }),
+  post: createAsyncThunk(
+    'project/post',
+    async (data: Omit<ProjectType, 'id' | 'owner'>) =>
+      await projectsAPI.post(data),
+  ),
 
-  post: createAsyncThunk('project/post', async () => {
-    return;
-  }),
+  patch: createAsyncThunk(
+    'project/patch',
+    async (data: ProjectType) => await projectsAPI.patch(data),
+  ),
 
-  patch: createAsyncThunk('project/patch', async () => {
-    return;
-  }),
-
-  delete: createAsyncThunk('project/delete', async () => {
-    return;
+  delete: createAsyncThunk('project/delete', async (id: number) => {
+    await projectsAPI.delete(id);
+    return { id };
   }),
 };
 
@@ -52,7 +50,58 @@ export const projectSlice = createSlice({
       return;
     },
     setCurrent: (state, action: PayloadAction<number>) => {
-      state.current = state.list[action.payload - 1];
+      const project = state.list[action.payload - 1];
+      const columns: ColumnType[] = [
+        {
+          id: 1,
+          title: 'Backlog',
+          tasks: [],
+        },
+        {
+          id: 2,
+          title: 'To Do',
+          tasks: [],
+        },
+        {
+          id: 3,
+          title: 'In Progress',
+          tasks: [],
+        },
+        {
+          id: 4,
+          title: 'In Review',
+          tasks: [],
+        },
+        {
+          id: 5,
+          title: 'Done',
+          tasks: [],
+        },
+      ];
+
+      project.tasks.forEach((task) => {
+        if (task.status === 'backlog') {
+          columns[0].tasks.push(task);
+        }
+
+        if (task.status === 'todo') {
+          columns[1].tasks.push(task);
+        }
+        if (task.status === 'in_progress') {
+          columns[2].tasks.push(task);
+        }
+        if (task.status === 'in_review') {
+          columns[3].tasks.push(task);
+        }
+        if (task.status === 'done') {
+          columns[4].tasks.push(task);
+        }
+      });
+
+      state.current = {
+        ...project,
+        columns,
+      };
     },
 
     updateColumns: (state, action: PayloadAction<ColumnType[]>) => {
@@ -90,10 +139,10 @@ export const projectSlice = createSlice({
       })
       .addCase(
         projectThunks.post.fulfilled,
-        (state, action: PayloadAction<unknown>) => {
+        (state, action: PayloadAction<ProjectType>) => {
           state.isLoading = false;
           state.error = false;
-          state.list = state.list.push(action.payload);
+          state.list = [...state.list, action.payload];
         },
       )
       .addCase(
@@ -111,17 +160,15 @@ export const projectSlice = createSlice({
       })
       .addCase(
         projectThunks.patch.fulfilled,
-        (state, action: PayloadAction<ProjectType | unknown>) => {
+        (state, action: PayloadAction<ProjectType>) => {
           state.isLoading = false;
           state.error = false;
-          const patched = action.payload;
-          if (patched) {
-            state.list = state.list.filter(
-              (project: ProjectType) =>
-                project?.id !== (patched as ProjectType)?.id,
-            );
-            state.list.push(action.payload);
-          }
+          state.list = state.list.map((project) => {
+            if (project.id === action.payload.id) {
+              return action.payload;
+            }
+            return project;
+          });
         },
       )
       .addCase(
@@ -137,10 +184,17 @@ export const projectSlice = createSlice({
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(projectThunks.delete.fulfilled, (state) => {
-        state.isLoading = false;
-        state.error = false;
-      })
+      .addCase(
+        projectThunks.delete.fulfilled,
+        (state, action: PayloadAction<{ id: number }>) => {
+          state.isLoading = false;
+          state.error = false;
+          state.list = state.list.filter(
+            (project) => project.id !== action.payload.id,
+          );
+          state.current = null;
+        },
+      )
       .addCase(
         projectThunks.delete.rejected,
         (state, action: PayloadAction<unknown>) => {

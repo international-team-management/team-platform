@@ -8,6 +8,7 @@ import type {
   UpdatePasswordData,
   UserType,
 } from 'services/api/types';
+import { projectThunks } from './projectSlice';
 
 // Use cases
 // 1. register, post new user data > if ok response > login, post credentials > receive tokens, keep in localStorage > get userMe
@@ -60,7 +61,11 @@ export const authThunks = {
     },
   ),
 
-  userMe: createAsyncThunk('auth/userMe', async () => await authAPI.getMe()),
+  userMe: createAsyncThunk('auth/userMe', async (_, { dispatch }) => {
+    const user = await authAPI.getMe();
+    dispatch(projectThunks.getList());
+    return user;
+  }),
 
   patchMe: createAsyncThunk('auth/patchMe', async (data: UserType) => {
     const patchedMe = await authAPI.patchMe(data);

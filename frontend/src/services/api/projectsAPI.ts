@@ -7,13 +7,13 @@ export const projectsAPI = {
     return request.get<ProjectType[]>(URLS.PROJECTS);
   },
 
-  post: (data: ProjectType): Promise<ProjectType> => {
-    return request.patch<ProjectType, ProjectType>(`${URLS.PROJECTS}`, data);
+  post: (data: Omit<ProjectType, 'id' | 'owner'>): Promise<ProjectType> => {
+    return request.post(`${URLS.PROJECTS}`, data);
   },
 
-  patch: (id: number, data: ProjectType): Promise<ProjectType> => {
+  patch: (data: ProjectType): Promise<ProjectType> => {
     return request.patch<ProjectType, ProjectType>(
-      `${URLS.PROJECTS}/${id}`,
+      `${URLS.PROJECTS}/${data.id}`,
       data,
     );
   },

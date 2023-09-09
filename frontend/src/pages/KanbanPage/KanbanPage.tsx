@@ -13,12 +13,14 @@ export const KanbanPage = (): JSX.Element => {
 
   return (
     <section className="content">
-      <KanbanTable columns={copy.columns} />
+      {copy && <KanbanTable columns={copy.columns} />}
 
-      <ProjectSidebar
-        showActions={showProjectActions}
-        project={currentProject}
-      />
+      {currentProject && (
+        <ProjectSidebar
+          showActions={showProjectActions}
+          project={currentProject}
+        />
+      )}
     </section>
   );
 };

@@ -46,7 +46,7 @@ export type UserType = {
   work_start?: string;
   work_finish?: string;
   // timetable?: unknown;
-  photo?: string | null;
+  photo: string;
   telephone_number?: string;
 };
 
@@ -63,6 +63,7 @@ export enum URLS {
   SET_PASSWORD = `${URLS.AUTH}/users/set_password/`,
 
   PROJ = 'projects',
+
   PROJECTS = `${URLS.PROJ}/`,
 }
 
@@ -70,14 +71,18 @@ export enum URLS {
 
 export type TaskType = {
   id: number;
-  subtitle: string;
-  expiredDate: string;
-  img: any;
+  name: string;
+  creator: UserType;
+  priority: string;
+  assigned_to: UserType[];
+  status: 'backlog' | 'todo' | 'in_progress' | 'in_review' | 'done';
+  description: string;
+  deadline: string;
 };
 
 export type ColumnType = {
   id: number;
-  title: string;
+  title: 'Backlog' | 'To Do' | 'In Progress' | 'In Review' | 'Done';
   tasks: TaskType[];
 };
 
@@ -92,4 +97,8 @@ export type ProjectType = {
   deadline: string;
   status: string;
   priority: string;
+};
+
+export type CurrentProjectType = ProjectType & {
+  columns: ColumnType[];
 };

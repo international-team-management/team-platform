@@ -1,12 +1,12 @@
 import styles from './RightSidebarTemplate.module.scss';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'src/services/hooks';
-import type { ProjectType } from 'src/services/api/types';
+import type { CurrentProjectType } from 'src/services/api/types';
 import { closeSidebar } from 'src/services/slices/sidebarSlice';
 
 export type RightSidebarPropsType = {
   showActions: () => void;
-  project?: ProjectType;
+  project?: CurrentProjectType;
   children?: JSX.Element;
 };
 
