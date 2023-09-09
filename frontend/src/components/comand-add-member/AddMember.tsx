@@ -29,7 +29,7 @@ export const AddMember: React.FC = () => {
   };
 
   return (
-    <section className={styles.newmember__wrapper}>
+    <div className={styles.newmember__wrapper}>
       <h3 className={styles.newmember__title}>Добавить участника</h3>
       <p className={styles.newmember__description}>
         Введите электронную почту человека, которого хотите пригласить в проект.
@@ -59,6 +59,6 @@ export const AddMember: React.FC = () => {
       {addStatus && (
         <p className={styles.newmember__message}>Приглашение отправлено</p>
       )}
-    </section>
+    </div>
   );
 };

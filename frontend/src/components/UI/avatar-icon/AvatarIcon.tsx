@@ -18,7 +18,7 @@ export const AvatarIcon = ({ isSmall = false }): JSX.Element => {
       style={{
         backgroundColor: avatarBG,
         color: avatarTXT,
-        backgroundImage: `url(${userMe.photo})`,
+        backgroundImage: `url(${__API_ENDPOINT_BASE__ + userMe.photo})`,
       }}
     ></div>
   ) : (

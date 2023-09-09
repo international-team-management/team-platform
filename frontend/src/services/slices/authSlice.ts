@@ -18,7 +18,7 @@ import { projectThunks } from './projectSlice';
 // Types
 
 type AuthStateType = {
-  user: null | UserType;
+  user: null | UserType | undefined;
   isLoading: boolean;
   error: null | unknown | string;
 };
@@ -26,7 +26,7 @@ type AuthStateType = {
 // State
 
 const initialState: AuthStateType = {
-  user: null,
+  user: undefined,
   isLoading: false,
   error: null,
 };
@@ -149,6 +149,7 @@ export const authSlice = createSlice({
         (state, action: PayloadAction<unknown>) => {
           state.isLoading = false;
           state.error = action.payload;
+          state.user = null;
         },
       )
       // patch Me

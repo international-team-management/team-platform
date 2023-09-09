@@ -13,7 +13,7 @@ export enum VIEWS {
 }
 
 const initialState = {
-  state: HeaderState.PROFILE,
+  state: HeaderState.KANBAN,
   view: VIEWS.KANBAN,
 };
 
@@ -30,7 +30,9 @@ export const headerSlice = createSlice({
   },
 });
 
-export const selectHeaderState = (state: RootState) => state.header.state;
+export const selectHeaderState = (state: RootState) => {
+  return state.header.state;
+};
 export const selectHeaderView = (state: RootState) => state.header.view;
 
 export const { setHeaderState, setHeaderView } = headerSlice.actions;

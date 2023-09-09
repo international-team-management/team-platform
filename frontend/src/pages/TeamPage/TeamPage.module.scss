@@ -1,7 +1,13 @@
 @import 'styles/constants';
 
 .team {
-  &__main-content {
-    @extend %main-content-size;
-  }
+  display: grid;
+  grid-gap: 24px;
+  grid-template: auto 260px 1fr / 404px 1fr;
+  grid-template-areas:
+    'intersections squad'
+    'add squad'
+    '. squad';
+
+  padding: 24px;
 }
