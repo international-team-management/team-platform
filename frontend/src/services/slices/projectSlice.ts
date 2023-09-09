@@ -105,7 +105,7 @@ export const projectSlice = createSlice({
     },
 
     updateColumns: (state, action: PayloadAction<ColumnType[]>) => {
-      return;
+      state.current!.columns = action.payload;
     },
   },
 

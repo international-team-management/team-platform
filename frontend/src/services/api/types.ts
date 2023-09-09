@@ -46,7 +46,7 @@ export type UserType = {
   work_start?: string;
   work_finish?: string;
   // timetable?: unknown;
-  photo: string;
+  photo?: string;
   telephone_number?: string;
 };
 

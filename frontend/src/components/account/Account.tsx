@@ -13,17 +13,13 @@ export const Account = (props: UserType): JSX.Element => {
     dispatch(closePopup());
   });
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = () => {
     dispatch(setHeaderState(HeaderState.PROFILE));
   };
 
   return (
     <figure>
-      <Link
-        to={'/profile'}
-        className={styles.account}
-        onClick={(e) => handleClick(e)}
-      >
+      <Link to={'/profile'} className={styles.account} onClick={handleClick}>
         <AvatarIcon isSmall={true} />
         <figcaption className={styles.account__caption}>
           <p

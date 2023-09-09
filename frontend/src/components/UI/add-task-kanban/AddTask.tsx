@@ -1,9 +1,9 @@
 import styles from './AddTask.module.scss';
 import { ReactComponent as PlusTask } from 'assets/plus.svg';
-import { ColumnItem } from 'src/components/kanban-table/KanbanTable';
+import type { ColumnType } from 'src/services/api/types';
 
 type AddTaskProps = {
-  column: ColumnItem;
+  column: ColumnType;
 };
 
 export const AddTask = ({ column }: AddTaskProps) => {
