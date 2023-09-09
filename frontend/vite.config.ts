@@ -27,6 +27,7 @@ export default defineConfig({
   },
   define: {
     __API_ENDPOINT__: JSON.stringify(process.env.API_ENDPOINT), // это нужно, чтобы потом добавить переменную из.env в глобальную видимость
+    __API_ENDPOINT_BASE__: JSON.stringify(process.env.API_ENDPOINT_BASE),
   },
   plugins: [react(), svgr(), ViteCSSExportPlugin()],
 });
