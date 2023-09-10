@@ -6,7 +6,6 @@ import { ReactComponent as ProjectIcon } from 'assets/project-icon.svg';
 import {
   selectCurrentProject,
   selectProjects,
-  setCurrent,
 } from 'src/services/slices/projectSlice';
 import { useDispatch, useSelector } from 'src/services/hooks';
 import { closePopup } from 'src/services/slices/popupSlice';
@@ -22,12 +21,6 @@ export const Projects = (): JSX.Element => {
     dispatch(closeSidebar());
   });
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const arr = e.currentTarget.id.split('-');
-    const id = arr[0];
-    dispatch(setCurrent(Number(id)));
-  };
-
   function renderProjects(): React.ReactNode[] {
     return projects.map((project) => {
       return (
@@ -37,7 +30,6 @@ export const Projects = (): JSX.Element => {
             className={clsx(style.projects__nav, {
               [style.projects__nav_active]: currentProject?.id === project.id,
             })}
-            onClick={(e) => handleClick(e)}
             id={`${project.id}-project`}
           >
             <ProjectIcon className={style.projects__icon} />

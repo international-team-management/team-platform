@@ -50,7 +50,16 @@ export const projectSlice = createSlice({
       return;
     },
     setCurrent: (state, action: PayloadAction<number>) => {
-      const project = state.list[action.payload - 1];
+      if (state.list.length < 0) {
+        return;
+      }
+
+      const project = state.list.filter(
+        (project) => project.id === action.payload,
+      )[0];
+
+      console.log(project);
+
       const columns: ColumnType[] = [
         {
           id: 1,
@@ -79,24 +88,26 @@ export const projectSlice = createSlice({
         },
       ];
 
-      project.tasks.forEach((task) => {
-        if (task.status === 'backlog') {
-          columns[0].tasks.push(task);
-        }
+      if (project) {
+        project.tasks.forEach((task) => {
+          if (task.status === 'backlog') {
+            columns[0].tasks.push(task);
+          }
 
-        if (task.status === 'todo') {
-          columns[1].tasks.push(task);
-        }
-        if (task.status === 'in_progress') {
-          columns[2].tasks.push(task);
-        }
-        if (task.status === 'in_review') {
-          columns[3].tasks.push(task);
-        }
-        if (task.status === 'done') {
-          columns[4].tasks.push(task);
-        }
-      });
+          if (task.status === 'todo') {
+            columns[1].tasks.push(task);
+          }
+          if (task.status === 'in_progress') {
+            columns[2].tasks.push(task);
+          }
+          if (task.status === 'in_review') {
+            columns[3].tasks.push(task);
+          }
+          if (task.status === 'done') {
+            columns[4].tasks.push(task);
+          }
+        });
+      }
 
       state.current = {
         ...project,

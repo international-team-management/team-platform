@@ -13,11 +13,14 @@ import { useForm } from 'react-hook-form';
 import { SingleValue } from 'react-select';
 import { InputName } from 'src/typings/constants';
 import { Calendar } from '../UI/calendar/Calendar';
+import { useSelector } from 'src/services/hooks';
+import { selectCurrentProject } from 'src/services/slices/projectSlice';
 
 export const ProjectSidebar = ({
   showActions,
-  project,
 }: RightSidebarPropsType): JSX.Element => {
+  const project = useSelector(selectCurrentProject);
+
   // until there is redux
   const PRIORITY_OPTIONS = [
     { value: 'High', label: 'High' },

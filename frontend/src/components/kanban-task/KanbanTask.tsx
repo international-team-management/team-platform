@@ -18,13 +18,18 @@ export const KanbanTask = ({ task, currentTask }: PropsType) => {
       <p className={styles.column__task_text}>{task.name}</p>
       <MoreActions className={styles.column__task_button} />
       <p className={styles.column__task_time}>{task.deadline}</p>
-      {task.assigned_to.map((user) => (
-        <img
-          className={styles.column__task_img}
-          title="Аватар участника"
-          src={user.photo}
-        />
-      ))}
+      {task.assigned_to.map((user) => {
+        return (
+          user.photo && (
+            <img
+              key={user.id}
+              className={styles.column__task_img}
+              title="Аватар участника"
+              src={user.photo}
+            />
+          )
+        );
+      })}
     </div>
   );
 };
