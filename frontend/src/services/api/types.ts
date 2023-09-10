@@ -61,20 +61,28 @@ export enum URLS {
   SIGN_IN = `${URLS.AUTH}/jwt/create/`,
   USER_ME = `${URLS.AUTH}/users/me/`,
   SET_PASSWORD = `${URLS.AUTH}/users/set_password/`,
+
+  PROJ = 'projects',
+
+  PROJECTS = `${URLS.PROJ}/`,
 }
 
 // Project Types
 
 export type TaskType = {
   id: number;
-  subtitle: string;
-  expiredDate: string;
-  img: any;
+  name: string;
+  creator: UserType;
+  priority: string;
+  assigned_to: UserType[];
+  status: 'backlog' | 'todo' | 'in_progress' | 'in_review' | 'done';
+  description: string;
+  deadline: string;
 };
 
 export type ColumnType = {
   id: number;
-  title: string;
+  title: 'Backlog' | 'To Do' | 'In Progress' | 'In Review' | 'Done';
   tasks: TaskType[];
 };
 
@@ -90,3 +98,9 @@ export type ProjectType = {
   status: string;
   priority: string;
 };
+
+export type CurrentProjectType = ProjectType & {
+  columns: ColumnType[];
+};
+
+export type ProjectDTO = Omit<ProjectType, 'id' | 'owner'>;

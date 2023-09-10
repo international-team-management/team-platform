@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'src/services/hooks';
-import { updateColumns } from 'src/services/slices/projectSlice';
 import type { TaskType, ColumnType } from 'src/services/api/types';
 
 export type dragTaskType = {
@@ -28,13 +26,19 @@ export type DradDropType = {
   dragOverColumnHandler: dragOverColumnType;
 };
 
-export const useDragDropKanban = (columnItems: ColumnType[]): DradDropType => {
+type PropsType = {
+  columnItems: ColumnType[];
+  updateColumns: (value: ColumnType[]) => void;
+};
+
+export const useDragDropKanban = ({
+  columnItems,
+  updateColumns,
+}: PropsType): DradDropType => {
   const [columns, setColumns] = React.useState(columnItems);
   const [currentColumn, setCurrentColumn] = React.useState<ColumnType>();
   const [currentTask, setCurrentTask] = React.useState<TaskType>();
   const [hover, setHover] = React.useState<number | null>(null);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setColumns(columnItems);
@@ -92,7 +96,7 @@ export const useDragDropKanban = (columnItems: ColumnType[]): DradDropType => {
         componentRedraw();
       }
 
-      dispatch(updateColumns(columns));
+      updateColumns(columns);
     },
   };
 
@@ -121,7 +125,7 @@ export const useDragDropKanban = (columnItems: ColumnType[]): DradDropType => {
         componentRedraw();
       }
 
-      dispatch(updateColumns(columns));
+      updateColumns(columns);
     },
   };
 

@@ -7,7 +7,6 @@ import { errorTexts } from 'src/utils/validation/helperTexts';
 import { patterns } from 'src/utils/validation/patterns';
 import { ButtonTemplate } from '../UI/button-template/ButtonTemplate';
 import React from 'react';
-import { useDispatch } from 'src/services/hooks';
 
 export const AddMember: React.FC = () => {
   const [addStatus, setAddStatus] = React.useState(false);

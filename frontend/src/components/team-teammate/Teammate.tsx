@@ -21,9 +21,9 @@ export const Teammate = ({
   jobTitle,
   email,
   phone,
-  avatar,
+  // avatar,
   time,
-  id,
+  // id,
   isAllChecked,
 }: TTeammate): JSX.Element => {
   const [isCheck, setIsCheck] = useState(isAllChecked);

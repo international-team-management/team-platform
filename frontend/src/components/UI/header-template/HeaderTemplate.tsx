@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Header.module.scss';
 import notificationIcon from 'src/assets/header-icons/header-notification-icon.svg';
 import searchIcon from 'src/assets/header-icons/header-search-icon.svg';
@@ -131,7 +131,7 @@ export const HeaderTemplate = (): JSX.Element => {
         {headerState === HeaderState.KANBAN
           ? headerView === VIEWS.TEAM
             ? 'Команда проекта'
-            : currentProject.name
+            : currentProject && currentProject.name
           : 'Личный кабинет'}
       </h1>
 
@@ -144,7 +144,7 @@ export const HeaderTemplate = (): JSX.Element => {
           <div className={styles['header__project-buttons']}>
             <div className={styles['header__button-wrapper']}>
               <NavLink
-                to={`/${currentProject.id}`}
+                to={`/${currentProject && currentProject.id}`}
                 className={clsx(
                   styles['header__button-area'],
                   headerView === VIEWS.KANBAN &&
@@ -181,7 +181,7 @@ export const HeaderTemplate = (): JSX.Element => {
                 headerView === VIEWS.TEAM &&
                   styles['header__button-area_active'],
               )}
-              to={`/${currentProject.id}/team`}
+              to={`/${currentProject && currentProject.id}/team`}
               id={VIEWS.TEAM}
             >
               <UserAvatar users={users} />
