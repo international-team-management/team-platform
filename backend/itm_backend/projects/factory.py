@@ -1,5 +1,3 @@
-from random import randrange
-
 import factory
 from django.contrib.auth import get_user_model
 from projects.models import Project, Task
@@ -48,7 +46,6 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class ProjectFactory(factory.django.DjangoModelFactory):
-
     class Meta:
         model = Project
 
@@ -57,8 +54,8 @@ class ProjectFactory(factory.django.DjangoModelFactory):
     owner = factory.SubFactory(UserFactory)
     start = factory.Faker("date_this_month")
     deadline = factory.Faker("date_this_year", before_today=False, after_today=True)
-    status = factory.Faker("random_element", elements=Project.StatusChoice.choices)
-    priority = factory.Faker("random_element", elements=Project.PriorityChoice.choices)
+    status = factory.Faker("random_element", elements=Project.StatusChoice)
+    priority = factory.Faker("random_element", elements=Project.PriorityChoice)
 
     @factory.post_generation
     def participants(self, create, extracted, **kwargs):
@@ -73,8 +70,8 @@ class TaskFactory(factory.django.DjangoModelFactory):
 
     task_project = factory.Faker("random_element", elements=Project.objects.all())
     creator = factory.SubFactory(UserFactory)
-    priority = factory.Faker("random_element", elements=Task.PriorityChoice.choices)
-    status = factory.Faker("random_element", elements=Task.StatusChoice.choices)
+    status = factory.Faker("random_element", elements=Project.StatusChoice)
+    priority = factory.Faker("random_element", elements=Project.PriorityChoice)
     description = factory.Faker("text", locale="ru_RU", max_nb_chars=250)
     deadline = factory.Faker("date_this_year", before_today=False, after_today=True)
     name = factory.Faker("sentence", locale="ru_RU")
