@@ -1,75 +1,43 @@
-### Менеджер зависимостей Poetry
-
-pip install --upgrade pip
-
-pip install poetry
-
-#### Чтобы установить все зависимости и запустить виртуальное окружение выполните:
-poetry env use python3.9
-
-poetry install
-
-poetry shell
-
-#### Чтобы установить зависимости, кроме необходимых для тестирования:
-
-poetry install --without test
-
-#### Для работы библиотеки pre-commit в папке 'backend/' выполнить команду:
-
-pre-commit install
-
-#### Чтобы проверить проект на соблюдение "Coding style" для Django при внесении изменений в код нужно выполнить в папке 'backend/' команду:
-
-flake8
-
-### Прочее
-
-
-- Кавычки: одинарные
-
-- Ширина строки: 120
-
-
-### Пул-реквесты
-
-
- 1. В разделе **Pull requests** перейти по ссылке [New Pull request](https://github.com/international-team-management/team-platform/pulls)
- 2. В меню **base** выбрать `backend {command} / {type} / {branch_name}`
- 3. В меню **compare** выбрать `backend`
- 4. Нажать **Create pull request**
- 5. На странице пул реквеста справа сверху в блоке **Reviewers** добавить двух ревьюверов (cross-review)
- 6. В название пул реквеста скопировать название задачи (если задача выполнена частично, то вкратце перечислить, что сделано)
- 7. На странице таска слинковать пулл реквест и таск.
-
-
 ### Запуск в Dev-режиме для тестирования.
 
-Перейти в папку infra:
-```angular2html
-cd infra
-```
-Создать файл .env из файла .env.example
-```angular2html
-mv ../backend/.env.example ../backend/.env
-```
-Запустить проект:
-```angular2html
-sudo docker compose up -d
-```
-Войти в контейнер:
-```angular2html
-sudo docker exec -it itm_backend bash
-```
-Выполнить последовательно команды:
-```angular2html
-cd itm_backend/
-python3 manage.py migrate
-python3 manage.py createsuperuser
-exit
-```
-Проект доступен по адресу:
-```angular2html
-localhost:8000/api/v1/auth/
-localhost:8000/admin/
-```
+Установите Docker Compose
+
+Выполните команды:
+
+`git checkout backend`
+
+`git pull`
+
+Переименуйте файл `.env.example ` в `.env `
+
+Перейдите в папку infra и запустите проект:
+
+`cd infra`
+
+`sudo docker compose up -d`
+
+Войдите в контейнер:
+
+`sudo docker exec -it itm_backend bash`
+
+Выполните последовательно команды:
+
+`python3 manage.py makemigrations`
+
+`python3 manage.py migrate`
+
+`python3 manage.py collectstatic --no-input`
+
+Создайте суперпользователя для входа в админку http://127.0.0.1/admin
+
+`python3 manage.py createsuperuser`
+
+`exit`
+
+API проекта доступен по адресу:
+
+http://127.0.0.1:8000/api/v1/
+
+SWAGGER:
+
+http://127.0.0.1/api/v1/swagger-ui/

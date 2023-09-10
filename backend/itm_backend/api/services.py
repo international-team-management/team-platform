@@ -10,10 +10,12 @@ INTERVALS_NUMBER = 6  # Количество интервалов пересеч
 
 def get_members_num_per_interval(user, project):
     """
-    Возвращает список словарей с часовыми интервалами, и количеством
-    доступных участников проекта в каждый интервал времени. Учитывается
-    заданное в константе INTERVALS_NUMBER количество интервалов, в которые
-    доступны наибольшее количество участников.
+    Возвращает список словарей с часовыми интервалами, количеством
+    доступных участников проекта в каждый интервал времени и данными
+    по доступным участникам. Учитывается заданное в константе INTERVALS_NUMBER
+    количество интервалов, в которые доступны наибольшее количество участников.
+    При отображении данных доступных участников их рабочее время отображается
+    с учетом временной зоны пользователя, который делает запрос.
     """
 
     if user.timezone:
@@ -22,45 +24,81 @@ def get_members_num_per_interval(user, project):
         raise ValidationError("У вас не задана временная зона.")
 
     # получение queryset объектов участников, содержащих время начала и окончания работы и смещение от UTC
-    participants_times = (
+    participants = (
         project.participants.all()
         .filter(work_start__isnull=False, work_finish__isnull=False, timezone__offset__isnull=False)
-        .values("work_start", "work_finish", offset=F("timezone__offset"))
+        .values(
+            "pk",
+            "email",
+            "first_name",
+            "last_name",
+            "role",
+            "telephone_number",
+            "work_start",
+            "work_finish",
+            offset=F("timezone__offset"),
+        )
     )
-    working_times_to_user_relation = []  # список рабочего времени для каждого участника
-    # приведенный ко времени пользователя:
-    for participant_time in participants_times:
+    participants_data_in_user_timezone = []  # список данных участников где рабочее время участника
+    # приведенно ко времени пользователя:
+    for participant in participants:
         # вычисляем время начала и конца работы участника в таймзоне того пользователя, который делает запрос
         # т.к. offset и work_start в разных форматах, для вычисления времени преобразуем часовую
         # составляющую work_start в целое число. Затем корректируем часовую составляющую work_finish
-        participant_offset = participant_time.get("offset")
-        work_start = participant_time.get("work_start")
+        participant_offset = participant.get("offset")
+        work_start = participant.get("work_start")
         new_hour = (work_start.hour - participant_offset + user_offset) % 24
         work_start = work_start.replace(hour=new_hour)
-        work_finish = participant_time.get("work_finish")
+        work_finish = participant.get("work_finish")
         new_hour = (work_finish.hour - participant_offset + user_offset) % 24
         work_finish = work_finish.replace(hour=new_hour)
-        working_times_to_user_relation.append([work_start, work_finish])
+        pk = participant.get("pk")
+        email = participant.get("email")
+        first_name = participant.get("first_name")
+        last_name = participant.get("last_name")
+        role = participant.get("role")
+        telephone_number = participant.get("telephone_number")
+        participants_data_in_user_timezone.append(
+            {
+                "id": pk,
+                "work_start": work_start,
+                "work_finish": work_finish,
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "role": role,
+                "telephone_number": telephone_number,
+            }
+        )
     result = []
-    # подсчет количества доступных участников в каждом часовом интервале времени за сутки
+    # подсчет доступных участников в каждом часовом интервале времени за сутки
     for hour in range(24):
         interval_start = datetime.time(hour, 0)
         interval_finish = datetime.time(hour, 59)
-        members_counter = 0
-        for working_time in working_times_to_user_relation:
-            work_start, work_finish = working_time[0], working_time[1]
+        members_in_interval = []
+        for participant_data in participants_data_in_user_timezone:
+            work_start, work_finish = participant_data.get("work_start"), participant_data.get("work_finish")
             if work_start < work_finish:  # если рабочий интервал не пересекает полночь
                 if work_start <= interval_start and work_finish >= interval_finish:
-                    members_counter += 1
+                    members_in_interval.append(participant_data)
             else:  # если рабочий интервал пересекает полночь
                 if work_finish >= interval_finish or work_start <= interval_start:
-                    members_counter += 1
+                    members_in_interval.append(participant_data)
         start_str = f'{interval_start.strftime("%H:%M")}'  # преобразование в строку для отрображения
         finish_str = f'{(datetime.time((hour + 1) % 24) ).strftime("%H:%M")}'
-        result.append({f"{start_str} - {finish_str}": members_counter})
+        interval = f"{start_str} - {finish_str}"  # строковое представление интервала
+        result.append(
+            {
+                interval: {
+                    "members_count": len(members_in_interval),  # количество участников доступных в интервале
+                    "members": members_in_interval,  # список доступных участников
+                }
+            }
+        )
     # сортировка результата по убыванию количества участников
-    result = sorted(result, key=lambda x: list(x.values())[0], reverse=True)
-    return result[:INTERVALS_NUMBER]
+    result = sorted(result, key=lambda x: list(x.values())[0]["members_count"], reverse=True)
+    result = result[:INTERVALS_NUMBER]
+    return result
 
 
 def add_project_example(user):
