@@ -16,7 +16,7 @@ export const Sidebar = (): JSX.Element => {
         projectThunks.post({
           name: `Новый проект ${Date.now()}`,
           description: 'Новый проект',
-          participants: [{ ...userMe }],
+          participants: [],
           tasks: [],
           start: '2023-09-05',
           deadline: '2023-09-05',

@@ -102,3 +102,5 @@ export type ProjectType = {
 export type CurrentProjectType = ProjectType & {
   columns: ColumnType[];
 };
+
+export type ProjectDTO = Omit<ProjectType, 'id' | 'owner'>;

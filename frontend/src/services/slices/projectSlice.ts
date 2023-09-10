@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ColumnType, CurrentProjectType, ProjectType } from '../api/types';
+import { ProjectDTO, ProjectType } from '../api/types';
 import { RootState } from '../store';
 import { projectsAPI } from 'services/api/projectsAPI';
 
 type ProjectStateType = {
   list: ProjectType[];
-  current: null | CurrentProjectType;
+  current: null | ProjectType;
   isLoading: boolean;
   error: null | unknown | string;
 };
@@ -26,14 +26,27 @@ export const projectThunks = {
 
   post: createAsyncThunk(
     'project/post',
-    async (data: Omit<ProjectType, 'id' | 'owner'>) =>
-      await projectsAPI.post(data),
+    async (data: ProjectDTO, { dispatch }) => {
+      await projectsAPI.post(data);
+      dispatch(projectThunks.getList());
+    },
   ),
 
-  patch: createAsyncThunk(
-    'project/patch',
-    async (data: ProjectType) => await projectsAPI.patch(data),
-  ),
+  patch: createAsyncThunk('project/patch', async (data: ProjectType) => {
+    return await projectsAPI.patch(
+      {
+        name: data.name,
+        description: data.description,
+        participants: [],
+        tasks: data.tasks,
+        start: data.start,
+        deadline: data.deadline,
+        status: data.status,
+        priority: data.priority,
+      },
+      data.id,
+    );
+  }),
 
   delete: createAsyncThunk('project/delete', async (id: number) => {
     await projectsAPI.delete(id);
@@ -50,73 +63,9 @@ export const projectSlice = createSlice({
       return;
     },
     setCurrent: (state, action: PayloadAction<number>) => {
-      if (state.list.length < 0) {
-        return;
-      }
-
-      const project = state.list.filter(
+      state.current = state.list.filter(
         (project) => project.id === action.payload,
       )[0];
-
-      console.log(project);
-
-      const columns: ColumnType[] = [
-        {
-          id: 1,
-          title: 'Backlog',
-          tasks: [],
-        },
-        {
-          id: 2,
-          title: 'To Do',
-          tasks: [],
-        },
-        {
-          id: 3,
-          title: 'In Progress',
-          tasks: [],
-        },
-        {
-          id: 4,
-          title: 'In Review',
-          tasks: [],
-        },
-        {
-          id: 5,
-          title: 'Done',
-          tasks: [],
-        },
-      ];
-
-      if (project) {
-        project.tasks.forEach((task) => {
-          if (task.status === 'backlog') {
-            columns[0].tasks.push(task);
-          }
-
-          if (task.status === 'todo') {
-            columns[1].tasks.push(task);
-          }
-          if (task.status === 'in_progress') {
-            columns[2].tasks.push(task);
-          }
-          if (task.status === 'in_review') {
-            columns[3].tasks.push(task);
-          }
-          if (task.status === 'done') {
-            columns[4].tasks.push(task);
-          }
-        });
-      }
-
-      state.current = {
-        ...project,
-        columns,
-      };
-    },
-
-    updateColumns: (state, action: PayloadAction<ColumnType[]>) => {
-      state.current!.columns = action.payload;
     },
   },
 
@@ -148,14 +97,10 @@ export const projectSlice = createSlice({
         state.isLoading = true;
         state.error = false;
       })
-      .addCase(
-        projectThunks.post.fulfilled,
-        (state, action: PayloadAction<ProjectType>) => {
-          state.isLoading = false;
-          state.error = false;
-          state.list = [...state.list, action.payload];
-        },
-      )
+      .addCase(projectThunks.post.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = false;
+      })
       .addCase(
         projectThunks.post.rejected,
         (state, action: PayloadAction<unknown>) => {
@@ -222,4 +167,4 @@ export const selectCurrentProject = (state: RootState) =>
 
 // < < <  TODO: экспортировать действия для проектов (создать, получить, пропатчить..),
 // импортировать в компоненты KanbanPage и другие > > >
-export const { addProject, setCurrent, updateColumns } = projectSlice.actions;
+export const { addProject, setCurrent } = projectSlice.actions;
