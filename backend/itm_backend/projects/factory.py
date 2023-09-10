@@ -18,9 +18,6 @@ ROLES_CHOICES = [
     "Менеджер проекта",
     "UI дизайнер",
 ]
-PROJECT_STATUS_CHOICES = ["Onboarding", "In progress", "Production", "Tests"]
-TASK_STATUS_CHOICES = ["Backlog", "Todo", "In progress", "In review", "Done"]
-PRIORITY_CHOICES = ["maximum", "average", "minimum", "urgent"]
 
 
 class TimeZoneFactory(factory.django.DjangoModelFactory):
@@ -51,6 +48,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class ProjectFactory(factory.django.DjangoModelFactory):
+
     class Meta:
         model = Project
 
@@ -59,8 +57,8 @@ class ProjectFactory(factory.django.DjangoModelFactory):
     owner = factory.SubFactory(UserFactory)
     start = factory.Faker("date_this_month")
     deadline = factory.Faker("date_this_year", before_today=False, after_today=True)
-    status = factory.Faker("random_element", elements=PROJECT_STATUS_CHOICES)
-    priority = factory.Faker("random_element", elements=PRIORITY_CHOICES)
+    status = factory.Faker("random_element", elements=Project.StatusChoice.choices)
+    priority = factory.Faker("random_element", elements=Project.PriorityChoice.choices)
 
     @factory.post_generation
     def participants(self, create, extracted, **kwargs):
@@ -75,8 +73,8 @@ class TaskFactory(factory.django.DjangoModelFactory):
 
     task_project = factory.Faker("random_element", elements=Project.objects.all())
     creator = factory.SubFactory(UserFactory)
-    priority = factory.Faker("random_element", elements=PRIORITY_CHOICES)
-    status = factory.Faker("random_element", elements=TASK_STATUS_CHOICES)
+    priority = factory.Faker("random_element", elements=Task.PriorityChoice.choices)
+    status = factory.Faker("random_element", elements=Task.StatusChoice.choices)
     description = factory.Faker("text", locale="ru_RU", max_nb_chars=250)
     deadline = factory.Faker("date_this_year", before_today=False, after_today=True)
     name = factory.Faker("sentence", locale="ru_RU")
