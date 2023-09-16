@@ -1,21 +1,31 @@
+from api.decorators import (
+    project_view_set_schema,
+    project_view_team_schema,
+    task_view_set_schema,
+    user_me_view_patch_schema,
+    user_me_view_request_schema,
+    user_view_set_schema,
+)
+from api.permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly
+from api.serializers import (
+    CustomUserCreateSerializer,
+    CustomUserSerializer,
+    ProjectGetSerializer,
+    ProjectPostSerializer,
+    SetPasswordSerializer,
+    TaskGetSerializer,
+    TaskPostSerializer,
+    TeamSerializer,
+)
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
+from projects.models import Project, Task
 from rest_framework import mixins, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from api.permissions import IsOwnerOrReadOnly, IsParticipantOrReadOnly, IsProjectParticipant
-from api.serializers import (AddMemberSerializer, CustomUserCreateSerializer, CustomUserSerializer,
-                             ProjectGetSerializer, ProjectPostSerializer,
-                             SetPasswordSerializer, TaskGetSerializer,
-                             TaskPostSerializer, TeamSerializer)
-from projects.models import Project, ProjectUser, Task
-
-from .decorators import (project_view_set_schema, project_view_team_schema,
-                         task_view_set_schema, user_me_view_patch_schema,
-                         user_me_view_request_schema, user_view_set_schema)
 
 User = get_user_model()
 
