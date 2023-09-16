@@ -3,15 +3,14 @@ import base64
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
+from projects.models import Project, ProjectUser, Task, TaskUser
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-
+from api.services import add_project_example, get_members_num_per_interval
+from api.validators import (validate_first_last_names, validate_offset,
+                            validate_password)
 from projects.models import Project, Task, TaskUser
 from users.models import TimeZone
-
-from .services import add_project_example, get_members_num_per_interval
-from .validators import (validate_first_last_names, validate_offset,
-                         validate_password)
 
 User = get_user_model()
 
@@ -257,8 +256,7 @@ class ProjectPostSerializer(serializers.ModelSerializer):
         for task in validated_data["tasks"]:
             if task.task_project.id != instance.id:
                 raise ValidationError(
-                    f"Задача '{task}' с id = {task.id} принадлежит другому "
-                    f"проекту и не может быть добавлена."
+                    f"Задача '{task}' с id = {task.id} принадлежит другому " f"проекту и не может быть добавлена."
                 )
         return super().update(instance, validated_data)
 
@@ -300,6 +298,17 @@ class TeamSerializer(serializers.ModelSerializer):
         """
         user = self.context["request"].user
         return get_members_num_per_interval(user, project)
+
+    def validate(self, data):
+        """Валидация добавления участника проекта."""
+        if self.context["request"].method == "POST":
+            user = self.context["user"]
+            project = self.context["project"]
+            if ProjectUser.objects.filter(user_id=user, project_id=project).exists():
+                raise ValidationError("Участник с таким email уже состоит в команде проекта.")
+            if not user.is_active:
+                raise ValidationError("Пользователь с таким email больше не активен.")
+            return project
 
 
 class SetPasswordSerializer(serializers.Serializer):
@@ -366,3 +375,19 @@ class BadRequestTimezoneErrorSerializer(serializers.Serializer):
         default="У вас не задана временная зона.",
         help_text="Сообщение об ошибке",
     )
+
+
+class AddMemberSerializer(serializers.Serializer):
+    """Сериализатор добавления пользователя в команду проекта."""
+
+    email = serializers.EmailField()
+
+    class Meta:
+        model = User
+        fields = ["email"]
+        read_only_fields = ["email"]
+
+    def validate_email(self, value):
+        if not User.objects.filter(email=value).exists():
+            raise ValidationError("Пользователь с таким email не найден.")
+        return value

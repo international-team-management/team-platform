@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Project, ProjectUser, Task, TaskUser
+from projects.models import Project, ProjectUser, Task, TaskUser
 
 
 class ProjectUserInline(admin.TabularInline):
